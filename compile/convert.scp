@@ -1,0 +1,122 @@
+fileName="Makefile.gen";
+prjType="lib";
+
+function(strreplace)
+{
+  @src=$0;
+  @find=$1;
+  @rep=$2;
+  @ret="";
+  @len=strlen(@find);
+  for(@i=0;@i>=0;){
+    @i=strstr(@src,@find);
+    if(@i>=0){
+      @ret=(@ret+substr(@src,0,@i)+@rep);
+      @src=substr(@src,@i+@len);
+    } else {
+      @ret=(@ret+@src);
+    };
+  };
+  return @ret;
+};
+
+function(VcprojObj)
+{
+  this.flag=0;
+  this.confMark=0;
+  this.onAttribute=function(){
+    if(__or($1=="None",$1=="ClCompile",$1=="ClInclude") && ($2=="Include")){
+      @s=byterep($3,"\\","/");
+      writeString(fileName,@s," ");
+    };
+    if(($1=="PropertyGroup") && ($2=="Condition") && ($3=="'$(Configuration)|$(Platform)'=='Debug|Win32'")){
+      this.confMark=1;
+    };
+    if(($1=="ItemDefinitionGroup") && ($2=="Condition") && ($3=="'$(Configuration)|$(Platform)'=='Debug|Win32'")){
+      this.flag=1;
+    };
+  };
+  this.onBeginElement=function(){
+  };
+  this.onEndElement=function(){
+    if($1=="PropertyGroup"){
+      this.confMark=0;      
+    };
+    if($1=="ItemDefinitionGroup"){
+      this.flag=0;
+    };
+  };
+  this.onText=function(){
+    //print("onText "+$1+" "+$2+" "+this.confMark+" "+this.flag);
+    if((1==this.confMark) && ($2=="ConfigurationType")){
+      if($1=="Application"){
+        prjType="bin";
+      };
+    };
+    if((1==this.flag) && ($2=="AdditionalIncludeDirectories")){
+      @i=strstr($1,";%(AdditionalIncludeDirectories)");
+      if(@i>=0){
+        @s=substr($1,0,@i);
+      } else {
+        @s=$1;
+      };
+      @s=byterep(@s,"\\","/");
+      @s=strreplace(@s,";"," -I ");
+      writeString(fileName,@s);
+    };
+  };
+};
+
+function(main)
+{
+  @prjName=stringMap.find("argv1");
+  if(@prjName==""){
+    print("Unknown project name !!!");
+    return 0;
+  };
+  @visitor=new(VcprojObj);
+  @vcp=createXmlVisitor(@prjName+".vcxproj");
+  system("rm -f "+fileName);
+  writeString(fileName,"include $(top_srcdir)/Makefile.common.in");
+  @vcp.accept(@visitor,"PropertyGroup");
+  print("prjType:"+prjType);
+  if(prjType=="bin"){
+    //可执行程序
+    //---------------------------------------------
+    writeString(fileName,"bin_PROGRAMS="+@prjName);
+    @prjPrefix = @prjName;
+    writeString(fileName,@prjPrefix+"_INCLUDES = ","-I ");
+    @vcp.accept(@visitor,"ItemDefinitionGroup");
+    //---------------------------------------------
+    writeString(fileName,@prjPrefix+"_SOURCES ="," ");
+    @vcp.accept(@visitor,"ItemGroup");
+    writeString(fileName,"");
+    //---------------------------------------------
+    writeString(fileName,@prjPrefix+"_LDADD = ");
+    writeString(fileName,@prjPrefix+"_DEFINES = ");
+    writeString(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    writeString(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    //---------------------------------------------
+  } else {
+    //动态库
+    //---------------------------------------------
+    writeString(fileName,"lib_LTLIBRARIES=lib"+@prjName+".la");
+    @prjPrefix = "lib"+@prjName+"_la";
+    writeString(fileName,@prjPrefix+"_INCLUDES = ","-I ");
+    @vcp.accept(@visitor,"ItemDefinitionGroup");
+    //---------------------------------------------
+    writeString(fileName,@prjPrefix+"_SOURCES ="," ");
+    @vcp.accept(@visitor,"ItemGroup");
+    writeString(fileName,"");
+    //---------------------------------------------
+    writeString(fileName,@prjPrefix+"_LIBADD = ");
+    writeString(fileName,@prjPrefix+"_DEFINES = ");
+    writeString(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    writeString(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    //---------------------------------------------
+  };
+  system("cat "+fileName);
+  return 1;  
+};
+
+return main();

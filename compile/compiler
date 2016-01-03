@@ -1,0 +1,443 @@
+#!/bin/sh
+#
+#cyclone的环境变量，在程序调用该脚本时无法传递，需要重新配置
+#
+
+#=======================
+#都需要编哪几个工程....
+#=======================
+Login="y"
+ShareMemory="y"
+Server="y"
+World="y"
+DBAgent="y"
+Transmitter="y"
+GateServer="y"
+Ret=0
+
+#Login="not compiled"
+#ShareMemory="not compiled"
+#Server="not compiled"
+#World="not compiled"
+#DBAgent="not compiled"
+#Transmitter="not compiled"
+ThisDir=`pwd`
+LogDir="${ThisDir}/Log"
+
+echo "$ThisDir"
+#=======================
+#检测参数....
+#=======================
+echo -n "check parms..."
+sleep 1
+if [ $# -ne 3 ] && [ $# -ne 2 ]; then
+	echo "error"
+  echo "usage: $0 svn_url localpath [log]"
+  echo "example: $0 Main/rtm0-33/v0-33-0100 v0-33-0100 [v0-33-0100]"
+  exit 1
+fi
+
+echo
+
+mkdir $LogDir
+if [ -d $LogDir ] && [ $# -eq 3 ]; then
+	LogDir="$LogDir/$3"
+else
+	LogDir="/dev/null"
+fi
+
+#=======================
+#SVN的URL....
+#=======================
+SvnDir=$1
+
+#=======================
+#创建编译的目录....
+#=======================
+
+BuildDir=$2
+ThisDir="$ThisDir/$BuildDir"
+echo "ThisDir = $ThisDir"
+
+if [ -d $ThisDir ]; then :
+else
+  mkdir $ThisDir
+  if [ $? != 0 ]; then
+    echo "can't mkdir ${ThisDir}"
+    echo "can't mkdir ${ThisDir}" >> $LogDir
+    exit 2
+  fi
+fi
+eval cd $ThisDir
+
+#=======================
+#从SVN中Checkout代码....
+#=======================
+echo "checkout Common..."
+sleep 1
+eval svn checkout $SvnDir/Common
+if [ $? -ne 0 ]; then
+  echo "tag $SvnDir not fount"
+  echo "tag $SvnDir not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout Login..."
+sleep 1
+eval svn checkout $SvnDir/Login
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout ShareMemory..."
+sleep 1
+eval svn checkout $SvnDir/ShareMemory
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout Server..."
+sleep 1
+eval svn checkout $SvnDir/Server
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout World..."
+sleep 1
+eval svn checkout $SvnDir/World
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout DBAgent..."
+sleep 1
+eval svn checkout $SvnDir/DBAgent
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout Transmitter..."
+sleep 1
+eval svn checkout $SvnDir/Transmitter
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+echo "checkout GateServer..."
+sleep 1
+eval svn checkout $SvnDir/GateServer
+if [ $? -ne 0 ]; then
+  echo "tag $2 not fount"
+  echo "tag $2 not fount" >> $LogDir
+  exit 3
+fi
+
+begintime=`date +%H%M%S`
+export CycloneHome=/usr/Cyclone
+echo "=====================================" >> $LogDir
+#=======================
+#编译Login....
+#=======================
+if [ "$Login" == "y" ]; then
+  eval cd ${ThisDir}/Login/Login
+  ../../../convert.py
+  ../../../login_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../login_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H -D_DEBUG -D_CONSOLE -D__LINUX__ -D_FOX_LOGIN -D_FOX_WORLD -D_FOX_CLIENT -D_FOX_BILLING -D_FOX_DBAGENT  -w -I"/usr/Cyclone/inc/libFounderBase" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libCaptcha" -I"/usr/Cyclone/inc/libSeraph" -I../../Common/Item -I../../Common -I../../Common/Packets -I../../Server/Server/Base/GUID -I../../Server/Server/Base -I./Main/GUID -I./Main -I./DBAgent -I./Player -I../../Common/DataBase -I../../Common/DBSystem/DataBase -I./Process -I./DB -I../../Common/Tables -I../../Common/Tables/Item -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    Login="Login compile ok."
+  else
+    temp=$?
+    Login="Login compile error with code:"$temp
+    echo "Login return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  Login="Login dose not compiled."
+fi
+
+
+#=======================
+#编译ShareMemory....
+#=======================
+if [ "$ShareMemory" == "y" ]; then
+  eval cd ${ThisDir}/ShareMemory/ShareMemory
+  ../../../convert.py
+  ../../../sharememory_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../sharememory_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H -D_DEBUG -D_CONSOLE -D__LINUX__ -D_FOX_DBAGENT -D_FOX_SHAREMEMORY -w -I"/usr/Cyclone/inc/libSeraph" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libFounderBase" -I../../Common/Packets -I../../Common -I../../Server/Server/Base -I../../Server/Server/SMU -I./Main -I./Player -I./DB -I./ShareData -I../../Common/DBSystem/Mysql/include -I../../Common/DBSystem/DataBase -I../../Server/Server/Other -I../../Server/Server/Main -I../../Common/Combat -I../../Common/Tables -I../../Common/Item -I../../Common/Tables/Item -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    ShareMemory="ShareMemory compile ok."
+  else
+    temp=$?
+    ShareMemory="ShareMemory compile error with code:"$temp
+    echo "ShareMemory return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  ShareMemory="ShareMemory dose not compiled."
+fi
+
+
+#=======================
+#编译World....
+#=======================
+if [ "$World" == "y" ]; then
+  eval cd ${ThisDir}/World/World
+  ../../../convert.py
+  ../../../world_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../world_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H -D_DEBUG -D_CONSOLE -D_FOX_WORLD -D_FOX_LOGIN -D_FOX_SERVER -D__LINUX__ -D_FOX_MOTHER -D_FOX_TRANSMITTER -D_FOX_GS_SWPACKETS -w -I"/usr/Cyclone/inc/libSeraph" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libFounderBase" -I../../Common -I../../Common/Item -I../../Common/Tables/BigWorld -I../../Common/Tables -I../../Common/Tables/Item -I../../Common/Packets -I./Main/GUID -I./Main -I../../Server/Server/Base/GUID -I../../Server/Server/Base -I../../Transmitter/Transmitter/Main -I./Packets -I./WorldData -I./WorldLogic -I./Player -I../../Server/Server/SMU -I../../Common/DataBase -I../../Server/Server/Base/ExeControl -I./WorldData/exe -I./WorldData/Building -I../../Common/DBSystem/Mysql/include -I../../Common/DBSystem/DataBase -I./BigWorld -I./PlayerHome/PacketHandler -I../../World/World/NurtureNpc -I./PlayerHome -I../../World/World/NurtureNpc/PacketHandler -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    World="World compile ok."
+  else
+    temp=$?
+    World="World compile error with code:"$temp
+    echo "World return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  World="World dose not compiled."
+fi
+
+
+#=======================
+#编译Server....
+#=======================
+if [ "$Server" == "y" ]; then
+  eval cd ${ThisDir}/Server/Server
+  ../../../convert.py
+  ../../../server_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../server_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H  -D_DEBUG -D_CONSOLE -D_FOX_SERVER -D_FOX_CLIENT -D_FOX_WORLD -D_FOX_DBAGENT -D__LINUX__ -D_FOX_GSPACKETS -D_FOX_GS_SWPACKETS -w -I"/usr/Cyclone/inc/libSeraph" -I"/usr/Cyclone/inc/libScript" -I"/usr/Cyclone/inc/libCaptcha" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libFounderBase" -I../../Common -I../../Common/Tables -I../../Common/Tables/BigWorld -I../../Common/Tables/Item -I../../Common/Item -I../../Common/Packets -I./Packets -I./Main -I./Obj -I./Base -I./Scene -I./DB -I./Player -I./Item -I./SMU -I../../Common/DataBase -I./Skills -I./Skills/SkillLogic -I./Skills/SkillLogic/Other -I./Skills/SkillLogic/Item -I./Skills/SkillLogic/Common -I./Skills/SkillLogic/Fellow -I./Skills/SkillLogic/User -I./Skills/SkillLogic/NPC -I./Skills/SpecialObjLogic -I./Skills/ImpactLogic -I./Ability -I./Script -I./Other -I./AI -I./Dialog -I./Team -I./Scene/Scan -I./MenPai -I./EventModule -I./ActionModule -I./Base/ExeControl -I./Base/GUID -I./Exe -I./Module -I./Module/OperationLogic -I./Activity -I./DBAgent -I./BigWorld -I./PlayerHome -I./PlayerHome/PacketHandler -I./NurtureNpc -I./NurtureNpc/PacketHandler -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    Server="Server compile ok."
+  else
+    temp=$?
+    Server="Server compile error with code:"$temp
+    echo "Server return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  Server="Server dose not compiled."
+fi
+
+
+#=======================
+#编译DBAgent....
+#=======================
+if [ "$DBAgent" == "y" ]; then
+  eval cd ${ThisDir}/DBAgent/DBAgent
+  ../../../convert.py
+  ../../../dbagent_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../dbagent_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H  -D_DEBUG -D_CONSOLE -D__LINUX__ -D_FOX_DBAGENT -w -I"/usr/Cyclone/inc/libFounderBase" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libCaptcha" -I"/usr/Cyclone/inc/libSeraph" -I../../Common/DBSystem/DataBase -I../../Common/DataBase -I../../Common/Packets -I../../Common/Tables/Item -I../../Common/Tables -I../../Common/Item -I../../Common -I../../Server/Server/Base -I./LocalCommon -I./Player -I./Main -I./DB -I./MessageQueue -I./GameData -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    DBAgent="DBAgent compile ok."
+  else
+    temp=$?
+    DBAgent="DBAgent compile error with code:"$temp
+    echo "DBAgent return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  DBAgent="DBAgent dose not compiled."
+fi
+
+
+#=======================
+#编译Transmitter....
+#=======================
+if [ "$Transmitter" == "y" ]; then
+  eval cd ${ThisDir}/Transmitter/Transmitter
+  ../../../convert.py
+  ../../../transmitter_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../transmitter_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H -D_DEBUG -D_CONSOLE -D_FOX_SERVER -D_FOX_CLIENT -D_FOX_WORLD -D__LINUX__ -D_FOX_GATESERVER -D_SUPPORT_FOX_GATESERVER -D_FOX_GSPACKETS -w -I"/usr/Cyclone/inc/libFounderBase" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libCaptcha" -I"/usr/Cyclone/inc/libSeraph" -I../../Common/DBSystem/DataBase -I../../Common/DataBase -I../../Common/Packets -I../../Common/Tables/Item -I../../Common/Tables -I../../Common/Item -I../../Common -I../../Server/Server/Base -I./Player -I./Main -I./OnlineUserList -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    Transmitter="Transmitter compile ok."
+  else
+    temp=$?
+    Transmitter="Transmitter compile error with code:"$temp
+    echo "Transmitter return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  Transmitter="Transmitter dose not compiled."
+fi
+
+
+#=======================
+#编译GateServer....
+#=======================
+if [ "$GateServer" == "y" ]; then
+  eval cd ${ThisDir}/GateServer/GateServer
+  ../../../convert.py
+  ../../../gateserver_makefile.sed Makefile.am > /tmp/tmp$$
+  mv -f /tmp/tmp$$ Makefile.am
+  autoscan
+  mv -f configure.scan configure.ac
+  ../../../gateserver_configure.sed configure.ac > /tmp/tmp$$
+  mv -f /tmp/tmp$$ configure.ac
+  touch Makefile.common.in
+  aclocal
+  autoheader
+  automake -a -c --foreign
+  autoconf
+  ./configure
+  if [ -f ../../Common/Type.h.gch ]; then
+        rm -rf ../../Common/Type.h.gch
+  fi
+  g++ -DHAVE_CONFIG_H -D_DEBUG -D_CONSOLE -D__LINUX__ -D_FOX_TRANSMITTER -w -I"/usr/Cyclone/inc/libFounderBase" -I"/usr/Cyclone/inc/libDBC" -I"/usr/Cyclone/inc/libNetwork" -I"/usr/Cyclone/inc/libCaptcha" -I"/usr/Cyclone/inc/libSeraph" -I../../Common/DBSystem/DataBase -I../../Common/DataBase -I../../Common/Packets -I../../Common/Tables/Item -I../../Common/Tables -I../../Common/Item -I../../Common -I../../Server/Server/Base -g -O2 -c '../../Common/Type.h'
+  make -j4
+  if [ $? -eq 0 ]; then
+    GateServer="GateServer compile ok."
+  else
+    temp=$?
+    GateServer="GateServer compile error with code:"$temp
+    echo "GateServer return value = $temp" >> $LogDir
+    ((Ret = Ret + $temp))
+  fi
+else
+  Transmitter="Transmitter dose not compiled."
+fi
+
+
+#=======================
+#编译完成....
+#=======================
+eval cd ${ThisDir}
+eval cd ..
+
+endtime=`date +%H%M%S`
+
+if [ $Ret -ne 0 ]; then
+	((Ret = Ret + 3))
+fi
+
+echo "==============================" >> $LogDir
+echo "compiled tag $2:" >> $LogDir
+echo ${Login} >> $LogDir
+echo ${ShareMemory} >> $LogDir
+echo ${Server} >> $LogDir
+echo ${World} >> $LogDir
+echo ${DBAgent} >> $LogDir
+echo ${Transmitter} >> $LogDir
+echo ${GateServer} >> $LogDir
+echo "==============================" >> $LogDir
+echo "Begin Time = $begintime" >> $LogDir
+echo "End Time = $endtime" >> $LogDir
+echo "Exit Value = $Ret" >> $LogDir
+
+echo "=============================="
+echo "compiled tag $2:"
+echo ${Login}
+echo ${ShareMemory}
+echo ${Server}
+echo ${World}
+echo ${DBAgent}
+echo ${Transmitter}
+echo ${GateServer}
+echo "=============================="
+echo "Begin Time = $begintime"
+echo "End Time = $endtime"
+echo "Exit Value = $Ret"
+
+exit $Ret

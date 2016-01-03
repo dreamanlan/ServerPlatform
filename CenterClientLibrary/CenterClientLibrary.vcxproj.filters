@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{a2742169-50f8-47a7-b7a1-0eafb735a15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SessionInfo">
+      <UniqueIdentifier>{114dcf27-9ddc-4fb9-b70e-56c98cddbce6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\ConfigScript">
+      <UniqueIdentifier>{d416497d-5377-4f92-9a69-9d8d57c6461c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\LockFree">
+      <UniqueIdentifier>{b1336383-a552-4cf2-a607-6249e3cf2a2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\NetBase">
+      <UniqueIdentifier>{1fa9c1e4-3918-48c9-baaa-050732ce5263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\SimpleScript">
+      <UniqueIdentifier>{aab19098-aa49-4ba4-a3ac-7aeae21f46aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\TinyXml">
+      <UniqueIdentifier>{979d1c49-4698-4bd5-8210-75252e50bcc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Communication">
+      <UniqueIdentifier>{b6323794-4f4f-48f2-a0a3-263a50e4e4fe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\base64.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Chain.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Hashtable.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Heap.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\ObjectPool.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\StringFormat.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\Thread.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\ConfigScript\MaintenanceScript.cpp">
+      <Filter>Common\ConfigScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\acceptor.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\connector.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\exception.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\netioservice.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\tcp_session.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\NetBase\util.cc">
+      <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TinyXml\tinystr.cpp">
+      <Filter>Common\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TinyXml\tinyxml.cpp">
+      <Filter>Common\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TinyXml\tinyxmlerror.cpp">
+      <Filter>Common\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\TinyXml\tinyxmlparser.cpp">
+      <Filter>Common\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\ByteCode.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\ByteCodeScript.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\calc.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\RuntimeBuilderData.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SlkAction.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SlkError.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SlkParse.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SlkString.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SlkToken.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\SourceCodeScript.cpp">
+      <Filter>Common\SimpleScript</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Communication\SessionManager.cpp">
+      <Filter>Communication</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\base64.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Chain.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ChainNodePool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Delegation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Hashtable.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Heap.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockEx.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ObjectPool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Queue.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\StaticCheck.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\StringFormat.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Thread.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\tsnprintf.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ConfigScript\MaintenanceScript.h">
+      <Filter>Common\ConfigScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockFree\Atomic.h">
+      <Filter>Common\LockFree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockFree\LinkQueue.h">
+      <Filter>Common\LockFree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockFree\LinkQueuePool.h">
+      <Filter>Common\LockFree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockFree\RingBuffer.h">
+      <Filter>Common\LockFree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\LockFree\RingQueue.h">
+      <Filter>Common\LockFree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\acceptor.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\connector.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\exception.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\netioservice.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\tcp_session.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetBase\util.h">
+      <Filter>Common\NetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TinyXml\tinystr.h">
+      <Filter>Common\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\TinyXml\tinyxml.h">
+      <Filter>Common\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\ByteCode.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\ByteCodeScript.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\calc.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\RuntimeBuilderData.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkAction.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkError.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkInc.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkParse.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkString.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkTerminals.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SlkToken.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\SourceCodeScript.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SessionInfo\SessionInfo.h">
+      <Filter>SessionInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="Communication\SessionManager.h">
+      <Filter>Communication</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\ConfigScript\ScriptThread.h">
+      <Filter>Common\ConfigScript</Filter>
+    </ClInclude>
+    <ClInclude Include="CenterClient.h" />
+    <ClInclude Include="..\Common\ConfigScript\CommonScriptApi.h">
+      <Filter>Common\ConfigScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\Type.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\BaseType.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Chain.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\Common\ChainNodePool.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\Common\ObjectPool.inl">
+      <Filter>Common</Filter>
+    </None>
+    <None Include="..\Common\LockFree\Atomic.inl">
+      <Filter>Common\LockFree</Filter>
+    </None>
+    <None Include="..\Common\SimpleScript\ByteCode.inl">
+      <Filter>Common\SimpleScript</Filter>
+    </None>
+    <None Include="DllExport.def" />
+  </ItemGroup>
+</Project>

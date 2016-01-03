@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#在AdminTool工程文件所在目录执行此脚本
+
+../compile/admintool_makefile.sed Makefile.gen > Makefile.am
+autoscan
+../compile/admintool_configure.sed configure.scan > configure.ac
+touch Makefile.common.in
+aclocal
+autoheader
+automake -a -c --foreign
+autoconf
+./configure
+make -j4

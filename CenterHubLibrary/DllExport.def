@@ -1,0 +1,18 @@
+EXPORTS
+	ReloadConfigScript
+	GetConfig
+	TargetHandle
+	TargetName
+	SendByHandle
+	SendByName
+	SendCommandByHandle
+	SendCommandByName
+	IsRun
+  Quit
+  SetCenterLogHandler
+	Init
+	Tick
+  IsConnected
+  Disconnect
+	Release
+

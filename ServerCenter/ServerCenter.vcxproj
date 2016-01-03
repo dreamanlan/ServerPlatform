@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Common\base64.cpp" />
+    <ClCompile Include="..\Common\Chain.cpp" />
+    <ClCompile Include="..\Common\ConfigScript\MaintenanceScript.cpp" />
+    <ClCompile Include="..\Common\ConfigScript\ScriptThread.cpp" />
+    <ClCompile Include="..\Common\Hashtable.cpp" />
+    <ClCompile Include="..\Common\Heap.cpp" />
+    <ClCompile Include="..\Common\NetBase\connector.cc" />
+    <ClCompile Include="..\Common\NetBase\exception.cc" />
+    <ClCompile Include="..\Common\NetBase\acceptor.cc" />
+    <ClCompile Include="..\Common\NetBase\netioservice.cc" />
+    <ClCompile Include="..\Common\NetBase\tcp_session.cc" />
+    <ClCompile Include="..\Common\NetBase\util.cc" />
+    <ClCompile Include="..\Common\ObjectPool.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\ByteCode.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\ByteCodeScript.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\calc.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\RuntimeBuilderData.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SlkAction.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SlkError.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SlkParse.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SlkString.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SlkToken.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\SourceCodeScript.cpp" />
+    <ClCompile Include="..\Common\StringFormat.cpp" />
+    <ClCompile Include="..\Common\Thread.cpp" />
+    <ClCompile Include="..\Common\TinyXml\tinystr.cpp" />
+    <ClCompile Include="..\Common\TinyXml\tinyxml.cpp" />
+    <ClCompile Include="..\Common\TinyXml\tinyxmlerror.cpp" />
+    <ClCompile Include="..\Common\TinyXml\tinyxmlparser.cpp" />
+    <ClCompile Include="Communication\SessionManager.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\base64.h" />
+    <ClInclude Include="..\Common\BaseType.h" />
+    <ClInclude Include="..\Common\Chain.h" />
+    <ClInclude Include="..\Common\ChainNodePool.h" />
+    <ClInclude Include="..\Common\ConfigScript\CommonScriptApi.h" />
+    <ClInclude Include="..\Common\ConfigScript\MaintenanceScript.h" />
+    <ClInclude Include="..\Common\ConfigScript\ScriptThread.h" />
+    <ClInclude Include="..\Common\Delegation.h" />
+    <ClInclude Include="..\Common\FB_BaseType.h" />
+    <ClInclude Include="..\Common\Hashtable.h" />
+    <ClInclude Include="..\Common\Heap.h" />
+    <ClInclude Include="..\Common\LockEx.h" />
+    <ClInclude Include="..\Common\LockFree\Atomic.h" />
+    <ClInclude Include="..\Common\LockFree\LinkQueue.h" />
+    <ClInclude Include="..\Common\LockFree\LinkQueuePool.h" />
+    <ClInclude Include="..\Common\LockFree\RingBuffer.h" />
+    <ClInclude Include="..\Common\LockFree\RingQueue.h" />
+    <ClInclude Include="..\Common\NetBase\connector.h" />
+    <ClInclude Include="..\Common\NetBase\exception.h" />
+    <ClInclude Include="..\Common\NetBase\acceptor.h" />
+    <ClInclude Include="..\Common\NetBase\netioservice.h" />
+    <ClInclude Include="..\Common\NetBase\tcp_session.h" />
+    <ClInclude Include="..\Common\NetBase\util.h" />
+    <ClInclude Include="..\Common\ObjectPool.h" />
+    <ClInclude Include="..\Common\Queue.h" />
+    <ClInclude Include="..\Common\SimpleScript\ByteCode.h" />
+    <ClInclude Include="..\Common\SimpleScript\ByteCodeScript.h" />
+    <ClInclude Include="..\Common\SimpleScript\calc.h" />
+    <ClInclude Include="..\Common\SimpleScript\RuntimeBuilderData.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkAction.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkError.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkInc.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkParse.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkString.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkTerminals.h" />
+    <ClInclude Include="..\Common\SimpleScript\SlkToken.h" />
+    <ClInclude Include="..\Common\SimpleScript\SourceCodeScript.h" />
+    <ClInclude Include="..\Common\StaticCheck.h" />
+    <ClInclude Include="..\Common\StringFormat.h" />
+    <ClInclude Include="..\Common\Thread.h" />
+    <ClInclude Include="..\Common\TinyXml\tinystr.h" />
+    <ClInclude Include="..\Common\TinyXml\tinyxml.h" />
+    <ClInclude Include="..\Common\tsnprintf.h" />
+    <ClInclude Include="..\SessionInfo\SessionInfo.h" />
+    <ClInclude Include="Communication\SessionManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\Chain.inl" />
+    <None Include="..\Common\ChainNodePool.inl" />
+    <None Include="..\Common\LockFree\Atomic.inl" />
+    <None Include="..\Common\ObjectPool.inl" />
+    <None Include="..\Common\SimpleScript\ByteCode.inl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AD09CEFA-F925-4072-B667-16DD8BCC22A6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ServerCenter</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../Common/NetBase;../Common/TinyXml;../Common/SimpleScript;../Common/LockFree;../Common/ConfigScript;../Common;../SessionInfo;../libevent-2.0.22-stable/include;../libevent-2.0.22-stable/Win32-Code/event2;../libevent-2.0.22-stable/Win32-Code;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../libevent-2.0.22-stable;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libevent_core.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
