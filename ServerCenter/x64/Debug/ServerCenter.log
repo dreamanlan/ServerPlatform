@@ -1,0 +1,545 @@
+﻿  base64.cpp
+e:\opensource\serverplatform\common\base64.cpp(96): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  Chain.cpp
+  MaintenanceScript.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\configscript\commonscriptapi.h(159): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\configscript\maintenancescript.cpp(131): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=unsigned __int64,
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\configscript\commonscriptapi.h(76): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<unsigned __int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  ScriptThread.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\configscript\commonscriptapi.h(159): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=unsigned __int64,
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\configscript\commonscriptapi.h(76): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<unsigned __int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  Hashtable.cpp
+  Heap.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  connector.cc
+  exception.cc
+  acceptor.cc
+  netioservice.cc
+  tcp_session.cc
+e:\opensource\serverplatform\common\lockfree\atomic.inl(387): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(420): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(453): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(486): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(519): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(561): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\lockfree\atomic.inl(603): warning C4309: “=”: 截断常量值
+e:\opensource\serverplatform\common\netbase\tcp_session.cc(70): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\netbase\tcp_session.cc(197): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\netbase\tcp_session.cc(239): warning C4244: “return”: 从“intptr_t”转换到“int32_t”，可能丢失数据
+  util.cc
+e:\opensource\serverplatform\common\netbase\util.cc(44): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\netbase\util.cc(49): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+  ObjectPool.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  ByteCode.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\bytecode.inl(265): warning C4477: “printf”: 格式字符串“%f”需要类型“double”的参数，但可变参数 1 拥有了类型“int”
+  e:\opensource\serverplatform\common\simplescript\bytecode.inl(254): note: 编译 类 模板 成员函数 "void FunctionScript::RuntimeBuilderT<TestRuntimeBuilder>::setMemberId(void)" 时
+  e:\opensource\serverplatform\common\simplescript\bytecode.cpp(38): note: 参见对正在编译的函数 模板 实例化“void FunctionScript::RuntimeBuilderT<TestRuntimeBuilder>::setMemberId(void)”的引用
+  e:\opensource\serverplatform\common\simplescript\bytecode.cpp(5): note: 参见对正在编译的 类 模板 实例化 "FunctionScript::RuntimeBuilderT<TestRuntimeBuilder>" 的引用
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  ByteCodeScript.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\bytecode.inl(265): warning C4477: “printf”: 格式字符串“%f”需要类型“double”的参数，但可变参数 1 拥有了类型“int”
+  e:\opensource\serverplatform\common\simplescript\bytecode.inl(254): note: 编译 类 模板 成员函数 "void FunctionScript::RuntimeBuilderT<ActionForByteCodeScript>::setMemberId(void)" 时
+  e:\opensource\serverplatform\common\simplescript\bytecodescript.cpp(163): note: 参见对正在编译的函数 模板 实例化“void FunctionScript::RuntimeBuilderT<ActionForByteCodeScript>::setMemberId(void)”的引用
+  e:\opensource\serverplatform\common\simplescript\bytecodescript.cpp(6): note: 参见对正在编译的 类 模板 实例化 "FunctionScript::RuntimeBuilderT<ActionForByteCodeScript>" 的引用
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  calc.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  RuntimeBuilderData.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  SlkAction.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  SlkError.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  SlkParse.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  正在生成代码...
+  正在编译...
+  SlkString.cpp
+  SlkToken.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  SourceCodeScript.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\bytecode.inl(265): warning C4477: “printf”: 格式字符串“%f”需要类型“double”的参数，但可变参数 1 拥有了类型“int”
+  e:\opensource\serverplatform\common\simplescript\bytecode.inl(254): note: 编译 类 模板 成员函数 "void FunctionScript::RuntimeBuilderT<ActionForSourceCodeScript>::setMemberId(void)" 时
+  e:\opensource\serverplatform\common\simplescript\sourcecodescript.cpp(139): note: 参见对正在编译的函数 模板 实例化“void FunctionScript::RuntimeBuilderT<ActionForSourceCodeScript>::setMemberId(void)”的引用
+  e:\opensource\serverplatform\common\simplescript\sourcecodescript.cpp(10): note: 参见对正在编译的 类 模板 实例化 "FunctionScript::RuntimeBuilderT<ActionForSourceCodeScript>" 的引用
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(499): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  StringFormat.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  Thread.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  tinystr.cpp
+  tinyxml.cpp
+  tinyxmlerror.cpp
+  tinyxmlparser.cpp
+  SessionManager.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\configscript\commonscriptapi.h(159): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(92): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(246): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(265): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(290): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(307): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\servercenter\communication\sessionmanager.cpp(329): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=unsigned __int64,
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\configscript\commonscriptapi.h(76): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<unsigned __int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  main.cpp
+e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\simplescript\calc.h(424): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\configscript\commonscriptapi.h(159): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=unsigned __int64,
+              T=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  e:\opensource\serverplatform\common\configscript\commonscriptapi.h(76): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<unsigned __int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=unsigned __int64
+          ]
+  正在生成代码...
+LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
+  ServerCenter.vcxproj -> E:\OpenSource\ServerPlatform\ServerCenter\x64\Debug\ServerCenter.exe

@@ -28,7 +28,7 @@ extern "C"
   DLLIMPORT int IsRun(void);
   DLLIMPORT void Quit(void);
   DLLIMPORT void SetCenterLogHandler(LogHandlerPtr logHandler);
-  DLLIMPORT void Init(const char* serverType, int argc, char* argv[], HandleNameHandleChangedPtr nameHandleCallback, HandleMessagePtr msgCallback, HandleMessageResultPtr msgResultCallback, HandleCommandPtr cmdCallback);
+  DLLIMPORT void Init(const char* serverType, int argc, const char * const * argv, HandleNameHandleChangedPtr nameHandleCallback, HandleMessagePtr msgCallback, HandleMessageResultPtr msgResultCallback, HandleCommandPtr cmdCallback);
   DLLIMPORT void Tick(void);
   DLLIMPORT int IsConnected(int worldId);
   DLLIMPORT void Disconnect(int worldId);

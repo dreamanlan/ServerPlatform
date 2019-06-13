@@ -89,7 +89,7 @@ public:
   StringMapObj& GetStringMap(void){ return m_StrMapObj; }
   MyLock& GetLock(void){ return m_Lock; }
 public:
-  MaintenanceScript(const char* pServerType, int argc, char* argv[]) :
+  MaintenanceScript(const char* pServerType, int argc, const char * const * argv) :
     m_Script(),
     m_SleepApi(m_Script.GetInterpreter()),
     m_TestPrintfApi(m_Script.GetInterpreter()),
@@ -169,7 +169,7 @@ private:
 
 static MaintenanceScript* s_pMaintenanceScript = NULL;
 
-void InitConfigState(const char* pServerType, int argc, char* argv[])
+void InitConfigState(const char* pServerType, int argc, const char * const * argv)
 {
   if (NULL == s_pMaintenanceScript) {
     s_pMaintenanceScript = new MaintenanceScript(pServerType, argc, argv);

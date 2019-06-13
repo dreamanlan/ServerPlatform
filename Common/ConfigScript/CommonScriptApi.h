@@ -177,13 +177,14 @@ static inline int GetLogFileId(char* pStr, int size)
     time(&t);
     struct tm* pTM = localtime(&t);
     if (NULL != pTM) {
-      unsigned int pid = 0, tid = 0;
+      unsigned int pid = 0;
+      unsigned long long tid = 0;
 #if defined(__WINDOWS__)
       pid = (unsigned int)GetCurrentProcessId();
-      tid = (unsigned int)GetCurrentThreadId();
+      tid = (unsigned long long)GetCurrentThreadId();
 #else
       pid = (unsigned int)getpid();
-      tid = (unsigned int)pthread_self();
+      tid = (unsigned long long)pthread_self();
 #endif //defined(__WINDOWS__)
       tsnprintf(pStr, size, "%.4d-%.2d-%.2d_%d-%u-%u", (pTM->tm_year + 1900), (pTM->tm_mon + 1), pTM->tm_mday, pTM->tm_hour, pid, tid);
       ret = TRUE;
@@ -296,7 +297,6 @@ public:
               int lineNum = INFO_NUM_DEFAULT;
               char* p0 = m_pBuffer;
               if (p0) {
-                //统计前面几行的平均长度
                 int sum = 0;
                 int ct = 0;
                 for (; ct < 5; ++ct) {
@@ -676,11 +676,10 @@ public:
             if (realSize == (size_t)size) {
               m_pBuffer[size] = 0;
               int lineNum = ROW_NUM_DEFAULT;
-              char* p0 = strchr(m_pBuffer, '\n');//第一行是字段类型
+              char* p0 = strchr(m_pBuffer, '\n');
               if (p0) {
-                p0 = strchr(p0 + 1, '\n');//第二行是字段说明
+                p0 = strchr(p0 + 1, '\n');
                 if (p0) {
-                  //统计前面几行的平均长度
                   int sum = 0;
                   int ct = 0;
                   for (; ct < 5; ++ct) {
@@ -851,8 +850,8 @@ private:
       if (NULL != pNew) {
         memcpy(pNew, m_pRows, sizeof(RowType)*m_RowCount);
         memset(pNew + m_RowCount, 0, sizeof(RowType)*(m_RowSpace + ROW_NUM_DELTA - m_RowCount));
-        delete[] m_pRows;//这里只释放行空间，列不释放，列由新行空间接手管理
-        m_pRows = pNew;
+        delete[] m_pRows;
+		m_pRows = pNew;
         m_RowSpace += ROW_NUM_DELTA;
       }
     }

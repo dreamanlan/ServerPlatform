@@ -3,7 +3,7 @@
 
 #include "Type.h"
 
-void InitConfigState(const char* serverType, int argc, char* argv[]);
+void InitConfigState(const char* serverType, int argc, const char * const * argv);
 void ReloadConfigState(void);
 const char* GetConfig(const char* name);
 

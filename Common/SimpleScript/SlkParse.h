@@ -11,24 +11,24 @@ typedef unsigned short   slk_size_t;
 #define TERMINAL_SYMBOL    2
 #define ACTION_SYMBOL      3
 
-int SlkGetSymbolType ( slk_size_t symbol );
-slk_size_t *SlkGetProductionArray ( slk_size_t   production_number );
-slk_size_t *SlkGetState ( slk_size_t  state_number );
-int SlkIsNonterminal ( slk_size_t symbol );
-int SlkIsTerminal ( slk_size_t symbol );
-int SlkIsAction ( slk_size_t symbol );
+int SlkGetSymbolType(slk_size_t symbol);
+slk_size_t *SlkGetProductionArray(slk_size_t   production_number);
+slk_size_t *SlkGetState(slk_size_t  state_number);
+int SlkIsNonterminal(slk_size_t symbol);
+int SlkIsTerminal(slk_size_t symbol);
+int SlkIsAction(slk_size_t symbol);
 
 #include "SlkTerminals.h"
 #include "SlkToken.h"
 #include "SlkError.h"
 #include "SlkAction.h"
- 
-slk_size_t SlkGetProduction ( slk_size_t   conflict_number,
-                              SlkToken   &tokens ) ;
-void SlkParse ( SlkAction  &action, 
-                SlkToken   &tokens, 
-                SlkError   &error, 
-                slk_size_t  start_symbol ) ;
+
+slk_size_t SlkGetProduction(slk_size_t   conflict_number,
+	SlkToken   &tokens);
+void SlkParse(SlkAction  &action,
+	SlkToken   &tokens,
+	SlkError   &error,
+	slk_size_t  start_symbol);
 
 
 #endif

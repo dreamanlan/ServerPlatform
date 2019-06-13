@@ -1,6 +1,6 @@
 /*************************************************************************
 
-    SlkAction.h
+	SlkAction.h
 
 *************************************************************************/
 
@@ -12,10 +12,10 @@
 class SlkAction
 {
 public:
-	virtual ~SlkAction(void){}
+	virtual ~SlkAction(void) {}
 public:
-  virtual void predict(int production){}
-	virtual void execute(int number)=0;
+	virtual void predict(int production) {}
+	virtual void execute(int number) = 0;
 };
 
 #endif

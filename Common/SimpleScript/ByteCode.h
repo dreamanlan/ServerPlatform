@@ -15,6 +15,7 @@ namespace FunctionScript
 		BYTE_CODE_MARK_PERIOD_BRACKET_PARAM,
 		BYTE_CODE_MARK_PERIOD_BRACE_PARAM,
 		BYTE_CODE_SET_MEMBER_ID,
+		BYTE_CODE_MARK_PERIOD,
 		BYTE_CODE_MARK_PERIOD_PARAM,
 		BYTE_CODE_MARK_BRACKET_PARAM,
 		BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
@@ -30,6 +31,17 @@ namespace FunctionScript
 		BYTE_CODE_BUILD_OPERATOR,
 		BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR,
 		BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR,
+		BYTE_CODE_MARK_OPERATOR,
+		BYTE_CODE_MARK_QUESTION,
+		BYTE_CODE_MARK_QUESTION_PERIOD_PARAM,
+		BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM,
+		BYTE_CODE_MARK_QUESTION_BRACKET_PARAM,
+		BYTE_CODE_MARK_QUESTION_BRACE_PARAM,
+		BYTE_CODE_MARK_POINTER,
+		BYTE_CODE_MARK_POINTER_PARAM,
+		BYTE_CODE_MARK_PERIOD_STAR_PARAM,
+		BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM,
+		BYTE_CODE_MARK_POINTER_STAR_PARAM,
 		BYTE_CODE_NUM
 	};
 
@@ -37,41 +49,53 @@ namespace FunctionScript
 	class RuntimeBuilderT
 	{
 	public:
-		RuntimeBuilderT(Interpreter& interpreter):mThis(NULL),mInterpreter(&interpreter)
+		RuntimeBuilderT(Interpreter& interpreter) :mThis(NULL), mInterpreter(&interpreter)
 		{
 			DebugAssert(mInterpreter);
 		}
 		inline void    setEnvironmentObjRef(RealTypeT& thisObj)
 		{
-			mThis=&thisObj;
+			mThis = &thisObj;
 			DebugAssert(mThis);
 		}
 	public:
-		inline void    beginStatement ( void );
-		inline void    endStatement ( void );
-		inline void    buildOperator ( void );
-		inline void    buildFirstTernaryOperator ( void );
-		inline void    buildSecondTernaryOperator ( void );
-		inline void    beginFunction ( void );
-		inline void    endFunction ( void );
-		inline void    setFunctionId ( void );
-		inline void    markHaveStatement ( void );
-		inline void    markHaveExternScript ( void );
-		inline void    setExternScript ( void );
-		inline void    buildHighOrderFunction ( void );
-		inline void    markParenthesisParam ( void );
-		inline void    markBracketParam ( void );
-		inline void    markPeriodParam ( void );
-		inline void    setMemberId ( void );
-		inline void    markPeriodParenthesisParam ( void );
-		inline void    markPeriodBracketParam ( void );
-		inline void    markPeriodBraceParam ( void );
+		inline void    beginStatement(void);
+		inline void    endStatement(void);
+		inline void    markOperator(void);
+		inline void    buildOperator(void);
+		inline void    buildFirstTernaryOperator(void);
+		inline void    buildSecondTernaryOperator(void);
+		inline void    beginFunction(void);
+		inline void    endFunction(void);
+		inline void    setFunctionId(void);
+		inline void    markHaveStatement(void);
+		inline void    markHaveExternScript(void);
+		inline void    setExternScript(void);
+		inline void    buildHighOrderFunction(void);
+		inline void    markParenthesisParam(void);
+		inline void    markBracketParam(void);
+		inline void    markPeriod(void);
+		inline void    markPeriodParam(void);
+		inline void    setMemberId(void);
+		inline void    markPeriodParenthesisParam(void);
+		inline void    markPeriodBracketParam(void);
+		inline void    markPeriodBraceParam(void);
+		inline void    markQuestion(void);
+		inline void    markQuestionPeriodParam(void);
+		inline void    markQuestionParenthesisParam(void);
+		inline void    markQuestionBracketParam(void);
+		inline void    markQuestionBraceParam(void);
+		inline void    markPointer(void);
+		inline void    markPointerParam(void);
+		inline void    markPeriodStarParam(void);
+		inline void    markQuestionPeriodStarParam(void);
+		inline void    markPointerStarParam(void);
 	private:
 		inline int	wrapObjectMember(Statement& arg);
 		inline int	wrapObjectMemberInHighOrderFunction(Function& arg);
 		inline bool	preconditionCheck(void)const
 		{
-			return NULL!=mThis && NULL!=mInterpreter;
+			return NULL != mThis && NULL != mInterpreter;
 		}
 	protected:
 		RuntimeBuilderData				mData;
@@ -83,11 +107,11 @@ namespace FunctionScript
 	class GeneratorT
 	{
 	public:
-		GeneratorT(void):mThis(NULL)
+		GeneratorT(void) :mThis(NULL)
 		{}
 		inline void    setEnvironmentObjRef(RealTypeT& thisObj)
 		{
-			mThis=&thisObj;
+			mThis = &thisObj;
 			DebugAssert(mThis);
 		}
 		inline const char* getByteCode(int& len)const
@@ -157,6 +181,10 @@ namespace FunctionScript
 		{
 			genCode(BYTE_CODE_MARK_BRACKET_PARAM);
 		}
+		inline void markPeriod(void)
+		{
+			genCode(BYTE_CODE_MARK_PERIOD);
+		}
 		inline void markPeriodParam(void)
 		{
 			genCode(BYTE_CODE_MARK_PERIOD_PARAM);
@@ -173,6 +201,50 @@ namespace FunctionScript
 		{
 			genCode(BYTE_CODE_MARK_PERIOD_BRACE_PARAM);
 		}
+		inline void markOperator(void)
+		{
+			genCode(BYTE_CODE_MARK_OPERATOR);
+		}
+		inline void markQuestion(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION);
+		}
+		inline void markQuestionPeriodParam(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION_PERIOD_PARAM);
+		}
+		inline void markQuestionParenthesisParam(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM);
+		}
+		inline void markQuestionBracketParam(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION_BRACKET_PARAM);
+		}
+		inline void markQuestionBraceParam(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION_BRACE_PARAM);
+		}
+		inline void markPointer(void)
+		{
+			genCode(BYTE_CODE_MARK_POINTER);
+		}
+		inline void markPointerParam(void)
+		{
+			genCode(BYTE_CODE_MARK_POINTER_PARAM);
+		}
+		inline void markPeriodStarParam(void)
+		{
+			genCode(BYTE_CODE_MARK_PERIOD_STAR_PARAM);
+		}
+		inline void markQuestionPeriodStarParam(void)
+		{
+			genCode(BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM);
+		}
+		inline void markPointerStarParam(void)
+		{
+			genCode(BYTE_CODE_MARK_POINTER_STAR_PARAM);
+		}
 		inline void markHaveStatement(void)
 		{
 			genCode(BYTE_CODE_MARK_HAVE_STATEMENT);
@@ -184,7 +256,7 @@ namespace FunctionScript
 	private:
 		inline bool preconditionCheck(void)const
 		{
-			return NULL!=mThis;
+			return NULL != mThis;
 		}
 		inline void genLastLineNumber(void)
 		{
@@ -195,36 +267,35 @@ namespace FunctionScript
 		}
 		inline void genLastToken(void)
 		{
-			if(!preconditionCheck())return;
+			if (!preconditionCheck())return;
 			mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_TOKEN));
-			char* pStr=mThis->getLastToken();
-			if(NULL!=pStr)
-			{
+			char* pStr = mThis->getLastToken();
+			if (NULL != pStr) {
 				mData.genByteCode(pStr);
-			}
-			else
-			{
+			} else {
 				mData.genByteCode("");
 			}
 		}
 		inline void genPush(void)
 		{
-			if(!preconditionCheck())return;
-			RuntimeBuilderData::TokenInfo tokenInfo=mData.pop();
-			if(TRUE!=tokenInfo.IsValid())return;
+			if (!preconditionCheck())return;
+			RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
+			if (TRUE != tokenInfo.IsValid())return;
 			mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_PUSH_TOKEN));
 			mData.genByteCode(static_cast<unsigned char>(tokenInfo.mType));
-			if(RuntimeBuilderData::STRING_TOKEN==tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN==tokenInfo.mType)
+			if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType)
 				mData.genByteCode(tokenInfo.mString);
-			else if(RuntimeBuilderData::INT_TOKEN==tokenInfo.mType)
-				mData.genByteCode(tokenInfo.mInteger);
-			else
+			else if (RuntimeBuilderData::FLOAT_TOKEN == tokenInfo.mType)
 				mData.genByteCode(tokenInfo.mFloat);
+			else if (RuntimeBuilderData::BOOL_TOKEN == tokenInfo.mType)
+				mData.genByteCode(tokenInfo.mBool);
+			else
+				mData.genByteCode(tokenInfo.mInteger);
 		}
 		inline void genCode(int code)
 		{
-			if(!preconditionCheck())return;
-			mData.genByteCode(static_cast<unsigned char>(code));				
+			if (!preconditionCheck())return;
+			mData.genByteCode(static_cast<unsigned char>(code));
 		}
 	protected:
 		RuntimeBuilderData				mData;

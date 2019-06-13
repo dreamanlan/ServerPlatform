@@ -15,7 +15,7 @@
 	#include <windows.h>
 	#include <WinBase.h>
 
-#elif defined(__LINUX__)
+#else
 	#include <pthread.h>
 	#include <unistd.h>
 	#include <errno.h>
@@ -36,6 +36,12 @@
 	
 	#define TRUE			1
 	#define FALSE			0
+	
+#if defined(__LINUX__)
+	#define CHAR			char
+	#define INT 			int
+#endif
+
 #endif
 
 #define INVALID_ID		-1

@@ -18,7 +18,7 @@ CSharpClientTest/bin
 CSharpClientTest/obj
 CSharpClientTest/*.suo
 CSharpClientTest/*.user
-libevent-2.0.22-stable/*.obj
+libevent-2.1.10-stable/*.obj
 ServerCenter/Debug
 ServerCenter/Release
 ServerCenter/*.suo

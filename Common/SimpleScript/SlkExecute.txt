@@ -3,6 +3,7 @@
 
 private:
 void    endStatement ( void );
+void    markOperator ( void );
 void    pushId ( void );
 void    buildOperator ( void );
 void    buildFirstTernaryOperator ( void );
@@ -17,39 +18,66 @@ void    setExternScript ( void );
 void    markParenthesisParam ( void );
 void    buildHighOrderFunction ( void );
 void    markBracketParam ( void );
+void    markPeriod ( void );
+void    markQuestion ( void );
+void    markQuestionParenthesisParam ( void );
+void    markQuestionBracketParam ( void );
+void    markQuestionBraceParam ( void );
+void    markPointer ( void );
 void    markPeriodParam ( void );
 void    setMemberId ( void );
 void    markPeriodParenthesisParam ( void );
 void    markPeriodBracketParam ( void );
 void    markPeriodBraceParam ( void );
+void    markQuestionPeriodParam ( void );
+void    markPointerParam ( void );
+void    markPeriodStarParam ( void );
+void    markQuestionPeriodStarParam ( void );
+void    markPointerStarParam ( void );
 void    pushStr ( void );
 void    pushNum ( void );
+void    pushTrue ( void );
+void    pushFalse ( void );
 
 public:
 void execute ( slk_size_t  number )
 {
   switch ( number ) {
     case 1:  endStatement();  break;
-    case 2:  pushId();  break;
-    case 3:  buildOperator();  break;
-    case 4:  buildFirstTernaryOperator();  break;
-    case 5:  buildSecondTernaryOperator();  break;
-    case 6:  beginStatement();  break;
-    case 7:  beginFunction();  break;
-    case 8:  endFunction();  break;
-    case 9:  setFunctionId();  break;
-    case 10:  markHaveStatement();  break;
-    case 11:  markHaveExternScript();  break;
-    case 12:  setExternScript();  break;
-    case 13:  markParenthesisParam();  break;
-    case 14:  buildHighOrderFunction();  break;
-    case 15:  markBracketParam();  break;
-    case 16:  markPeriodParam();  break;
-    case 17:  setMemberId();  break;
-    case 18:  markPeriodParenthesisParam();  break;
-    case 19:  markPeriodBracketParam();  break;
-    case 20:  markPeriodBraceParam();  break;
-    case 21:  pushStr();  break;
-    case 22:  pushNum();  break;
+    case 2:  markOperator();  break;
+    case 3:  pushId();  break;
+    case 4:  buildOperator();  break;
+    case 5:  buildFirstTernaryOperator();  break;
+    case 6:  buildSecondTernaryOperator();  break;
+    case 7:  beginStatement();  break;
+    case 8:  beginFunction();  break;
+    case 9:  endFunction();  break;
+    case 10:  setFunctionId();  break;
+    case 11:  markHaveStatement();  break;
+    case 12:  markHaveExternScript();  break;
+    case 13:  setExternScript();  break;
+    case 14:  markParenthesisParam();  break;
+    case 15:  buildHighOrderFunction();  break;
+    case 16:  markBracketParam();  break;
+    case 17:  markPeriod();  break;
+    case 18:  markQuestion();  break;
+    case 19:  markQuestionParenthesisParam();  break;
+    case 20:  markQuestionBracketParam();  break;
+    case 21:  markQuestionBraceParam();  break;
+    case 22:  markPointer();  break;
+    case 23:  markPeriodParam();  break;
+    case 24:  setMemberId();  break;
+    case 25:  markPeriodParenthesisParam();  break;
+    case 26:  markPeriodBracketParam();  break;
+    case 27:  markPeriodBraceParam();  break;
+    case 28:  markQuestionPeriodParam();  break;
+    case 29:  markPointerParam();  break;
+    case 30:  markPeriodStarParam();  break;
+    case 31:  markQuestionPeriodStarParam();  break;
+    case 32:  markPointerStarParam();  break;
+    case 33:  pushStr();  break;
+    case 34:  pushNum();  break;
+    case 35:  pushTrue();  break;
+    case 36:  pushFalse();  break;
   }
 }

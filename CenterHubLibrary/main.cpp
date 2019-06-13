@@ -231,7 +231,7 @@ extern "C" void SetCenterLogHandler(LogHandlerPtr logHandler)
   SetLogHandler(logHandler);
 }
 
-extern "C" void Init(const char* serverType, int argc, char* argv[], HandleNameHandleChangedPtr nameHandleCallback, HandleMessagePtr msgCallback, HandleMessageResultPtr msgResultCallback, HandleCommandPtr cmdCallback)
+extern "C" void Init(const char* serverType, int argc, const char * const * argv, HandleNameHandleChangedPtr nameHandleCallback, HandleMessagePtr msgCallback, HandleMessageResultPtr msgResultCallback, HandleCommandPtr cmdCallback)
 {
 #if defined(__LINUX__)
   signal(SIGPIPE, SIG_IGN);
@@ -303,7 +303,7 @@ extern "C" void Release(void)
 }
 
 #ifdef _CONSOLE
-int main(char argc, char* argv[])
+int main(int argc, char* argv[])
 {
   Init("centerhub", NULL);
   for (;;) {
@@ -314,7 +314,7 @@ int main(char argc, char* argv[])
   return 0;
 }
 #else
-int main(char argc, char* argv[])
+int main(int argc, char* argv[])
 {
   return 0;
 }

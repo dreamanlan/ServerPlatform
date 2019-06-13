@@ -8,11 +8,11 @@ EXPORTS
 	SendCommandByHandle
 	SendCommandByName
 	IsRun
-  Quit
-  SetCenterLogHandler
+	Quit
+	SetCenterLogHandler
 	Init
 	Tick
-  IsConnected
-  Disconnect
+	IsConnected
+	Disconnect
 	Release
 

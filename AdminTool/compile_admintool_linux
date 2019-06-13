@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+sed -f ../compile_linux/admintool_makefile.sed Makefile.gen > Makefile.am
+autoscan
+sed -f ../compile_linux/admintool_configure.sed configure.scan > configure.ac
+touch Makefile.common.in
+aclocal
+autoheader
+automake -a -c --foreign
+autoconf
+./configure
+make -j4

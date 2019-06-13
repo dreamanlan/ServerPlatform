@@ -125,21 +125,21 @@ void MySleep( unsigned int millionseconds )
 #endif
 }
 
-unsigned long MyGetCurrentThreadID(void)
+unsigned long long MyGetCurrentThreadID(void)
 {
-	unsigned long tRet = MyGetCurrentTrueThreadID();
+	unsigned long long tRet = MyGetCurrentTrueThreadID();
 	int nValue = 0;//g_ThreadValue.GetThreadValue( tRet );
 	tRet += nValue;
 
 	return tRet;
 }
 
-unsigned long MyGetCurrentTrueThreadID(void)
+unsigned long long MyGetCurrentTrueThreadID(void)
 {
 #if defined(__WINDOWS__)
 	return GetCurrentThreadId( )*1000;
 #elif defined(__LINUX__)
-	return pthread_self();
+	return (unsigned long long)pthread_self();
 #endif
 }
 

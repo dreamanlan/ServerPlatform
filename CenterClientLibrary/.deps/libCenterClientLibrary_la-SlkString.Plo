@@ -1,0 +1,5 @@
+libCenterClientLibrary_la-SlkString.lo: \
+  ../Common/SimpleScript/SlkString.cpp \
+  ../Common/SimpleScript/SlkString.h
+
+../Common/SimpleScript/SlkString.h:
