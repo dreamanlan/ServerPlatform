@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+ï»¿//--------------------------------------------------------------------------------------
 //**************************************************************************************
 //**************************************************************************************
 //**************************************************************************************
@@ -174,10 +174,10 @@ namespace FunctionScript
 		}
 		if (mData.isSemanticStackEmpty()) {
 			if (!statement->IsValid()) {
-				//_epsilon_±í´ïÊ½ÎŞÓï¾äÓïÒå
+				//_epsilon_è¡¨è¾¾å¼æ— è¯­å¥è¯­ä¹‰
 				return;
 			}
-			//¶¥²ãÔªËØ½áÊø
+			//é¡¶å±‚å…ƒç´ ç»“æŸ
 			wrapObjectMember(*statement);
 			mInterpreter->AddStatement(statement);
 			mThis->setCanFinish(TRUE);
@@ -188,9 +188,9 @@ namespace FunctionScript
 				case Function::EXTENT_CLASS_NOTHING:
 				{
 					if (p->GetParamClass() == Function::PARAM_CLASS_OPERATOR && !statement->IsValid())
-						return;//²Ù×÷·û¾Í²»Ö§³Ö¿Õ²ÎÊıÁË
+						return;//æ“ä½œç¬¦å°±ä¸æ”¯æŒç©ºå‚æ•°äº†
 
-					//º¯Êı²ÎÊı£¬ÔÊĞí¿ÕÓï¾ä£¬ÓÃÓÚ±í´ïÄ¬ÈÏ×´Ì¬(¸±×÷ÓÃÊÇa()Óëa[]½«×ÜÊÇ»áÓĞÒ»¸ö¿ÕÓï¾ä²ÎÊı)¡£
+					//å‡½æ•°å‚æ•°ï¼Œå…è®¸ç©ºè¯­å¥ï¼Œç”¨äºè¡¨è¾¾é»˜è®¤çŠ¶æ€(å‰¯ä½œç”¨æ˜¯a()ä¸a[]å°†æ€»æ˜¯ä¼šæœ‰ä¸€ä¸ªç©ºè¯­å¥å‚æ•°)ã€‚
 					wrapObjectMember(*statement);
 					p->AddParam(statement);
 				}
@@ -198,10 +198,10 @@ namespace FunctionScript
 				case Function::EXTENT_CLASS_STATEMENT:
 				{
 					if (!statement->IsValid()) {
-						//_epsilon_±í´ïÊ½ÎŞÓï¾äÓïÒå
+						//_epsilon_è¡¨è¾¾å¼æ— è¯­å¥è¯­ä¹‰
 						return;
 					}
-					//º¯ÊıÀ©Õ¹Óï¾ä²¿·Ö
+					//å‡½æ•°æ‰©å±•è¯­å¥éƒ¨åˆ†
 					wrapObjectMember(*statement);
 					p->AddStatement(statement);
 				}
@@ -272,7 +272,7 @@ namespace FunctionScript
 		if (0 != p && !p->IsValid()) {
 			Value val = tokenInfo.ToValue();
 			if (FALSE == val.IsInvalid()) {
-				//³ÉÔ±ÃûĞèÒª×ª³É×Ö·û´®³£Á¿
+				//æˆå‘˜åéœ€è¦è½¬æˆå­—ç¬¦ä¸²å¸¸é‡
 				if (val.IsVariableName() && val.GetString()) {
 					val.SetWeakRefString(val.GetString());
 				}
@@ -289,7 +289,7 @@ namespace FunctionScript
 		void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction(void)
 	{
 		if (!preconditionCheck())return;
-		//¸ß½×º¯Êı¹¹Ôì£¨µ±Ç°º¯Êı·µ»ØÒ»¸öº¯Êı£©
+		//é«˜é˜¶å‡½æ•°æ„é€ ï¼ˆå½“å‰å‡½æ•°è¿”å›ä¸€ä¸ªå‡½æ•°ï¼‰
 		Function*& p = mData.getLastFunctionRef();
 		if (0 == p)
 			return;
@@ -494,7 +494,7 @@ namespace FunctionScript
 					p->GetParamClass() == Function::PARAM_CLASS_PERIOD_STAR ||
 					p->GetParamClass() == Function::PARAM_CLASS_QUESTION_PERIOD_STAR ||
 					p->GetParamClass() == Function::PARAM_CLASS_POINTER_STAR) {
-					//°ü×°¶ÔÏó³ÉÔ±:
+					//åŒ…è£…å¯¹è±¡æˆå‘˜:
 					//	obj.property=val -> obj.property(val)
 					//	val=obj.property -> val=obj.property()
 					Function*& pFunc = arg.GetLastFunctionRef();
@@ -517,7 +517,7 @@ namespace FunctionScript
 	{
 		int ret = FALSE;
 		if (0 != mInterpreter && arg.IsValid() && arg.GetName().IsFunction() && NULL != arg.GetName().GetFunction()) {
-			//°ü×°¶ÔÏó³ÉÔ±:
+			//åŒ…è£…å¯¹è±¡æˆå‘˜:
 			//	obj.property. -> obj.property().
 			const Value& func = arg.GetName();
 			Function* pFunc = func.GetFunction();
