@@ -24,11 +24,11 @@ int SlkIsAction(slk_size_t symbol);
 #include "SlkAction.h"
 
 slk_size_t SlkGetProduction(slk_size_t   conflict_number,
-	SlkToken   &tokens);
+    SlkToken   &tokens);
 void SlkParse(SlkAction  &action,
-	SlkToken   &tokens,
-	SlkError   &error,
-	slk_size_t  start_symbol);
+    SlkToken   &tokens,
+    SlkError   &error,
+    slk_size_t  start_symbol);
 
 
 #endif

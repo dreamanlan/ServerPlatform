@@ -3,56 +3,57 @@
 
 #include "SlkParse.h"
 
-static slk_size_t Production[] = { 0
+static slk_size_t Production[] = {0
 
-,2,42,43 ,3,43,44,93 ,3,44,61,124 ,3,45,62,124 ,3,46,63,124
-,3,47,64,124 ,3,48,65,124 ,3,49,66,124 ,3,50,67,124
-,3,51,68,124 ,3,52,69,124 ,3,53,70,124 ,3,54,71,124
-,3,55,72,124 ,3,56,73,124 ,3,57,74,124 ,3,58,75,124
-,3,59,76,124 ,3,60,77,124 ,3,61,62,94 ,3,62,63,95
-,3,63,64,96 ,3,64,65,97 ,3,65,66,98 ,3,66,67,99
-,3,67,68,100 ,3,68,69,101 ,3,69,70,102 ,3,70,71,103
-,3,71,72,104 ,3,72,73,105 ,3,73,74,106 ,3,74,75,107
-,3,75,76,108 ,3,76,77,109 ,3,77,79,110 ,3,78,79,124
-,3,79,130,80 ,2,80,111 ,5,80,131,82,132,112 ,5,81,91,133,113,114
-,3,82,84,115 ,2,82,83 ,5,83,134,18,43,19 ,4,83,135,20,136
-,6,84,137,21,43,22,116 ,6,84,139,23,43,24,117 ,5,84,140,25,85,118
-,5,84,141,26,86,119 ,6,84,141,142,27,43,22 ,6,84,141,143,28,43,24
-,6,84,141,144,29,43,19 ,5,84,145,30,87,120 ,5,84,140,31,88,121
-,5,84,141,32,89,122 ,5,84,145,33,90,123 ,8,85,146,130,131,91,147,132,124
-,5,85,148,21,43,22 ,5,85,149,23,43,24 ,5,85,150,18,43,19
-,8,86,151,130,131,91,147,132,124 ,8,87,152,130,131,91,147,132,124
-,8,88,153,130,131,91,147,132,124 ,8,89,154,130,131,91,147,132,124
-,8,90,155,130,131,91,147,132,124 ,3,91,34,126 ,3,91,35,156
-,3,91,36,157 ,3,91,37,158 ,3,91,38,159 ,2,92,39 ,2,92,40
-,4,93,92,44,93 ,1,93 ,7,94,125,1,126,127,45,94 ,1,94
-,7,95,125,2,126,127,46,95 ,1,95 ,7,96,125,3,126,127,47,96
-,1,96 ,7,97,125,4,126,127,48,97 ,1,97 ,11,98,125,5,126,128,49,5,126,129,49,98
-,1,98 ,7,99,125,6,126,127,50,99 ,1,99 ,7,100,125,7,126,127,51,100
-,1,100 ,7,101,125,8,126,127,52,101 ,1,101 ,7,102,125,9,126,127,53,102
-,1,102 ,7,103,125,10,126,127,54,103 ,1,103 ,7,104,125,11,126,127,55,104
-,1,104 ,7,105,125,12,126,127,56,105 ,1,105 ,7,106,125,13,126,127,57,106
-,1,106 ,7,107,125,14,126,127,58,107 ,1,107 ,7,108,125,15,126,127,59,108
-,1,108 ,7,109,125,16,126,127,60,109 ,1,109 ,7,110,125,17,126,127,78,110
-,1,110 ,5,111,131,81,132,111 ,1,111 ,5,112,131,81,132,112
-,1,112 ,2,113,84 ,1,113 ,2,114,83 ,1,114 ,2,115,83 ,1,115
-,3,116,138,84 ,1,116 ,3,117,138,84 ,1,117 ,3,118,138,84
-,1,118 ,3,119,138,84 ,1,119 ,3,120,138,84 ,1,120 ,3,121,138,84
-,1,121 ,3,122,138,84 ,1,122 ,3,123,138,84 ,1,123
-,0 };
+,2,42,43 ,3,43,44,93 ,3,44,61,124 ,3,45,62,124 ,3,46,63,124 
+,3,47,64,124 ,3,48,65,124 ,3,49,66,124 ,3,50,67,124 
+,3,51,68,124 ,3,52,69,124 ,3,53,70,124 ,3,54,71,124 
+,3,55,72,124 ,3,56,73,124 ,3,57,74,124 ,3,58,75,124 
+,3,59,76,124 ,3,60,77,124 ,3,61,62,94 ,3,62,63,95 
+,3,63,64,96 ,3,64,65,97 ,3,65,66,98 ,3,66,67,99 
+,3,67,68,100 ,3,68,69,101 ,3,69,70,102 ,3,70,71,103 
+,3,71,72,104 ,3,72,73,105 ,3,73,74,106 ,3,74,75,107 
+,3,75,76,108 ,3,76,77,109 ,3,77,79,110 ,3,78,79,124 
+,3,79,130,80 ,2,80,111 ,5,80,131,82,132,112 ,5,81,91,133,113,114 
+,3,82,84,115 ,2,82,83 ,5,83,134,18,43,19 ,4,83,135,20,136 
+,6,84,137,21,43,22,116 ,6,84,139,23,43,24,117 ,5,84,140,25,85,118 
+,5,84,141,26,86,119 ,6,84,141,142,27,43,22 ,6,84,141,143,28,43,24 
+,6,84,141,144,29,43,19 ,5,84,145,30,87,120 ,5,84,140,31,88,121 
+,5,84,141,32,89,122 ,5,84,145,33,90,123 ,8,85,146,130,131,91,147,132,124 
+,5,85,148,21,43,22 ,5,85,149,23,43,24 ,5,85,150,18,43,19 
+,8,86,151,130,131,91,147,132,124 ,8,87,152,130,131,91,147,132,124 
+,8,88,153,130,131,91,147,132,124 ,8,89,154,130,131,91,147,132,124 
+,8,90,155,130,131,91,147,132,124 ,3,91,34,126 ,3,91,35,156 
+,3,91,36,157 ,3,91,37,158 ,3,91,38,159 ,2,92,39 ,2,92,40 
+,4,93,92,44,93 ,1,93 ,7,94,125,1,126,127,45,94 ,1,94 
+,7,95,125,2,126,127,46,95 ,1,95 ,7,96,125,3,126,127,47,96 
+,1,96 ,11,97,125,4,126,128,48,4,126,129,48,97 ,1,97 
+,7,98,125,5,126,127,49,98 ,1,98 ,7,99,125,6,126,127,50,99 
+,1,99 ,7,100,125,7,126,127,51,100 ,1,100 ,7,101,125,8,126,127,52,101 
+,1,101 ,7,102,125,9,126,127,53,102 ,1,102 ,7,103,125,10,126,127,54,103 
+,1,103 ,7,104,125,11,126,127,55,104 ,1,104 ,7,105,125,12,126,127,56,105 
+,1,105 ,7,106,125,13,126,127,57,106 ,1,106 ,7,107,125,14,126,127,58,107 
+,1,107 ,7,108,125,15,126,127,59,108 ,1,108 ,7,109,125,16,126,127,60,109 
+,1,109 ,7,110,125,17,126,127,78,110 ,1,110 ,5,111,131,81,132,111 
+,1,111 ,5,112,131,81,132,112 ,1,112 ,2,113,84 ,1,113 ,2,114,83 
+,1,114 ,2,115,83 ,1,115 ,3,116,138,84 ,1,116 ,3,117,138,84 
+,1,117 ,3,118,138,84 ,1,118 ,3,119,138,84 ,1,119 ,3,120,138,84 
+,1,120 ,3,121,138,84 ,1,121 ,3,122,138,84 ,1,122 ,3,123,138,84 
+,1,123 
+,0};
 
-static slk_size_t Production_row[] = { 0
+static slk_size_t Production_row[] = {0
 
 ,1,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60
 ,64,68,72,76,80,84,88,92,96,100,104,108,112,116,120,124
 ,128,132,136,140,144,148,152,155,161,167,171,174,180,185,192,199
 ,205,211,218,225,232,238,244,250,256,265,271,277,283,292,301,310
 ,319,328,332,336,340,344,348,351,354,359,361,369,371,379,381,389
-,391,399,401,413,415,423,425,433,435,443,445,453,455,463,465,473
+,391,403,405,413,415,423,425,433,435,443,445,453,455,463,465,473
 ,475,483,485,493,495,503,505,513,515,523,525,533,535,541,543,549
 ,551,554,556,559,561,564,566,570,572,576,578,582,584,588,590,594
 ,596,600,602,606,608,612
-,0 };
+,0};
 
 static slk_size_t Parse[] = {
 
@@ -185,7 +186,7 @@ static slk_size_t Parse[] = {
 ,0,76,0,0,0,73,73,74,0,0,0,0,0,0,0,0,76,76,76
 };
 
-static slk_size_t Parse_row[] = { 0
+static slk_size_t Parse_row[] = {0
 
 ,1928,1,42,83,124,165,206,247,288,329,370,411,452,493,534,575
 ,616,657,698,739,780,821,862,903,944,985,1026,1067,1108,1149,1190,1231
@@ -193,17 +194,17 @@ static slk_size_t Parse_row[] = { 0
 ,2335,2358,2001,2485,2496,2472,2462,2448,2438,2414,2407,2383,2359,2335,2311,2287
 ,2263,2239,2215,2174,2133,2051,2092,1559,1969,2010,1600,1641,1682,1723,1764,1805
 ,1846,1887
-,0 };
+,0};
 
 static slk_size_t Conflict[] = {
 
 0
 };
 
-static slk_size_t Conflict_row[] = { 0
+static slk_size_t Conflict_row[] = {0
 
 
-,0 };
+,0};
 
 #define GET_CONDITIONAL_PRODUCTION( symbol )  0 
 #define get_predicted_entry( a,b,c,d,e )  0 
@@ -236,120 +237,120 @@ static slk_size_t Conflict_row[] = { 0
 #define TERMINAL_SYMBOL    2
 #define ACTION_SYMBOL      3
 
-int SlkGetSymbolType(slk_size_t symbol)
+int SlkGetSymbolType ( slk_size_t symbol )
 {
-	int   symbol_type = NOT_A_SYMBOL;
+   int   symbol_type = NOT_A_SYMBOL;
 
-	if (symbol >= START_ACTION && symbol < END_ACTION) {
-		symbol_type = ACTION_SYMBOL;
-	} else if (symbol >= START_SYMBOL) {
-		symbol_type = NONTERMINAL_SYMBOL;
-	} else if (symbol > 0) {
-		symbol_type = TERMINAL_SYMBOL;
-	}
-	return  symbol_type;
+   if ( symbol >= START_ACTION  &&  symbol < END_ACTION ) {
+       symbol_type = ACTION_SYMBOL;
+   } else if ( symbol >= START_SYMBOL ) {
+       symbol_type = NONTERMINAL_SYMBOL;
+   } else if ( symbol > 0 ) {
+       symbol_type = TERMINAL_SYMBOL;
+   }
+   return  symbol_type;
 }
 
-slk_size_t *SlkGetProductionArray(slk_size_t   production_number)
+slk_size_t *SlkGetProductionArray ( slk_size_t   production_number )
 {
-	return   &Production[Production_row[production_number]];
+    return   &Production [ Production_row [production_number] ];
 }
 
-int SlkIsNonterminal(slk_size_t symbol)
+int SlkIsNonterminal ( slk_size_t symbol )
 {
-	return (symbol >= START_SYMBOL && symbol < START_ACTION);
+   return ( symbol >= START_SYMBOL  &&  symbol < START_ACTION );
 }
 
-int SlkIsTerminal(slk_size_t symbol)
+int SlkIsTerminal ( slk_size_t symbol )
 {
-	return (symbol > 0 && symbol < START_SYMBOL);
+   return ( symbol > 0  &&  symbol < START_SYMBOL );
 }
 
-int SlkIsAction(slk_size_t symbol)
+int SlkIsAction ( slk_size_t symbol )
 {
-	return (symbol >= START_ACTION && symbol < END_ACTION);
+   return ( symbol >= START_ACTION  &&  symbol < END_ACTION );
 }
 
-void SlkParse(SlkAction  &action,
-	SlkToken   &tokens,
-	SlkError   &error,
-	slk_size_t  start_symbol)
+void SlkParse ( SlkAction  &action, 
+                SlkToken   &tokens, 
+                SlkError   &error, 
+                slk_size_t  start_symbol ) 
 {
-	register
-		slk_size_t  *top, *production;
-	slk_size_t   production_number, entry, symbol, token, new_token;
-	int          production_length, index, level;
-	slk_size_t   stack[PARSE_STACK_SIZE];
+ register
+ slk_size_t  *top, *production;
+ slk_size_t   production_number, entry, symbol, token, new_token;
+ int          production_length, index, level;
+ slk_size_t   stack [ PARSE_STACK_SIZE ];
 
-	top = stack + (PARSE_STACK_SIZE - 1);
-	*top = 0;
-	if (!start_symbol) {
-		start_symbol = START_SYMBOL;
-	}
-	SLK_PUSH(start_symbol, stack, top);
-	token = get(tokens);
-	new_token = token;
+ top = stack + (PARSE_STACK_SIZE-1);
+ *top = 0;
+ if ( ! start_symbol ) {
+     start_symbol = START_SYMBOL;
+ }
+ SLK_PUSH ( start_symbol, stack, top );
+ token = get(tokens);
+ new_token = token;
 
-	for (symbol = SLK_POP(top); symbol; ) {
+ for ( symbol = SLK_POP ( top );  symbol;  ) {
 
-		if (symbol >= START_ACTION) {
-			execute(action, (symbol - (START_ACTION - 1)));
+     if ( symbol >= START_ACTION ) {
+         execute ( action, (symbol-(START_ACTION-1)) );
 
-		} else if (symbol >= START_SYMBOL) {
-			entry = 0;
-			level = 1;
-			production_number = GET_CONDITIONAL_PRODUCTION(symbol);
-			if (production_number) {
-				entry = get_predicted_entry(tokens,
-					production_number, token,
-					level, 1);
-			}
-			if (!entry) {
-				index = Parse_row[symbol - (START_SYMBOL - 1)];
-				index += token;
-				entry = Parse[index];
-			}
-			while (entry >= START_CONFLICT) {
-				index = Conflict_row[entry - (START_CONFLICT - 1)];
-				index += peek(tokens, level);
-				entry = Conflict[index];
-				++level;
-			}
-			if (entry) {
-				production = &Production[Production_row[entry]];
-				production_length = *production - 1;
-				if (*++production == symbol) {
-					predict(action, entry);
-					production += production_length;
-					for (; production_length-- > 0; --production) {
-						SLK_PUSH(*production, stack, top);
-					}
-				} else {
-					new_token = no_entry(error, symbol, token, level - 1);
-				}
-			} else {
-				new_token = no_entry(error, symbol, token, level - 1);
-			}
-		} else if (symbol > 0) {
-			if (symbol == token) {
-				token = get(tokens);
-				new_token = token;
-			} else {
-				new_token = mismatch(error, symbol, token);
-			}
-		}
-		if (token != new_token) {
-			if (new_token) {
-				token = new_token;
-			}
-			if (token != END_OF_SLK_INPUT_) {
-				continue;
-			}
-		}
-		symbol = SLK_POP(top);
-	}
-	if (token != END_OF_SLK_INPUT_) {
-		input_left(error);
-	}
+     } else if ( symbol >= START_SYMBOL ) {
+         entry = 0;
+         level = 1;
+         production_number = GET_CONDITIONAL_PRODUCTION ( symbol );
+         if ( production_number ) {
+             entry = get_predicted_entry ( tokens,
+                                           production_number, token,
+                                           level, 1 );
+         }
+         if ( ! entry ) {
+             index = Parse_row [symbol - (START_SYMBOL-1)];
+             index += token;
+             entry = Parse [ index ];
+         }
+         while ( entry >= START_CONFLICT ) {
+             index = Conflict_row [entry - (START_CONFLICT -1)];
+             index += peek (tokens, level);
+             entry = Conflict [ index ];
+             ++level;
+         }
+         if ( entry ) {
+             production = &Production [ Production_row [entry] ];
+             production_length = *production - 1;
+             if ( *++production == symbol ) {
+                 predict ( action, entry );
+                 production += production_length;
+                 for (;  production_length-- > 0;  --production ) {
+                     SLK_PUSH ( *production, stack, top );
+                 }
+             } else {
+                 new_token = no_entry ( error, symbol, token, level-1 );
+             }
+         } else {
+             new_token = no_entry ( error, symbol, token, level-1 );
+         }
+     } else if ( symbol > 0 ) {
+         if ( symbol == token ) {
+             token = get(tokens);
+             new_token = token;
+         } else {
+             new_token = mismatch ( error, symbol, token );
+         }
+     }
+     if ( token != new_token ) {
+         if ( new_token ) {
+             token = new_token;
+         }
+         if ( token != END_OF_SLK_INPUT_ ) {
+             continue;
+         }
+     }
+     symbol = SLK_POP ( top );
+ }
+ if ( token != END_OF_SLK_INPUT_ ) {
+     input_left ( error );
+ }
 }
 

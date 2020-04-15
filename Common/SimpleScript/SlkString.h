@@ -4,8 +4,8 @@
 #ifndef _SlkSTRING_H
 #define _SlkSTRING_H
 
-char *SlkGetSymbolName(unsigned int   symbol);
-char *SlkGetProductionName(unsigned int  production_number);
+char *SlkGetSymbolName ( unsigned int   symbol );
+char *SlkGetProductionName ( unsigned int  production_number );
 
 
 #endif

@@ -3,7 +3,7 @@
 
 #include "SlkString.h"
 
-static char * Nonterminal_name[] = { "0"
+static char * Nonterminal_name[] ={"0"
 
 ,"PROGRAM"
 ,"STATEMENTS"
@@ -60,8 +60,8 @@ static char * Nonterminal_name[] = { "0"
 ,"OP_TOKEN_0_OPERATOR_STATEMENT_1_*"
 ,"OP_TOKEN_1_OPERATOR_STATEMENT_2_*"
 ,"OP_TOKEN_2_OPERATOR_STATEMENT_3_*"
-,"OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
-,"OP_TOKEN_4_OPERATOR_STATEMENT_5_OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
+,"OP_TOKEN_3_OPERATOR_STATEMENT_4_OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
+,"OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
 ,"OP_TOKEN_5_OPERATOR_STATEMENT_6_*"
 ,"OP_TOKEN_6_OPERATOR_STATEMENT_7_*"
 ,"OP_TOKEN_7_OPERATOR_STATEMENT_8_*"
@@ -89,7 +89,7 @@ static char * Nonterminal_name[] = { "0"
 ,"FUNCTION_PARAMS_9_opt"
 };
 
-static char * Terminal_name[] = { "0"
+static char * Terminal_name[] ={"0"
 
 ,"OP_TOKEN_0"
 ,"OP_TOKEN_1"
@@ -134,7 +134,7 @@ static char * Terminal_name[] = { "0"
 ,"END_OF_SLK_INPUT"
 };
 
-static char * Action_name[] = { "0"
+static char * Action_name[] ={"0"
 
 ,"_action_endStatement"
 ,"_action_markOperator"
@@ -174,7 +174,7 @@ static char * Action_name[] = { "0"
 ,"_action_pushFalse"
 };
 
-static char * Production_name[] = { "0"
+static char * Production_name[] ={"0"
 
 ,"PROGRAM --> STATEMENTS"
 ,"STATEMENTS --> STATEMENT SEP_STATEMENT_*"
@@ -198,8 +198,8 @@ static char * Production_name[] = { "0"
 ,"OPERATOR_STATEMENT_DESC_0 --> OPERATOR_STATEMENT_DESC_1 OP_TOKEN_0_OPERATOR_STATEMENT_1_*"
 ,"OPERATOR_STATEMENT_DESC_1 --> OPERATOR_STATEMENT_DESC_2 OP_TOKEN_1_OPERATOR_STATEMENT_2_*"
 ,"OPERATOR_STATEMENT_DESC_2 --> OPERATOR_STATEMENT_DESC_3 OP_TOKEN_2_OPERATOR_STATEMENT_3_*"
-,"OPERATOR_STATEMENT_DESC_3 --> OPERATOR_STATEMENT_DESC_4 OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
-,"OPERATOR_STATEMENT_DESC_4 --> OPERATOR_STATEMENT_DESC_5 OP_TOKEN_4_OPERATOR_STATEMENT_5_OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
+,"OPERATOR_STATEMENT_DESC_3 --> OPERATOR_STATEMENT_DESC_4 OP_TOKEN_3_OPERATOR_STATEMENT_4_OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
+,"OPERATOR_STATEMENT_DESC_4 --> OPERATOR_STATEMENT_DESC_5 OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
 ,"OPERATOR_STATEMENT_DESC_5 --> OPERATOR_STATEMENT_DESC_6 OP_TOKEN_5_OPERATOR_STATEMENT_6_*"
 ,"OPERATOR_STATEMENT_DESC_6 --> OPERATOR_STATEMENT_DESC_7 OP_TOKEN_6_OPERATOR_STATEMENT_7_*"
 ,"OPERATOR_STATEMENT_DESC_7 --> OPERATOR_STATEMENT_DESC_8 OP_TOKEN_7_OPERATOR_STATEMENT_8_*"
@@ -256,10 +256,10 @@ static char * Production_name[] = { "0"
 ,"OP_TOKEN_1_OPERATOR_STATEMENT_2_* -->"
 ,"OP_TOKEN_2_OPERATOR_STATEMENT_3_* --> _action_markOperator OP_TOKEN_2 _action_pushId _action_buildOperator OPERATOR_STATEMENT_3 OP_TOKEN_2_OPERATOR_STATEMENT_3_*"
 ,"OP_TOKEN_2_OPERATOR_STATEMENT_3_* -->"
-,"OP_TOKEN_3_OPERATOR_STATEMENT_4_* --> _action_markOperator OP_TOKEN_3 _action_pushId _action_buildOperator OPERATOR_STATEMENT_4 OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
-,"OP_TOKEN_3_OPERATOR_STATEMENT_4_* -->"
-,"OP_TOKEN_4_OPERATOR_STATEMENT_5_OP_TOKEN_4_OPERATOR_STATEMENT_5_* --> _action_markOperator OP_TOKEN_4 _action_pushId _action_buildFirstTernaryOperator OPERATOR_STATEMENT_5 OP_TOKEN_4 _action_pushId _action_buildSecondTernaryOperator OPERATOR_STATEMENT_5 OP_TOKEN_4_OPERATOR_STATEMENT_5_OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
-,"OP_TOKEN_4_OPERATOR_STATEMENT_5_OP_TOKEN_4_OPERATOR_STATEMENT_5_* -->"
+,"OP_TOKEN_3_OPERATOR_STATEMENT_4_OP_TOKEN_3_OPERATOR_STATEMENT_4_* --> _action_markOperator OP_TOKEN_3 _action_pushId _action_buildFirstTernaryOperator OPERATOR_STATEMENT_4 OP_TOKEN_3 _action_pushId _action_buildSecondTernaryOperator OPERATOR_STATEMENT_4 OP_TOKEN_3_OPERATOR_STATEMENT_4_OP_TOKEN_3_OPERATOR_STATEMENT_4_*"
+,"OP_TOKEN_3_OPERATOR_STATEMENT_4_OP_TOKEN_3_OPERATOR_STATEMENT_4_* -->"
+,"OP_TOKEN_4_OPERATOR_STATEMENT_5_* --> _action_markOperator OP_TOKEN_4 _action_pushId _action_buildOperator OPERATOR_STATEMENT_5 OP_TOKEN_4_OPERATOR_STATEMENT_5_*"
+,"OP_TOKEN_4_OPERATOR_STATEMENT_5_* -->"
 ,"OP_TOKEN_5_OPERATOR_STATEMENT_6_* --> _action_markOperator OP_TOKEN_5 _action_pushId _action_buildOperator OPERATOR_STATEMENT_6 OP_TOKEN_5_OPERATOR_STATEMENT_6_*"
 ,"OP_TOKEN_5_OPERATOR_STATEMENT_6_* -->"
 ,"OP_TOKEN_6_OPERATOR_STATEMENT_7_* --> _action_markOperator OP_TOKEN_6 _action_pushId _action_buildOperator OPERATOR_STATEMENT_7 OP_TOKEN_6_OPERATOR_STATEMENT_7_*"
@@ -320,21 +320,20 @@ static char * Production_name[] = { "0"
 #define GET_ACTION_NAME(symbol) (Action_name [symbol-(START_ACTION-1)])
 #define GET_PRODUCTION_NAME(number) (Production_name [number])
 
-char *SlkGetSymbolName(unsigned int   symbol)
-{
-	if (symbol >= START_ACTION && symbol < END_ACTION) {
-		return (GET_ACTION_NAME(symbol));
-	} else if (symbol >= START_SYMBOL) {
-		return (GET_NONTERMINAL_NAME(symbol));
-	} else if (symbol > 0) {
-		return (GET_TERMINAL_NAME(symbol));
-	} else {
-		return ("not a symbol");
-	}
+char *SlkGetSymbolName ( unsigned int   symbol )
+{ if ( symbol >= START_ACTION  &&  symbol < END_ACTION ) {
+      return ( GET_ACTION_NAME (symbol) );
+  } else if ( symbol >= START_SYMBOL ) {
+      return ( GET_NONTERMINAL_NAME (symbol) );
+  } else if ( symbol > 0 ) {
+      return ( GET_TERMINAL_NAME (symbol) );
+  } else {
+      return ( "not a symbol" );
+  }
 }
 
-char *SlkGetProductionName(unsigned int  production_number)
+char *SlkGetProductionName ( unsigned int  production_number )
 {
-	return (GET_PRODUCTION_NAME(production_number));
+  return ( GET_PRODUCTION_NAME (production_number) );
 }
 
