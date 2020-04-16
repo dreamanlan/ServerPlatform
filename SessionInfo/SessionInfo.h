@@ -14,11 +14,11 @@ struct SessionInfo
 
   int m_Handle;
   TcpSession* m_Session;
-  char m_Name[MAX_SERVER_NAME_LENGTH + 1];
+  char m_Value[MAX_SERVER_NAME_LENGTH + 1];
 
   SessionInfo() :m_Handle(0), m_Session(NULL)
   {
-    m_Name[0] = 0;
+    m_Value[0] = 0;
   }
   bool IsValid(void) const { return m_Session != NULL; }
 };

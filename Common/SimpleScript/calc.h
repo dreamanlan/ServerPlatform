@@ -136,7 +136,7 @@ namespace FunctionScript
 
     class ExpressionApi;
     class StatementApi;
-    class Function;
+    class ISyntaxComponent;
     class Value
     {
     public:
@@ -150,13 +150,13 @@ namespace FunctionScript
             TYPE_BOOL,
             TYPE_STRING,
             TYPE_ALLOC_STRING,
-            TYPE_VARIABLE_NAME,
+            TYPE_IDENTIFIER,
             TYPE_ARG_INDEX,
             TYPE_LOCAL_INDEX,
             TYPE_INDEX,
             TYPE_EXPRESSION,
             TYPE_STATEMENT,
-            TYPE_FUNCTION,
+            TYPE_SYNTAX_COMPONENT,
             TYPE_PTR,
         };
 
@@ -170,7 +170,7 @@ namespace FunctionScript
         explicit Value(const char* val) :m_Type(TYPE_STRING), m_ConstStringVal(val), m_Line(0) {}
         explicit Value(ExpressionApi* val) :m_Type(TYPE_EXPRESSION), m_Expression(val), m_Line(0) {}
         explicit Value(StatementApi* val) :m_Type(TYPE_STATEMENT), m_Statement(val), m_Line(0) {}
-        explicit Value(Function* val) :m_Type(TYPE_FUNCTION), m_Function(val), m_Line(0) {}
+        explicit Value(ISyntaxComponent* val) :m_Type(TYPE_SYNTAX_COMPONENT), m_SyntaxComponent(val), m_Line(0) {}
         explicit Value(void* val) :m_Type(TYPE_PTR), m_Ptr(val), m_Line(0) {}
         explicit Value(int val, int type) :m_Type(type), m_IntVal(val), m_Line(0) {}
         explicit Value(char* val, int type) :m_Type(type), m_StringVal(val), m_Line(0) {}
@@ -218,13 +218,13 @@ namespace FunctionScript
         int IsDouble(void)const { return (m_Type == TYPE_DOUBLE ? TRUE : FALSE); }
         int IsBool(void)const { return (m_Type == TYPE_BOOL ? TRUE : FALSE); }
         int IsString(void)const { return ((m_Type == TYPE_STRING || m_Type == TYPE_ALLOC_STRING) ? TRUE : FALSE); }
-        int IsVariableName(void)const { return (m_Type == TYPE_VARIABLE_NAME ? TRUE : FALSE); }
+        int IsIdentifier(void)const { return (m_Type == TYPE_IDENTIFIER ? TRUE : FALSE); }
         int IsArgIndex(void)const { return (m_Type == TYPE_ARG_INDEX ? TRUE : FALSE); }
         int IsLocalIndex(void)const { return (m_Type == TYPE_LOCAL_INDEX ? TRUE : FALSE); }
         int IsIndex(void)const { return (m_Type == TYPE_INDEX ? TRUE : FALSE); }
         int IsExpression(void)const { return (m_Type == TYPE_EXPRESSION ? TRUE : FALSE); }
         int IsStatement(void)const { return (m_Type == TYPE_STATEMENT ? TRUE : FALSE); }
-        int IsFunction(void)const { return (m_Type == TYPE_FUNCTION ? TRUE : FALSE); }
+        int IsSyntaxComponent(void)const { return (m_Type == TYPE_SYNTAX_COMPONENT ? TRUE : FALSE); }
         int IsPtr(void)const { return (m_Type == TYPE_PTR ? TRUE : FALSE); }
         int GetLine(void)const { return m_Line; }
         int GetType(void)const { return m_Type; }
@@ -236,7 +236,7 @@ namespace FunctionScript
         char* GetString(void)const { return m_StringVal; }
         ExpressionApi* GetExpression(void)const { return m_Expression; }
         StatementApi* GetStatement(void)const { return m_Statement; }
-        Function* GetFunction(void)const { return m_Function; }
+        ISyntaxComponent* GetSyntaxComponent(void)const { return m_SyntaxComponent; }
         void* GetPtr(void)const { return m_Ptr; }
         void SetLine(int line)
         {
@@ -290,11 +290,11 @@ namespace FunctionScript
             m_Type = TYPE_STATEMENT;
             m_Statement = statement;
         }
-        void SetFunction(Function* func)
+        void SetSyntaxComponent(ISyntaxComponent* comp)
         {
             FreeString();
-            m_Type = TYPE_FUNCTION;
-            m_Function = func;
+            m_Type = TYPE_SYNTAX_COMPONENT;
+            m_SyntaxComponent = comp;
         }
         void SetPtr(void* ptr)
         {
@@ -320,10 +320,10 @@ namespace FunctionScript
             m_Type = TYPE_ARG_INDEX;
             m_IntVal = index;
         }
-        void SetVariableName(char* name)
+        void SetIdentifier(char* name)
         {
             FreeString();
-            m_Type = TYPE_VARIABLE_NAME;
+            m_Type = TYPE_IDENTIFIER;
             m_StringVal = name;
         }
         void SetWeakRefString(char* pstr)
@@ -523,7 +523,7 @@ namespace FunctionScript
                 else
                     return "false";
             }
-            case TYPE_VARIABLE_NAME:
+            case TYPE_IDENTIFIER:
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
             {
@@ -565,7 +565,7 @@ namespace FunctionScript
             char* m_StringVal;
             ExpressionApi* m_Expression;
             StatementApi* m_Statement;
-            Function* m_Function;
+            ISyntaxComponent* m_SyntaxComponent;
             void* m_Ptr;
             const char* m_ConstStringVal;//在脚本里与m_StringVal类型相同,用于实现自动const_cast
         };
@@ -580,17 +580,205 @@ namespace FunctionScript
     };
 
     class Interpreter;
-    class SyntaxComponent
+    class InterpreterValuePool;
+    class ISyntaxComponent
     {
     public:
-        explicit SyntaxComponent(Interpreter& interpreter) :m_Interpreter(&interpreter) {}
-        virtual ~SyntaxComponent(void) {}
+        enum
+        {
+            TYPE_NULL,
+            TYPE_VALUE,
+            TYPE_CALL,
+            TYPE_FUNCTION,
+            TYPE_STATEMENT,
+        };
     public:
+        explicit ISyntaxComponent(int syntaxType, Interpreter& interpreter) :m_Interpreter(&interpreter) {}
+        virtual ~ISyntaxComponent(void) {}
+    public:
+        virtual int IsValid(void) const = 0;
         virtual const char* GetId(void)const = 0;
+        virtual int GetIdType(void) const = 0;
+        virtual int GetLine(void) const = 0;
+        virtual void PrepareRuntimeObject(void) = 0;
+        virtual const Value& GetRuntimeObject(void)const = 0;
+	public:
+        int GetSyntaxType(void) const { return m_SyntaxType; }
     public:
         Interpreter& GetInterpreter(void)const { return *m_Interpreter; }
     protected:
+        int	m_SyntaxType;
         Interpreter* m_Interpreter;
+    };
+
+    class NullSyntax : public ISyntaxComponent
+    {
+    public:
+        NullSyntax(Interpreter& interpreter) : ISyntaxComponent(ISyntaxComponent::TYPE_NULL, interpreter) {}
+    public:
+        virtual int IsValid(void) const { return FALSE; }
+        virtual const char* GetId(void) const { return ""; }
+        virtual int GetIdType(void) const { return Value::TYPE_IDENTIFIER; }
+        virtual int GetLine(void) const { return 0; }
+        virtual void PrepareRuntimeObject(void) {}
+        virtual const Value& GetRuntimeObject(void)const
+        {
+            return Value::GetInvalidValueRef();
+        }
+    private:
+        NullSyntax(const NullSyntax&) = delete;
+        NullSyntax& operator=(const NullSyntax&) = delete;
+    };
+
+    //因为Value类用于运行时的值表示，需要像POD一样工作，这里专门为语法层提供一个类表示语法里的标识符、常量、变量和操作符
+    //这个类主要用于以ISyntaxComponent访问的情形，所以Call在接口上提供了直接操作Value的方法。
+    class NameOrValue : public ISyntaxComponent
+    {
+    public:
+        virtual int IsValid(void)const
+        {
+            return FALSE == m_Value.IsInvalid();
+        }
+        virtual const char*	GetId(void)const
+        {
+            if (m_Value.IsString())
+                return m_Value.GetString();
+            return 0;
+        }
+        virtual int GetIdType(void) const { return m_Value.GetType(); }
+        virtual int GetLine(void)const { return m_Value.GetLine(); }
+        virtual void PrepareRuntimeObject(void) {}
+        virtual const Value& GetRuntimeObject(void)const { return m_Value; }
+    public:
+        void SetValue(const Value& val) { m_Value = val; }
+        Value& GetValue(void) { return m_Value; }
+        const Value& GetValue(void)const { return m_Value; }
+    public:
+        bool HaveId()const { return IsValid(); }
+        int IsHighOrder(void)const { return m_Value.IsSyntaxComponent(); }
+    public:
+        explicit NameOrValue(Interpreter& interpreter);
+        virtual ~NameOrValue(void) {}
+    private:
+        NameOrValue(const NameOrValue& other) = delete;
+        NameOrValue operator=(const NameOrValue& other) = delete;
+    private:
+        Value m_Value;
+    private:
+        InterpreterValuePool* m_pInnerValuePool;
+    };
+
+    class Call : public ISyntaxComponent
+    {
+    public:
+        enum
+        {
+            PARAM_CLASS_NOTHING = 0,
+            PARAM_CLASS_PARENTHESIS,
+            PARAM_CLASS_BRACKET,
+            PARAM_CLASS_PERIOD,
+            PARAM_CLASS_PERIOD_PARENTHESIS,
+            PARAM_CLASS_PERIOD_BRACKET,
+            PARAM_CLASS_PERIOD_BRACE,
+            PARAM_CLASS_QUESTION_PERIOD,
+            PARAM_CLASS_QUESTION_PARENTHESIS,
+            PARAM_CLASS_QUESTION_BRACKET,
+            PARAM_CLASS_QUESTION_BRACE,
+            PARAM_CLASS_POINTER,
+            PARAM_CLASS_PERIOD_STAR,
+            PARAM_CLASS_QUESTION_PERIOD_STAR,
+            PARAM_CLASS_POINTER_STAR,
+            PARAM_CLASS_OPERATOR,
+            PARAM_CLASS_TERNARY_OPERATOR,
+            PARAM_CLASS_MAX,
+            PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00010000,
+            PARAM_CLASS_UNMASK = 0x0000FFFF,
+        };
+        typedef ISyntaxComponent* SyntaxComponentPtr;
+    public:
+        virtual int IsValid(void)const
+        {
+            if (HaveId())
+                return TRUE;
+            else if (HaveParam())
+                return TRUE;
+            else
+                return FALSE;
+        }
+        virtual int GetIdType(void)const { return m_Name.GetIdType(); }
+        virtual const char* GetId(void)const { return m_Name.GetId(); }
+        virtual int GetLine(void)const { return m_Name.GetLine(); }
+        void SetName(const Value& val) { m_Name.SetValue(val); }
+        Value& GetName(void) { return m_Name.GetValue(); }
+        NameOrValue& GetNameOrValue(void) { return m_Name; }
+        void ClearParams(void) { m_ParamNum = 0; }
+        void AddParam(ISyntaxComponent*	pVal)
+        {
+            if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= MAX_FUNCTION_PARAM_NUM)
+                return;
+            PrepareParams();
+            if (0 == m_Params || m_ParamNum >= m_ParamSpace)
+                return;
+            m_Params[m_ParamNum] = pVal;
+            ++m_ParamNum;
+        }
+        void SetParam(int index, ISyntaxComponent* pVal)
+        {
+            if (NULL == pVal || index < 0 || index >= MAX_FUNCTION_PARAM_NUM)
+                return;
+            m_Params[index] = pVal;
+        }
+        void SetParamClass(int v) { m_ParamClass = v; }
+        int GetParamClass(void)const { return m_ParamClass; }
+        int HaveId(void)const { return m_Name.HaveId(); }
+        int HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
+        int IsHighOrder(void)const { return m_Name.IsHighOrder(); }
+    public:
+        const Value& GetName(void)const { return m_Name.GetValue(); }
+        const NameOrValue& GetNameOrValue(void)const { return m_Name; }
+        int GetParamNum(void)const { return m_ParamNum; }
+        ISyntaxComponent* GetParam(int index)const
+        {
+            if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
+                return 0;
+            return m_Params[index];
+        }
+        const char* GetParamId(int index)const
+        {
+            if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
+                return 0;
+            return m_Params[index]->GetId();
+        }
+    public:
+        virtual void PrepareRuntimeObject(void);
+        virtual const Value& GetRuntimeObject(void)const;
+    public:
+        explicit Call(Interpreter& interpreter);
+        virtual ~Call(void);
+    private:
+        Call(const Call& other) = delete;
+        Call operator=(const Call& other) = delete;
+    private:
+        void PrepareParams(void);
+        void ReleaseParams(void);
+    private:
+        NameOrValue m_Name;
+        ISyntaxComponent** m_Params;
+        int m_ParamNum;
+        int m_ParamSpace;
+        int m_ParamClass;
+        int m_MaxLocalNum;
+    private:
+        Value m_RuntimeFunctionCall;
+        int m_RuntimeObjectPrepared;
+
+        InterpreterValuePool* m_pInnerValuePool;
+    public:
+        static Call*& GetNullCallPtrRef(void)
+        {
+            static Call* s_P = 0;
+            return s_P;
+        }
     };
 
     /*
@@ -616,60 +804,36 @@ namespace FunctionScript
     */
     class Statement;
     class RuntimeStatementBlock;
-    class InterpreterValuePool;
-    class Function : public SyntaxComponent
+    class Function : public ISyntaxComponent
     {
     public:
-        enum
-        {
-            PARAM_CLASS_NOTHING = 0,
-            PARAM_CLASS_PARENTHESIS,
-            PARAM_CLASS_BRACKET,
-            PARAM_CLASS_PERIOD,
-            PARAM_CLASS_PERIOD_PARENTHESIS,
-            PARAM_CLASS_PERIOD_BRACKET,
-            PARAM_CLASS_PERIOD_BRACE,
-            PARAM_CLASS_QUESTION_PERIOD,
-            PARAM_CLASS_QUESTION_PARENTHESIS,
-            PARAM_CLASS_QUESTION_BRACKET,
-            PARAM_CLASS_QUESTION_BRACE,
-            PARAM_CLASS_POINTER,
-            PARAM_CLASS_PERIOD_STAR,
-            PARAM_CLASS_QUESTION_PERIOD_STAR,
-            PARAM_CLASS_POINTER_STAR,
-            PARAM_CLASS_OPERATOR,
-            PARAM_CLASS_TERNARY_OPERATOR,
-            PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00010000,
-            PARAM_CLASS_UNMASK = 0x0000FFFF,
-        };
         enum
         {
             EXTENT_CLASS_NOTHING = 0,
             EXTENT_CLASS_STATEMENT,
             EXTENT_CLASS_EXTERN_SCRIPT,
+            EXTENT_CLASS_MAX,
         };
         typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
         typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > LocalIndexes;
-        typedef Statement* StatementPtr;
+        typedef ISyntaxComponent* SyntaxComponentPtr;
     public:
-        void PrepareRuntimeObject(void);
-        const Value& GetRuntimeFunctionHead(void)const;
-        RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
-    public:
-        void SetName(const Value& val) { m_Name = val; }
-        void ClearParams(void) { m_ParamNum = 0; }
-        void AddParam(Statement*	pVal)
+        virtual int IsValid(void)const
         {
-            if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= MAX_FUNCTION_PARAM_NUM)
-                return;
-            PrepareParams();
-            if (0 == m_Params || m_ParamNum >= m_ParamSpace)
-                return;
-            m_Params[m_ParamNum] = pVal;
-            ++m_ParamNum;
+            if (m_Call.IsValid())
+                return TRUE;
+            else if (HaveStatement() || HaveExternScript())
+                return TRUE;
+            else
+                return FALSE;
         }
+        virtual int GetIdType(void)const { return m_Call.GetIdType(); }
+        virtual const char* GetId(void)const { return m_Call.GetId(); }
+        virtual int GetLine(void)const { return m_Call.GetLine(); }
+    public:
+        Call& GetCall(void) { return m_Call; }
         void ClearStatements(void) { m_StatementNum = 0; }
-        void AddStatement(Statement* pVal)
+        void AddStatement(ISyntaxComponent* pVal)
         {
             if (0 == pVal || m_StatementNum < 0 || m_StatementNum >= m_MaxStatementNum)
                 return;
@@ -679,45 +843,23 @@ namespace FunctionScript
             m_Statements[m_StatementNum] = pVal;
             ++m_StatementNum;
         }
+        void SetStatement(int index, ISyntaxComponent* pVal)
+        {
+            if (NULL == pVal || index < 0 || index >= m_MaxStatementNum)
+                return;
+            m_Statements[index] = pVal;
+        }
         void SetExternScript(const char* scp) { m_ExternScript = scp; }
-        void SetParamClass(int v) { m_ParamClass = v; }
-        int GetParamClass(void)const { return m_ParamClass; }
-        int HaveName(void)const { return !m_Name.IsInvalid(); }
-        int HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
         void SetExtentClass(int v) { m_ExtentClass = v; }
         int GetExtentClass(void)const { return m_ExtentClass; }
+        int HaveId(void)const { return m_Call.HaveId(); }
+        int HaveParam(void)const { return m_Call.HaveParam(); }
         int HaveStatement(void)const { return m_ExtentClass == EXTENT_CLASS_STATEMENT; }
         int HaveExternScript(void)const { return m_ExtentClass == EXTENT_CLASS_EXTERN_SCRIPT; }
-        int GetLine(void)const { return m_Name.GetLine(); }
-        int IsValid(void)const
-        {
-            if (HaveName())
-                return TRUE;
-            else if (HaveParam())
-                return TRUE;
-            else if (HaveStatement() || HaveExternScript())
-                return TRUE;
-            else
-                return FALSE;
-        }
     public:
-        virtual const char*	GetId(void)const
-        {
-            if (m_Name.IsString())
-                return m_Name.GetString();
-            return 0;
-        }
-        inline const char* GetParamId(int ix)const;
-        const Value& GetName(void)const { return m_Name; }
-        int GetParamNum(void)const { return m_ParamNum; }
-        Statement* GetParam(int index)const
-        {
-            if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
-                return 0;
-            return m_Params[index];
-        }
+        const Call&	GetCall(void)const { return m_Call; }
         int GetStatementNum(void)const { return m_StatementNum; }
-        Statement* GetStatement(int index)const
+        ISyntaxComponent* GetStatement(int index)const
         {
             if (0 == m_Statements || index < 0 || index >= m_StatementNum || index >= m_MaxStatementNum)
                 return 0;
@@ -730,26 +872,27 @@ namespace FunctionScript
         int GetLocalIndex(const char* id)const;
         const char* GetLocalName(int index)const;
     public:
+        virtual void PrepareRuntimeObject(void);
+        virtual const Value& GetRuntimeObject(void)const;
+        RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
+    public:
         explicit Function(Interpreter& interpreter);
         virtual ~Function(void);
     private:
-        void PrepareParams(void);
-        void ReleaseParams(void);
+        Function(const Function&) = delete;
+        Function& operator=(const Function&) = delete;
+    private:
         void PrepareStatements(void);
         void ReleaseStatements(void);
         void PrepareLocalIndexes(void);
         void ClearLocalIndexes(void);
     private:
-        Value m_Name;
-        Statement** m_Params;
-        int m_ParamNum;
-        int m_ParamSpace;
-        Statement** m_Statements;
+        Call m_Call;
+        ISyntaxComponent** m_Statements;
         int m_StatementNum;
         int m_StatementSpace;
         int m_MaxStatementNum;
         const char* m_ExternScript;
-        int m_ParamClass;
         int m_ExtentClass;
     private:
         LocalIndexes m_LocalIndexes;
@@ -770,12 +913,43 @@ namespace FunctionScript
         }
     };
 
-    class Statement : public SyntaxComponent
+    class Statement : public ISyntaxComponent
     {
     public:
-        void PrepareRuntimeObject(void);
-        const Value& GetRuntimeObject(void)const;
+        virtual int IsValid(void)const
+        {
+            if (NULL != m_Functions && m_FunctionNum > 0 && m_Functions[0]->IsValid())
+                return TRUE;
+            else
+                return FALSE;
+        }
+        virtual int GetIdType(void)const
+        {
+            int type = Value::TYPE_IDENTIFIER;
+            if (IsValid()) {
+                type = m_Functions[0]->GetIdType();
+            }
+            return type;
+        }
+        virtual const char* GetId(void)const
+        {
+            const char* str = "";
+            if (IsValid()) {
+                str = m_Functions[0]->GetId();
+            }
+            return str;
+        }
+        virtual int GetLine(void)const
+        {
+            int line = 0;
+            if (IsValid()) {
+                line = m_Functions[0]->GetLine();
+            }
+            return line;
+        }
     public:
+        virtual void PrepareRuntimeObject(void);
+        const Value& GetRuntimeObject(void)const;
         void PrepareRuntimeObjectWithFunctions(void);
     public:
         void ClearFunctions(void) { m_FunctionNum = 0; }
@@ -789,28 +963,14 @@ namespace FunctionScript
             m_Functions[m_FunctionNum] = pVal;
             ++m_FunctionNum;
         }
-        Function*& GetLastFunctionRef(void)
+        Function*& GetLastFunctionRef(void)const
         {
             if (NULL == m_Functions || 0 == m_FunctionNum)
                 return Function::GetNullFunctionPtrRef();
             else
                 return m_Functions[m_FunctionNum - 1];
         }
-        int GetLine(void)const { return m_FunctionNum<=0 ? 0 : m_Functions[0]->GetLine(); }
-        int IsValid(void)const
-        {
-            if (NULL != m_Functions && m_FunctionNum > 0 && m_Functions[0]->IsValid())
-                return TRUE;
-            else
-                return FALSE;
-        }
     public:
-        virtual const char* GetId(void)const
-        {
-            if (GetFunctionNum() > 0)
-                return GetFunction(0)->GetId();
-            return 0;
-        }
         int GetFunctionNum(void)const { return m_FunctionNum; }
         Function* GetFunction(int index)const
         {
@@ -818,12 +978,21 @@ namespace FunctionScript
                 return 0;
             return m_Functions[index];
         }
+        const char* GetFunctionId(int index)const
+        {
+            if (0 == m_Functions || index < 0 || index >= m_FunctionNum || index >= m_MaxFunctionNum)
+                return 0;
+            return m_Functions[index]->GetId();
+        }
     public:
         explicit Statement(Interpreter& interpreter);
         virtual ~Statement(void)
         {
             ReleaseFunctions();
         }
+    private:
+        Statement(const Statement&) = delete;
+        Statement& operator=(const Statement&) = delete;
     private:
         void PrepareFunctions(void);
         void ReleaseFunctions(void);
@@ -836,14 +1005,6 @@ namespace FunctionScript
         Value m_RuntimeObject;
         int m_RuntimeObjectPrepared;
     };
-
-    inline const char* Function::GetParamId(int ix)const
-    {
-        if (GetParamNum() > ix) {
-            return GetParam(ix)->GetId();
-        }
-        return 0;
-    }
 
     class InterpreterValuePool
     {
@@ -1211,7 +1372,7 @@ namespace FunctionScript
     public:
         explicit RuntimeFunctionCall(Interpreter& interpreter);
         virtual ~RuntimeFunctionCall(void);
-        void Init(Function& func);
+        void Init(Call& call);
     private:
         Value m_Name;
         int m_ParamClass;
@@ -1316,7 +1477,7 @@ namespace FunctionScript
     */
     class Interpreter
     {
-        typedef SyntaxComponent* SyntaxComponentPtr;
+        typedef ISyntaxComponent* SyntaxComponentPtr;
         typedef RuntimeComponent* RuntimeComponentPtr;
         typedef Statement* StatementPtr;
         typedef StatementApi* StatementApiPtr;
@@ -1395,7 +1556,7 @@ namespace FunctionScript
             return p;
         }
     public:
-        void AddSyntaxComponent(SyntaxComponent* p);
+        void AddSyntaxComponent(ISyntaxComponent* p);
         int GetSyntaxComponentNum(void)const { return m_SyntaxComponentNum; }
         void AddRuntimeComponent(RuntimeComponent* p);
         int GetRuntimeComponentNum(void)const { return m_RuntimeComponentNum; }
@@ -1484,6 +1645,13 @@ namespace FunctionScript
         const InterpreterOptions& GetOptions(void)const { return m_Options; }
     private:
         InterpreterOptions m_Options;
+    public:
+        NullSyntax& GetNullSyntaxRef()
+        {
+            return m_NullSyntax;
+        }
+    private:
+        NullSyntax m_NullSyntax;
     };
 
     class IScriptSource

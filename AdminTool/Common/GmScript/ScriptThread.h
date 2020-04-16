@@ -406,7 +406,7 @@ private:
       nameVal.InitString(name);
       Value params[] = { Value(addOrUpdate ? 1 : 0), nameVal, Value(handle) };
       Value retVal;
-      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onNameHandleChanged"), FALSE, Function::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
+      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onNameHandleChanged"), FALSE, Call::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
     }
   }
   void HandleMessage(unsigned int seq, int src, int dest, const char* data, int len)
@@ -418,7 +418,7 @@ private:
       CreateStreamPacketObj(packet, *m_pInterpreter, *this, *pStream);
       Value params[] = { Value((int)seq), Value(src), Value(dest), packet };
       Value retVal;
-      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessage"), FALSE, Function::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
+      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessage"), FALSE, Call::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
     }
   }
   void HandleMessageResult(unsigned int seq, int src, int dest, bool result)
@@ -426,7 +426,7 @@ private:
     if (NULL != m_pInterpreter && NULL != m_pCallbackObj){
       Value params[] = { Value((int)seq), Value(src), Value(dest), Value(result ? 1 : 0) };
       Value retVal;
-      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessageResult"), FALSE, Function::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
+      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessageResult"), FALSE, Call::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
     }
   }
   void HandleCommand(int src, int dest, const char* result)
@@ -434,7 +434,7 @@ private:
     if (NULL != m_pInterpreter && NULL != m_pCallbackObj){
       Value params[] = { Value(src), Value(dest), Value(result) };
       Value retVal;
-      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onCommand"), FALSE, Function::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
+      m_pInterpreter->CallMember(*m_pCallbackObj, Value("onCommand"), FALSE, Call::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
     }
   }
 private:

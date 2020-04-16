@@ -11,7 +11,7 @@ FunctionScript::Value RuntimeBuilderData::TokenInfo::ToValue(void)const
     {
         char* pStr = mString;
         if (0 != pStr) {
-            Value val(pStr, Value::TYPE_VARIABLE_NAME);
+            Value val(pStr, Value::TYPE_IDENTIFIER);
             return val;
         }
     }

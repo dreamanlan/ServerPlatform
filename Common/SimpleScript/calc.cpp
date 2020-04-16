@@ -37,7 +37,7 @@ namespace FunctionScript
                     }
                 }
             }
-            else if (p.IsVariableName()) {
+            else if (p.IsIdentifier()) {
                 p = m_Interpreter->GetValue(p.GetString());
             }
         }
@@ -49,7 +49,7 @@ namespace FunctionScript
             if (p.IsIndex() || p.IsArgIndex() || p.IsLocalIndex()) {
                 m_Interpreter->SetValue(p.GetType(), p.GetInt(), val);
             }
-            else if (p.IsVariableName()) {
+            else if (p.IsIdentifier()) {
                 m_Interpreter->SetValue(p.GetString(), val);
             }
         }
@@ -67,7 +67,7 @@ namespace FunctionScript
                     return t;
                 }
             }
-            else if (p.IsVariableName())
+            else if (p.IsIdentifier())
                 return m_Interpreter->GetValue(p.GetString());
             else
                 return p;
@@ -771,7 +771,7 @@ namespace FunctionScript
                 for (int ix = 0; ix < num; ++ix) {
                     int writeback = FALSE;
                     Value val = pParams[ix];
-                    if (val.IsVariableName() || val.IsIndex() || val.IsArgIndex() || val.IsLocalIndex()) {
+                    if (val.IsIdentifier() || val.IsIndex() || val.IsArgIndex() || val.IsLocalIndex()) {
                         ReplaceVariableWithValue(val);
                         writeback = TRUE;
                     }
@@ -810,7 +810,7 @@ namespace FunctionScript
                 for (int ix = 0; ix < num; ++ix) {
                     int writeback = FALSE;
                     Value val = pParams[ix];
-                    if (val.IsVariableName() || val.IsIndex() || val.IsArgIndex() || val.IsLocalIndex()) {
+                    if (val.IsIdentifier() || val.IsIndex() || val.IsArgIndex() || val.IsLocalIndex()) {
                         ReplaceVariableWithValue(val);
                         writeback = TRUE;
                     }
@@ -1779,7 +1779,7 @@ namespace FunctionScript
                 if (statement.GetFunctionNum() != 1)
                     return FALSE;
                 Function* pFunc = statement.GetFunction(0);
-                if (0 == pFunc || pFunc->GetParamNum() != 3)
+                if (0 == pFunc || pFunc->GetCall().GetParamNum() != 3)
                     return FALSE;
                 return TRUE;
             }
@@ -1787,12 +1787,12 @@ namespace FunctionScript
             {
                 statement.PrepareRuntimeObjectWithFunctions();
                 Function* pFunc = statement.GetFunction(0);
-                if (NULL != pFunc && pFunc->GetParamNum() == 3) {
+                if (NULL != pFunc && pFunc->GetCall().GetParamNum() == 3) {
                     ForStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForStatement>();
                     if (NULL != pApi) {
-                        Statement* p1 = pFunc->GetParam(0);
-                        Statement* p2 = pFunc->GetParam(1);
-                        Statement* p3 = pFunc->GetParam(2);
+                        ISyntaxComponent* p1 = pFunc->GetCall().GetParam(0);
+                        ISyntaxComponent* p2 = pFunc->GetCall().GetParam(1);
+                        ISyntaxComponent* p3 = pFunc->GetCall().GetParam(2);
                         if (NULL != p1)
                             pApi->m_Exp1 = p1->GetRuntimeObject();
                         if (NULL != p2)
@@ -1885,7 +1885,7 @@ namespace FunctionScript
             virtual int IsMatch(const Statement& statement)const
             {
                 Function* pFunc0 = statement.GetFunction(0);
-                if (0 == pFunc0 || pFunc0->GetParamNum() != 1)
+                if (0 == pFunc0 || pFunc0->GetCall().GetParamNum() != 1)
                     return FALSE;
                 if (statement.GetFunctionNum() == 1)
                     return TRUE;
@@ -1894,15 +1894,15 @@ namespace FunctionScript
                     Function* pFunc1 = statement.GetFunction(ix);
                     if (0 == pFunc1)
                         return FALSE;
-                    const Value& funcName1 = pFunc1->GetName();
-                    if (funcName1.IsVariableName()) {
+                    const Value& funcName1 = pFunc1->GetCall().GetName();
+                    if (funcName1.IsIdentifier()) {
                         const char* pName = funcName1.GetString();
                         if (0 != pName) {
                             if (ix < num - 1 && 0 != strcmp("elseif", pName))
                                 return FALSE;
                             if (ix == num - 1 && 0 != strcmp("elseif", pName) && 0 != strcmp("else", pName))
                                 return FALSE;
-                            if (0 == strcmp("elseif", pName) && pFunc1->GetParamNum() != 1)
+                            if (0 == strcmp("elseif", pName) && pFunc1->GetCall().GetParamNum() != 1)
                                 return FALSE;
                         }
                         else {
@@ -1924,13 +1924,13 @@ namespace FunctionScript
                     if (num > 1) {
                         Function* pLastFunc = statement.GetFunction(num - 1);
                         if (NULL != pLastFunc) {
-                            name = pLastFunc->GetName();
+                            name = pLastFunc->GetCall().GetName();
                         }
                     }
                     statement.PrepareRuntimeObjectWithFunctions();
                     Function* pFunc = statement.GetFunction(0);
-                    if (NULL != pFunc && pFunc->GetParamNum() == 1) {
-                        Statement* p = pFunc->GetParam(0);
+                    if (NULL != pFunc && pFunc->GetCall().GetParamNum() == 1) {
+                        ISyntaxComponent* p = pFunc->GetCall().GetParam(0);
                         if (NULL != p)
                             pApi->m_Exp = p->GetRuntimeObject();
                         pApi->m_pIf = pFunc->GetRuntimeFunctionBody();
@@ -1938,7 +1938,7 @@ namespace FunctionScript
                     if (num > 1) {
                         Function* pLastFunc = statement.GetFunction(num - 1);
                         if (NULL != pLastFunc) {
-                            if (name.IsVariableName() && NULL != name.GetString()) {
+                            if (name.IsIdentifier() && NULL != name.GetString()) {
                                 const char* pName = name.GetString();
                                 if (0 == strcmp(pName, "else")) {
                                     pApi->m_pElse = pLastFunc->GetRuntimeFunctionBody();
@@ -1952,8 +1952,8 @@ namespace FunctionScript
                                     pApi->m_pElseIf = new RuntimeStatementBlock*[pApi->m_ElseIfNum];
                                     for (int ix = 0; ix < pApi->m_ElseIfNum; ++ix) {
                                         Function* pElseIfFunc = statement.GetFunction(ix + 1);
-                                        if (NULL != pElseIfFunc && NULL != pElseIfFunc->GetParam(0)) {
-                                            Statement* pExpStatement = pElseIfFunc->GetParam(0);
+                                        if (NULL != pElseIfFunc && NULL != pElseIfFunc->GetCall().GetParam(0)) {
+                                            ISyntaxComponent* pExpStatement = pElseIfFunc->GetCall().GetParam(0);
                                             pApi->m_pElseIfExp[ix] = pExpStatement->GetRuntimeObject();
                                             pApi->m_pElseIf[ix] = pElseIfFunc->GetRuntimeFunctionBody();
                                         }
@@ -2026,7 +2026,7 @@ namespace FunctionScript
             virtual int IsMatch(const Statement& statement)const
             {
                 Function* pFunc0 = statement.GetFunction(0);
-                if (0 == pFunc0 || pFunc0->GetParamNum() != 1)
+                if (0 == pFunc0 || pFunc0->GetCall().GetParamNum() != 1)
                     return FALSE;
                 if (statement.GetFunctionNum() == 1)
                     return TRUE;
@@ -2035,8 +2035,8 @@ namespace FunctionScript
                 Function* pFunc1 = statement.GetFunction(1);
                 if (0 == pFunc1)
                     return FALSE;
-                const Value& funcName1 = pFunc1->GetName();
-                if (funcName1.IsVariableName()) {
+                const Value& funcName1 = pFunc1->GetCall().GetName();
+                if (funcName1.IsIdentifier()) {
                     if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), ":"))
                         return FALSE;
                 }
@@ -2051,17 +2051,17 @@ namespace FunctionScript
                 if (NULL != pApi) {
                     statement.PrepareRuntimeObjectWithFunctions();
                     Function* pFunc = statement.GetFunction(0);
-                    if (NULL != pFunc && pFunc->GetParamNum() == 1) {
-                        Statement* p = pFunc->GetParam(0);
+                    if (NULL != pFunc && pFunc->GetCall().GetParamNum() == 1) {
+                        ISyntaxComponent* p = pFunc->GetCall().GetParam(0);
                         if (NULL != p)
                             pApi->m_Exp = p->GetRuntimeObject();
-                        Statement* pTrue = pFunc->GetStatement(0);
+                        ISyntaxComponent* pTrue = pFunc->GetStatement(0);
                         if (NULL != pTrue)
                             pApi->m_True = pTrue->GetRuntimeObject();
                     }
                     Function* pFunc2 = statement.GetFunction(1);
                     if (NULL != pFunc2) {
-                        Statement* pFalse = pFunc2->GetStatement(0);
+                        ISyntaxComponent* pFalse = pFunc2->GetStatement(0);
                         if (NULL != pFalse)
                             pApi->m_False = pFalse->GetRuntimeObject();
                     }
@@ -2114,13 +2114,13 @@ namespace FunctionScript
                 if (statement.GetFunctionNum() != 2)
                     return FALSE;
                 Function* pFunc0 = statement.GetFunction(0);
-                if (0 == pFunc0 || pFunc0->GetParamNum() != 1)
+                if (0 == pFunc0 || pFunc0->GetCall().GetParamNum() != 1)
                     return FALSE;
                 Function* pFunc1 = statement.GetFunction(1);
-                if (0 == pFunc1 || pFunc1->GetParamNum() != 1)
+                if (0 == pFunc1 || pFunc1->GetCall().GetParamNum() != 1)
                     return FALSE;
-                const Value& funcName1 = pFunc1->GetName();
-                if (funcName1.IsVariableName()) {
+                const Value& funcName1 = pFunc1->GetCall().GetName();
+                if (funcName1.IsIdentifier()) {
                     if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), "goto"))
                         return FALSE;
                 }
@@ -2136,9 +2136,9 @@ namespace FunctionScript
                     statement.PrepareRuntimeObjectWithFunctions();
                     Function* pFunc0 = statement.GetFunction(0);
                     Function* pFunc1 = statement.GetFunction(1);
-                    if (NULL != pFunc0 && NULL != pFunc0->GetParam(0) && NULL != pFunc1 && NULL != pFunc1->GetParam(0)) {
-                        Statement* p0 = pFunc0->GetParam(0);
-                        Statement* p1 = pFunc1->GetParam(0);
+                    if (NULL != pFunc0 && NULL != pFunc0->GetCall().GetParam(0) && NULL != pFunc1 && NULL != pFunc1->GetCall().GetParam(0)) {
+                        ISyntaxComponent* p0 = pFunc0->GetCall().GetParam(0);
+                        ISyntaxComponent* p1 = pFunc1->GetCall().GetParam(0);
                         pApi->m_If = p0->GetRuntimeObject();
                         pApi->m_Goto = p1->GetRuntimeObject();
                     }
@@ -2184,7 +2184,7 @@ namespace FunctionScript
                 if (statement.GetFunctionNum() != 1)
                     return FALSE;
                 Function* pFunc = statement.GetFunction(0);
-                if (0 == pFunc || pFunc->GetParamNum() != 1)
+                if (0 == pFunc || pFunc->GetCall().GetParamNum() != 1)
                     return FALSE;
                 return TRUE;
             }
@@ -2194,8 +2194,8 @@ namespace FunctionScript
                 if (NULL != pApi) {
                     statement.PrepareRuntimeObjectWithFunctions();
                     Function* pFunc = statement.GetFunction(0);
-                    if (NULL != pFunc && NULL != pFunc->GetParam(0)) {
-                        Statement* p = pFunc->GetParam(0);
+                    if (NULL != pFunc && NULL != pFunc->GetCall().GetParam(0)) {
+                        ISyntaxComponent* p = pFunc->GetCall().GetParam(0);
                         pApi->m_Goto = p->GetRuntimeObject();
                     }
                 }
@@ -2241,7 +2241,7 @@ namespace FunctionScript
                 if (fnum != 1 && fnum != 2)
                     return FALSE;
                 Function* pFunc = statement.GetFunction(0);
-                if (0 == pFunc || pFunc->GetParamNum() > 1)
+                if (0 == pFunc || pFunc->GetCall().GetParamNum() > 1)
                     return FALSE;
                 return TRUE;
             }
@@ -2253,12 +2253,12 @@ namespace FunctionScript
                     Function* pFunc1 = statement.GetFunction(0);
                     Function* pFunc2 = statement.GetFunction(1);
                     if (NULL != pFunc1) {
-                        if (pFunc1->GetParamNum() == 1 && pFunc1->HaveParam() && NULL != pFunc1->GetParam(0)) {
-                            Statement* pStatement = pFunc1->GetParam(0);
+                        if (pFunc1->GetCall().GetParamNum() == 1 && pFunc1->HaveParam() && NULL != pFunc1->GetCall().GetParam(0)) {
+                            ISyntaxComponent* pStatement = pFunc1->GetCall().GetParam(0);
                             pApi->m_Return = pStatement->GetRuntimeObject();
                         }
                         else if (NULL != pFunc2) {
-                            pApi->m_Return = pFunc2->GetRuntimeFunctionHead();
+                            pApi->m_Return = pFunc2->GetRuntimeObject();
                         }
                     }
                 }
@@ -2286,7 +2286,7 @@ namespace FunctionScript
                 if (statement.GetFunctionNum() != 1)
                     return FALSE;
                 Function* pFunc = statement.GetFunction(0);
-                if (0 == pFunc || pFunc->GetParamNum() > 1)
+                if (0 == pFunc || pFunc->GetCall().GetParamNum() > 1)
                     return FALSE;
                 return TRUE;
             }
@@ -2330,7 +2330,7 @@ namespace FunctionScript
                 if (statement.GetFunctionNum() != 1)
                     return FALSE;
                 Function* pFunc = statement.GetFunction(0);
-                if (0 == pFunc || pFunc->GetParamNum() > 1)
+                if (0 == pFunc || pFunc->GetCall().GetParamNum() > 1)
                     return FALSE;
                 return TRUE;
             }
@@ -2367,13 +2367,13 @@ namespace FunctionScript
                 if (0 == m_Interpreter || 1 != num && 2 != num)
                     return EXECUTE_RESULT_NORMAL;
                 Function* func0 = statement.GetFunction(0);
-                if (0 == func0 || 1 < func0->GetParamNum())
+                if (0 == func0 || 1 < func0->GetCall().GetParamNum())
                     return EXECUTE_RESULT_NORMAL;
                 Closure* pClosure = m_Interpreter->AddNewClosureComponent();
                 if (0 != pClosure) {
                     pClosure->SetDefinitionRef(m_pArguments, m_ArgumentNum, statement);
                     if (func0->HaveParam()) {
-                        Statement* pName = func0->GetParam(0);
+                        ISyntaxComponent* pName = func0->GetCall().GetParam(0);
                         if (NULL != pName) {
                             Value nameVal = pName->GetRuntimeObject();
                             AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
@@ -2418,7 +2418,7 @@ namespace FunctionScript
                 if (1 != num && 2 != num)
                     return FALSE;
                 Function* pFunc0 = statement.GetFunction(0);
-                if (0 == pFunc0 || 1 < pFunc0->GetParamNum())
+                if (0 == pFunc0 || 1 < pFunc0->GetCall().GetParamNum())
                     return FALSE;
                 if (1 == num) {
                     if (FALSE == pFunc0->HaveStatement()) {
@@ -2430,8 +2430,8 @@ namespace FunctionScript
                     if (0 != pFunc1) {
                         if (TRUE == pFunc0->HaveStatement() || FALSE == pFunc1->HaveStatement())
                             return FALSE;
-                        const Value& funcName1 = pFunc1->GetName();
-                        if (funcName1.IsVariableName()) {
+                        const Value& funcName1 = pFunc1->GetCall().GetName();
+                        if (funcName1.IsIdentifier()) {
                             if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), "args"))
                                 return FALSE;
                         }
@@ -2455,16 +2455,13 @@ namespace FunctionScript
                     statement.PrepareRuntimeObjectWithFunctions();
                     pApi->m_pDefine = &statement;
 
-                    if (num > 1 && 0 != pFunc && pFunc->GetParamNum() > 0) {
-                        pApi->m_ArgumentNum = pFunc->GetParamNum();
-                        pApi->m_pArguments = new Value[pFunc->GetParamNum()];
-                        for (int i = 0; i < pFunc->GetParamNum(); ++i) {
-                            Statement* pStatement = pFunc->GetParam(i);
-                            if (0 != pStatement && pStatement->GetFunctionNum() > 0) {
-                                Function* pFunc = pStatement->GetFunction(0);
-                                if (0 != pFunc) {
-                                    pApi->m_pArguments[i] = pFunc->GetName();
-                                }
+                    if (num > 1 && 0 != pFunc && pFunc->GetCall().GetParamNum() > 0) {
+                        pApi->m_ArgumentNum = pFunc->GetCall().GetParamNum();
+                        pApi->m_pArguments = new Value[pFunc->GetCall().GetParamNum()];
+                        for (int i = 0; i < pFunc->GetCall().GetParamNum(); ++i) {
+                            ISyntaxComponent* p = pFunc->GetCall().GetParam(i);
+                            if (0 != p) {
+                                pApi->m_pArguments[i] = p->GetRuntimeObject();
                             }
                         }
                     }
@@ -2497,7 +2494,7 @@ namespace FunctionScript
                         AutoInterpreterValuePoolValueOperation ret(m_Interpreter->GetInnerValuePool());
                         Value& retVal = ret.Get();
                         Value key(i);
-                        m_Interpreter->CallMember(*pObject, key, TRUE, Function::PARAM_CLASS_OPERATOR, &val, 1, &retVal);
+                        m_Interpreter->CallMember(*pObject, key, TRUE, Call::PARAM_CLASS_OPERATOR, &val, 1, &retVal);
                     }
                 }
                 else {
@@ -2534,11 +2531,11 @@ namespace FunctionScript
                         Function* pFunc = statement.GetFunction(0);
                         if (0 != pFunc) {
                             if (pFunc->HaveParam() && !pFunc->HaveStatement()) {
-                                pApi->m_Count = pFunc->GetParamNum();
+                                pApi->m_Count = pFunc->GetCall().GetParamNum();
                                 pApi->m_pValues = new Value[pApi->m_Count];
                                 if (0 != pApi->m_pValues) {
-                                    for (int i = 0; i < pFunc->GetParamNum(); ++i) {
-                                        Statement* p = pFunc->GetParam(i);
+                                    for (int i = 0; i < pFunc->GetCall().GetParamNum(); ++i) {
+                                        ISyntaxComponent* p = pFunc->GetCall().GetParam(i);
                                         if (0 == p)
                                             continue;
                                         pApi->m_pValues[i] = p->GetRuntimeObject();
@@ -2586,7 +2583,7 @@ namespace FunctionScript
                             }
                             AutoInterpreterValuePoolValueOperation ret(m_Interpreter->GetInnerValuePool());
                             Value& retVal = ret.Get();
-                            m_Interpreter->CallMember(*pObject, val1, TRUE, Function::PARAM_CLASS_OPERATOR, &val2, 1, &retVal);
+                            m_Interpreter->CallMember(*pObject, val1, TRUE, Call::PARAM_CLASS_OPERATOR, &val2, 1, &retVal);
                         }
                     }
                 }
@@ -2625,23 +2622,18 @@ namespace FunctionScript
                         Function* pFunc = statement.GetFunction(0);
                         if (0 != pFunc) {
                             if (pFunc->HaveParam() && !pFunc->HaveStatement()) {
-                                pApi->m_Count = pFunc->GetParamNum();
+                                pApi->m_Count = pFunc->GetCall().GetParamNum();
                                 pApi->m_pKeys = new Value[pApi->m_Count];
                                 pApi->m_pValues = new Value[pApi->m_Count];
                                 if (0 != pApi->m_pKeys && 0 != pApi->m_pValues) {
-                                    for (int i = 0; i < pFunc->GetParamNum(); ++i) {
-                                        Statement* p = pFunc->GetParam(i);
+                                    for (int i = 0; i < pFunc->GetCall().GetParamNum(); ++i) {
+                                        Call* p = dynamic_cast<Call*>(pFunc->GetCall().GetParam(i));
                                         if (0 == p)
                                             continue;
-                                        if (p->GetFunctionNum() != 1)
+                                        if (p->GetParamNum() != 2)
                                             continue;
-                                        Function* pPair = p->GetFunction(0);
-                                        if (0 == pPair)
-                                            continue;
-                                        if (pPair->GetParamNum() != 2 || pPair->HaveStatement() || pPair->HaveExternScript())
-                                            continue;
-                                        Statement* p1 = pPair->GetParam(0);
-                                        Statement* p2 = pPair->GetParam(1);
+                                        ISyntaxComponent* p1 = p->GetParam(0);
+                                        ISyntaxComponent* p2 = p->GetParam(1);
                                         if (p1 && p2) {
                                             pApi->m_pKeys[i] = p1->GetRuntimeObject();
                                             pApi->m_pValues[i] = p2->GetRuntimeObject();
@@ -2655,18 +2647,13 @@ namespace FunctionScript
                                 pApi->m_pValues = new Value[pApi->m_Count];
                                 if (0 != pApi->m_pKeys && 0 != pApi->m_pValues) {
                                     for (int i = 0; i < pFunc->GetStatementNum(); ++i) {
-                                        Statement* p = pFunc->GetStatement(i);
+                                        Call* p = dynamic_cast<Call*>(pFunc->GetStatement(i));
                                         if (0 == p)
                                             continue;
-                                        if (p->GetFunctionNum() != 1)
+                                        if (p->GetParamNum() != 2)
                                             continue;
-                                        Function* pPair = p->GetFunction(0);
-                                        if (0 == pPair)
-                                            continue;
-                                        if (pPair->GetParamNum() != 2 || pPair->HaveStatement() || pPair->HaveExternScript())
-                                            continue;
-                                        Statement* p1 = pPair->GetParam(0);
-                                        Statement* p2 = pPair->GetParam(1);
+                                        ISyntaxComponent* p1 = p->GetParam(0);
+                                        ISyntaxComponent* p2 = p->GetParam(1);
                                         if (p1 && p2) {
                                             pApi->m_pKeys[i] = p1->GetRuntimeObject();
                                             pApi->m_pValues[i] = p2->GetRuntimeObject();
@@ -2694,14 +2681,14 @@ namespace FunctionScript
                 Function* func0 = statement.GetFunction(0);
                 if (0 == func0)
                     return EXECUTE_RESULT_NORMAL;
-                int pnum = func0->GetParamNum();
+                int pnum = func0->GetCall().GetParamNum();
                 if (1 < pnum)
                     return EXECUTE_RESULT_NORMAL;
                 Struct* pStruct = m_Interpreter->AddNewStructComponent();
                 if (0 != pStruct) {
                     pStruct->SetDefinitionRef(statement);
                     if (func0->HaveParam()) {
-                        Statement* pName = func0->GetParam(0);
+                        ISyntaxComponent* pName = func0->GetCall().GetParam(0);
                         if (NULL != pName) {
                             Value nameVal = pName->GetRuntimeObject();
                             AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
@@ -3070,7 +3057,7 @@ namespace FunctionScript
                             switch (num) {
                             case 2:
                             {
-                                if ((Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property
+                                if ((Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property
                                 {
                                     const MemberInfo& info = m_MemberInfos[index];
                                     if (0 != pRetValue) {
@@ -3090,7 +3077,7 @@ namespace FunctionScript
                             break;
                             case 3:
                             {
-                                if ((Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property=val
+                                if ((Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property=val
                                 {
                                     MemberInfo& info = m_MemberInfos[index];
                                     info.m_Value = pParams[2];
@@ -3127,7 +3114,7 @@ namespace FunctionScript
                         }
                         else if (index >= m_MemberNum) {
                             //新增成员只允许通过obj.property=val方式
-                            if (3 == num && (Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK) {
+                            if (3 == num && (Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK) {
                                 MemberInfo& info = m_TempMemberInfo;
                                 info.m_Value = pParams[2];
                                 if (0 != pRetValue) {
@@ -3141,7 +3128,7 @@ namespace FunctionScript
             }
             else {
                 if (1 == num) {
-                    if ((pParams[0].IsString() || pParams[0].IsVariableName()) && 0 != pParams[0].GetString()) {
+                    if ((pParams[0].IsString() || pParams[0].IsIdentifier()) && 0 != pParams[0].GetString()) {
                         if (0 != pRetValue) {
                             const char* pName = pParams[0].GetString();
                             int index = GetMemberIndex(pName);
@@ -3382,7 +3369,7 @@ namespace FunctionScript
                             break;
                             case 3:
                             {
-                                if ((Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property=val
+                                if ((Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK)//obj.property=val
                                 {
                                     const MemberInfo& info = m_MemberInfos[index];
                                     if (0 != m_Addr && pParams[2].IsInt() && info.m_Size >= 0 && info.m_Size <= 4 && 0 != pRetValue) {
@@ -3438,7 +3425,7 @@ namespace FunctionScript
             else {
                 if (1 == num) {
                     int index = -1;
-                    if ((pParams[0].IsString() || pParams[0].IsVariableName()) && 0 != pParams[0].GetString()) {
+                    if ((pParams[0].IsString() || pParams[0].IsIdentifier()) && 0 != pParams[0].GetString()) {
                         const char* pName = pParams[0].GetString();
                         index = GetMemberIndex(pName);
                     }
@@ -3476,14 +3463,14 @@ namespace FunctionScript
                     m_Accessors[INNER_MEMBER_INDEX_SIZE] = new MemberAccessor(*m_Interpreter, *this, INNER_MEMBER_INDEX_SIZE);
                     m_Size = 0;
                     for (int ix = 0; ix < m_MemberNum; ++ix) {
-                        Statement* pStatement = pFunc->GetStatement(ix);
+                        Statement* pStatement = dynamic_cast<Statement*>(pFunc->GetStatement(ix));
                         if (0 != pStatement) {
                             Function* pMember = pStatement->GetFunction(0);
                             if (0 != pMember) {
 
-                                const Value& name = GetVariableValue(pMember->GetName());
-                                Statement* pParam0 = pMember->GetParam(0);
-                                Statement* pParam1 = pMember->GetParam(1);
+                                const Value& name = GetVariableValue(pMember->GetCall().GetName());
+                                ISyntaxComponent* pParam0 = pMember->GetCall().GetParam(0);
+                                ISyntaxComponent* pParam1 = pMember->GetCall().GetParam(1);
                                 m_Accessors[ix + INNER_MEMBER_INDEX_NUM] = new MemberAccessor(*m_Interpreter, *this, ix + INNER_MEMBER_INDEX_NUM);
 
                                 int size = 4;
@@ -3501,7 +3488,7 @@ namespace FunctionScript
                                     }
                                     if (val.IsInt())
                                         size = val.GetInt();
-                                    else if (val.IsVariableName() && 0 != val.GetString()) {
+                                    else if (val.IsIdentifier() && 0 != val.GetString()) {
                                         const char* pName = val.GetString();
                                         if (0 == strcmp("char", pName)) {
                                             size = 1;
@@ -3534,7 +3521,7 @@ namespace FunctionScript
                                 m_MemberInfos[ix].m_Offset = m_Size;
                                 m_MemberInfos[ix].m_Size = size;
                                 m_MemberInfos[ix].m_Num = num;
-                                if (name.IsVariableName()) {
+                                if (name.IsIdentifier()) {
                                     m_MemberInfos[ix].m_Name = name.GetString();
                                 }
                                 m_Size += size * num;
@@ -3598,20 +3585,178 @@ namespace FunctionScript
         return index;
     }
     //------------------------------------------------------------------------------------------------------
+    NameOrValue::NameOrValue(Interpreter& interpreter) :
+        ISyntaxComponent(ISyntaxComponent::TYPE_VALUE, interpreter),
+        m_pInnerValuePool(0)
+    {
+        const InterpreterOptions& options = interpreter.GetOptions();
+        m_pInnerValuePool = &interpreter.GetInnerValuePool();
+    }
+
+    Call::Call(Interpreter& interpreter) :
+        ISyntaxComponent(ISyntaxComponent::TYPE_CALL, interpreter),
+        m_Name(interpreter),
+        m_RuntimeFunctionCall(0),
+        m_RuntimeObjectPrepared(FALSE),
+        m_Params(0),
+        m_ParamNum(0),
+        m_ParamSpace(0),
+        m_ParamClass(PARAM_CLASS_NOTHING),
+        m_pInnerValuePool(0)
+    {
+        const InterpreterOptions& options = interpreter.GetOptions();
+        m_MaxLocalNum = options.GetMaxLocalNum();
+        m_pInnerValuePool = &interpreter.GetInnerValuePool();
+    }
+
+    Call::~Call(void)
+    {
+        ReleaseParams();
+    }
+
+    void Call::PrepareParams(void)
+    {
+        if (NULL == m_Params && TRUE == HaveParam()) {
+            m_Params = new SyntaxComponentPtr[DELTA_FUNCTION_PARAM];
+            if (m_Params) {
+                m_ParamSpace = DELTA_FUNCTION_PARAM;
+            }
+        }
+        else if (HaveParam() && m_ParamNum >= m_ParamSpace) {
+            int newSpace = m_ParamSpace + DELTA_FUNCTION_PARAM;
+            if (newSpace <= MAX_FUNCTION_PARAM_NUM) {
+                SyntaxComponentPtr* pNew = new SyntaxComponentPtr[newSpace];
+                if (pNew) {
+                    memcpy(pNew, m_Params, m_ParamNum * sizeof(SyntaxComponentPtr));
+                    memset(pNew + m_ParamNum, 0, DELTA_FUNCTION_PARAM * sizeof(SyntaxComponentPtr));
+                    delete[] m_Params;
+                    m_Params = pNew;
+                    m_ParamSpace = newSpace;
+                }
+            }
+        }
+    }
+
+    void Call::ReleaseParams(void)
+    {
+        if (NULL != m_Params) {
+            delete[] m_Params;
+            m_Params = NULL;
+        }
+    }
+
+    void Call::PrepareRuntimeObject(void)
+    {
+        if (NULL == m_Interpreter)
+            return;
+        if (m_RuntimeObjectPrepared)
+            return;
+        //处理函数名
+        Value& valOfName = m_Name.GetValue();
+        if (valOfName.IsIdentifier()) {
+            char* pStr = valOfName.GetString();
+            if (NULL != pStr) {
+                if (pStr[0] == '$')//参数
+                {
+                    if (pStr[1] == '$') {
+                        valOfName.SetArgIndex(-1);
+                    }
+                    else {
+                        int index = atoi(pStr + 1);
+                        if (index >= 0 && index < MAX_FUNCTION_PARAM_NUM) {
+                            valOfName.SetArgIndex(index);
+                        }
+                    }
+                }
+                else if (pStr[0] == '@')//局部变量
+                {
+                    if (pStr[1] == '@') {
+                        valOfName.SetLocalIndex(-1);
+                    }
+                    else {
+                        Function* pFuncDef = m_Interpreter->GetCurFunctionDefinition();
+                        if (0 != pFuncDef) {
+                            int index = pFuncDef->GetLocalIndex(pStr);
+                            if (index < 0) {
+                                index = pFuncDef->AllocLocalIndex(pStr);
+                            }
+                            if (index >= 0 && index < m_MaxLocalNum) {
+                                valOfName.SetLocalIndex(index);
+                            }
+                        }
+                    }
+                }
+                else {
+                    //函数、全局变量与预定义变量
+                    if (0 == strcmp(pStr, "this")) {
+                        //this <=> $0
+                        valOfName.SetArgIndex(0);
+                    }
+                    else {
+                        ExpressionApi* p = m_Interpreter->FindFunctionApi(pStr);
+                        //普通变量
+                        AutoInterpreterValuePoolValueOperation op(*m_pInnerValuePool);
+                        Value& val = op.Get();
+                        if (0 != p) {
+                            //内部api名称不作变量处理，直接计算值（相当于常量），运行时会少一次计算变量值的间接处理
+                            val.SetExpression(p);
+                            valOfName = val;
+                        }
+                        else {
+                            val = valOfName;
+                            if (m_Interpreter->GetValueIndex(pStr) == -1 || 0 != p) {
+                                m_Interpreter->SetValue(pStr, val);
+                            }
+                            valOfName.SetIndex(m_Interpreter->GetValueIndex(pStr));
+                        }
+                    }
+                }
+            }
+        }
+        else if (valOfName.IsSyntaxComponent() && 0 != valOfName.GetSyntaxComponent()) {
+            valOfName.GetSyntaxComponent()->PrepareRuntimeObject();
+        }
+        m_RuntimeObjectPrepared = TRUE;
+        //参数
+        if (0 != m_Params) {
+            for (int ix = 0; ix < m_ParamNum; ++ix) {
+                if (0 != m_Params[ix]) {
+                    m_Params[ix]->PrepareRuntimeObject();
+                }
+            }
+        }
+        if (HaveParam()) {
+            //最后生成复合运行时对象，与语句不同，函数（除非退化成Value的情形，此时由外层函数去组合成RuntimeFunction）总要生成一个RuntimeFunction，从语义上讲Function代表的其实也是一种StatementApi，而不是ExpressionApi
+            RuntimeFunctionCall* pRuntimeFunction = m_Interpreter->AddNewRuntimeFunctionComponent();
+            if (NULL != pRuntimeFunction) {
+                pRuntimeFunction->Init(*this);
+                m_RuntimeFunctionCall.SetStatement(pRuntimeFunction);
+            }
+            else {
+                m_RuntimeFunctionCall.SetInvalid();
+            }
+        }
+        else {
+            m_RuntimeFunctionCall = valOfName;
+        }
+    }
+
+    const Value& Call::GetRuntimeObject(void)const
+    {
+        return m_RuntimeFunctionCall;
+    }
+
     Function::Function(Interpreter& interpreter) :
-        SyntaxComponent(interpreter),
+        ISyntaxComponent(ISyntaxComponent::TYPE_FUNCTION, interpreter),
+        m_Call(interpreter),
         m_RuntimeFunctionCall(0),
         m_RuntimeStatementBlock(0),
         m_RuntimeObjectPrepared(FALSE),
         m_LocalNum(0),
         m_LocalSpace(0),
-        m_Params(0),
-        m_ParamNum(0),
-        m_ParamSpace(0),
         m_Statements(0),
         m_StatementNum(0),
         m_StatementSpace(0),
-        m_ParamClass(PARAM_CLASS_NOTHING),
         m_ExtentClass(EXTENT_CLASS_NOTHING),
         m_ExternScript(0),
         m_pInnerValuePool(0)
@@ -3629,46 +3774,14 @@ namespace FunctionScript
             m_RuntimeStatementBlock = NULL;
         }
 
-        ReleaseParams();
         ReleaseStatements();
         ClearLocalIndexes();
-    }
-
-    void Function::PrepareParams(void)
-    {
-        if (NULL == m_Params && TRUE == HaveParam()) {
-            m_Params = new StatementPtr[DELTA_FUNCTION_PARAM];
-            if (m_Params) {
-                m_ParamSpace = DELTA_FUNCTION_PARAM;
-            }
-        }
-        else if (HaveParam() && m_ParamNum >= m_ParamSpace) {
-            int newSpace = m_ParamSpace + DELTA_FUNCTION_PARAM;
-            if (newSpace <= MAX_FUNCTION_PARAM_NUM) {
-                StatementPtr* pNew = new StatementPtr[newSpace];
-                if (pNew) {
-                    memcpy(pNew, m_Params, m_ParamNum * sizeof(StatementPtr));
-                    memset(pNew + m_ParamNum, 0, DELTA_FUNCTION_PARAM * sizeof(StatementPtr));
-                    delete[] m_Params;
-                    m_Params = pNew;
-                    m_ParamSpace = newSpace;
-                }
-            }
-        }
-    }
-
-    void Function::ReleaseParams(void)
-    {
-        if (NULL != m_Params) {
-            delete[] m_Params;
-            m_Params = NULL;
-        }
     }
 
     void Function::PrepareStatements(void)
     {
         if (NULL == m_Statements && TRUE == HaveStatement()) {
-            m_Statements = new StatementPtr[DELTA_FUNCTION_STATEMENT];
+            m_Statements = new SyntaxComponentPtr[DELTA_FUNCTION_STATEMENT];
             if (m_Statements) {
                 m_StatementSpace = DELTA_FUNCTION_STATEMENT;
             }
@@ -3676,10 +3789,10 @@ namespace FunctionScript
         else if (HaveStatement() && m_StatementNum >= m_StatementSpace) {
             int newSpace = m_StatementSpace + DELTA_FUNCTION_STATEMENT;
             if (newSpace <= m_MaxStatementNum) {
-                StatementPtr* pNew = new StatementPtr[newSpace];
+                SyntaxComponentPtr* pNew = new SyntaxComponentPtr[newSpace];
                 if (pNew) {
-                    memcpy(pNew, m_Statements, m_StatementNum * sizeof(StatementPtr));
-                    memset(pNew + m_StatementNum, 0, DELTA_FUNCTION_STATEMENT * sizeof(StatementPtr));
+                    memcpy(pNew, m_Statements, m_StatementNum * sizeof(SyntaxComponentPtr));
+                    memset(pNew + m_StatementNum, 0, DELTA_FUNCTION_STATEMENT * sizeof(SyntaxComponentPtr));
                     delete[] m_Statements;
                     m_Statements = pNew;
                     m_StatementSpace = newSpace;
@@ -3796,79 +3909,9 @@ namespace FunctionScript
             return;
         if (m_RuntimeObjectPrepared)
             return;
-        //处理函数名
-        if (m_Name.IsVariableName()) {
-            char* pStr = m_Name.GetString();
-            if (NULL != pStr) {
-                if (pStr[0] == '$')//参数
-                {
-                    if (pStr[1] == '$') {
-                        m_Name.SetArgIndex(-1);
-                    }
-                    else {
-                        int index = atoi(pStr + 1);
-                        if (index >= 0 && index < MAX_FUNCTION_PARAM_NUM) {
-                            m_Name.SetArgIndex(index);
-                        }
-                    }
-                }
-                else if (pStr[0] == '@')//局部变量
-                {
-                    if (pStr[1] == '@') {
-                        m_Name.SetLocalIndex(-1);
-                    }
-                    else {
-                        Function* pFuncDef = m_Interpreter->GetCurFunctionDefinition();
-                        if (0 != pFuncDef) {
-                            int index = pFuncDef->GetLocalIndex(pStr);
-                            if (index < 0) {
-                                index = pFuncDef->AllocLocalIndex(pStr);
-                            }
-                            if (index >= 0 && index < m_MaxLocalNum) {
-                                m_Name.SetLocalIndex(index);
-                            }
-                        }
-                    }
-                }
-                else {
-                    //函数、全局变量与预定义变量
-                    if (0 == strcmp(pStr, "this")) {
-                        //this <=> $0
-                        m_Name.SetArgIndex(0);
-                    }
-                    else {
-                        ExpressionApi* p = m_Interpreter->FindFunctionApi(pStr);
-                        //普通变量
-                        AutoInterpreterValuePoolValueOperation op(*m_pInnerValuePool);
-                        Value& val = op.Get();
-                        if (0 != p) {
-                            //内部api名称不作变量处理，直接计算值（相当于常量），运行时会少一次计算变量值的间接处理
-                            val.SetExpression(p);
-                            m_Name = val;
-                        }
-                        else {
-                            val = m_Name;
-                            if (m_Interpreter->GetValueIndex(pStr) == -1 || 0 != p) {
-                                m_Interpreter->SetValue(pStr, val);
-                            }
-                            m_Name.SetIndex(m_Interpreter->GetValueIndex(pStr));
-                        }
-                    }
-                }
-            }
-        }
-        else if (m_Name.IsFunction() && 0 != m_Name.GetFunction()) {
-            m_Name.GetFunction()->PrepareRuntimeObject();
-        }
+        //处理函数调用
+        m_Call.PrepareRuntimeObject();
         m_RuntimeObjectPrepared = TRUE;
-        //参数
-        if (0 != m_Params) {
-            for (int ix = 0; ix < m_ParamNum; ++ix) {
-                if (0 != m_Params[ix]) {
-                    m_Params[ix]->PrepareRuntimeObject();
-                }
-            }
-        }
         //语句
         if (0 != m_Statements) {
             for (int ix = 0; ix < m_StatementNum; ++ix) {
@@ -3884,7 +3927,7 @@ namespace FunctionScript
             //最后生成复合运行时对象，与语句不同，函数（除非退化成Value的情形，此时由外层函数去组合成RuntimeFunction）总要生成一个RuntimeFunction，从语义上讲Function代表的其实也是一种StatementApi，而不是ExpressionApi
             RuntimeFunctionCall* pRuntimeFunction = m_Interpreter->AddNewRuntimeFunctionComponent();
             if (NULL != pRuntimeFunction) {
-                pRuntimeFunction->Init(*this);
+                pRuntimeFunction->Init(m_Call);
                 m_RuntimeFunctionCall.SetStatement(pRuntimeFunction);
             }
             else {
@@ -3892,17 +3935,17 @@ namespace FunctionScript
             }
         }
         else {
-            m_RuntimeFunctionCall = m_Name;
+            m_RuntimeFunctionCall = m_Call.GetRuntimeObject();
         }
     }
 
-    const Value& Function::GetRuntimeFunctionHead(void)const
+    const Value& Function::GetRuntimeObject(void)const
     {
         return m_RuntimeFunctionCall;
     }
 
     Statement::Statement(Interpreter& interpreter) :
-        SyntaxComponent(interpreter),
+        ISyntaxComponent(ISyntaxComponent::TYPE_STATEMENT, interpreter),
         m_RuntimeObject(0),
         m_RuntimeObjectPrepared(FALSE),
         m_Functions(0),
@@ -3961,8 +4004,8 @@ namespace FunctionScript
             //object literal检测
             if (GetFunctionNum() == 1) {
                 Function* pFunc = GetFunction(0);
-                if (0 != pFunc && !pFunc->HaveName()) {
-                    if (pFunc->HaveParam() && !pFunc->HaveStatement() && pFunc->GetParamClass() == Function::PARAM_CLASS_BRACKET) {
+                if (0 != pFunc && !pFunc->HaveId()) {
+                    if (pFunc->HaveParam() && !pFunc->HaveStatement() && pFunc->GetCall().GetParamClass() == Call::PARAM_CLASS_BRACKET) {
                         pApiFactory = m_Interpreter->GetLiteralArrayApi();
                         if (0 != pApiFactory) {
                             //让API生成复合运行时对象。
@@ -3998,7 +4041,7 @@ namespace FunctionScript
                         isStatement = true;
                     }
                     else {
-                        m_RuntimeObject = pFunc->GetRuntimeFunctionHead();
+                        m_RuntimeObject = pFunc->GetRuntimeObject();
                     }
                 }
                 else {
@@ -4046,7 +4089,7 @@ namespace FunctionScript
         if (m_StatementNum > 0) {
             m_Statements = new StatementApi*[m_StatementNum];
             for (int ix = 0; ix < m_StatementNum; ++ix) {
-                Statement* pStatement = func.GetStatement(ix);
+                ISyntaxComponent* pStatement = func.GetStatement(ix);
                 if (NULL != pStatement) {
                     Value val = pStatement->GetRuntimeObject();
                     if (val.IsStatement())
@@ -4105,21 +4148,21 @@ namespace FunctionScript
         m_ParamNum = 0;
     }
 
-    void RuntimeFunctionCall::Init(Function& func)
+    void RuntimeFunctionCall::Init(Call& call)
     {
-        m_Name = func.GetName();
-        if (m_Name.IsFunction()) {
-            Function* pFunc = m_Name.GetFunction();
+        m_Name = call.GetName();
+        if (m_Name.IsSyntaxComponent()) {
+            Function* pFunc = dynamic_cast<Function*>(m_Name.GetSyntaxComponent());
             if (NULL != pFunc) {
-                m_Name = pFunc->GetRuntimeFunctionHead();
+                m_Name = pFunc->GetRuntimeObject();
             }
         }
-        m_ParamClass = func.GetParamClass();
-        m_ParamNum = func.GetParamNum();
+        m_ParamClass = call.GetParamClass();
+        m_ParamNum = call.GetParamNum();
         if (m_ParamNum > 0) {
             m_Params = new Value[m_ParamNum];
             for (int ix = 0; ix < m_ParamNum; ++ix) {
-                Statement* pParam = func.GetParam(ix);
+                ISyntaxComponent* pParam = call.GetParam(ix);
                 if (NULL != pParam) {
                     m_Params[ix] = pParam->GetRuntimeObject();
                 }
@@ -4240,7 +4283,7 @@ namespace FunctionScript
             for (int ix = 0; ix < m_FunctionNum; ++ix) {
                 Function* pFunc = statement.GetFunction(ix);
                 if (NULL != pFunc) {
-                    Value val = pFunc->GetRuntimeFunctionHead();
+                    Value val = pFunc->GetRuntimeObject();
                     if (val.IsStatement())
                         m_FunctionHeads[ix] = val.GetStatement();
                     else
@@ -4330,12 +4373,12 @@ namespace FunctionScript
         Value param = member;
         AutoInterpreterValuePoolValueOperation op(m_InterpreterValuePool);
         Value& memberAccessor = op.Get();
-        ExecuteResultEnum r = obj.Execute(Function::PARAM_CLASS_PERIOD, &param, 1, &memberAccessor);
+        ExecuteResultEnum r = obj.Execute(Call::PARAM_CLASS_PERIOD, &param, 1, &memberAccessor);
         if (memberAccessor.IsExpression() && 0 != memberAccessor.GetExpression()) {
             ExpressionApi& mAccessor = *(memberAccessor.GetExpression());
             int mask = 0;
             if (TRUE == isProperty)
-                mask = Function::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK;
+                mask = Call::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK;
             return mAccessor.Execute(paramClass | mask, pParams, paramNum, pRetValue);
         }
         else {
@@ -4418,11 +4461,11 @@ namespace FunctionScript
         if (statement.GetFunctionNum() < 1)
             return 0;
         Function* pFunc = statement.GetFunction(0);
-        if (0 == pFunc || !pFunc->HaveName()) {
+        if (0 == pFunc || !pFunc->HaveId()) {
             return 0;
         }
-        Value funcName = pFunc->GetName();
-        if (funcName.IsInvalid() || !funcName.IsVariableName() || 0 == funcName.GetString()) {
+        Value funcName = pFunc->GetCall().GetName();
+        if (funcName.IsInvalid() || !funcName.IsIdentifier() || 0 == funcName.GetString()) {
             return 0;
         }
         const char* id = funcName.GetString();
@@ -4788,7 +4831,7 @@ namespace FunctionScript
         return p;
     }
 
-    void Interpreter::AddSyntaxComponent(SyntaxComponent* p)
+    void Interpreter::AddSyntaxComponent(ISyntaxComponent* p)
     {
         if (m_SyntaxComponentNum >= m_Options.GetSyntaxComponentPoolSize() || 0 == m_SyntaxComponentPool)
             return;
@@ -4846,6 +4889,7 @@ namespace FunctionScript
         m_PredefinedValue(NULL),
         m_ValuePool(NULL),
         m_StackValuePool(NULL),
+        m_NullSyntax(*this),
         m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
     {
         m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());
@@ -4873,6 +4917,7 @@ namespace FunctionScript
         m_PredefinedValue(NULL),
         m_ValuePool(NULL),
         m_StackValuePool(NULL),
+        m_NullSyntax(*this),
         m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
     {
         m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());

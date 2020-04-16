@@ -91,8 +91,11 @@ namespace FunctionScript
         inline void markQuestionPeriodStarParam(void);
         inline void markPointerStarParam(void);
     private:
-        inline int wrapObjectMember(Statement& arg);
-        inline int wrapObjectMemberInHighOrderFunction(Function& arg);
+        inline int wrapObjectMember(ISyntaxComponent& comp);
+        inline int wrapObjectMemberInHighOrderFunction(ISyntaxComponent& comp);
+        inline ISyntaxComponent& simplifyStatement(Statement& data)const;
+        inline ISyntaxComponent& simplifyStatement(Function& data)const;
+        inline ISyntaxComponent& simplifyStatement(Call& data)const;
         inline bool	preconditionCheck(void)const
         {
             return NULL != mThis && NULL != mInterpreter;
