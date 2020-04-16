@@ -160,26 +160,26 @@ namespace FunctionScript
             TYPE_PTR,
         };
 
-        Value(void) :m_Type(TYPE_INVALID), m_Int64Val(0) {}
-        explicit Value(int val) :m_Type(TYPE_INT), m_IntVal(val) {}
-        explicit Value(long long val) :m_Type(TYPE_INT64), m_Int64Val(val) {}
-        explicit Value(float val) :m_Type(TYPE_FLOAT), m_FloatVal(val) {}
-        explicit Value(double val) :m_Type(TYPE_DOUBLE), m_DoubleVal(val) {}
-        explicit Value(bool val) :m_Type(TYPE_BOOL), m_BoolVal(val) {}
-        explicit Value(char* val) :m_Type(TYPE_STRING), m_StringVal(val) {}
-        explicit Value(const char* val) :m_Type(TYPE_STRING), m_ConstStringVal(val) {}
-        explicit Value(ExpressionApi* val) :m_Type(TYPE_EXPRESSION), m_Expression(val) {}
-        explicit Value(StatementApi* val) :m_Type(TYPE_STATEMENT), m_Statement(val) {}
-        explicit Value(Function* val) :m_Type(TYPE_FUNCTION), m_Function(val) {}
-        explicit Value(void* val) :m_Type(TYPE_PTR), m_Ptr(val) {}
-        explicit Value(int val, int type) :m_Type(type), m_IntVal(val) {}
-        explicit Value(char* val, int type) :m_Type(type), m_StringVal(val) {}
-        explicit Value(const char* val, int type) :m_Type(type), m_ConstStringVal(val) {}
+        Value(void) :m_Type(TYPE_INVALID), m_Int64Val(0), m_Line(0) {}
+        explicit Value(int val) :m_Type(TYPE_INT), m_IntVal(val), m_Line(0) {}
+        explicit Value(long long val) :m_Type(TYPE_INT64), m_Int64Val(val), m_Line(0) {}
+        explicit Value(float val) :m_Type(TYPE_FLOAT), m_FloatVal(val), m_Line(0) {}
+        explicit Value(double val) :m_Type(TYPE_DOUBLE), m_DoubleVal(val), m_Line(0) {}
+        explicit Value(bool val) :m_Type(TYPE_BOOL), m_BoolVal(val), m_Line(0) {}
+        explicit Value(char* val) :m_Type(TYPE_STRING), m_StringVal(val), m_Line(0) {}
+        explicit Value(const char* val) :m_Type(TYPE_STRING), m_ConstStringVal(val), m_Line(0) {}
+        explicit Value(ExpressionApi* val) :m_Type(TYPE_EXPRESSION), m_Expression(val), m_Line(0) {}
+        explicit Value(StatementApi* val) :m_Type(TYPE_STATEMENT), m_Statement(val), m_Line(0) {}
+        explicit Value(Function* val) :m_Type(TYPE_FUNCTION), m_Function(val), m_Line(0) {}
+        explicit Value(void* val) :m_Type(TYPE_PTR), m_Ptr(val), m_Line(0) {}
+        explicit Value(int val, int type) :m_Type(type), m_IntVal(val), m_Line(0) {}
+        explicit Value(char* val, int type) :m_Type(type), m_StringVal(val), m_Line(0) {}
+        explicit Value(const char* val, int type) :m_Type(type), m_ConstStringVal(val), m_Line(0) {}
         ~Value(void)
         {
             FreeString();
         }
-        Value(const Value& other) :m_Type(TYPE_INVALID), m_Int64Val(0)
+        Value(const Value& other) :m_Type(TYPE_INVALID), m_Int64Val(0), m_Line(0)
         {
             CopyFrom(other);
         }
@@ -226,6 +226,7 @@ namespace FunctionScript
         int IsStatement(void)const { return (m_Type == TYPE_STATEMENT ? TRUE : FALSE); }
         int IsFunction(void)const { return (m_Type == TYPE_FUNCTION ? TRUE : FALSE); }
         int IsPtr(void)const { return (m_Type == TYPE_PTR ? TRUE : FALSE); }
+        int GetLine(void)const { return m_Line; }
         int GetType(void)const { return m_Type; }
         int GetInt(void)const { return m_IntVal; }
         long long GetInt64(void)const { return m_Int64Val; }
@@ -237,6 +238,10 @@ namespace FunctionScript
         StatementApi* GetStatement(void)const { return m_Statement; }
         Function* GetFunction(void)const { return m_Function; }
         void* GetPtr(void)const { return m_Ptr; }
+        void SetLine(int line)
+        {
+            m_Line = line;
+        }
         void SetInvalid(void)
         {
             FreeString();
@@ -549,21 +554,22 @@ namespace FunctionScript
             }
         }
     private:
-        int					m_Type;
+        int m_Type;
         union
         {
-            int				m_IntVal;
-            long long		m_Int64Val;
-            float			m_FloatVal;
-            double			m_DoubleVal;
-            bool			m_BoolVal;
-            char*			m_StringVal;
-            ExpressionApi*	m_Expression;
+            int m_IntVal;
+            long long m_Int64Val;
+            float m_FloatVal;
+            double m_DoubleVal;
+            bool m_BoolVal;
+            char* m_StringVal;
+            ExpressionApi* m_Expression;
             StatementApi* m_Statement;
-            Function*		m_Function;
-            void*			m_Ptr;
-            const char*		m_ConstStringVal;//在脚本里与m_StringVal类型相同,用于实现自动const_cast
+            Function* m_Function;
+            void* m_Ptr;
+            const char* m_ConstStringVal;//在脚本里与m_StringVal类型相同,用于实现自动const_cast
         };
+        int m_Line;
     public:
         static Value& GetInvalidValueRef(void)
         {
@@ -584,7 +590,7 @@ namespace FunctionScript
     public:
         Interpreter& GetInterpreter(void)const { return *m_Interpreter; }
     protected:
-        Interpreter*	m_Interpreter;
+        Interpreter* m_Interpreter;
     };
 
     /*
@@ -650,9 +656,9 @@ namespace FunctionScript
         const Value& GetRuntimeFunctionHead(void)const;
         RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
     public:
-        void		SetName(const Value& val) { m_Name = val; }
-        void		ClearParams(void) { m_ParamNum = 0; }
-        void		AddParam(Statement*	pVal)
+        void SetName(const Value& val) { m_Name = val; }
+        void ClearParams(void) { m_ParamNum = 0; }
+        void AddParam(Statement*	pVal)
         {
             if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= MAX_FUNCTION_PARAM_NUM)
                 return;
@@ -662,8 +668,8 @@ namespace FunctionScript
             m_Params[m_ParamNum] = pVal;
             ++m_ParamNum;
         }
-        void		ClearStatements(void) { m_StatementNum = 0; }
-        void		AddStatement(Statement* pVal)
+        void ClearStatements(void) { m_StatementNum = 0; }
+        void AddStatement(Statement* pVal)
         {
             if (0 == pVal || m_StatementNum < 0 || m_StatementNum >= m_MaxStatementNum)
                 return;
@@ -673,16 +679,17 @@ namespace FunctionScript
             m_Statements[m_StatementNum] = pVal;
             ++m_StatementNum;
         }
-        void		SetExternScript(const char* scp) { m_ExternScript = scp; }
-        void		SetParamClass(int v) { m_ParamClass = v; }
-        int		GetParamClass(void)const { return m_ParamClass; }
-        int		HaveName(void)const { return !m_Name.IsInvalid(); }
-        int		HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
-        void		SetExtentClass(int v) { m_ExtentClass = v; }
-        int		GetExtentClass(void)const { return m_ExtentClass; }
-        int		HaveStatement(void)const { return m_ExtentClass == EXTENT_CLASS_STATEMENT; }
-        int		HaveExternScript(void)const { return m_ExtentClass == EXTENT_CLASS_EXTERN_SCRIPT; }
-        int		IsValid(void)const
+        void SetExternScript(const char* scp) { m_ExternScript = scp; }
+        void SetParamClass(int v) { m_ParamClass = v; }
+        int GetParamClass(void)const { return m_ParamClass; }
+        int HaveName(void)const { return !m_Name.IsInvalid(); }
+        int HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
+        void SetExtentClass(int v) { m_ExtentClass = v; }
+        int GetExtentClass(void)const { return m_ExtentClass; }
+        int HaveStatement(void)const { return m_ExtentClass == EXTENT_CLASS_STATEMENT; }
+        int HaveExternScript(void)const { return m_ExtentClass == EXTENT_CLASS_EXTERN_SCRIPT; }
+        int GetLine(void)const { return m_Name.GetLine(); }
+        int IsValid(void)const
         {
             if (HaveName())
                 return TRUE;
@@ -701,60 +708,60 @@ namespace FunctionScript
             return 0;
         }
         inline const char* GetParamId(int ix)const;
-        const Value&	GetName(void)const { return m_Name; }
-        int			GetParamNum(void)const { return m_ParamNum; }
-        Statement*	GetParam(int index)const
+        const Value& GetName(void)const { return m_Name; }
+        int GetParamNum(void)const { return m_ParamNum; }
+        Statement* GetParam(int index)const
         {
             if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
                 return 0;
             return m_Params[index];
         }
-        int			GetStatementNum(void)const { return m_StatementNum; }
-        Statement*	GetStatement(int index)const
+        int GetStatementNum(void)const { return m_StatementNum; }
+        Statement* GetStatement(int index)const
         {
             if (0 == m_Statements || index < 0 || index >= m_StatementNum || index >= m_MaxStatementNum)
                 return 0;
             return m_Statements[index];
         }
         const char*	GetExternScript(void)const { return m_ExternScript; }
-        int				CalculateStackSize(void)const;
+        int CalculateStackSize(void)const;
     public:
-        int             AllocLocalIndex(const char* id);
-        int             GetLocalIndex(const char* id)const;
-        const char*     GetLocalName(int index)const;
+        int AllocLocalIndex(const char* id);
+        int GetLocalIndex(const char* id)const;
+        const char* GetLocalName(int index)const;
     public:
         explicit Function(Interpreter& interpreter);
         virtual ~Function(void);
     private:
-        void            PrepareParams(void);
-        void            ReleaseParams(void);
-        void            PrepareStatements(void);
-        void            ReleaseStatements(void);
-        void            PrepareLocalIndexes(void);
-        void            ClearLocalIndexes(void);
+        void PrepareParams(void);
+        void ReleaseParams(void);
+        void PrepareStatements(void);
+        void ReleaseStatements(void);
+        void PrepareLocalIndexes(void);
+        void ClearLocalIndexes(void);
     private:
-        Value			m_Name;
-        Statement**		m_Params;
-        int				m_ParamNum;
-        int				m_ParamSpace;
-        Statement**		m_Statements;
-        int				m_StatementNum;
-        int				m_StatementSpace;
-        int				m_MaxStatementNum;
-        const char*		m_ExternScript;
-        int				m_ParamClass;
-        int				m_ExtentClass;
+        Value m_Name;
+        Statement** m_Params;
+        int m_ParamNum;
+        int m_ParamSpace;
+        Statement** m_Statements;
+        int m_StatementNum;
+        int m_StatementSpace;
+        int m_MaxStatementNum;
+        const char* m_ExternScript;
+        int m_ParamClass;
+        int m_ExtentClass;
     private:
-        LocalIndexes    m_LocalIndexes;
-        int             m_LocalNum;
-        int				m_LocalSpace;
-        int				m_MaxLocalNum;
+        LocalIndexes m_LocalIndexes;
+        int m_LocalNum;
+        int m_LocalSpace;
+        int m_MaxLocalNum;
     private:
-        Value	    m_RuntimeFunctionCall;
+        Value m_RuntimeFunctionCall;
         RuntimeStatementBlock* m_RuntimeStatementBlock;
-        int			m_RuntimeObjectPrepared;
+        int m_RuntimeObjectPrepared;
 
-        InterpreterValuePool*	m_pInnerValuePool;
+        InterpreterValuePool* m_pInnerValuePool;
     public:
         static Function*& GetNullFunctionPtrRef(void)
         {
@@ -771,8 +778,8 @@ namespace FunctionScript
     public:
         void PrepareRuntimeObjectWithFunctions(void);
     public:
-        void		ClearFunctions(void) { m_FunctionNum = 0; }
-        void		AddFunction(Function* pVal)
+        void ClearFunctions(void) { m_FunctionNum = 0; }
+        void AddFunction(Function* pVal)
         {
             if (NULL == pVal || m_FunctionNum < 0 || m_FunctionNum >= m_MaxFunctionNum)
                 return;
@@ -782,16 +789,15 @@ namespace FunctionScript
             m_Functions[m_FunctionNum] = pVal;
             ++m_FunctionNum;
         }
-        Function*&	GetLastFunctionRef(void)
+        Function*& GetLastFunctionRef(void)
         {
             if (NULL == m_Functions || 0 == m_FunctionNum)
                 return Function::GetNullFunctionPtrRef();
             else
                 return m_Functions[m_FunctionNum - 1];
         }
-        void		SetLine(int line) { m_Line = line; }
-        int		GetLine(void)const { return m_Line; }
-        int		IsValid(void)const
+        int GetLine(void)const { return m_FunctionNum<=0 ? 0 : m_Functions[0]->GetLine(); }
+        int IsValid(void)const
         {
             if (NULL != m_Functions && m_FunctionNum > 0 && m_Functions[0]->IsValid())
                 return TRUE;
@@ -805,8 +811,8 @@ namespace FunctionScript
                 return GetFunction(0)->GetId();
             return 0;
         }
-        int			GetFunctionNum(void)const { return m_FunctionNum; }
-        Function*	GetFunction(int index)const
+        int GetFunctionNum(void)const { return m_FunctionNum; }
+        Function* GetFunction(int index)const
         {
             if (NULL == m_Functions || index < 0 || index >= m_FunctionNum || index >= m_MaxFunctionNum)
                 return 0;
@@ -819,18 +825,16 @@ namespace FunctionScript
             ReleaseFunctions();
         }
     private:
-        void				PrepareFunctions(void);
-        void				ReleaseFunctions(void);
+        void PrepareFunctions(void);
+        void ReleaseFunctions(void);
     private:
         Function**	m_Functions;
-        int					m_FunctionNum;
-        int					m_FunctionSpace;
-        int					m_MaxFunctionNum;
+        int m_FunctionNum;
+        int m_FunctionSpace;
+        int m_MaxFunctionNum;
     private:
-        int					m_Line;
-    private:
-        Value   		m_RuntimeObject;
-        int				m_RuntimeObjectPrepared;
+        Value m_RuntimeObject;
+        int m_RuntimeObjectPrepared;
     };
 
     inline const char* Function::GetParamId(int ix)const
@@ -1005,12 +1009,12 @@ namespace FunctionScript
         explicit RuntimeComponent(Interpreter& interpreter) :m_Interpreter(&interpreter) {}
         virtual ~RuntimeComponent(void) {}
     protected:
-        void			ReplaceVariableWithValue(Value* pParams, int num)const;
-        void			ReplaceVariableWithValue(Value& p)const;
-        void			SetVariableValue(const Value& p, const Value& val)const;
-        const Value&	GetVariableValue(const Value& p)const;
+        void ReplaceVariableWithValue(Value* pParams, int num)const;
+        void ReplaceVariableWithValue(Value& p)const;
+        void SetVariableValue(const Value& p, const Value& val)const;
+        const Value& GetVariableValue(const Value& p)const;
     protected:
-        Interpreter*	m_Interpreter;
+        Interpreter* m_Interpreter;
     };
 
     /*
@@ -1087,8 +1091,8 @@ namespace FunctionScript
             //CrashAssert(0!=m_Object);
         }
     private:
-        ExpressionApi*	m_Object;
-        int 			m_MemberIndex;
+        ExpressionApi* m_Object;
+        int m_MemberIndex;
     };
     typedef MemberAccessor* MemberAccessorPtr;
 
@@ -1132,17 +1136,17 @@ namespace FunctionScript
         void ResetTemp(void);
         void AddTempToMember(int skipNum);
     private:
-        NameIndexMap*			m_NameIndexMap;
-        MemberInfo*				m_MemberInfos;
-        MemberAccessorPtr*		m_Accessors;
-        int						m_MemberNum;
-        int						m_Capacity;
+        NameIndexMap* m_NameIndexMap;
+        MemberInfo* m_MemberInfos;
+        MemberAccessorPtr* m_Accessors;
+        int m_MemberNum;
+        int m_Capacity;
     private://
-        MemberAccessorPtr*		m_InnerMemberAccessors;
-        int						m_InnerMemberNum;
+        MemberAccessorPtr* m_InnerMemberAccessors;
+        int m_InnerMemberNum;
     private:
-        MemberInfo				m_TempMemberInfo;
-        MemberAccessor			m_TempAccessor;
+        MemberInfo m_TempMemberInfo;
+        MemberAccessor m_TempAccessor;
     };
 
     class Object : public ObjectBase
@@ -1191,13 +1195,13 @@ namespace FunctionScript
     private:
         int GetMemberIndex(const char* name)const;
     private:
-        const Statement*	m_pDefinition;
-        MemberInfo*			m_MemberInfos;
-        MemberAccessorPtr*	m_Accessors;
-        int					m_MemberNum;
+        const Statement* m_pDefinition;
+        MemberInfo* m_MemberInfos;
+        MemberAccessorPtr* m_Accessors;
+        int m_MemberNum;
 
-        unsigned int				m_Size;
-        unsigned int				m_Addr;
+        unsigned int m_Size;
+        unsigned int m_Addr;
     };
 
     class RuntimeFunctionCall : public StatementApi
@@ -1214,7 +1218,7 @@ namespace FunctionScript
         int m_ParamNum;
         Value* m_Params;
 
-        InterpreterValuePool*	m_pInnerValuePool;
+        InterpreterValuePool* m_pInnerValuePool;
     };
 
     class RuntimeStatementBlock
@@ -1229,7 +1233,7 @@ namespace FunctionScript
         int m_StatementNum;
         StatementApi** m_Statements;
 
-        InterpreterValuePool*	m_pInnerValuePool;
+        InterpreterValuePool* m_pInnerValuePool;
     };
 
     class RuntimeStatement : public StatementApi
@@ -1250,17 +1254,17 @@ namespace FunctionScript
     class ErrorAndStringBuffer
     {
     public:
-        void				    ClearErrorInfo(void);
-        void				    AddError(const char* error);
-        int			HasError(void)const { return m_HasError; }
-        int			GetErrorNum(void)const { return m_ErrorNum; }
+        void ClearErrorInfo(void);
+        void AddError(const char* error);
+        int HasError(void)const { return m_HasError; }
+        int GetErrorNum(void)const { return m_ErrorNum; }
         const char*	GetErrorInfo(int index) const
         {
             if (index < 0 || index >= m_ErrorNum || index >= MAX_RECORD_ERROR_NUM)
                 return "";
             return m_ErrorInfo[index];
         }
-        char*		NewErrorInfo(void)
+        char* NewErrorInfo(void)
         {
             m_HasError = TRUE;
             if (m_ErrorNum < MAX_RECORD_ERROR_NUM) {
@@ -1272,13 +1276,13 @@ namespace FunctionScript
             }
         }
     public:
-        int			GetUnusedStringLength(void)const
+        int GetUnusedStringLength(void)const
         {
             DebugAssert(m_pStringBuffer);
             DebugAssert(m_ppUnusedStringRef);
             return m_MaxStringBufferLength - int(*m_ppUnusedStringRef - m_pStringBuffer);
         }
-        char*&		GetUnusedStringPtrRef(void)
+        char*& GetUnusedStringPtrRef(void)
         {
             DebugAssert(m_ppUnusedStringRef);
             return *m_ppUnusedStringRef;
@@ -1299,11 +1303,11 @@ namespace FunctionScript
         }
     private:
         int	m_HasError;
-        char	m_ErrorInfo[MAX_RECORD_ERROR_NUM][MAX_ERROR_INFO_CAPACITY];
-        int		m_ErrorNum;
-        char*	m_pStringBuffer;
+        char m_ErrorInfo[MAX_RECORD_ERROR_NUM][MAX_ERROR_INFO_CAPACITY];
+        int m_ErrorNum;
+        char* m_pStringBuffer;
         char**	m_ppUnusedStringRef;
-        int		m_MaxStringBufferLength;
+        int m_MaxStringBufferLength;
     };
 
     /*
@@ -1325,11 +1329,11 @@ namespace FunctionScript
 
         struct StackInfo
         {
-            int                 m_Start;
-            Value*              m_Params;
-            Value	              m_Size;
-            Value               m_ParamNum;
-            const Statement*    m_pDefinition;
+            int m_Start;
+            Value* m_Params;
+            Value m_Size;
+            Value m_ParamNum;
+            const Statement* m_pDefinition;
 
             StackInfo(void) :m_Start(-1), m_Size(0), m_Params(0), m_ParamNum(0), m_pDefinition(0)
             {
@@ -1342,45 +1346,45 @@ namespace FunctionScript
         };
         typedef DequeT<StackInfo, MAX_STACK_LEVEL> StackInfos;
     public:
-        void				  RegisterStatementApi(const char* id, StatementApiFactory* p);
-        void				  RegisterPredefinedValue(const char* id, const Value& val);
-        void				  PrepareRuntimeObject(void);
-        ExecuteResultEnum	Execute(Value* pRetValue);
-        ExecuteResultEnum	CallMember(ExpressionApi& obj, const Value& member, int isProperty, int paramClass, Value* pParams, int paramNum, Value* pRetValue);
+        void RegisterStatementApi(const char* id, StatementApiFactory* p);
+        void RegisterPredefinedValue(const char* id, const Value& val);
+        void PrepareRuntimeObject(void);
+        ExecuteResultEnum Execute(Value* pRetValue);
+        ExecuteResultEnum CallMember(ExpressionApi& obj, const Value& member, int isProperty, int paramClass, Value* pParams, int paramNum, Value* pRetValue);
     public:
-        StatementApiFactory*	GetLiteralArrayApi(void)const;
-        StatementApiFactory*	GetLiteralObjectApi(void)const;
-        ExpressionApi*  FindFunctionApi(const char* id)const;
-        StatementApiFactory*	FindStatementApi(const Statement& statement)const;
-        const Value&	GetPredefinedValue(const char* id)const;
-        void				  SetValue(const char* id, const Value& val);
-        const Value&	GetValue(const char* id)const;
-        int					  GetValueIndex(const char* id)const;
-        const char*   GetValueName(int indexType, int index)const;
-        void				  SetValue(int indexType, int index, const Value& val);
-        const Value&	GetValue(int indexType, int index)const;
-        int           GetValueNum(void)const { return m_ValueNum; }
+        StatementApiFactory* GetLiteralArrayApi(void)const;
+        StatementApiFactory* GetLiteralObjectApi(void)const;
+        ExpressionApi* FindFunctionApi(const char* id)const;
+        StatementApiFactory* FindStatementApi(const Statement& statement)const;
+        const Value& GetPredefinedValue(const char* id)const;
+        void SetValue(const char* id, const Value& val);
+        const Value& GetValue(const char* id)const;
+        int GetValueIndex(const char* id)const;
+        const char* GetValueName(int indexType, int index)const;
+        void SetValue(int indexType, int index, const Value& val);
+        const Value& GetValue(int indexType, int index)const;
+        int GetValueNum(void)const { return m_ValueNum; }
     public:
-        void				  PushStackInfo(Value* pParams, int paramNum, int stackSize, const Statement& definition);
-        void				  PopStackInfo(void);
-        int				  IsStackEmpty(void)const;
-        int				  IsStackFull(void)const;
-        const StackInfo&	GetTopStackInfo(void)const;
-        int           GetStackValueNum(void)const;
+        void PushStackInfo(Value* pParams, int paramNum, int stackSize, const Statement& definition);
+        void PopStackInfo(void);
+        int IsStackEmpty(void)const;
+        int IsStackFull(void)const;
+        const StackInfo& GetTopStackInfo(void)const;
+        int GetStackValueNum(void)const;
     public:
-        int				  PushFunctionDefinition(Function* pFunction);
-        int				  PopFunctionDefinition(void);
-        Function*			GetCurFunctionDefinition(void)const;
+        int PushFunctionDefinition(Function* pFunction);
+        int PopFunctionDefinition(void);
+        Function* GetCurFunctionDefinition(void)const;
     public:
-        void				  AddStatement(Statement* p);
+        void AddStatement(Statement* p);
     public:
-        Function*			AddNewFunctionComponent(void);
-        Statement*		AddNewStatementComponent(void);
+        Function* AddNewFunctionComponent(void);
+        Statement* AddNewStatementComponent(void);
         RuntimeFunctionCall* AddNewRuntimeFunctionComponent(void);
         RuntimeStatement* AddNewRuntimeStatementComponent(void);
-        Closure*      AddNewClosureComponent(void);
-        Object*				AddNewObjectComponent(void);
-        Struct*				AddNewStructComponent(void);
+        Closure* AddNewClosureComponent(void);
+        Object* AddNewObjectComponent(void);
+        Struct* AddNewStructComponent(void);
     public:
         template<typename T> inline T* AddNewStatementApiComponent(void)
         {
@@ -1391,95 +1395,95 @@ namespace FunctionScript
             return p;
         }
     public:
-        void				  AddSyntaxComponent(SyntaxComponent* p);
-        int           GetSyntaxComponentNum(void)const { return m_SyntaxComponentNum; }
-        void				  AddRuntimeComponent(RuntimeComponent* p);
-        int           GetRuntimeComponentNum(void)const { return m_RuntimeComponentNum; }
+        void AddSyntaxComponent(SyntaxComponent* p);
+        int GetSyntaxComponentNum(void)const { return m_SyntaxComponentNum; }
+        void AddRuntimeComponent(RuntimeComponent* p);
+        int GetRuntimeComponentNum(void)const { return m_RuntimeComponentNum; }
     public:
-        char*				  AllocString(int len);
-        char*				  AllocString(const char* src);
-        char*	        GetStringBuffer(void)const { return m_StringBuffer; }
-        char*&	      GetUnusedStringPtrRef(void) { return m_UnusedStringPtr; }
+        char* AllocString(int len);
+        char* AllocString(const char* src);
+        char* GetStringBuffer(void)const { return m_StringBuffer; }
+        char*& GetUnusedStringPtrRef(void) { return m_UnusedStringPtr; }
     public:
         Interpreter(void);
         Interpreter(const InterpreterOptions& options);
         ~Interpreter(void);
-        void				  Reset(void);
-        int		      SetNextStatement(int ip)
+        void Reset(void);
+        int SetNextStatement(int ip)
         {
             if (ip < 0 || ip >= m_StatementNum)
                 return FALSE;
             else
                 m_NextStatement = ip;
         }
-        int		        GetStatementNum(void)const { return m_StatementNum; }
+        int GetStatementNum(void)const { return m_StatementNum; }
     private:
-        void				  Init(void);
-        void				  Release(void);
-        void				  InitInnerApis(void);
-        void				  ReleaseInnerApis(void);
-        void				  RegisterInnerFunctionApi(const char* id, ExpressionApi* p);
-        void				  RegisterInnerStatementApi(const char* id, StatementApiFactory* p);
+        void Init(void);
+        void Release(void);
+        void InitInnerApis(void);
+        void ReleaseInnerApis(void);
+        void RegisterInnerFunctionApi(const char* id, ExpressionApi* p);
+        void RegisterInnerStatementApi(const char* id, StatementApiFactory* p);
     private:
-        char*				  m_StringBuffer;
-        char*				  m_UnusedStringPtr;
+        char* m_StringBuffer;
+        char* m_UnusedStringPtr;
         SyntaxComponentPtr* m_SyntaxComponentPool;
-        int					  m_SyntaxComponentNum;
+        int m_SyntaxComponentNum;
         RuntimeComponentPtr*  m_RuntimeComponentPool;
-        int					  m_RuntimeComponentNum;
-        StatementPtr*	m_Program;
+        int m_RuntimeComponentNum;
+        StatementPtr* m_Program;
         StatementApiPtr* m_RuntimeProgram;
-        int					  m_StatementNum;
-        Functions			m_InnerFunctionApis;
-        StatementApiFactories			m_StatementApis;
-        StatementApiFactories			m_InnerStatementApis;
-        Value*				m_PredefinedValue;
-        int					  m_PredefinedValueNum;
-        ValueIndexes	m_PredefinedValueIndexes;
-        Value*				m_ValuePool;
-        int					  m_ValueNum;
-        ValueIndexes	m_ValueIndexes;
-        Value*        m_StackValuePool;
-        StackInfos    m_StackInfos;
+        int m_StatementNum;
+        Functions m_InnerFunctionApis;
+        StatementApiFactories m_StatementApis;
+        StatementApiFactories m_InnerStatementApis;
+        Value* m_PredefinedValue;
+        int m_PredefinedValueNum;
+        ValueIndexes m_PredefinedValueIndexes;
+        Value* m_ValuePool;
+        int m_ValueNum;
+        ValueIndexes m_ValueIndexes;
+        Value* m_StackValuePool;
+        StackInfos m_StackInfos;
         FunctionDefinitionStack	m_FunctionDefinitionStack;
 
-        int					m_NextStatement;
+        int m_NextStatement;
     public://仅用于解释器的数据池，仅用于函数或语句里面用来替代局部变量，alloc与recycle必须成对并且符合栈的操作顺序（后进先出）！！！
-        InterpreterValuePool&	GetInnerValuePool(void) { return m_InterpreterValuePool; }
+        InterpreterValuePool& GetInnerValuePool(void) { return m_InterpreterValuePool; }
     private:
-        InterpreterValuePool	m_InterpreterValuePool;
+        InterpreterValuePool m_InterpreterValuePool;
     public:
-        void		EnableDebugInfo(void) { m_IsDebugInfoEnable = TRUE; }
-        void		DisableDebugInfo(void) { m_IsDebugInfoEnable = FALSE; }
-        int		IsDebugInfoEnable(void)const { return m_IsDebugInfoEnable; }
-        int		IsRunFlagEnable(void)const
+        void EnableDebugInfo(void) { m_IsDebugInfoEnable = TRUE; }
+        void DisableDebugInfo(void) { m_IsDebugInfoEnable = FALSE; }
+        int IsDebugInfoEnable(void)const { return m_IsDebugInfoEnable; }
+        int IsRunFlagEnable(void)const
         {
             if (0 == m_pRunFlag || *m_pRunFlag)
                 return TRUE;
             else
                 return FALSE;
         }
-        void		SetExternRunFlagRef(int& flag) { m_pRunFlag = &flag; }
+        void SetExternRunFlagRef(int& flag) { m_pRunFlag = &flag; }
     private:
-        int				  m_IsDebugInfoEnable;
-        const int*		m_pRunFlag;
+        int m_IsDebugInfoEnable;
+        const int* m_pRunFlag;
     public:
-        void		ClearErrorInfo(void) { m_ErrorAndStringBuffer.ClearErrorInfo(); }
-        void		AddError(const char* error) { m_ErrorAndStringBuffer.AddError(error); }
-        int		HasError(void)const { return m_ErrorAndStringBuffer.HasError(); }
-        int		GetErrorNum(void) { return m_ErrorAndStringBuffer.GetErrorNum(); }
+        void ClearErrorInfo(void) { m_ErrorAndStringBuffer.ClearErrorInfo(); }
+        void AddError(const char* error) { m_ErrorAndStringBuffer.AddError(error); }
+        int HasError(void)const { return m_ErrorAndStringBuffer.HasError(); }
+        int GetErrorNum(void) { return m_ErrorAndStringBuffer.GetErrorNum(); }
         const char*	GetErrorInfo(int index) const { return m_ErrorAndStringBuffer.GetErrorInfo(index); }
-        char*	NewErrorInfo(void) { return m_ErrorAndStringBuffer.NewErrorInfo(); }
+        char* NewErrorInfo(void) { return m_ErrorAndStringBuffer.NewErrorInfo(); }
     public:
-        ErrorAndStringBuffer&		    GetErrorAndStringBuffer(void) { return m_ErrorAndStringBuffer; }
+        ErrorAndStringBuffer& GetErrorAndStringBuffer(void) { return m_ErrorAndStringBuffer; }
         const ErrorAndStringBuffer&	GetErrorAndStringBuffer(void)const { return m_ErrorAndStringBuffer; }
     private:
         ErrorAndStringBuffer m_ErrorAndStringBuffer;
     public:
-        InterpreterOptions&			  GetOptions(void) { return m_Options; }
-        const InterpreterOptions&	GetOptions(void)const { return m_Options; }
+        InterpreterOptions& GetOptions(void) { return m_Options; }
+        const InterpreterOptions& GetOptions(void)const { return m_Options; }
     private:
-        InterpreterOptions	m_Options;
+        InterpreterOptions m_Options;
     };
 
     class IScriptSource

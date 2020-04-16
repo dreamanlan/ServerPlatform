@@ -52,7 +52,6 @@ namespace FunctionScript
             Statement* pStatement = mInterpreter->AddNewStatementComponent();
             if (0 == pStatement)
                 return;
-            pStatement->SetLine(mThis->getLastLineNumber());
             mData.pushStatement(pStatement);
 
             Function* p = mInterpreter->AddNewFunctionComponent();
@@ -63,6 +62,7 @@ namespace FunctionScript
 
                     Value v = p->GetName();
                     Value op(tokenInfo.mString + 1, Value::TYPE_VARIABLE_NAME);
+                    op.SetLine(mThis->getLastLineNumber());
                     p->SetName(op);
                 }
                 else {
@@ -70,6 +70,7 @@ namespace FunctionScript
 
                     Value v = p->GetName();
                     Value op(tokenInfo.mString, Value::TYPE_VARIABLE_NAME);
+                    op.SetLine(mThis->getLastLineNumber());
                     p->SetName(op);
                 }
 
@@ -99,7 +100,6 @@ namespace FunctionScript
         Statement* pStatement = mInterpreter->AddNewStatementComponent();
         if (0 == pStatement)
             return;
-        pStatement->SetLine(mThis->getLastLineNumber());
         mData.pushStatement(pStatement);
 
         Function* p = mInterpreter->AddNewFunctionComponent();
@@ -108,6 +108,7 @@ namespace FunctionScript
             p->SetExtentClass(Function::EXTENT_CLASS_STATEMENT);
 
             Value op(tokenInfo.mString, Value::TYPE_VARIABLE_NAME);
+            op.SetLine(mThis->getLastLineNumber());
             p->SetName(op);
             wrapObjectMember(*pArg);
             p->AddParam(pArg);
@@ -134,6 +135,7 @@ namespace FunctionScript
                 p->SetExtentClass(Function::EXTENT_CLASS_STATEMENT);
 
                 Value op(tokenInfo.mString, Value::TYPE_VARIABLE_NAME);
+                op.SetLine(mThis->getLastLineNumber());
                 p->SetName(op);
 
                 statement->AddFunction(p);
@@ -148,7 +150,6 @@ namespace FunctionScript
         Statement* p = mInterpreter->AddNewStatementComponent();
         if (0 == p)
             return;
-        p->SetLine(mThis->getLastLineNumber());
         mData.pushStatement(p);
     }
     template<class RealTypeT> inline
@@ -265,6 +266,7 @@ namespace FunctionScript
         if (0 != p && !p->IsValid()) {
             Value val = tokenInfo.ToValue();
             if (FALSE == val.IsInvalid()) {
+                val.SetLine(mThis->getLastLineNumber());
                 p->SetName(val);
             }
         }
@@ -299,6 +301,7 @@ namespace FunctionScript
                 if (val.IsVariableName() && val.GetString()) {
                     val.SetWeakRefString(val.GetString());
                 }
+                val.SetLine(mThis->getLastLineNumber());
                 p->SetName(val);
             }
         }
@@ -321,6 +324,7 @@ namespace FunctionScript
             newP->ClearParams();
             newP->ClearStatements();
             Value val(p);
+            val.SetLine(p->GetLine());
             newP->SetName(val);
             p = newP;
         }

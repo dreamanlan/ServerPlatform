@@ -31,10 +31,10 @@ public:
     {
         union
         {
-            char*	mString;
-            int		mInteger;
-            float	mFloat;
-            bool	mBool;
+            char* mString;
+            int mInteger;
+            float mFloat;
+            bool mBool;
         };
         int mType;
 
@@ -112,11 +112,11 @@ public:
         }
     }
 private:
-    TokenStack		mTokenStack;
-    SemanticStack	mSemanticStack;
+    TokenStack mTokenStack;
+    SemanticStack mSemanticStack;
 
-    int				mByteCodeLength;
-    char			mByteCode[s_c_MaxByteCodeLength];
+    int mByteCodeLength;
+    char mByteCode[s_c_MaxByteCodeLength];
 };
 
 #endif //__RuntimeBuilderData_H__

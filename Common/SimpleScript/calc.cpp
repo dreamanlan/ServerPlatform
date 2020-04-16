@@ -3907,8 +3907,7 @@ namespace FunctionScript
         m_RuntimeObjectPrepared(FALSE),
         m_Functions(0),
         m_FunctionNum(0),
-        m_FunctionSpace(0),
-        m_Line(-1)
+        m_FunctionSpace(0)
     {
         const InterpreterOptions& options = interpreter.GetOptions();
         m_MaxFunctionNum = options.GetMaxFunctionDimensionNum();
