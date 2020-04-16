@@ -68,9 +68,9 @@ void SessionManager::Tick(void)
           int handle = handles[i];
           const SessionInfo& info = m_Sessions.Get(handle);
           if (info.IsValid()){
-            __Internal_Log("session %d name %s removed for invalid session", info.m_Handle, info.m_Name);
+            __Internal_Log("session %d name %s removed for invalid session", info.m_Handle, info.m_Value);
 
-            BroadcastRemoveNameHandle(info.m_Name, info.m_Handle);
+            BroadcastRemoveNameHandle(info.m_Value, info.m_Handle);
 
             delete info.m_Session;
           }
@@ -137,9 +137,9 @@ bool SessionManager::OnSessionError(TcpSession* session, int err)
   int handle = session->GetFD();
   const SessionInfo& info = m_Sessions.Get(handle);
   if (info.IsValid()){
-    __Internal_Log("session %d name %s removed for error %d", handle, info.m_Name, err);
+    __Internal_Log("session %d name %s removed for error %d", handle, info.m_Value, err);
 
-    BroadcastRemoveNameHandle(info.m_Name, info.m_Handle);
+    BroadcastRemoveNameHandle(info.m_Value, info.m_Handle);
   } else {
     __Internal_Log("session %d name (unknown) removed for error %d", handle, err);
   }
@@ -163,7 +163,7 @@ void SessionManager::HandleMyName(TcpSession* session, const char* data, int len
 
     SendNameHandleList(src);
 
-    tsnprintf(sessionInfo.m_Name, sizeof(sessionInfo.m_Name), "%s", msg->m_Name);
+    tsnprintf(sessionInfo.m_Value, sizeof(sessionInfo.m_Value), "%s", msg->m_Name);
     BroadcastAddNameHandle(msg->m_Name, src);
 
     __Internal_Log("session %d receive (MessageMyName:%s)", src, msg->m_Name);
@@ -285,13 +285,13 @@ void SessionManager::BroadcastNameHandleList(void)
   int ct = 0;
   for (Sessions::Iterator it = m_Sessions.First(); !it.IsNull(); ++it){
     const SessionInfo& info = it->GetValue();
-    size_t len = strlen(info.m_Name);
+    size_t len = strlen(info.m_Value);
     if (len > 0){
       int msgSize = sizeof(MessageAddNameHandle) + len;
       MessageAddNameHandle* msg = reinterpret_cast<MessageAddNameHandle*>(new char[msgSize]);
       msg->SetClass(MSG_CS_ADD_NAME_HANDLE);
       msg->m_Handle = info.m_Handle;
-      memcpy(msg->m_Name, info.m_Name, len + 1);
+      memcpy(msg->m_Name, info.m_Value, len + 1);
 
       addMsgs[ct] = msg;
       ++ct;
@@ -324,13 +324,13 @@ void SessionManager::SendNameHandleList(int handle)
   if (receiver.IsValid()){
     for (Sessions::Iterator it = m_Sessions.First(); !it.IsNull(); ++it){
       const SessionInfo& info = it->GetValue();
-      size_t len = strlen(info.m_Name);
+      size_t len = strlen(info.m_Value);
       if (len > 0){
         int msgSize = sizeof(MessageAddNameHandle) + len;
         MessageAddNameHandle* msg = reinterpret_cast<MessageAddNameHandle*>(new char[msgSize]);
         msg->SetClass(MSG_CS_ADD_NAME_HANDLE);
         msg->m_Handle = info.m_Handle;
-        memcpy(msg->m_Name, info.m_Name, len + 1);
+        memcpy(msg->m_Name, info.m_Value, len + 1);
         
         receiver.m_Session->Send(reinterpret_cast<const char*>(msg), msgSize);
         delete[] (char*)msg;

@@ -93,9 +93,9 @@ namespace FunctionScript
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
         inline int wrapObjectMemberInHighOrderFunction(ISyntaxComponent& comp);
-        inline ISyntaxComponent& simplifyStatement(Statement& data)const;
-        inline ISyntaxComponent& simplifyStatement(Function& data)const;
-        inline ISyntaxComponent& simplifyStatement(Call& data)const;
+        inline ISyntaxComponent& simplifyStatement(StatementData& data)const;
+        inline ISyntaxComponent& simplifyStatement(FunctionData& data)const;
+        inline ISyntaxComponent& simplifyStatement(CallData& data)const;
         inline bool	preconditionCheck(void)const
         {
             return NULL != mThis && NULL != mInterpreter;

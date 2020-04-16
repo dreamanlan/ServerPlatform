@@ -9,8 +9,8 @@
 
 namespace FunctionScript
 {
-    class Function;
-    class Statement;
+    class FunctionData;
+    class StatementData;
     class Interpreter;
     class Value;
 }
@@ -59,7 +59,7 @@ public:
     };
 private:
     typedef DequeT<TokenInfo, STACKSIZE> TokenStack;
-    typedef DequeT<FunctionScript::Statement*, STACKSIZE> SemanticStack;
+    typedef DequeT<FunctionScript::StatementData*, STACKSIZE> SemanticStack;
 public:
     void resetByteCode(void);
     void setByteCode(const char* pByteCode, int len);
@@ -70,10 +70,10 @@ public:
     void push(const TokenInfo& info);
     TokenInfo pop(void);
     int isSemanticStackEmpty(void)const;
-    void pushStatement(FunctionScript::Statement* p);
-    FunctionScript::Statement* popStatement(void);
-    FunctionScript::Statement* getCurStatement(void);
-    FunctionScript::Function*& getLastFunctionRef(void);
+    void pushStatement(FunctionScript::StatementData* p);
+    FunctionScript::StatementData* popStatement(void);
+    FunctionScript::StatementData* getCurStatement(void);
+    FunctionScript::FunctionData*& getLastFunctionRef(void);
 public:
     inline void genByteCode(char data) { genByteCode(static_cast<unsigned char>(data)); }
     inline void genByteCode(short data) { genByteCode(static_cast<unsigned short>(data)); }

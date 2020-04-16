@@ -63,33 +63,33 @@ int RuntimeBuilderData::isSemanticStackEmpty(void)const
 {
     return mSemanticStack.Empty();
 }
-void RuntimeBuilderData::pushStatement(FunctionScript::Statement* p)
+void RuntimeBuilderData::pushStatement(FunctionScript::StatementData* p)
 {
     mSemanticStack.PushBack(p);
 }
-FunctionScript::Statement* RuntimeBuilderData::popStatement(void)
+FunctionScript::StatementData* RuntimeBuilderData::popStatement(void)
 {
     if (mSemanticStack.Empty()) {
         return 0;
     }
-    Statement* cdata = mSemanticStack.Back();
+    StatementData* cdata = mSemanticStack.Back();
     mSemanticStack.PopBack();
     return cdata;
 }
-FunctionScript::Statement* RuntimeBuilderData::getCurStatement(void)
+FunctionScript::StatementData* RuntimeBuilderData::getCurStatement(void)
 {
     if (mSemanticStack.Empty())
         return 0;
-    Statement* topData = mSemanticStack.Back();
+    StatementData* topData = mSemanticStack.Back();
     return topData;
 }
-FunctionScript::Function*& RuntimeBuilderData::getLastFunctionRef(void)
+FunctionScript::FunctionData*& RuntimeBuilderData::getLastFunctionRef(void)
 {
-    Statement* statement = getCurStatement();
+    StatementData* statement = getCurStatement();
     if (0 != statement)
         return statement->GetLastFunctionRef();
     else
-        return Function::GetNullFunctionPtrRef();
+        return FunctionData::GetNullFunctionPtrRef();
 }
 //--------------------------------------------------------------------------------------
 void RuntimeBuilderData::genByteCode(unsigned char data)
