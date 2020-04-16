@@ -70,13 +70,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;__WINDOWS__;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../Common/SimpleScript;../Common/TinyXml;../Common/NetBase;../Common/LockFree;../Common;../SessionInfo;./Common/GmScript;./Common;./Compress;../libevent-2.1.10-stable/WIN32-Code/nmake/event2;../libevent-2.1.10-stable/WIN32-Code/nmake;../libevent-2.1.10-stable/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Common/SimpleScript;../Common/TinyXml;../Common/NetBase;../Common/LockFree;../Common;../SessionInfo;./Common/GmScript;./Common;./Compress;../libevent-2.1.11-stable/build/include;../libevent-2.1.11-stable/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;libevent_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>./$(Configuration);../libevent-2.1.10-stable;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;event_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./$(Configuration);../libevent-2.1.11-stable/build/lib/debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

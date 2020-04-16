@@ -60,13 +60,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Common/NetBase;../Common/TinyXml;../Common/SimpleScript;../Common/LockFree;../Common/ConfigScript;../Common;../SessionInfo;../libevent-2.1.10-stable/Win32-Code/nmake/event2;../libevent-2.1.10-stable/Win32-Code/nmake;../libevent-2.1.10-stable/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Common/NetBase;../Common/TinyXml;../Common/SimpleScript;../Common/LockFree;../Common/ConfigScript;../Common;../SessionInfo;../libevent-2.1.11-stable/build/include;../libevent-2.1.11-stable/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_DLL;__WINDOWS__;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../libevent-2.1.10-stable</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libevent_core.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../libevent-2.1.11-stable/build/lib/debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>event_core.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>DllExport.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>

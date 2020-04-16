@@ -1,13 +1,16 @@
 AdminTool/Debug
 AdminTool/Release
+AdminTool/x64
 AdminTool/*.suo
 AdminTool/*.user
 CenterClientLibrary/Debug
 CenterClientLibrary/Release
+CenterClientLibrary/x64
 CenterClientLibrary/*.suo
 CenterClientLibrary/*.user
 CenterHubLibrary/Debug
 CenterHubLibrary/Release
+CenterHubLibrary/x64
 CenterHubLibrary/*.suo
 CenterHubLibrary/*.user
 CSharpCenterClient/bin
@@ -18,8 +21,9 @@ CSharpClientTest/bin
 CSharpClientTest/obj
 CSharpClientTest/*.suo
 CSharpClientTest/*.user
-libevent-2.1.10-stable/*.obj
+libevent-2.1.11-stable/build
 ServerCenter/Debug
 ServerCenter/Release
+ServerCenter/x64
 ServerCenter/*.suo
 ServerCenter/*.user
