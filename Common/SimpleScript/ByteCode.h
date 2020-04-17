@@ -1,4 +1,4 @@
-#ifndef __ByteCode_H__
+ï»¿#ifndef __ByteCode_H__
 #define __ByteCode_H__
 
 #include "calc.h"
@@ -263,7 +263,7 @@ namespace FunctionScript
         }
         inline void genLastLineNumber(void)
         {
-            //ÕâĞÅÏ¢¾Í²»Éú³ÉÁË£¬Ê¡µã¿Õ¼ä
+            //è¿™ä¿¡æ¯å°±ä¸ç”Ÿæˆäº†ï¼Œçœç‚¹ç©ºé—´
             //if(!preconditionCheck())return;
             //mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_LINE_NUMBER));
             //mData.genByteCode(mThis->getLastLineNumber());

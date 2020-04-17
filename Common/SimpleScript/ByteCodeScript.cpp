@@ -1,4 +1,4 @@
-#include "ByteCodeScript.h"
+﻿#include "ByteCodeScript.h"
 #include "ByteCode.h"
 
 //--------------------------------------------------------------------------------------

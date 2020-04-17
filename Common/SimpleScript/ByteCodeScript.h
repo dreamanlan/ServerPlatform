@@ -1,4 +1,4 @@
-#ifndef __ByteCodeScript_H__
+﻿#ifndef __ByteCodeScript_H__
 #define __ByteCodeScript_H__
 
 #include "calc.h"

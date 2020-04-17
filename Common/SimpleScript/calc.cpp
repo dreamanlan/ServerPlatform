@@ -1,4 +1,4 @@
-/*****************************************************************************
+ï»¿/*****************************************************************************
 
 calc.cpp
 
@@ -420,7 +420,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´Î²»µÈ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ä¸ç­‰ï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -467,7 +467,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´ÎÏàµÈ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ç›¸ç­‰ï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -514,7 +514,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´Î²»Ğ¡ÓÚ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ä¸å°äºï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -561,7 +561,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´Î²»´óÓÚ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ä¸å¤§äºï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -608,7 +608,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´Î²»Ğ¡ÓÚµÈÓÚ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ä¸å°äºç­‰äºï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -655,7 +655,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //Ö»ÒªÓĞÒ»´Î²»´óÓÚµÈÓÚ£¬ºóÃæµÄ¾Í²»ÓÃÅĞ¶ÏÁË
+                        //åªè¦æœ‰ä¸€æ¬¡ä¸å¤§äºç­‰äºï¼Œåé¢çš„å°±ä¸ç”¨åˆ¤æ–­äº†
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -685,7 +685,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (pParams[ix].GetInt() == 0) {
-                                //ÓĞÒ»¸öÎª0£¬ºóÃæ¾Í²»ÓÃÔÙ¼ÆËãÁË
+                                //æœ‰ä¸€ä¸ªä¸º0ï¼Œåé¢å°±ä¸ç”¨å†è®¡ç®—äº†
                                 pRetValue->SetInt(0);
                                 break;
                             }
@@ -717,7 +717,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (pParams[ix].GetInt() == 1) {
-                                //ÓĞÒ»¸öÎª1£¬ºóÃæ¾Í²»ÓÃÔÙ¼ÆËãÁË
+                                //æœ‰ä¸€ä¸ªä¸º1ï¼Œåé¢å°±ä¸ç”¨å†è®¡ç®—äº†
                                 pRetValue->SetInt(1);
                                 break;
                             }
@@ -970,7 +970,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (val == 0) {
-                                //ÔËËãÖĞ¼ä½á¹ûÎª0£¬ºóÃæ¾Í²»ÓÃÔÙ¼ÆËãÁË
+                                //è¿ç®—ä¸­é—´ç»“æœä¸º0ï¼Œåé¢å°±ä¸ç”¨å†è®¡ç®—äº†
                                 break;
                             }
                             else {
@@ -1005,7 +1005,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (val == (int)0xffffffff) {
-                                //ÔËËãÖĞ¼ä½á¹ûÎª0xffffffff£¬ºóÃæ¾Í²»ÓÃÔÙ¼ÆËãÁË
+                                //è¿ç®—ä¸­é—´ç»“æœä¸º0xffffffffï¼Œåé¢å°±ä¸ç”¨å†è®¡ç®—äº†
                                 break;
                             }
                             else {
@@ -2361,7 +2361,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(Value* pRetValue)const
             {
-                //º¯Êı¶¨ÒåÉú³ÉÒ»¸öClosureÊµÀı¡£
+                //å‡½æ•°å®šä¹‰ç”Ÿæˆä¸€ä¸ªClosureå®ä¾‹ã€‚
                 StatementData& statement = *m_pDefine;
                 int num = statement.GetFunctionNum();
                 if (0 == m_Interpreter || 1 != num && 2 != num)
@@ -2413,7 +2413,7 @@ namespace FunctionScript
         public:
             virtual int IsMatch(const StatementData& statement)const
             {
-                //º¯Êı¶¨ÒåÓï·¨£ºfunction(name)args(@a,@b,@c){};ÆäÖĞnameÓëargs(@a,@b,@c)¿ÉÑ¡
+                //å‡½æ•°å®šä¹‰è¯­æ³•ï¼šfunction(name)args(@a,@b,@c){};å…¶ä¸­nameä¸args(@a,@b,@c)å¯é€‰
                 int num = statement.GetFunctionNum();
                 if (1 != num && 2 != num)
                     return FALSE;
@@ -2719,7 +2719,7 @@ namespace FunctionScript
         public:
             virtual int IsMatch(const StatementData& statement)const
             {
-                //½á¹¹¶¨ÒåÓï·¨£ºstruct(name){member1(size,num);member2(size,num);...};ÆäÖĞ£¬size¿ÉÒÔÊÇÊı»òchar¡¢short¡¢int¡¢ptr
+                //ç»“æ„å®šä¹‰è¯­æ³•ï¼šstruct(name){member1(size,num);member2(size,num);...};å…¶ä¸­ï¼Œsizeå¯ä»¥æ˜¯æ•°æˆ–charã€shortã€intã€ptr
                 if (statement.GetFunctionNum() != 1)
                     return FALSE;
                 FunctionData* pFunc0 = statement.GetFunction(0);
@@ -2946,11 +2946,11 @@ namespace FunctionScript
     }
     ExecuteResultEnum Closure::Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
-        //ClosureÊµÏÖ×Ô¶¨Òåº¯ÊıµÄµ÷ÓÃ¡£
+        //Closureå®ç°è‡ªå®šä¹‰å‡½æ•°çš„è°ƒç”¨ã€‚
         if (NULL != m_Statements && NULL != m_Interpreter) {
             ReplaceVariableWithValue(pParams, num);
             AutoStackInfoStackOperation op(*m_Interpreter, pParams, num, m_StackSize, *m_pDefinition);
-            //´¦Àí²ÎÊıÁĞ±í
+            //å¤„ç†å‚æ•°åˆ—è¡¨
             if (NULL != m_pArguments) {
                 for (int i = 0; i < m_ArgumentNum && i < num; ++i) {
                     SetVariableValue(m_pArguments[i], pParams[i]);
@@ -2969,7 +2969,7 @@ namespace FunctionScript
             Value* params = op.Get();
             int paramNum = num + 2;
             if (1 == num && pParams[0].IsInvalid()) {
-                //_epsilon_¾ä·¨¸±×÷ÓÃµÄÌØÊâ´¦Àí
+                //_epsilon_å¥æ³•å‰¯ä½œç”¨çš„ç‰¹æ®Šå¤„ç†
                 num = 0;
                 paramNum = 2;
             }
@@ -3113,7 +3113,7 @@ namespace FunctionScript
                             }
                         }
                         else if (index >= m_MemberNum) {
-                            //ĞÂÔö³ÉÔ±Ö»ÔÊĞíÍ¨¹ıobj.property=val·½Ê½
+                            //æ–°å¢æˆå‘˜åªå…è®¸é€šè¿‡obj.property=valæ–¹å¼
                             if (3 == num && (CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK) {
                                 MemberInfo& info = m_TempMemberInfo;
                                 info.m_Value = pParams[2];
@@ -3145,7 +3145,7 @@ namespace FunctionScript
                             }
                         }
                     }
-                    else if (pParams[0].IsInt())//Ö±½Ó¸øÊıÖµµÄ£¬°´½Å±¾¶¨Òå³ÉÔ±½âÊÍ
+                    else if (pParams[0].IsInt())//ç›´æ¥ç»™æ•°å€¼çš„ï¼ŒæŒ‰è„šæœ¬å®šä¹‰æˆå‘˜è§£é‡Š
                     {
                         if (0 != pRetValue) {
                             int index = pParams[0].GetInt();
@@ -3269,7 +3269,7 @@ namespace FunctionScript
                             m_NameIndexMap->Add(m_TempMemberInfo.m_Name, m_MemberNum);
                         }
                         else {
-                            //ÖØ¸´Ãû×Ö£¬²»¿ÉÄÜ×ßµ½Õâ£¡
+                            //é‡å¤åå­—ï¼Œä¸å¯èƒ½èµ°åˆ°è¿™ï¼
                         }
                     }
                     m_MemberInfos[m_MemberNum] = m_TempMemberInfo;
@@ -3429,7 +3429,7 @@ namespace FunctionScript
                         const char* pName = pParams[0].GetString();
                         index = GetMemberIndex(pName);
                     }
-                    else if (pParams[0].IsInt())//ÊıÖµ½âÊÍ³É½Å±¾¶¨Òå³ÉÔ±
+                    else if (pParams[0].IsInt())//æ•°å€¼è§£é‡Šæˆè„šæœ¬å®šä¹‰æˆå‘˜
                     {
                         index = pParams[0].GetInt() + INNER_MEMBER_INDEX_NUM;
                     }
@@ -3445,8 +3445,8 @@ namespace FunctionScript
     void Struct::SetDefinitionRef(const StatementData& statement)
     {
         m_pDefinition = &statement;
-        //ÏÈ²»Ö§³ÖÇ¶Ì×½á¹¹
-        //todo:·ÖÎö¶¨Òå£¬Éú³É½á¹¹²¼¾ÖÊı¾İ£¬³õÊ¼»¯m_Accessors
+        //å…ˆä¸æ”¯æŒåµŒå¥—ç»“æ„
+        //todo:åˆ†æå®šä¹‰ï¼Œç”Ÿæˆç»“æ„å¸ƒå±€æ•°æ®ï¼Œåˆå§‹åŒ–m_Accessors
         FunctionData* pFunc = statement.GetFunction(0);
         if (0 != pFunc && 0 != m_Interpreter) {
             int memberNum = pFunc->GetStatementNum();
@@ -3651,12 +3651,12 @@ namespace FunctionScript
             return;
         if (m_RuntimeObjectPrepared)
             return;
-        //´¦Àíº¯ÊıÃû
+        //å¤„ç†å‡½æ•°å
         Value& valOfName = m_Name.GetValue();
         if (valOfName.IsIdentifier()) {
             char* pStr = valOfName.GetString();
             if (NULL != pStr) {
-                if (pStr[0] == '$')//²ÎÊı
+                if (pStr[0] == '$')//å‚æ•°
                 {
                     if (pStr[1] == '$') {
                         valOfName.SetArgIndex(-1);
@@ -3668,7 +3668,7 @@ namespace FunctionScript
                         }
                     }
                 }
-                else if (pStr[0] == '@')//¾Ö²¿±äÁ¿
+                else if (pStr[0] == '@')//å±€éƒ¨å˜é‡
                 {
                     if (pStr[1] == '@') {
                         valOfName.SetLocalIndex(-1);
@@ -3687,18 +3687,18 @@ namespace FunctionScript
                     }
                 }
                 else {
-                    //º¯Êı¡¢È«¾Ö±äÁ¿ÓëÔ¤¶¨Òå±äÁ¿
+                    //å‡½æ•°ã€å…¨å±€å˜é‡ä¸é¢„å®šä¹‰å˜é‡
                     if (0 == strcmp(pStr, "this")) {
                         //this <=> $0
                         valOfName.SetArgIndex(0);
                     }
                     else {
                         ExpressionApi* p = m_Interpreter->FindFunctionApi(pStr);
-                        //ÆÕÍ¨±äÁ¿
+                        //æ™®é€šå˜é‡
                         AutoInterpreterValuePoolValueOperation op(*m_pInnerValuePool);
                         Value& val = op.Get();
                         if (0 != p) {
-                            //ÄÚ²¿apiÃû³Æ²»×÷±äÁ¿´¦Àí£¬Ö±½Ó¼ÆËãÖµ£¨Ïàµ±ÓÚ³£Á¿£©£¬ÔËĞĞÊ±»áÉÙÒ»´Î¼ÆËã±äÁ¿ÖµµÄ¼ä½Ó´¦Àí
+                            //å†…éƒ¨apiåç§°ä¸ä½œå˜é‡å¤„ç†ï¼Œç›´æ¥è®¡ç®—å€¼ï¼ˆç›¸å½“äºå¸¸é‡ï¼‰ï¼Œè¿è¡Œæ—¶ä¼šå°‘ä¸€æ¬¡è®¡ç®—å˜é‡å€¼çš„é—´æ¥å¤„ç†
                             val.SetExpression(p);
                             valOfName = val;
                         }
@@ -3717,7 +3717,7 @@ namespace FunctionScript
             valOfName.GetSyntaxComponent()->PrepareRuntimeObject();
         }
         m_RuntimeObjectPrepared = TRUE;
-        //²ÎÊı
+        //å‚æ•°
         if (0 != m_Params) {
             for (int ix = 0; ix < m_ParamNum; ++ix) {
                 if (0 != m_Params[ix]) {
@@ -3726,7 +3726,7 @@ namespace FunctionScript
             }
         }
         if (HaveParam()) {
-            //×îºóÉú³É¸´ºÏÔËĞĞÊ±¶ÔÏó£¬ÓëÓï¾ä²»Í¬£¬º¯Êı£¨³ı·ÇÍË»¯³ÉValueµÄÇéĞÎ£¬´ËÊ±ÓÉÍâ²ãº¯ÊıÈ¥×éºÏ³ÉRuntimeFunction£©×ÜÒªÉú³ÉÒ»¸öRuntimeFunction£¬´ÓÓïÒåÉÏ½²FunctionData´ú±íµÄÆäÊµÒ²ÊÇÒ»ÖÖStatementApi£¬¶ø²»ÊÇExpressionApi
+            //æœ€åç”Ÿæˆå¤åˆè¿è¡Œæ—¶å¯¹è±¡ï¼Œä¸è¯­å¥ä¸åŒï¼Œå‡½æ•°ï¼ˆé™¤éé€€åŒ–æˆValueçš„æƒ…å½¢ï¼Œæ­¤æ—¶ç”±å¤–å±‚å‡½æ•°å»ç»„åˆæˆRuntimeFunctionï¼‰æ€»è¦ç”Ÿæˆä¸€ä¸ªRuntimeFunctionï¼Œä»è¯­ä¹‰ä¸Šè®²FunctionDataä»£è¡¨çš„å…¶å®ä¹Ÿæ˜¯ä¸€ç§StatementApiï¼Œè€Œä¸æ˜¯ExpressionApi
             RuntimeFunctionCall* pRuntimeFunction = m_Interpreter->AddNewRuntimeFunctionComponent();
             if (NULL != pRuntimeFunction) {
                 pRuntimeFunction->Init(*this);
@@ -3909,11 +3909,11 @@ namespace FunctionScript
             return;
         if (m_RuntimeObjectPrepared)
             return;
-        //´¦Àíº¯Êıµ÷ÓÃ
+        //å¤„ç†å‡½æ•°è°ƒç”¨
         m_Call.PrepareRuntimeObject();
         m_RuntimeFunctionCall = m_Call.GetRuntimeObject();
         m_RuntimeObjectPrepared = TRUE;
-        //Óï¾ä
+        //è¯­å¥
         if (0 != m_Statements) {
             for (int ix = 0; ix < m_StatementNum; ++ix) {
                 if (0 != m_Statements[ix]) {
@@ -3983,19 +3983,19 @@ namespace FunctionScript
         StatementApiFactory* pApiFactory = m_Interpreter->FindStatementApi(*this);
         m_RuntimeObjectPrepared = TRUE;
         if (0 != pApiFactory) {
-            //ÈÃAPIÉú³É¸´ºÏÔËĞĞÊ±¶ÔÏó¡£
+            //è®©APIç”Ÿæˆå¤åˆè¿è¡Œæ—¶å¯¹è±¡ã€‚
             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
             m_RuntimeObject.SetStatement(pApi);
         }
         else {
-            //object literal¼ì²â
+            //object literalæ£€æµ‹
             if (GetFunctionNum() == 1) {
                 FunctionData* pFunc = GetFunction(0);
                 if (0 != pFunc && !pFunc->HaveId()) {
                     if (pFunc->HaveParam() && !pFunc->HaveStatement() && pFunc->GetCall().GetParamClass() == CallData::PARAM_CLASS_BRACKET) {
                         pApiFactory = m_Interpreter->GetLiteralArrayApi();
                         if (0 != pApiFactory) {
-                            //ÈÃAPIÉú³É¸´ºÏÔËĞĞÊ±¶ÔÏó¡£
+                            //è®©APIç”Ÿæˆå¤åˆè¿è¡Œæ—¶å¯¹è±¡ã€‚
                             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
                             m_RuntimeObject.SetStatement(pApi);
                         }
@@ -4004,7 +4004,7 @@ namespace FunctionScript
                     else if (!pFunc->HaveParam() && pFunc->HaveStatement()) {
                         pApiFactory = m_Interpreter->GetLiteralObjectApi();
                         if (0 != pApiFactory) {
-                            //ÈÃAPIÉú³É¸´ºÏÔËĞĞÊ±¶ÔÏó¡£
+                            //è®©APIç”Ÿæˆå¤åˆè¿è¡Œæ—¶å¯¹è±¡ã€‚
                             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
                             m_RuntimeObject.SetStatement(pApi);
                         }
@@ -4012,16 +4012,16 @@ namespace FunctionScript
                     }
                 }
             }
-            //ÏÈÈÃ¸÷¸öº¯Êı×¼±¸ÔËĞĞÊ±¶ÔÏó
+            //å…ˆè®©å„ä¸ªå‡½æ•°å‡†å¤‡è¿è¡Œæ—¶å¯¹è±¡
             PrepareRuntimeObjectWithFunctions();
-            //ÔÙÉú³É¸´ºÏÔËĞĞÊ±¶ÔÏó,´ËÊ±×é³ÉÓï¾äµÄ¸÷º¯ÊıÒÑ¾­µİ¹éÍê³ÉÔËĞĞÊ±¶ÔÏó¹¹Ôì£¬¸´ºÏÔËĞĞÊ±¶ÔÏóÖ»ĞèÒª×éºÏ±¾Óï¾ä²ãÃæµÄÔËĞĞÊ±¶ÔÏó¼´¿É¡£
+            //å†ç”Ÿæˆå¤åˆè¿è¡Œæ—¶å¯¹è±¡,æ­¤æ—¶ç»„æˆè¯­å¥çš„å„å‡½æ•°å·²ç»é€’å½’å®Œæˆè¿è¡Œæ—¶å¯¹è±¡æ„é€ ï¼Œå¤åˆè¿è¡Œæ—¶å¯¹è±¡åªéœ€è¦ç»„åˆæœ¬è¯­å¥å±‚é¢çš„è¿è¡Œæ—¶å¯¹è±¡å³å¯ã€‚
             bool isStatement = false;
             int num = GetFunctionNum();
             if (0 == num) {
                 m_RuntimeObject.SetInvalid();
             }
             else if (1 == num) {
-                //ÍË»¯Îªº¯Êı»òÒ»¸öÆÕÍ¨Öµ
+                //é€€åŒ–ä¸ºå‡½æ•°æˆ–ä¸€ä¸ªæ™®é€šå€¼
                 FunctionData* pFunc = GetFunction(0);
                 if (NULL != pFunc) {
                     if (pFunc->HaveStatement()) {
@@ -4166,14 +4166,14 @@ namespace FunctionScript
         }
         AutoInterpreterValuePoolValuesOperation op(*m_pInnerValuePool);
         Value* params = op.Get();
-        //ÕâÀïÓĞÒ»¸öÔ¼¶¨£¬ËùÓĞ²ÎÊı¶¼ÓÉ´¦Àíº¯Êı×Ô¼º¼ÆËã²ÎÊıÖµ£¬´«µİµÄÊÇÔ­Ê¼²ÎÊıĞÅÏ¢£¬ÕâÑù±ãÓÚÊµÏÖ¸³Öµ»òout²ÎÊıÌØĞÔ
-        //¸´ÖÆ²ÎÊıĞÅÏ¢
+        //è¿™é‡Œæœ‰ä¸€ä¸ªçº¦å®šï¼Œæ‰€æœ‰å‚æ•°éƒ½ç”±å¤„ç†å‡½æ•°è‡ªå·±è®¡ç®—å‚æ•°å€¼ï¼Œä¼ é€’çš„æ˜¯åŸå§‹å‚æ•°ä¿¡æ¯ï¼Œè¿™æ ·ä¾¿äºå®ç°èµ‹å€¼æˆ–outå‚æ•°ç‰¹æ€§
+        //å¤åˆ¶å‚æ•°ä¿¡æ¯
         if (0 != m_Params) {
             for (int ix = 0; ix < m_ParamNum && m_Interpreter->IsRunFlagEnable(); ++ix) {
                 params[ix] = m_Params[ix];
                 Value& param = params[ix];
                 if (param.IsStatement() && NULL != param.GetStatement()) {
-                    //²ÎÊıÊÇÓï¾äµÄĞèÒªÖ´ĞĞÓï¾äºó´«µİÆä·µ»ØÖµ
+                    //å‚æ•°æ˜¯è¯­å¥çš„éœ€è¦æ‰§è¡Œè¯­å¥åä¼ é€’å…¶è¿”å›å€¼
                     ExecuteResultEnum ret = param.GetStatement()->Execute(&param);
                     if (EXECUTE_RESULT_NORMAL != ret) {
 #ifndef _GAMECLIENT_
@@ -4217,25 +4217,25 @@ namespace FunctionScript
         }
         else {
             if (m_Name.IsInvalid()) {
-                //¶ººÅ±í´ïÊ½ÊµÏÖ£¨ÏÖÔÚÎÒÃÇ×Ô¼º¾ÍÊÇAPIµÄÊµÏÖ£¬ÓĞ¶Ô²ÎÊıÇóÖµµÄÖ°Ôğ£©
+                //é€—å·è¡¨è¾¾å¼å®ç°ï¼ˆç°åœ¨æˆ‘ä»¬è‡ªå·±å°±æ˜¯APIçš„å®ç°ï¼Œæœ‰å¯¹å‚æ•°æ±‚å€¼çš„èŒè´£ï¼‰
                 ReplaceVariableWithValue(params, m_ParamNum);
-                //¶ººÅ±í´ïÊ½·µ»Ø×îºóÒ»¸ö²ÎÊıµÄÖµ
+                //é€—å·è¡¨è¾¾å¼è¿”å›æœ€åä¸€ä¸ªå‚æ•°çš„å€¼
                 if (0 != pRetValue)
                     *pRetValue = params[m_ParamNum - 1];
             }
             else {
                 Value val = m_Name;
-                //±äÁ¿ÒıÓÃº¯ÊıµÄº¯Êıµ÷ÓÃ
+                //å˜é‡å¼•ç”¨å‡½æ•°çš„å‡½æ•°è°ƒç”¨
                 ReplaceVariableWithValue(val);
                 ExpressionApi* pExp = val.GetExpression();
                 if (val.IsExpression() && 0 != pExp) {
                     pExp->Execute(m_ParamClass, params, m_ParamNum, pRetValue);
                 }
                 else {
-                    //º¯ÊıÃûÒıÓÃµÄ²»ÊÇº¯Êı£¬ºöÂÔº¯ÊıÃû£¬µ±×÷¶ººÅ±í´ïÊ½´¦Àí£¬·µ»Ø×îºóÒ»¸ö²ÎÊıµÄÖµ
-                    //¶ººÅ±í´ïÊ½ÊµÏÖ£¨ÏÖÔÚÎÒÃÇ×Ô¼º¾ÍÊÇAPIµÄÊµÏÖ£¬ÓĞ¶Ô²ÎÊıÇóÖµµÄÖ°Ôğ£©
+                    //å‡½æ•°åå¼•ç”¨çš„ä¸æ˜¯å‡½æ•°ï¼Œå¿½ç•¥å‡½æ•°åï¼Œå½“ä½œé€—å·è¡¨è¾¾å¼å¤„ç†ï¼Œè¿”å›æœ€åä¸€ä¸ªå‚æ•°çš„å€¼
+                    //é€—å·è¡¨è¾¾å¼å®ç°ï¼ˆç°åœ¨æˆ‘ä»¬è‡ªå·±å°±æ˜¯APIçš„å®ç°ï¼Œæœ‰å¯¹å‚æ•°æ±‚å€¼çš„èŒè´£ï¼‰
                     ReplaceVariableWithValue(params, m_ParamNum);
-                    //¶ººÅ±í´ïÊ½·µ»Ø×îºóÒ»¸ö²ÎÊıµÄÖµ
+                    //é€—å·è¡¨è¾¾å¼è¿”å›æœ€åä¸€ä¸ªå‚æ•°çš„å€¼
                     if (0 != pRetValue)
                         *pRetValue = params[m_ParamNum - 1];
                 }
@@ -4289,7 +4289,7 @@ namespace FunctionScript
     {
         if (NULL == m_Interpreter || NULL == m_FunctionHeads || NULL == m_FunctionBodies)
             return EXECUTE_RESULT_NORMAL;
-        //°´Ë³ĞòÖ´ĞĞº¯Êı²¿·ÖÓëÀ©Õ¹Óï¾ä²¿·Ö
+        //æŒ‰é¡ºåºæ‰§è¡Œå‡½æ•°éƒ¨åˆ†ä¸æ‰©å±•è¯­å¥éƒ¨åˆ†
         for (int ix = 0; ix < m_FunctionNum && m_Interpreter->IsRunFlagEnable(); ++ix) {
             StatementApi* pFunction = m_FunctionHeads[ix];
             if (0 != pFunction) {
@@ -4313,7 +4313,7 @@ namespace FunctionScript
             return;
         if (!HasError()) {
             for (int ix = 0; ix < m_StatementNum; ++ix) {
-                StatementData* pStatement = m_Program[ix];
+                ISyntaxComponent* pStatement = m_Program[ix];
                 if (0 != pStatement) {
                     pStatement->PrepareRuntimeObject();
                     Value val = pStatement->GetRuntimeObject();
@@ -4355,8 +4355,8 @@ namespace FunctionScript
 
     ExecuteResultEnum Interpreter::CallMember(ExpressionApi& obj, const Value& member, int isProperty, int paramClass, Value* pParams, int paramNum, Value* pRetValue)
     {
-        //¶ÔÏó³ÉÔ±·ÃÎÊ·Ö2²½Íê³É£¬µÚÒ»²½ÓÃ³ÉÔ±Ãû»òË÷Òı×÷²ÎÊı£¬»ñµÃ³ÉÔ±·ÃÎÊ¶ÔÏó¡£µÚ¶ş²½ÓÃ³ÉÔ±·ÃÎÊ¶ÔÏó²Ù×÷¶ÔÏó³ÉÔ±£¬Íê³ÉÊµ¼Ê²Ù×÷¡£
-        //½âÎöÆ÷ÔÚwrapObjectMember/wrapObjectMemberInHighOrderFunction·½·¨Àï½«Õâ2²½×éºÏ³É¶ş½×º¯Êıµ÷ÓÃ¡£
+        //å¯¹è±¡æˆå‘˜è®¿é—®åˆ†2æ­¥å®Œæˆï¼Œç¬¬ä¸€æ­¥ç”¨æˆå‘˜åæˆ–ç´¢å¼•ä½œå‚æ•°ï¼Œè·å¾—æˆå‘˜è®¿é—®å¯¹è±¡ã€‚ç¬¬äºŒæ­¥ç”¨æˆå‘˜è®¿é—®å¯¹è±¡æ“ä½œå¯¹è±¡æˆå‘˜ï¼Œå®Œæˆå®é™…æ“ä½œã€‚
+        //è§£æå™¨åœ¨wrapObjectMember/wrapObjectMemberInHighOrderFunctionæ–¹æ³•é‡Œå°†è¿™2æ­¥ç»„åˆæˆäºŒé˜¶å‡½æ•°è°ƒç”¨ã€‚
         Value param = member;
         AutoInterpreterValuePoolValueOperation op(m_InterpreterValuePool);
         Value& memberAccessor = op.Get();
@@ -4759,7 +4759,7 @@ namespace FunctionScript
         }
     }
 
-    void Interpreter::AddStatement(StatementData* p)
+    void Interpreter::AddStatement(ISyntaxComponent* p)
     {
         if (0 == p || 0 == m_Program)
             return;
@@ -4947,7 +4947,7 @@ namespace FunctionScript
         m_SyntaxComponentNum = 0;
         m_RuntimeComponentPool = new RuntimeComponentPtr[m_Options.GetExpressionPoolSize()];
         m_RuntimeComponentNum = 0;
-        m_Program = new StatementPtr[m_Options.GetMaxProgramSize()];
+        m_Program = new SyntaxComponentPtr[m_Options.GetMaxProgramSize()];
         m_StatementNum = 0;
         m_RuntimeProgram = new StatementApiPtr[m_Options.GetMaxProgramSize()];
         m_ValuePool = new Value[m_Options.GetValuePoolSize()];

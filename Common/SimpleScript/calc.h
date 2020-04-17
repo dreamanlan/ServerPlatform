@@ -1,4 +1,4 @@
-/*****************************************************************************
+ï»¿/*****************************************************************************
 
 calc.h
 
@@ -567,7 +567,7 @@ namespace FunctionScript
             StatementApi* m_Statement;
             ISyntaxComponent* m_SyntaxComponent;
             void* m_Ptr;
-            const char* m_ConstStringVal;//ÔÚ½Å±¾ÀïÓëm_StringValÀàĞÍÏàÍ¬,ÓÃÓÚÊµÏÖ×Ô¶¯const_cast
+            const char* m_ConstStringVal;//åœ¨è„šæœ¬é‡Œä¸m_StringValç±»å‹ç›¸åŒ,ç”¨äºå®ç°è‡ªåŠ¨const_cast
         };
         int m_Line;
     public:
@@ -630,8 +630,8 @@ namespace FunctionScript
         NullSyntax& operator=(const NullSyntax&) = delete;
     };
 
-    //ÒòÎªValueÀàÓÃÓÚÔËĞĞÊ±µÄÖµ±íÊ¾£¬ĞèÒªÏñPODÒ»Ñù¹¤×÷£¬ÕâÀï×¨ÃÅÎªÓï·¨²ãÌá¹©Ò»¸öÀà±íÊ¾Óï·¨ÀïµÄ±êÊ¶·û¡¢³£Á¿¡¢±äÁ¿ºÍ²Ù×÷·û
-    //Õâ¸öÀàÖ÷ÒªÓÃÓÚÒÔISyntaxComponent·ÃÎÊµÄÇéĞÎ£¬ËùÒÔCallDataÔÚ½Ó¿ÚÉÏÌá¹©ÁËÖ±½Ó²Ù×÷ValueµÄ·½·¨¡£
+    //å› ä¸ºValueç±»ç”¨äºè¿è¡Œæ—¶çš„å€¼è¡¨ç¤ºï¼Œéœ€è¦åƒPODä¸€æ ·å·¥ä½œï¼Œè¿™é‡Œä¸“é—¨ä¸ºè¯­æ³•å±‚æä¾›ä¸€ä¸ªç±»è¡¨ç¤ºè¯­æ³•é‡Œçš„æ ‡è¯†ç¬¦ã€å¸¸é‡ã€å˜é‡å’Œæ“ä½œç¬¦
+    //è¿™ä¸ªç±»ä¸»è¦ç”¨äºä»¥ISyntaxComponentè®¿é—®çš„æƒ…å½¢ï¼Œæ‰€ä»¥CallDataåœ¨æ¥å£ä¸Šæä¾›äº†ç›´æ¥æ“ä½œValueçš„æ–¹æ³•ã€‚
     class ValueData : public ISyntaxComponent
     {
     public:
@@ -782,26 +782,26 @@ namespace FunctionScript
     };
 
     /*
-    * FunctionDataÓëStatementData´ú±íµÄĞÅÏ¢ÊÇ±àÒëÊ±ĞÅÏ¢£¬¶ÔÔËĞĞÊ±À´Ëµ£¬ËüÃÇÖ»ÊÇÔªÊı¾İ¡£
-    *
-    * ÓÉÓÚFunctionDataµÄÃû³ÆÓĞ¿ÉÄÜÒ²ÊÇFunctionData£¬ÓĞÒ»ÖÖValueÀàĞÍÊÇFunctionData£¬ÕâÖÖÀàĞÍ½ö½öÔÚ±àÒëÊ±²úÉú£¬²»ÊÇÔËĞĞÊ±Âß¼­µÄÒ»²¿·Ö¡£
-    * ÀàËÆµÄ£¬¸ù¾İFunctionDataÓëStatementDataÉú³ÉµÄÔËĞĞÊ±¶ÔÏóÓĞ¿ÉÄÜÊÇÒ»¸öÆÕÍ¨Öµ£¬Ò²¿ÉÄÜÊÇÒ»¸öStatementApi£¬ËùÒÔÒ²ÓĞÒ»ÖÖValueÀàĞÍ
-    * ÊÇStatementApi£¬ÕâÖÖÀàĞÍÍ¬Ñù½ö½öÓÉ±àÒëÊ±²úÉú£¬²»ÊÇÔËĞĞÊ±Âß¼­µÄÒ»²¿·Ö¡£
-    *
-    * ÔÚÔËĞĞÊ±£¬StatementData»òÕß¶ÔÓ¦µ½Ò»¸öÄÚ²¿Óï¾äStatementApi£¬»òÕßÊÇÒ»¸öRuntimeStatementÓÃÀ´´¦Àí±í´ïÊ½Óï¾ä£¨Èç¹ûÒ»¸ö
-    * StatementDataÖ»ÊÇÒ»¸öº¯Êıµ÷ÓÃ£¬¿ÉÒÔÍË»¯ÎªÒ»¸öRuntimeFunction£¬½øÒ»²½£¬Èç¹ûº¯ÊıÖ»ÓĞÒ»¸öÃû×Ö£¬¿ÉÒÔÍË»¯ÎªÒ»¸öÆÕÍ¨Öµ£©¡£
-    *
-    * ÔÚÔËĞĞÊ±£¬½öÓÉº¯ÊıÃûÓëµ÷ÓÃ²ÎÊı¹¹³ÉµÄFunctionData»òÕß¶ÔÓ¦µ½Ò»¸öÆÕÍ¨µÄÖµValue£¬»òÕßÊÇÒ»¸öRuntimeFunctionCallÓÃÀ´´¦ÀíÄÚ²¿º¯Êıµ÷ÓÃ¡£
-    * ´øÓĞº¯ÊıÓï¾äÌåµÄFunctionDataÔÚÔËĞĞÊ±¶ÔÓ¦µ½StatementApi»òRuntimeStatement¡£
-    *
-    * RuntimeStatementBlockÓÃÓÚ¸¨ÖúStatementApiÓëRuntimeStatementÊµÏÖÓï¾ä¿éµÄÖ´ĞĞ¡£
-    *
-    * Êµ¼ÊÊ¹ÓÃÊ±ĞèÒª×¢Òâ£¬Ò»°ãÔÚStatementApi::IsMatch·½·¨Àï·ÃÎÊµ½µÄValue¶¼ÊÇ±àÒëÊ±µÄĞÅÏ¢£¬StatementApi::PrepareRuntimeObject
-    * ÀïÈç¹ûµ÷ÓÃÁËStatementData::PrepareRuntimeObjectWithFunctions£¬ÔòÒÑ¾­±äÎªÔËĞĞÊ±ĞÅÏ¢£¬Ö®Ç°ÔòÈÔÊÇ±àÒëÊ±ĞÅÏ¢£¬ÔÚStatementApi::Execute
-    * ÓëExpressionApi::ExecuteÀïÊ±Ôò¿Ï¶¨ÊÇÔËĞĞÊ±ĞÅÏ¢ÁË¡£
-    *
-    * ¶ÀÁ¢³öÀ´µÄÔËĞĞÊ±ÀíÂÛÉÏÓ¦¸Ã±ãÓÚÊµÏÖ¸üºÃµÄÔËĞĞĞÔÄÜ¡£
-    */
+     * FunctionDataä¸StatementDataä»£è¡¨çš„ä¿¡æ¯æ˜¯ç¼–è¯‘æ—¶ä¿¡æ¯ï¼Œå¯¹è¿è¡Œæ—¶æ¥è¯´ï¼Œå®ƒä»¬åªæ˜¯å…ƒæ•°æ®ã€‚
+     *
+     * ç”±äºFunctionDataçš„åç§°æœ‰å¯èƒ½ä¹Ÿæ˜¯FunctionDataï¼Œæœ‰ä¸€ç§Valueç±»å‹æ˜¯FunctionDataï¼Œè¿™ç§ç±»å‹ä»…ä»…åœ¨ç¼–è¯‘æ—¶äº§ç”Ÿï¼Œä¸æ˜¯è¿è¡Œæ—¶é€»è¾‘çš„ä¸€éƒ¨åˆ†ã€‚
+     * ç±»ä¼¼çš„ï¼Œæ ¹æ®FunctionDataä¸StatementDataç”Ÿæˆçš„è¿è¡Œæ—¶å¯¹è±¡æœ‰å¯èƒ½æ˜¯ä¸€ä¸ªæ™®é€šå€¼ï¼Œä¹Ÿå¯èƒ½æ˜¯ä¸€ä¸ªStatementApiï¼Œæ‰€ä»¥ä¹Ÿæœ‰ä¸€ç§Valueç±»å‹
+     * æ˜¯StatementApiï¼Œè¿™ç§ç±»å‹åŒæ ·ä»…ä»…ç”±ç¼–è¯‘æ—¶äº§ç”Ÿï¼Œä¸æ˜¯è¿è¡Œæ—¶é€»è¾‘çš„ä¸€éƒ¨åˆ†ã€‚
+     *
+     * åœ¨è¿è¡Œæ—¶ï¼ŒStatementDataæˆ–è€…å¯¹åº”åˆ°ä¸€ä¸ªå†…éƒ¨è¯­å¥StatementApiï¼Œæˆ–è€…æ˜¯ä¸€ä¸ªRuntimeStatementç”¨æ¥å¤„ç†è¡¨è¾¾å¼è¯­å¥ï¼ˆå¦‚æœä¸€ä¸ª
+     * StatementDataåªæ˜¯ä¸€ä¸ªå‡½æ•°è°ƒç”¨ï¼Œå¯ä»¥é€€åŒ–ä¸ºä¸€ä¸ªRuntimeFunctionï¼Œè¿›ä¸€æ­¥ï¼Œå¦‚æœå‡½æ•°åªæœ‰ä¸€ä¸ªåå­—ï¼Œå¯ä»¥é€€åŒ–ä¸ºä¸€ä¸ªæ™®é€šå€¼ï¼‰ã€‚
+     *
+     * åœ¨è¿è¡Œæ—¶ï¼Œä»…ç”±å‡½æ•°åä¸è°ƒç”¨å‚æ•°æ„æˆçš„FunctionDataæˆ–è€…å¯¹åº”åˆ°ä¸€ä¸ªæ™®é€šçš„å€¼Valueï¼Œæˆ–è€…æ˜¯ä¸€ä¸ªRuntimeFunctionCallç”¨æ¥å¤„ç†å†…éƒ¨å‡½æ•°è°ƒç”¨ã€‚
+     * å¸¦æœ‰å‡½æ•°è¯­å¥ä½“çš„FunctionDataåœ¨è¿è¡Œæ—¶å¯¹åº”åˆ°StatementApiæˆ–RuntimeStatementã€‚
+     *
+     * RuntimeStatementBlockç”¨äºè¾…åŠ©StatementApiä¸RuntimeStatementå®ç°è¯­å¥å—çš„æ‰§è¡Œã€‚
+     *
+     * å®é™…ä½¿ç”¨æ—¶éœ€è¦æ³¨æ„ï¼Œä¸€èˆ¬åœ¨StatementApi::IsMatchæ–¹æ³•é‡Œè®¿é—®åˆ°çš„Valueéƒ½æ˜¯ç¼–è¯‘æ—¶çš„ä¿¡æ¯ï¼ŒStatementApi::PrepareRuntimeObject
+     * é‡Œå¦‚æœè°ƒç”¨äº†StatementData::PrepareRuntimeObjectWithFunctionsï¼Œåˆ™å·²ç»å˜ä¸ºè¿è¡Œæ—¶ä¿¡æ¯ï¼Œä¹‹å‰åˆ™ä»æ˜¯ç¼–è¯‘æ—¶ä¿¡æ¯ï¼Œåœ¨StatementApi::Execute
+     * ä¸ExpressionApi::Executeé‡Œæ—¶åˆ™è‚¯å®šæ˜¯è¿è¡Œæ—¶ä¿¡æ¯äº†ã€‚
+     *
+     * ç‹¬ç«‹å‡ºæ¥çš„è¿è¡Œæ—¶ç†è®ºä¸Šåº”è¯¥ä¾¿äºå®ç°æ›´å¥½çš„è¿è¡Œæ€§èƒ½ã€‚
+     */
     class StatementData;
     class RuntimeStatementBlock;
     class FunctionData : public ISyntaxComponent
@@ -913,6 +913,10 @@ namespace FunctionScript
         }
     };
 
+    /* å¤‡å¿˜ï¼šä¸ºä»€ä¹ˆStatementDataçš„æˆå‘˜ä¸ä½¿ç”¨ISyntaxComponent[]è€Œæ˜¯FunctionData[]
+     * 1ã€è™½ç„¶è¯­æ³•ä¸Šè¿™é‡Œçš„FunctionDataå¯ä»¥é€€åŒ–ä¸ºCallDataä¸ValueDataï¼Œä½†ä¸å¯ä»¥æ˜¯StatementDataï¼Œè¿™æ ·åœ¨æ¦‚å¿µä¸Šä¸èƒ½ä¸ISyntaxComponentç­‰åŒ
+     * 2ã€åœ¨è®¾è®¡ä¸Šï¼ŒFunctionDataåº”è¯¥è€ƒè™‘åˆ°é€€åŒ–æƒ…å½¢ï¼Œå°½é‡åœ¨é€€åŒ–æƒ…å½¢ä¸å ç”¨é¢å¤–ç©ºé—´
+     */
     class StatementData : public ISyntaxComponent
     {
     public:
@@ -1179,18 +1183,18 @@ namespace FunctionScript
     };
 
     /*
-    * ±¸Íü£ºÊµÏÖAPIÊ±×¢ÒâÕâÀïÓĞ¸öÔ¼¶¨£¬ËùÓĞ²ÎÊı¶¼ÓÉAPI×Ô¼º¼ÆËã²ÎÊıÖµ£¬´«µİµÄÊÇÔ­Ê¼²ÎÊıĞÅÏ¢£¬ÕâÑù±ãÓÚÊµÏÖ¸³Öµ»òout²ÎÊıÌØĞÔ£¡
-    * ÌØ±ğµÄ£¬×Ô¶¨ÒåµÄÓï¾äÖ´ĞĞÊ±µ÷ÓÃAPI£¬°´Õâ¸öÔ¼¶¨£¬Óï¾äÊÇ²»ĞèÒªÎªAPI¼ÆËã²ÎÊıÖµµÄ¡£
-    * ÓĞÒ»¸öÀıÍâÊÇÈç¹û²ÎÊıÊÇÒ»¸öStatementApi£¬ÔòĞèÒªÖ´ĞĞºó´«µİÆä·µ»ØÖµ¡£
-    * »¹ÓĞÒ»¸öÔ¼¶¨£¬ValueÀàĞÍÎªStatementApiÓëFunctionDataµÄ£¬²»»áÓÉ½Å±¾Âß¼­²úÉú£¬Õâ2ÖÖÀàĞÍµÄÖµÊÇ±àÒë»·¾³µÄÒ»²¿·Ö£¬ËùÒÔÖ»»áÔÚ±à
-    * ÒëÊ±²Å»á²úÉúÕâÑùµÄValue£¬Ò²¾ÍÊÇËµÒ»¸öValue²»»áÒòÎªÇóÖµºó±ä³ÉStatementApi»òFunctionData£¬¶ÔÓÚ²ÎÊıÀàĞÍÎªStatementApi»òFunctionData
-    * µÄValue£¬½âÊÍÆ÷ÔÚµ÷ÓÃ¾ßÌåAPIÊ±¶¼»á×ª»»ÎªÆÕÍ¨µÄÖµ£¬ËùÒÔRuntimeComponentÀàµÄ¼ÆËã²ÎÊıÖµµÄ·½·¨²»ĞèÒª¿¼ÂÇÕâĞ©ÇéĞÎ£¬½ö½öÊÇ
-    * ¸ù¾İ²ÎÊıĞÅÏ¢Ìæ»»³É¶ÔÓ¦µÄ²ÎÊıÖµ¡£
-    *
-    * ExpressionApi::Execute
-    * ÉÏÃæ·½·¨ÓÃÓÚAPIÊµÏÖÊ±£¬ÊµÏÖÉÏÒª·ûºÏ´øconstĞŞÊÎµÄÓïÒå£¬ÒòÎªAPI×¢²áºó£¬Ò»¸öÊµÀıÔÚĞí¶àµØ·½Ê¹ÓÃ¡£½Ó¿ÚÎŞ·¨Ìí¼Ó´ËÔ¼Êø£¬Òò
-    * ÎªÊµÏÖÕâĞ©½Ó¿ÚµÄ²»Ö»ÊÇ×¢²áµÄAPI,»¹ÓĞÒ»Ğ©¿ÉÒÔ²úÉú¶à¸öÊµÀıµÄÔËĞĞÊ±¶ÔÏó¡£
-    */
+     * å¤‡å¿˜ï¼šå®ç°APIæ—¶æ³¨æ„è¿™é‡Œæœ‰ä¸ªçº¦å®šï¼Œæ‰€æœ‰å‚æ•°éƒ½ç”±APIè‡ªå·±è®¡ç®—å‚æ•°å€¼ï¼Œä¼ é€’çš„æ˜¯åŸå§‹å‚æ•°ä¿¡æ¯ï¼Œè¿™æ ·ä¾¿äºå®ç°èµ‹å€¼æˆ–outå‚æ•°ç‰¹æ€§ï¼
+     * ç‰¹åˆ«çš„ï¼Œè‡ªå®šä¹‰çš„è¯­å¥æ‰§è¡Œæ—¶è°ƒç”¨APIï¼ŒæŒ‰è¿™ä¸ªçº¦å®šï¼Œè¯­å¥æ˜¯ä¸éœ€è¦ä¸ºAPIè®¡ç®—å‚æ•°å€¼çš„ã€‚
+     * æœ‰ä¸€ä¸ªä¾‹å¤–æ˜¯å¦‚æœå‚æ•°æ˜¯ä¸€ä¸ªStatementApiï¼Œåˆ™éœ€è¦æ‰§è¡Œåä¼ é€’å…¶è¿”å›å€¼ã€‚
+     * è¿˜æœ‰ä¸€ä¸ªçº¦å®šï¼ŒValueç±»å‹ä¸ºStatementApiä¸FunctionDataçš„ï¼Œä¸ä¼šç”±è„šæœ¬é€»è¾‘äº§ç”Ÿï¼Œè¿™2ç§ç±»å‹çš„å€¼æ˜¯ç¼–è¯‘ç¯å¢ƒçš„ä¸€éƒ¨åˆ†ï¼Œæ‰€ä»¥åªä¼šåœ¨ç¼–
+     * è¯‘æ—¶æ‰ä¼šäº§ç”Ÿè¿™æ ·çš„Valueï¼Œä¹Ÿå°±æ˜¯è¯´ä¸€ä¸ªValueä¸ä¼šå› ä¸ºæ±‚å€¼åå˜æˆStatementApiæˆ–FunctionDataï¼Œå¯¹äºå‚æ•°ç±»å‹ä¸ºStatementApiæˆ–FunctionData
+     * çš„Valueï¼Œè§£é‡Šå™¨åœ¨è°ƒç”¨å…·ä½“APIæ—¶éƒ½ä¼šè½¬æ¢ä¸ºæ™®é€šçš„å€¼ï¼Œæ‰€ä»¥RuntimeComponentç±»çš„è®¡ç®—å‚æ•°å€¼çš„æ–¹æ³•ä¸éœ€è¦è€ƒè™‘è¿™äº›æƒ…å½¢ï¼Œä»…ä»…æ˜¯
+     * æ ¹æ®å‚æ•°ä¿¡æ¯æ›¿æ¢æˆå¯¹åº”çš„å‚æ•°å€¼ã€‚
+     *
+     * ExpressionApi::Execute
+     * ä¸Šé¢æ–¹æ³•ç”¨äºAPIå®ç°æ—¶ï¼Œå®ç°ä¸Šè¦ç¬¦åˆå¸¦constä¿®é¥°çš„è¯­ä¹‰ï¼Œå› ä¸ºAPIæ³¨å†Œåï¼Œä¸€ä¸ªå®ä¾‹åœ¨è®¸å¤šåœ°æ–¹ä½¿ç”¨ã€‚æ¥å£æ— æ³•æ·»åŠ æ­¤çº¦æŸï¼Œå› 
+     * ä¸ºå®ç°è¿™äº›æ¥å£çš„ä¸åªæ˜¯æ³¨å†Œçš„API,è¿˜æœ‰ä¸€äº›å¯ä»¥äº§ç”Ÿå¤šä¸ªå®ä¾‹çš„è¿è¡Œæ—¶å¯¹è±¡ã€‚
+     */
     class ExpressionApi : public RuntimeComponent
     {
     public:
@@ -1472,14 +1476,13 @@ namespace FunctionScript
     };
 
     /*
-    * ±¸Íü£º±¾½Å±¾ÓïÑÔµÄ½âÊÍÆ÷ÖØ¶ÈÒÀÀµC++º¯ÊıÕ»µÄ»úÖÆ£¬ËùÒÔ²»ÊÊºÏÊµÏÖcorountine»úÖÆ£¨ÒòÎªÀûÓÃÁËC++º¯Êıµ÷ÓÃÕ»À´ÊµÏÖ½Å±¾Õ»£¬ËùÒÔ½âÊÍÆ÷µÄÒ»´ÎÖ´ĞĞ»áÍêÈ«Ä¨µôµ÷ÓÃÕ»£¬ÔÙ´Î½øÈëÊ±ÎŞ·¨¼ÌĞøÖ®Ç°µÄÕ»ÓëÉÏÏÂÎÄ£©¡£
-    * ´Ë»úÖÆ¿ÉÒÔ¿¼ÂÇÔÚ½Å±¾ÀïÊµÏÖÃüÁî¶ÓÁĞµÄ·½Ê½À´Ä£Äâ¡£
-    */
+     * å¤‡å¿˜ï¼šæœ¬è„šæœ¬è¯­è¨€çš„è§£é‡Šå™¨é‡åº¦ä¾èµ–C++å‡½æ•°æ ˆçš„æœºåˆ¶ï¼Œæ‰€ä»¥ä¸é€‚åˆå®ç°corountineæœºåˆ¶ï¼ˆå› ä¸ºåˆ©ç”¨äº†C++å‡½æ•°è°ƒç”¨æ ˆæ¥å®ç°è„šæœ¬æ ˆï¼Œæ‰€ä»¥è§£é‡Šå™¨çš„ä¸€æ¬¡æ‰§è¡Œä¼šå®Œå…¨æŠ¹æ‰è°ƒç”¨æ ˆï¼Œå†æ¬¡è¿›å…¥æ—¶æ— æ³•ç»§ç»­ä¹‹å‰çš„æ ˆä¸ä¸Šä¸‹æ–‡ï¼‰ã€‚
+     * æ­¤æœºåˆ¶å¯ä»¥è€ƒè™‘åœ¨è„šæœ¬é‡Œå®ç°å‘½ä»¤é˜Ÿåˆ—çš„æ–¹å¼æ¥æ¨¡æ‹Ÿã€‚
+     */
     class Interpreter
     {
         typedef ISyntaxComponent* SyntaxComponentPtr;
         typedef RuntimeComponent* RuntimeComponentPtr;
-        typedef StatementData* StatementPtr;
         typedef StatementApi* StatementApiPtr;
         typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
         typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > ValueIndexes;
@@ -1537,7 +1540,7 @@ namespace FunctionScript
         int PopFunctionDefinition(void);
         FunctionData* GetCurFunctionDefinition(void)const;
     public:
-        void AddStatement(StatementData* p);
+        void AddStatement(ISyntaxComponent* p);
     public:
         FunctionData* AddNewFunctionComponent(void);
         StatementData* AddNewStatementComponent(void);
@@ -1592,7 +1595,7 @@ namespace FunctionScript
         int m_SyntaxComponentNum;
         RuntimeComponentPtr*  m_RuntimeComponentPool;
         int m_RuntimeComponentNum;
-        StatementPtr* m_Program;
+        SyntaxComponentPtr* m_Program;
         StatementApiPtr* m_RuntimeProgram;
         int m_StatementNum;
         Functions m_InnerFunctionApis;
@@ -1609,7 +1612,7 @@ namespace FunctionScript
         FunctionDefinitionStack	m_FunctionDefinitionStack;
 
         int m_NextStatement;
-    public://½öÓÃÓÚ½âÊÍÆ÷µÄÊı¾İ³Ø£¬½öÓÃÓÚº¯Êı»òÓï¾äÀïÃæÓÃÀ´Ìæ´ú¾Ö²¿±äÁ¿£¬allocÓërecycle±ØĞë³É¶Ô²¢ÇÒ·ûºÏÕ»µÄ²Ù×÷Ë³Ğò£¨ºó½øÏÈ³ö£©£¡£¡£¡
+    public://ä»…ç”¨äºè§£é‡Šå™¨çš„æ•°æ®æ± ï¼Œä»…ç”¨äºå‡½æ•°æˆ–è¯­å¥é‡Œé¢ç”¨æ¥æ›¿ä»£å±€éƒ¨å˜é‡ï¼Œallocä¸recycleå¿…é¡»æˆå¯¹å¹¶ä¸”ç¬¦åˆæ ˆçš„æ“ä½œé¡ºåºï¼ˆåè¿›å…ˆå‡ºï¼‰ï¼ï¼ï¼
         InterpreterValuePool& GetInnerValuePool(void) { return m_InterpreterValuePool; }
     private:
         InterpreterValuePool m_InterpreterValuePool;

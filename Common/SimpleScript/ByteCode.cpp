@@ -1,4 +1,4 @@
-#include "ByteCode.h"
+﻿#include "ByteCode.h"
 #include "calc.h"
 
 class TestRuntimeBuilder : public RuntimeBuilderT<TestRuntimeBuilder>

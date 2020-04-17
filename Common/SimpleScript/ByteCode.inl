@@ -8,6 +8,14 @@
 
 namespace FunctionScript
 {
+    /*
+     * 备忘：为什么采用约简的方式而不是延迟一次性构造
+     * 1、已尝试过采用一个临时的结构比如SyntaxMaterial来收集语法解析过程中的数据，到语句完成时再构造语句
+     * 2、临时的结构与最终语义数据结构上相似度很高，也需要表示递归结构并且要与现有语义数据关联，代码重复并且逻辑不够清晰。
+     * 3、约简方式已经尽量重用语法解析中构造的实例，基本不会产生额外内存占用
+     * 4、约简方式下最终内存占用与脚本复杂度线性相关，不用担心占用过多内存
+     * 5、语义数据在定义上考虑了退化情形，除必须数据外已尽量不占用额外空间
+     */
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::setExternScript(void)
     {
@@ -201,9 +209,11 @@ namespace FunctionScript
                 //_epsilon_表达式无语句语义
                 return;
             }
+            //化简只需要处理一级，参数与语句部分应该在添加到语句时已经处理了
+            ISyntaxComponent& statementSyntax = simplifyStatement(*statement);
             //顶层元素结束
-            wrapObjectMember(*statement);
-            mInterpreter->AddStatement(statement);
+            wrapObjectMember(statementSyntax);
+            mInterpreter->AddStatement(&statementSyntax);
             mThis->setCanFinish(TRUE);
         }
         else {
@@ -221,7 +231,7 @@ namespace FunctionScript
 
                     //函数参数，允许空语句，用于表达默认状态(副作用是a()与a[]将总是会有一个空语句参数)。
                     if (statementSyntax.IsValid()) {
-			wrapObjectMember(statementSyntax);
+			            wrapObjectMember(statementSyntax);
                         call.AddParam(&statementSyntax);
                     }
 
