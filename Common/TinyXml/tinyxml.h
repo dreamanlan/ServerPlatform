@@ -825,7 +825,7 @@ public:
 	/// QueryDoubleValue examines the value string. See QueryIntValue().
 	int QueryDoubleValue( double* _value ) const;
 
-	void SetName( const char* _name )	{ name = _name; }				///< Set the name of this attribute.
+	void SetNameValue( const char* _name )	{ name = _name; }				///< Set the name of this attribute.
 	void SetValue( const char* _value )	{ value = _value; }				///< Set the value.
 
 	void SetIntValue( int _value );										///< Set the value from an integer.

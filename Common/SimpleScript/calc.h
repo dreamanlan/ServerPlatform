@@ -708,9 +708,9 @@ namespace FunctionScript
         virtual int GetIdType(void)const { return m_Name.GetIdType(); }
         virtual const char* GetId(void)const { return m_Name.GetId(); }
         virtual int GetLine(void)const { return m_Name.GetLine(); }
-        void SetName(const Value& val) { m_Name.SetValue(val); }
-        Value& GetName(void) { return m_Name.GetValue(); }
-        ValueData& GetNameOrValue(void) { return m_Name; }
+        void SetNameValue(const Value& val) { m_Name.SetValue(val); }
+        Value& GetNameValue(void) { return m_Name.GetValue(); }
+        ValueData& GetName(void) { return m_Name; }
         void ClearParams(void) { m_ParamNum = 0; }
         void AddParam(ISyntaxComponent*	pVal)
         {
@@ -734,8 +734,8 @@ namespace FunctionScript
         int HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
         int IsHighOrder(void)const { return m_Name.IsHighOrder(); }
     public:
-        const Value& GetName(void)const { return m_Name.GetValue(); }
-        const ValueData& GetNameOrValue(void)const { return m_Name; }
+        const Value& GetNameValue(void)const { return m_Name.GetValue(); }
+        const ValueData& GetName(void)const { return m_Name; }
         int GetParamNum(void)const { return m_ParamNum; }
         ISyntaxComponent* GetParam(int index)const
         {

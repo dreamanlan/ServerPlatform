@@ -1,8 +1,4 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppClean.targets(76,5): warning : 文件“e:\opensource\serverplatform\centerhublibrary\x64\debug\vc141.idb”正由另一进程使用，因此该进程无法访问此文件。
-  base64.cpp
-e:\opensource\serverplatform\common\base64.cpp(96): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  Chain.cpp
-  MaintenanceScript.cpp
+﻿  MaintenanceScript.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
 e:\opensource\serverplatform\common\configscript\commonscriptapi.h(159): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
@@ -44,29 +40,6 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
           [
               P1=unsigned __int64
           ]
-  Hashtable.cpp
-  Heap.cpp
-e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  acceptor.cc
-  connector.cc
-  exception.cc
-  netioservice.cc
-  tcp_session.cc
-e:\opensource\serverplatform\common\lockfree\atomic.inl(387): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(420): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(453): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(486): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(519): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(561): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\lockfree\atomic.inl(603): warning C4309: “=”: 截断常量值
-e:\opensource\serverplatform\common\netbase\tcp_session.cc(70): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-e:\opensource\serverplatform\common\netbase\tcp_session.cc(197): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-e:\opensource\serverplatform\common\netbase\tcp_session.cc(239): warning C4244: “return”: 从“intptr_t”转换到“int32_t”，可能丢失数据
-  util.cc
-e:\opensource\serverplatform\common\netbase\util.cc(44): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-e:\opensource\serverplatform\common\netbase\util.cc(49): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-  ObjectPool.cpp
-e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   ByteCode.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
@@ -155,46 +128,6 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
           [
               P1=__int64
           ]
-  calc.cpp
-e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
-e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
-          with
-          [
-              T=__int64
-          ]
-  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
-          with
-          [
-              T=__int64
-          ]
-  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
-          with
-          [
-              T=__int64
-          ]
-  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
-          with
-          [
-              P1=__int64,
-              T=__int64
-          ]
-  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
-          with
-          [
-              P1=__int64
-          ]
-  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
-          with
-          [
-              P1=__int64
-          ]
-  e:\opensource\serverplatform\common\simplescript\calc.h(506): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
-          with
-          [
-              P1=__int64
-          ]
   RuntimeBuilderData.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
@@ -235,8 +168,6 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
           [
               P1=__int64
           ]
-  SlkAction.cpp
-e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   SlkError.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
@@ -317,9 +248,6 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
           [
               P1=__int64
           ]
-  SlkString.cpp
-  正在生成代码...
-  正在编译...
   SlkToken.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
 e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
@@ -404,11 +332,46 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
           [
               P1=__int64
           ]
-  StringFormat.cpp
+  calc.cpp
 e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  Thread.cpp
-e:\opensource\serverplatform\common\stringformat.h(274): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-  tinystr.cpp
+e:\opensource\serverplatform\common\simplescript\calc.h(431): warning C4244: “return”: 从“int”转换到“float”，可能丢失数据
+e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  e:\opensource\serverplatform\common\stringformat.h(218): note: 编译 类 模板 成员函数 "int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)" 时
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::_impl_for_64<T,8>::format(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(298): note: 参见对正在编译的 类 模板 实例化 "StringFormatUtility::_impl_for_64<T,8>" 的引用
+          with
+          [
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(354): note: 参见对正在编译的函数 模板 实例化“int StringFormatUtility::Value2String<P1>(char *,int &,int,const char *,T,int)”的引用
+          with
+          [
+              P1=__int64,
+              T=__int64
+          ]
+  e:\opensource\serverplatform\common\stringformat.h(310): note: 参见对正在编译的函数 模板 实例化“void StringParser::_Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\tsnprintf.h(38): note: 参见对正在编译的函数 模板 实例化“void StringParser::Format<P1>(P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
+  e:\opensource\serverplatform\common\simplescript\calc.h(506): note: 参见对正在编译的函数 模板 实例化“INT snprintf_<__int64>(CHAR *,size_t,const CHAR *,P1)”的引用
+          with
+          [
+              P1=__int64
+          ]
   tinyxml.cpp
   tinyxmlerror.cpp
   tinyxmlparser.cpp
@@ -497,6 +460,4 @@ e:\opensource\serverplatform\common\stringformat.h(224): warning C4267: “初�
               P1=unsigned __int64
           ]
   正在生成代码...
-    正在创建库 E:\OpenSource\ServerPlatform\ServerCenter\x64\Debug\CenterHubLibrary.lib 和对象 E:\OpenSource\ServerPlatform\ServerCenter\x64\Debug\CenterHubLibrary.exp
-LINK : warning LNK4098: 默认库“LIBCMTD”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   CenterHubLibrary.vcxproj -> E:\OpenSource\ServerPlatform\ServerCenter\x64\Debug\CenterHubLibrary.dll

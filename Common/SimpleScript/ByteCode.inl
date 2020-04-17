@@ -62,18 +62,18 @@ namespace FunctionScript
                 if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`') {
                     call.SetParamClass(CallData::PARAM_CLASS_OPERATOR);
 
-                    Value v = call.GetName();
+                    Value v = call.GetNameValue();
                     Value op(tokenInfo.mString + 1, Value::TYPE_IDENTIFIER);
                     op.SetLine(mThis->getLastLineNumber());
-                    call.SetName(op);
+                    call.SetNameValue(op);
                 }
                 else {
                     call.SetParamClass(CallData::PARAM_CLASS_OPERATOR);
 
-                    Value v = call.GetName();
+                    Value v = call.GetNameValue();
                     Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
                     op.SetLine(mThis->getLastLineNumber());
-                    call.SetName(op);
+                    call.SetNameValue(op);
                 }
 
             	if (argComp.IsValid()) {
@@ -113,7 +113,7 @@ namespace FunctionScript
 
             Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
             op.SetLine(mThis->getLastLineNumber());
-            call.SetName(op);
+            call.SetNameValue(op);
             if (argComp.IsValid()) {
             	wrapObjectMember(argComp);
                 call.AddParam(&argComp);
@@ -143,7 +143,7 @@ namespace FunctionScript
 
                 Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
                 op.SetLine(mThis->getLastLineNumber());
-                call.SetName(op);
+                call.SetNameValue(op);
 
                 statement->AddFunction(p);
             }
@@ -281,7 +281,7 @@ namespace FunctionScript
             Value val = tokenInfo.ToValue();
             if (FALSE == val.IsInvalid()) {
                 val.SetLine(mThis->getLastLineNumber());
-                p->GetCall().SetName(val);
+                p->GetCall().SetNameValue(val);
             }
         }
     }
@@ -316,7 +316,7 @@ namespace FunctionScript
                     val.SetWeakRefString(val.GetString());
                 }
                 val.SetLine(mThis->getLastLineNumber());
-                p->GetCall().SetName(val);
+                p->GetCall().SetNameValue(val);
             }
         }
     }
@@ -340,7 +340,7 @@ namespace FunctionScript
             newP->ClearStatements();
             Value val(&p->GetCall());
             val.SetLine(p->GetLine());
-            call.SetName(val);
+            call.SetNameValue(val);
             p = newP;
         }
     }
@@ -561,7 +561,7 @@ namespace FunctionScript
                         int paramClass = pFunc->GetCall().GetParamClass();
                         Value func(pFunc);
                         pFunc = pNew;
-                        pFunc->GetCall().SetName(func);
+                        pFunc->GetCall().SetNameValue(func);
                         pFunc->GetCall().SetParamClass(CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
                         ret = TRUE;
                     }
@@ -577,10 +577,10 @@ namespace FunctionScript
         if (comp.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
             return ret;
         FunctionData& arg = *dynamic_cast<FunctionData*>(&comp);
-        if (0 != mInterpreter && arg.IsValid() && arg.GetCall().GetName().IsSyntaxComponent() && NULL != arg.GetCall().GetName().GetSyntaxComponent()) {
+        if (0 != mInterpreter && arg.IsValid() && arg.GetCall().GetNameValue().IsSyntaxComponent() && NULL != arg.GetCall().GetNameValue().GetSyntaxComponent()) {
             //包装对象成员:
             //	obj.property. -> obj.property().
-            const Value& func = arg.GetCall().GetName();
+            const Value& func = arg.GetCall().GetNameValue();
             FunctionData* pFunc = dynamic_cast<FunctionData*>(func.GetSyntaxComponent());
             if (NULL != pFunc) {
                 CallData& call = pFunc->GetCall();
@@ -600,10 +600,10 @@ namespace FunctionScript
                     FunctionData* pNew = mInterpreter->AddNewFunctionComponent();
                     if (0 != pNew) {
                         int paramClass = call.GetParamClass();
-                        call.SetName(func);
+                        call.SetNameValue(func);
                         pNew->GetCall().SetParamClass(CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
                         Value newFunc(pNew);
-                        arg.GetCall().SetName(newFunc);
+                        arg.GetCall().SetNameValue(newFunc);
                         ret = TRUE;
                     }
                 }
@@ -649,7 +649,7 @@ namespace FunctionScript
                 return data;
             }
             else {
-                ValueData& name = data.GetNameOrValue();
+                ValueData& name = data.GetName();
                 return name;
             }
         }

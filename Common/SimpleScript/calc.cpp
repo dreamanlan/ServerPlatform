@@ -1894,7 +1894,7 @@ namespace FunctionScript
                     FunctionData* pFunc1 = statement.GetFunction(ix);
                     if (0 == pFunc1)
                         return FALSE;
-                    const Value& funcName1 = pFunc1->GetCall().GetName();
+                    const Value& funcName1 = pFunc1->GetCall().GetNameValue();
                     if (funcName1.IsIdentifier()) {
                         const char* pName = funcName1.GetString();
                         if (0 != pName) {
@@ -1924,7 +1924,7 @@ namespace FunctionScript
                     if (num > 1) {
                         FunctionData* pLastFunc = statement.GetFunction(num - 1);
                         if (NULL != pLastFunc) {
-                            name = pLastFunc->GetCall().GetName();
+                            name = pLastFunc->GetCall().GetNameValue();
                         }
                     }
                     statement.PrepareRuntimeObjectWithFunctions();
@@ -2035,7 +2035,7 @@ namespace FunctionScript
                 FunctionData* pFunc1 = statement.GetFunction(1);
                 if (0 == pFunc1)
                     return FALSE;
-                const Value& funcName1 = pFunc1->GetCall().GetName();
+                const Value& funcName1 = pFunc1->GetCall().GetNameValue();
                 if (funcName1.IsIdentifier()) {
                     if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), ":"))
                         return FALSE;
@@ -2119,7 +2119,7 @@ namespace FunctionScript
                 FunctionData* pFunc1 = statement.GetFunction(1);
                 if (0 == pFunc1 || pFunc1->GetCall().GetParamNum() != 1)
                     return FALSE;
-                const Value& funcName1 = pFunc1->GetCall().GetName();
+                const Value& funcName1 = pFunc1->GetCall().GetNameValue();
                 if (funcName1.IsIdentifier()) {
                     if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), "goto"))
                         return FALSE;
@@ -2430,7 +2430,7 @@ namespace FunctionScript
                     if (0 != pFunc1) {
                         if (TRUE == pFunc0->HaveStatement() || FALSE == pFunc1->HaveStatement())
                             return FALSE;
-                        const Value& funcName1 = pFunc1->GetCall().GetName();
+                        const Value& funcName1 = pFunc1->GetCall().GetNameValue();
                         if (funcName1.IsIdentifier()) {
                             if (0 == funcName1.GetString() || 0 != strcmp(funcName1.GetString(), "args"))
                                 return FALSE;
@@ -3468,7 +3468,7 @@ namespace FunctionScript
                             FunctionData* pMember = pStatement->GetFunction(0);
                             if (0 != pMember) {
 
-                                const Value& name = GetVariableValue(pMember->GetCall().GetName());
+                                const Value& name = GetVariableValue(pMember->GetCall().GetNameValue());
                                 ISyntaxComponent* pParam0 = pMember->GetCall().GetParam(0);
                                 ISyntaxComponent* pParam1 = pMember->GetCall().GetParam(1);
                                 m_Accessors[ix + INNER_MEMBER_INDEX_NUM] = new MemberAccessor(*m_Interpreter, *this, ix + INNER_MEMBER_INDEX_NUM);
@@ -4137,7 +4137,7 @@ namespace FunctionScript
 
     void RuntimeFunctionCall::Init(CallData& call)
     {
-        m_Name = call.GetName();
+        m_Name = call.GetNameValue();
         if (m_Name.IsSyntaxComponent()) {
             FunctionData* pFunc = dynamic_cast<FunctionData*>(m_Name.GetSyntaxComponent());
             if (NULL != pFunc) {
@@ -4451,7 +4451,7 @@ namespace FunctionScript
         if (0 == pFunc || !pFunc->HaveId()) {
             return 0;
         }
-        Value funcName = pFunc->GetCall().GetName();
+        Value funcName = pFunc->GetCall().GetNameValue();
         if (funcName.IsInvalid() || !funcName.IsIdentifier() || 0 == funcName.GetString()) {
             return 0;
         }
