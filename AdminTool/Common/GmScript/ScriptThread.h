@@ -560,8 +560,8 @@ protected:
       switch (index)
       {
       case CUSTOM_MEMBER_INDEX_SETCALLBACK:
-        if (1 == num && pParams[0].IsExpression() && NULL != pRetValue){
-          ExpressionApi* pExpression = pParams[0].GetExpression();
+        if (1 == num && pParams[0].IsExpressionApi() && NULL != pRetValue){
+          ExpressionApi* pExpression = pParams[0].GetExpressionApi();
           m_Client.SetCallbackObj(pExpression);
         }
         break;

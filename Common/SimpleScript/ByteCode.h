@@ -92,7 +92,8 @@ namespace FunctionScript
         inline void markPointerStarParam(void);
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
-        inline int wrapObjectMemberInHighOrderFunction(ISyntaxComponent& comp);
+        inline int wrapObjectMemberInHighOrderFunction(CallData& arg);
+        inline int wrapObjectMember(StatementData& arg);
         inline ISyntaxComponent& simplifyStatement(StatementData& data)const;
         inline ISyntaxComponent& simplifyStatement(FunctionData& data)const;
         inline ISyntaxComponent& simplifyStatement(CallData& data)const;

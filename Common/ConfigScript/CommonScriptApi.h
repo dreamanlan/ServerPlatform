@@ -1778,7 +1778,7 @@ public:
       IniReaderObj* pObj = new IniReaderObj(*m_Interpreter);
       if (pObj) {
         m_Interpreter->AddRuntimeComponent(pObj);
-        pRetValue->SetExpression(pObj);
+        pRetValue->SetExpressionApi(pObj);
 
         if (1 == num && pParams[0].IsString()) {
           pObj->Load(pParams[0].GetString());
@@ -1801,7 +1801,7 @@ public:
       TxtTableObj* pObj = new TxtTableObj(*m_Interpreter);
       if (pObj) {
         m_Interpreter->AddRuntimeComponent(pObj);
-        pRetValue->SetExpression(pObj);
+        pRetValue->SetExpressionApi(pObj);
 
         if (1 == num && pParams[0].IsString()) {
           pObj->Load(pParams[0].GetString());
@@ -1824,7 +1824,7 @@ public:
       ConfigTableObj* pObj = new ConfigTableObj(*m_Interpreter);
       if (pObj) {
         m_Interpreter->AddRuntimeComponent(pObj);
-        pRetValue->SetExpression(pObj);
+        pRetValue->SetExpressionApi(pObj);
 
         if (1 == num && pParams[0].IsString()) {
           pObj->Load(pParams[0].GetString());
@@ -2136,8 +2136,8 @@ protected:
         break;
       case CUSTOM_MEMBER_INDEX_ACCEPT:
       {
-        if (1 <= num && pParams[0].IsExpression()) {
-          ExpressionApi* p = pParams[0].GetExpression();
+        if (1 <= num && pParams[0].IsExpressionApi()) {
+          ExpressionApi* p = pParams[0].GetExpressionApi();
           if (1 == num) {
             int r = Accept(p);
             pRetValue->SetInt(r);
@@ -2174,7 +2174,7 @@ public:
       MyXmlVisitorObj* pObj = new MyXmlVisitorObj(*m_Interpreter);
       if (pObj) {
         m_Interpreter->AddRuntimeComponent(pObj);
-        pRetValue->SetExpression(pObj);
+        pRetValue->SetExpressionApi(pObj);
 
         if (1 == num && pParams[0].IsString()) {
           pObj->Load(pParams[0].GetString());

@@ -6,7 +6,7 @@ int CreateStreamPacketObj(FunctionScript::Value& retValue, Interpreter& interpre
   StreamPacketObj* pObj = new StreamPacketObj(interpreter, client, &stream);
   if (pObj)
   {
-    retValue.SetExpression(pObj);
+    retValue.SetExpressionApi(pObj);
     ret = TRUE;
   }
   return ret;
