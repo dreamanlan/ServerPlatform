@@ -21,8 +21,8 @@ namespace FunctionScript
         BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
         BYTE_CODE_MARK_PARENTHESIS_PARAM,
         BYTE_CODE_SET_EXTERN_SCRIPT,
-        BYTE_CODE_MARK_HAVE_STATEMENT,
-        BYTE_CODE_MARK_HAVE_EXTERN_SCRIPT,
+        BYTE_CODE_MARK_STATEMENT,
+        BYTE_CODE_MARK_EXTERN_SCRIPT,
         BYTE_CODE_SET_FUNCTION_ID,
         BYTE_CODE_BEGIN_FUNCTION,
         BYTE_CODE_END_FUNCTION,
@@ -68,8 +68,8 @@ namespace FunctionScript
         inline void beginFunction(void);
         inline void endFunction(void);
         inline void setFunctionId(void);
-        inline void markHaveStatement(void);
-        inline void markHaveExternScript(void);
+        inline void markStatement(void);
+        inline void markExternScript(void);
         inline void setExternScript(void);
         inline void buildHighOrderFunction(void);
         inline void markParenthesisParam(void);
@@ -92,11 +92,10 @@ namespace FunctionScript
         inline void markPointerStarParam(void);
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
-        inline int wrapObjectMemberInHighOrderFunction(CallData& arg);
+        inline int wrapObjectMemberInHighOrderFunction(FunctionData& arg);
         inline int wrapObjectMember(StatementData& arg);
         inline ISyntaxComponent& simplifyStatement(StatementData& data)const;
         inline ISyntaxComponent& simplifyStatement(FunctionData& data)const;
-        inline ISyntaxComponent& simplifyStatement(CallData& data)const;
         inline bool	preconditionCheck(void)const
         {
             return NULL != mThis && NULL != mInterpreter;
@@ -249,13 +248,13 @@ namespace FunctionScript
         {
             genCode(BYTE_CODE_MARK_POINTER_STAR_PARAM);
         }
-        inline void markHaveStatement(void)
+        inline void markStatement(void)
         {
-            genCode(BYTE_CODE_MARK_HAVE_STATEMENT);
+            genCode(BYTE_CODE_MARK_STATEMENT);
         }
-        inline void markHaveExternScript(void)
+        inline void markExternScript(void)
         {
-            genCode(BYTE_CODE_MARK_HAVE_EXTERN_SCRIPT);
+            genCode(BYTE_CODE_MARK_EXTERN_SCRIPT);
         }
     private:
         inline bool preconditionCheck(void)const

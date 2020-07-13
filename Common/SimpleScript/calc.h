@@ -49,17 +49,20 @@ namespace FunctionScript
         MAX_FUNCTION_PARAM_NUM = 32,
         MAX_STACK_LEVEL = 1024,
 
+        INIT_FUNCTION_PARAM = 1,
         DELTA_FUNCTION_PARAM = 2,
-        DELTA_FUNCTION_LOCAL = 4,
-        DELTA_FUNCTION_STATEMENT = 8,
+        DELTA_FUNCTION_STATEMENT = 16,
+        INIT_STATEMENT_FUNCTION = 1,
         DELTA_STATEMENT_FUNCTION = 1,
+        INIT_FUNCTION_LOCAL = 1,
+        DELTA_FUNCTION_LOCAL = 4,        
     };
 
     enum
     {
         MAX_FUNCTION_DIMENSION_NUM = 8,
         MAX_LOCAL_NUM = 256,
-        MAX_STATEMENT_NUM = 1024,
+        MAX_PARAM_NUM = 1024,
         MAX_PROGRAM_SIZE = 16 * 1024,
         MAX_INNER_FUNCTION_API_NUM = 256,
         MAX_INNER_STATEMENT_API_NUM = 64,
@@ -78,7 +81,7 @@ namespace FunctionScript
         InterpreterOptions(void) :
             m_MaxFunctionDimensionNum(MAX_FUNCTION_DIMENSION_NUM),
             m_MaxLocalNum(MAX_LOCAL_NUM),
-            m_MaxStatementNum(MAX_STATEMENT_NUM),
+            m_MaxParamNum(MAX_PARAM_NUM),
             m_MaxProgramSize(MAX_PROGRAM_SIZE),
             m_MaxInnerFunctionApiNum(MAX_INNER_FUNCTION_API_NUM),
             m_MaxInnerStatementApiNum(MAX_INNER_STATEMENT_API_NUM),
@@ -96,8 +99,8 @@ namespace FunctionScript
         void SetMaxFunctionDimensionNum(int val) { m_MaxFunctionDimensionNum = val; }
         int GetMaxLocalNum() const { return m_MaxLocalNum; }
         void SetMaxLocalNum(int val) { m_MaxLocalNum = val; }
-        int GetMaxStatementNum() const { return m_MaxStatementNum; }
-        void SetMaxStatementNum(int val) { m_MaxStatementNum = val; }
+        int GetMaxParamNum() const { return m_MaxParamNum; }
+        void SetMaxParamNum(int val) { m_MaxParamNum = val; }
         int GetMaxProgramSize() const { return m_MaxProgramSize; }
         void SetMaxProgramSize(int val) { m_MaxProgramSize = val; }
         int GetMaxInnerFunctionApiNum() const { return m_MaxInnerFunctionApiNum; }
@@ -121,7 +124,7 @@ namespace FunctionScript
     private:
         int	m_MaxFunctionDimensionNum;
         int	m_MaxLocalNum;
-        int	m_MaxStatementNum;
+        int	m_MaxParamNum;
         int	m_MaxProgramSize;
         int	m_MaxInnerFunctionApiNum;
         int	m_MaxInnerStatementApiNum;
@@ -136,7 +139,7 @@ namespace FunctionScript
 
     class ExpressionApi;
     class StatementApi;
-    class CallData;
+    class FunctionData;
     class Value
     {
     public:
@@ -156,7 +159,7 @@ namespace FunctionScript
             TYPE_INDEX,
             TYPE_EXPRESSION_API,
             TYPE_STATEMENT_API,
-            TYPE_CALL_DATA,
+            TYPE_FUNCTION,
             TYPE_PTR,
         };
 
@@ -168,9 +171,9 @@ namespace FunctionScript
         explicit Value(bool val) :m_Type(TYPE_BOOL), m_BoolVal(val), m_Line(0) {}
         explicit Value(char* val) :m_Type(TYPE_STRING), m_StringVal(val), m_Line(0) {}
         explicit Value(const char* val) :m_Type(TYPE_STRING), m_ConstStringVal(val), m_Line(0) {}
-        explicit Value(ExpressionApi* val) :m_Type(TYPE_EXPRESSION_API), m_ExpressionApi(val), m_Line(0) {}
-        explicit Value(StatementApi* val) :m_Type(TYPE_STATEMENT_API), m_StatementApi(val), m_Line(0) {}
-        explicit Value(CallData* val) :m_Type(TYPE_CALL_DATA), m_CallData(val), m_Line(0) {}
+        explicit Value(ExpressionApi* val) :m_Type(TYPE_EXPRESSION_API), m_ExpressionApiVal(val), m_Line(0) {}
+        explicit Value(StatementApi* val) :m_Type(TYPE_STATEMENT_API), m_StatementApiVal(val), m_Line(0) {}
+        explicit Value(FunctionData* val) :m_Type(TYPE_FUNCTION), m_FunctionVal(val), m_Line(0) {}
         explicit Value(void* val) :m_Type(TYPE_PTR), m_Ptr(val), m_Line(0) {}
         explicit Value(int val, int type) :m_Type(type), m_IntVal(val), m_Line(0) {}
         explicit Value(char* val, int type) :m_Type(type), m_StringVal(val), m_Line(0) {}
@@ -224,7 +227,7 @@ namespace FunctionScript
         int IsIndex(void)const { return (m_Type == TYPE_INDEX ? TRUE : FALSE); }
         int IsExpressionApi(void)const { return (m_Type == TYPE_EXPRESSION_API ? TRUE : FALSE); }
         int IsStatementApi(void)const { return (m_Type == TYPE_STATEMENT_API ? TRUE : FALSE); }
-        int IsCallData(void)const { return (m_Type == TYPE_CALL_DATA ? TRUE : FALSE); }
+        int IsFunction(void)const { return (m_Type == TYPE_FUNCTION ? TRUE : FALSE); }
         int IsPtr(void)const { return (m_Type == TYPE_PTR ? TRUE : FALSE); }
         int GetLine(void)const { return m_Line; }
         int GetType(void)const { return m_Type; }
@@ -234,9 +237,9 @@ namespace FunctionScript
         double GetDouble(void)const { return m_DoubleVal; }
         bool GetBool(void)const { return m_BoolVal; }
         char* GetString(void)const { return m_StringVal; }
-        ExpressionApi* GetExpressionApi(void)const { return m_ExpressionApi; }
-        StatementApi* GetStatementApi(void)const { return m_StatementApi; }
-        CallData* GetCallData(void)const { return m_CallData; }
+        ExpressionApi* GetExpressionApi(void)const { return m_ExpressionApiVal; }
+        StatementApi* GetStatementApi(void)const { return m_StatementApiVal; }
+        FunctionData* GetFunction(void)const { return m_FunctionVal; }
         void* GetPtr(void)const { return m_Ptr; }
         void SetLine(int line)
         {
@@ -282,19 +285,19 @@ namespace FunctionScript
         {
             FreeString();
             m_Type = TYPE_EXPRESSION_API;
-            m_ExpressionApi = expApi;
+            m_ExpressionApiVal = expApi;
         }
         void SetStatementApi(StatementApi* statementApi)
         {
             FreeString();
             m_Type = TYPE_STATEMENT_API;
-            m_StatementApi = statementApi;
+            m_StatementApiVal = statementApi;
         }
-        void SetCallData(CallData* callData)
+        void SetFunction(FunctionData* funcData)
         {
             FreeString();
-            m_Type = TYPE_CALL_DATA;
-            m_CallData = callData;
+            m_Type = TYPE_FUNCTION;
+            m_FunctionVal = funcData;
         }
         void SetPtr(void* ptr)
         {
@@ -565,9 +568,9 @@ namespace FunctionScript
             double m_DoubleVal;
             bool m_BoolVal;
             char* m_StringVal;
-            ExpressionApi* m_ExpressionApi;
-            StatementApi* m_StatementApi;
-            CallData* m_CallData;
+            ExpressionApi* m_ExpressionApiVal;
+            StatementApi* m_StatementApiVal;
+            FunctionData* m_FunctionVal;
             void* m_Ptr;
             const char* m_ConstStringVal;//在脚本里与m_StringVal类型相同,用于实现自动const_cast
         };
@@ -590,7 +593,6 @@ namespace FunctionScript
         {
             TYPE_NULL,
             TYPE_VALUE,
-            TYPE_CALL,
             TYPE_FUNCTION,
             TYPE_STATEMENT,
         };
@@ -641,22 +643,14 @@ namespace FunctionScript
     };
 
     //因为Value类用于运行时的值表示，需要像POD一样工作，这里专门为语法层提供一个类表示语法里的标识符、常量、变量和操作符
-    //这个类主要用于以ISyntaxComponent访问的情形，所以CallData在接口上提供了直接操作Value的方法。
+    //这个类主要用于以ISyntaxComponent访问的情形，所以FunctionData在接口上提供了直接操作Value的方法。
     class ValueData : public ISyntaxComponent
     {
     public:
-        virtual int IsValid(void)const
-        {
-            return FALSE == m_Value.IsInvalid();
-        }
-        virtual const char*	GetId(void)const
-        {
-            if (m_Value.IsString() || m_Value.IsIdentifier())
-                return m_Value.GetString();
-            return 0;
-        }
-        virtual int GetIdType(void) const { return m_Value.GetType(); }
-        virtual int GetLine(void)const { return m_Value.GetLine(); }
+        virtual int IsValid(void)const;
+        virtual const char*	GetId(void)const;
+        virtual int GetIdType(void)const;
+        virtual int GetLine(void)const;
         virtual void PrepareRuntimeObject(void);
         virtual const Value& GetRuntimeObject(void)const { return m_Value; }
         virtual void PrepareGeneralRuntimeObject(void);
@@ -665,8 +659,8 @@ namespace FunctionScript
         Value& GetValue(void) { return m_Value; }
         const Value& GetValue(void)const { return m_Value; }
     public:
-        bool HaveId()const { return IsValid(); }
-        int IsHighOrder(void)const { return m_Value.IsCallData(); }
+        int HaveId()const;
+        int IsHighOrder(void)const { return m_Value.IsFunction(); }
     public:
         explicit ValueData(Interpreter& interpreter);
         virtual ~ValueData(void) {}
@@ -683,7 +677,22 @@ namespace FunctionScript
         InterpreterValuePool* m_pInnerValuePool;
     };
 
-    class CallData : public ISyntaxComponent
+    /*
+     * ValueData、FunctionData与StatementData代表的信息是编译时信息，对运行时来说，它们只是元数据。
+     * 因FunctionData可以有高阶的表示，其名称可能也是一个FunctionData，这种递归关系依靠Value来建立（注意为了避免空间浪费，没有放在ValueData上）
+     * Value可以是一个FunctionData仅在编译时使用，运行时不应使用。
+     *
+     * 运行时的三种类型：单个值、ExpressionApi和StatementApi都记录在Value里。
+     *
+     * 独立出来的运行时理论上应该便于实现更好的运行性能。
+     * 
+     * DSL语法不区分函数参数与语句块，都是参数表的形式（这是为了语法上更加灵活，凡是参数表出现的地方都可以出现语句块）。
+     *
+     * 一个即有参数表又有语句块的函数一般用来表示函数定义，在语法上是一种高阶函数表示。
+     */
+    class StatementData;
+    class RuntimeStatementBlock;
+    class FunctionData : public ISyntaxComponent
     {
     public:
         enum
@@ -700,6 +709,8 @@ namespace FunctionScript
             PARAM_CLASS_QUESTION_BRACKET,
             PARAM_CLASS_QUESTION_BRACE,
             PARAM_CLASS_POINTER,
+            PARAM_CLASS_STATEMENT,
+            PARAM_CLASS_EXTERN_SCRIPT,
             PARAM_CLASS_PERIOD_STAR,
             PARAM_CLASS_QUESTION_PERIOD_STAR,
             PARAM_CLASS_POINTER_STAR,
@@ -709,13 +720,15 @@ namespace FunctionScript
             PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00010000,
             PARAM_CLASS_UNMASK = 0x0000FFFF,
         };
+        typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
+        typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > LocalIndexes;
         typedef ISyntaxComponent* SyntaxComponentPtr;
     public:
         virtual int IsValid(void)const
         {
-            if (HaveId())
+            if (m_Name.IsValid())
                 return TRUE;
-            else if (HaveParam())
+            else if (HaveParamOrStatement())
                 return TRUE;
             else
                 return FALSE;
@@ -727,13 +740,15 @@ namespace FunctionScript
         virtual const Value& GetRuntimeObject(void)const;
         virtual void PrepareGeneralRuntimeObject(void);
     public:
+        RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
+    public:
         void SetNameValue(const Value& val) { m_Name.SetValue(val); }
         Value& GetNameValue(void) { return m_Name.GetValue(); }
         ValueData& GetName(void) { return m_Name; }
         void ClearParams(void) { m_ParamNum = 0; }
         void AddParam(ISyntaxComponent*	pVal)
         {
-            if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= MAX_FUNCTION_PARAM_NUM)
+            if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= m_MaxParamNum)
                 return;
             PrepareParams();
             if (0 == m_Params || m_ParamNum >= m_ParamSpace)
@@ -743,15 +758,37 @@ namespace FunctionScript
         }
         void SetParam(int index, ISyntaxComponent* pVal)
         {
-            if (NULL == pVal || index < 0 || index >= MAX_FUNCTION_PARAM_NUM)
+            if (NULL == pVal || index < 0 || index >= m_MaxParamNum)
                 return;
             m_Params[index] = pVal;
         }
         void SetParamClass(int v) { m_ParamClass = v; }
         int GetParamClass(void)const { return m_ParamClass; }
         int HaveId(void)const { return m_Name.HaveId(); }
-        int HaveParam(void)const { return m_ParamClass != PARAM_CLASS_NOTHING; }
+        int HaveParamOrStatement(void)const { return m_ParamClass != PARAM_CLASS_NOTHING ? TRUE : FALSE; }
+        int HaveParam(void)const { return HaveParamOrStatement() && !HaveStatement() && !HaveExternScript(); }
+        int HaveStatement(void)const { return m_ParamClass == PARAM_CLASS_STATEMENT ? TRUE : FALSE; }
+        int HaveExternScript(void)const { return m_ParamClass == PARAM_CLASS_EXTERN_SCRIPT ? TRUE : FALSE; }
         int IsHighOrder(void)const { return m_Name.IsHighOrder(); }
+        int HaveLowerOrderParam(void)const
+        {
+            if (IsHighOrder()) {
+                const FunctionData* p = m_Name.GetValue().GetFunction();
+                return p->HaveParam();
+            }
+            else {
+                return FALSE;
+            }
+        }
+        FunctionData* GetLowerOrderFunction(void)const
+        {
+            if (IsHighOrder()) {
+                return m_Name.GetValue().GetFunction();
+            }
+            else {
+                return 0;
+            }
+        }
     public:
         const Value& GetNameValue(void)const { return m_Name.GetValue(); }
         const ValueData& GetName(void)const { return m_Name; }
@@ -769,111 +806,6 @@ namespace FunctionScript
             return m_Params[index]->GetId();
         }
     public:
-        explicit CallData(Interpreter& interpreter);
-        virtual ~CallData(void);
-    private:
-        CallData(const CallData& other) = delete;
-        CallData operator=(const CallData& other) = delete;
-    private:
-        void PrepareParams(void);
-        void ReleaseParams(void);
-    private:
-        ValueData m_Name;
-        ISyntaxComponent** m_Params;
-        int m_ParamNum;
-        int m_ParamSpace;
-        int m_ParamClass;
-    private:
-        Value m_RuntimeFunctionCall;
-        int m_RuntimeObjectPrepared;
-
-        InterpreterValuePool* m_pInnerValuePool;
-    public:
-        static CallData*& GetNullCallPtrRef(void)
-        {
-            static CallData* s_P = 0;
-            return s_P;
-        }
-    };
-
-    /*
-     * ValueData、CallData、FunctionData与StatementData代表的信息是编译时信息，对运行时来说，它们只是元数据。
-     * 因CallData可以有高阶的表示，其名称可能也是一个CallData，这种递归关系依靠Value来建立（注意为了避免空间浪费，没有放在ValueData上）
-     * Value可以是一个CallData仅在编译时使用，运行时不应使用。
-     *
-     * 运行时的三种类型：单个值、ExpressionApi和StatementApi都记录在Value里。
-     *
-     * 独立出来的运行时理论上应该便于实现更好的运行性能。
-     */
-    class StatementData;
-    class RuntimeStatementBlock;
-    class FunctionData : public ISyntaxComponent
-    {
-    public:
-        enum
-        {
-            EXTENT_CLASS_NOTHING = 0,
-            EXTENT_CLASS_STATEMENT,
-            EXTENT_CLASS_EXTERN_SCRIPT,
-            EXTENT_CLASS_MAX,
-        };
-        typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
-        typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > LocalIndexes;
-        typedef ISyntaxComponent* SyntaxComponentPtr;
-    public:
-        virtual int IsValid(void)const
-        {
-            if (m_Call.IsValid())
-                return TRUE;
-            else if (HaveStatement() || HaveExternScript())
-                return TRUE;
-            else
-                return FALSE;
-        }
-        virtual int GetIdType(void)const { return m_Call.GetIdType(); }
-        virtual const char* GetId(void)const { return m_Call.GetId(); }
-        virtual int GetLine(void)const { return m_Call.GetLine(); }
-        virtual void PrepareRuntimeObject(void);
-        virtual const Value& GetRuntimeObject(void)const;
-        virtual void PrepareGeneralRuntimeObject(void);
-    public:
-        RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
-    public:
-        CallData& GetCall(void) { return m_Call; }
-        void ClearStatements(void) { m_StatementNum = 0; }
-        void AddStatement(ISyntaxComponent* pVal)
-        {
-            if (0 == pVal || m_StatementNum < 0 || m_StatementNum >= m_MaxStatementNum)
-                return;
-            PrepareStatements();
-            if (0 == m_Statements || m_StatementNum >= m_StatementSpace)
-                return;
-            m_Statements[m_StatementNum] = pVal;
-            ++m_StatementNum;
-        }
-        void SetStatementApi(int index, ISyntaxComponent* pVal)
-        {
-            if (NULL == pVal || index < 0 || index >= m_MaxStatementNum)
-                return;
-            m_Statements[index] = pVal;
-        }
-        void SetExternScript(const char* scp) { m_ExternScript = scp; }
-        void SetExtentClass(int v) { m_ExtentClass = v; }
-        int GetExtentClass(void)const { return m_ExtentClass; }
-        int HaveId(void)const { return m_Call.HaveId(); }
-        int HaveParam(void)const { return m_Call.HaveParam(); }
-        int HaveStatement(void)const { return m_ExtentClass == EXTENT_CLASS_STATEMENT; }
-        int HaveExternScript(void)const { return m_ExtentClass == EXTENT_CLASS_EXTERN_SCRIPT; }
-    public:
-        const CallData&	GetCall(void)const { return m_Call; }
-        int GetStatementNum(void)const { return m_StatementNum; }
-        ISyntaxComponent* GetStatementApi(int index)const
-        {
-            if (0 == m_Statements || index < 0 || index >= m_StatementNum || index >= m_MaxStatementNum)
-                return 0;
-            return m_Statements[index];
-        }
-        const char*	GetExternScript(void)const { return m_ExternScript; }
         int CalculateStackSize(void)const;
     public:
         int AllocLocalIndex(const char* id);
@@ -883,21 +815,20 @@ namespace FunctionScript
         explicit FunctionData(Interpreter& interpreter);
         virtual ~FunctionData(void);
     private:
-        FunctionData(const FunctionData&) = delete;
-        FunctionData& operator=(const FunctionData&) = delete;
+        FunctionData(const FunctionData& other) = delete;
+        FunctionData operator=(const FunctionData& other) = delete;
     private:
-        void PrepareStatements(void);
-        void ReleaseStatements(void);
+        void PrepareParams(void);
+        void ReleaseParams(void);
         void PrepareLocalIndexes(void);
         void ClearLocalIndexes(void);
     private:
-        CallData m_Call;
-        ISyntaxComponent** m_Statements;
-        int m_StatementNum;
-        int m_StatementSpace;
-        int m_MaxStatementNum;
-        const char* m_ExternScript;
-        int m_ExtentClass;
+        ValueData m_Name;
+        ISyntaxComponent** m_Params;
+        int m_ParamNum;
+        int m_ParamSpace;
+        int m_MaxParamNum;
+        int m_ParamClass;
     private:
         LocalIndexes m_LocalIndexes;
         int m_LocalNum;
@@ -918,7 +849,7 @@ namespace FunctionScript
     };
 
     /* 备忘：为什么StatementData的成员不使用ISyntaxComponent[]而是FunctionData[]
-     * 1、虽然语法上这里的FunctionData可以退化为CallData与ValueData，但不可以是StatementData，这样在概念上不能与ISyntaxComponent等同
+     * 1、虽然语法上这里的FunctionData可以退化为FunctionData与ValueData，但不可以是StatementData，这样在概念上不能与ISyntaxComponent等同
      * 2、在设计上，FunctionData应该考虑到退化情形，尽量在退化情形不占用额外空间
      */
     class StatementData : public ISyntaxComponent
@@ -1388,7 +1319,7 @@ namespace FunctionScript
     public:
         explicit RuntimeFunctionCall(Interpreter& interpreter);
         virtual ~RuntimeFunctionCall(void);
-        void Init(CallData& call);
+        void Init(FunctionData& call);
     private:
         Value m_Name;
         int m_ParamClass;
@@ -1540,7 +1471,6 @@ namespace FunctionScript
         void AddStatement(ISyntaxComponent* p);
     public:
         ValueData* AddNewValueComponent(void);
-        CallData* AddNewCallComponent(void);
         FunctionData* AddNewFunctionComponent(void);
         StatementData* AddNewStatementComponent(void);
         RuntimeFunctionCall* AddNewRuntimeFunctionComponent(void);

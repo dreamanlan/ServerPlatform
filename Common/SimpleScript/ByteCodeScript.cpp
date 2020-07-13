@@ -188,14 +188,14 @@ namespace FunctionScript
                 action.setExternScript();
             }
             break;
-            case BYTE_CODE_MARK_HAVE_STATEMENT:
+            case BYTE_CODE_MARK_STATEMENT:
             {
-                action.markHaveStatement();
+                action.markStatement();
             }
             break;
-            case BYTE_CODE_MARK_HAVE_EXTERN_SCRIPT:
+            case BYTE_CODE_MARK_EXTERN_SCRIPT:
             {
-                action.markHaveExternScript();
+                action.markExternScript();
             }
             break;
             case BYTE_CODE_SET_FUNCTION_ID:

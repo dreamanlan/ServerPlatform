@@ -28,8 +28,9 @@ void CompileTest_ByteCode(void)
     builder.endFunction();
     builder.endStatement();
     builder.markBracketParam();
-    builder.markHaveExternScript();
-    builder.markHaveStatement();
+	builder.markStatement();
+    builder.markExternScript();
+	builder.setExternScript();
     builder.markParenthesisParam();
     builder.markPeriodBraceParam();
     builder.markPeriodBracketParam();
@@ -37,7 +38,6 @@ void CompileTest_ByteCode(void)
     builder.markPeriodParenthesisParam();
     builder.setMemberId();
     builder.setCanFinish(false);
-    builder.setExternScript();
     builder.setFunctionId();
     builder.setMemberId();
     builder.markPeriod();

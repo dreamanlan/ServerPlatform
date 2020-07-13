@@ -28,7 +28,9 @@ namespace FunctionScript
                     PRINT_FUNCTION_SCRIPT_DEBUG_INFO("script:%s\n", pStr);
                 }
 
-                p->SetExternScript(pStr);
+                ValueData* pVal = mInterpreter->AddNewValueComponent();
+                pVal->GetValue().SetIdentifier(pStr);
+                p->AddParam(pVal);
             }
         }
     }
@@ -66,9 +68,9 @@ namespace FunctionScript
 
             FunctionData* p = mInterpreter->AddNewFunctionComponent();
             if (0 != p) {
-                CallData& call = p->GetCall();
+            	FunctionData& call = *p;
                 if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`') {
-                    call.SetParamClass(CallData::PARAM_CLASS_OPERATOR);
+                    call.SetParamClass(FunctionData::PARAM_CLASS_OPERATOR);
 
                     Value v = call.GetNameValue();
                     Value op(tokenInfo.mString + 1, Value::TYPE_IDENTIFIER);
@@ -76,7 +78,7 @@ namespace FunctionScript
                     call.SetNameValue(op);
                 }
                 else {
-                    call.SetParamClass(CallData::PARAM_CLASS_OPERATOR);
+                    call.SetParamClass(FunctionData::PARAM_CLASS_OPERATOR);
 
                     Value v = call.GetNameValue();
                     Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
@@ -115,16 +117,18 @@ namespace FunctionScript
 
         FunctionData* p = mInterpreter->AddNewFunctionComponent();
         if (0 != p) {
-            CallData& call = p->GetCall();
-            call.SetParamClass(CallData::PARAM_CLASS_TERNARY_OPERATOR);
-            p->SetExtentClass(FunctionData::EXTENT_CLASS_STATEMENT);
+            //三元运算符表示成op1(cond)(true_val)op2(false_val)
+            FunctionData* lowerOrderFunction= mInterpreter->AddNewFunctionComponent();
+            p->GetNameValue().SetFunction(lowerOrderFunction);
+            p->SetParamClass(FunctionData::PARAM_CLASS_TERNARY_OPERATOR);
+            lowerOrderFunction->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
 
             Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
             op.SetLine(mThis->getLastLineNumber());
-            call.SetNameValue(op);
+            lowerOrderFunction->SetNameValue(op);
             if (argComp.IsValid()) {
                 wrapObjectMember(argComp);
-                call.AddParam(&argComp);
+                lowerOrderFunction->AddParam(&argComp);
             }
 
             pStatement->AddFunction(p);
@@ -145,9 +149,8 @@ namespace FunctionScript
         if (0 != statement) {
             FunctionData* p = mInterpreter->AddNewFunctionComponent();
             if (0 != p) {
-                CallData& call = p->GetCall();
-                call.SetParamClass(CallData::PARAM_CLASS_TERNARY_OPERATOR);
-                p->SetExtentClass(FunctionData::EXTENT_CLASS_STATEMENT);
+                FunctionData& call = *p;
+                call.SetParamClass(FunctionData::PARAM_CLASS_TERNARY_OPERATOR);
 
                 Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
                 op.SetLine(mThis->getLastLineNumber());
@@ -175,8 +178,8 @@ namespace FunctionScript
         if (0 == statement || statement->GetFunctionNum() == 0)
             return;
         const char* id = statement->GetId();
-        if (0 != id && strcmp(id, "@@delimiter") == 0 && statement->GetFunctionNum() == 1 && (statement->GetLastFunctionRef()->GetCall().GetParamNum() == 1 || statement->GetLastFunctionRef()->GetCall().GetParamNum() == 3) && !statement->GetLastFunctionRef()->GetCall().IsHighOrder()) {
-            const CallData& call = statement->GetLastFunctionRef()->GetCall();
+        if (0 != id && strcmp(id, "@@delimiter") == 0 && statement->GetFunctionNum() == 1 && (statement->GetLastFunctionRef()->GetParamNum() == 1 || statement->GetLastFunctionRef()->GetParamNum() == 3) && !statement->GetLastFunctionRef()->IsHighOrder()) {
+            const FunctionData& call = *statement->GetLastFunctionRef();
             const char* type = call.GetParamId(0);
             if (call.GetParamNum() == 3) {
                 const char* begin = call.GetParamId(1);
@@ -222,11 +225,9 @@ namespace FunctionScript
 
             FunctionData* p = mData.getLastFunctionRef();
             if (0 != p) {
-                CallData& call = p->GetCall();
-                switch (p->GetExtentClass()) {
-                case FunctionData::EXTENT_CLASS_NOTHING:
-                {
-                    if (call.GetParamClass() == CallData::PARAM_CLASS_OPERATOR && !statement->IsValid())
+                FunctionData& call = *p;
+                if (call.HaveParam()) {
+                    if (call.GetParamClass() == FunctionData::PARAM_CLASS_OPERATOR && !statement->IsValid())
                         return;//操作符就不支持空参数了
 
                     //函数参数，允许空语句，用于表达默认状态(副作用是a()与a[]将总是会有一个空语句参数)。
@@ -236,18 +237,14 @@ namespace FunctionScript
                     }
 
                 }
-                break;
-                case FunctionData::EXTENT_CLASS_STATEMENT:
-                {
+                else if (call.HaveStatement()) {
                     if (!statement->IsValid()) {
                         //_epsilon_表达式无语句语义
                         return;
                     }
                     //函数扩展语句部分
                     wrapObjectMember(statementSyntax);
-                    p->AddStatement(&statementSyntax);
-                }
-                break;
+                    call.AddParam(&statementSyntax);
                 }
             }
         }
@@ -291,7 +288,7 @@ namespace FunctionScript
             Value val = tokenInfo.ToValue();
             if (FALSE == val.IsInvalid()) {
                 val.SetLine(mThis->getLastLineNumber());
-                p->GetCall().SetNameValue(val);
+                p->SetNameValue(val);
             }
         }
     }
@@ -326,7 +323,7 @@ namespace FunctionScript
                     val.SetWeakRefString(val.GetString());
                 }
                 val.SetLine(mThis->getLastLineNumber());
-                p->GetCall().SetNameValue(val);
+                p->SetNameValue(val);
             }
         }
     }
@@ -345,12 +342,9 @@ namespace FunctionScript
             return;
         FunctionData* newP = mInterpreter->AddNewFunctionComponent();
         if (0 != newP) {
-            CallData& call = newP->GetCall();
-            call.ClearParams();
-            newP->ClearStatements();
-            Value val(&p->GetCall());
+            Value val(p);
             val.SetLine(p->GetLine());
-            call.SetNameValue(val);
+            newP->SetNameValue(val);
             p = newP;
         }
     }
@@ -361,7 +355,7 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->GetCall().SetParamClass(CallData::PARAM_CLASS_PARENTHESIS);
+        p->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markBracketParam(void)
@@ -370,8 +364,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->GetCall().SetParamClass(CallData::PARAM_CLASS_BRACKET);
-        wrapObjectMemberInHighOrderFunction(p->GetCall());
+        p->SetParamClass(FunctionData::PARAM_CLASS_BRACKET);
+        wrapObjectMemberInHighOrderFunction(*p);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPeriod(void)
@@ -385,8 +379,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_PERIOD);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PERIOD);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -396,8 +390,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_PERIOD_PARENTHESIS);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -407,8 +401,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_PERIOD_BRACKET);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PERIOD_BRACKET);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -418,8 +412,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_PERIOD_BRACE);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PERIOD_BRACE);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -434,8 +428,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_QUESTION_PERIOD);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_PERIOD);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -445,8 +439,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_QUESTION_PARENTHESIS);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_PARENTHESIS);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -456,8 +450,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_QUESTION_BRACKET);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_BRACKET);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -467,8 +461,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_QUESTION_BRACE);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_BRACE);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -483,8 +477,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_POINTER);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_POINTER);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -494,8 +488,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_PERIOD_STAR);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PERIOD_STAR);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -505,8 +499,8 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_QUESTION_PERIOD_STAR);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_PERIOD_STAR);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -516,53 +510,53 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        CallData& call = p->GetCall();
-        call.SetParamClass(CallData::PARAM_CLASS_POINTER_STAR);
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_POINTER_STAR);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markHaveStatement(void)
+        void RuntimeBuilderT<RealTypeT>::markStatement(void)
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->SetExtentClass(FunctionData::EXTENT_CLASS_STATEMENT);
+        p->SetParamClass(FunctionData::PARAM_CLASS_STATEMENT);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markHaveExternScript(void)
+        void RuntimeBuilderT<RealTypeT>::markExternScript(void)
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->SetExtentClass(FunctionData::EXTENT_CLASS_EXTERN_SCRIPT);
+        p->SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
     }
     template<class RealTypeT> inline
         int RuntimeBuilderT<RealTypeT>::wrapObjectMember(ISyntaxComponent& comp)
     {
         int ret = FALSE;
-        if (comp.GetSyntaxType() != ISyntaxComponent::TYPE_CALL)
+        if (comp.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
             return ret;
-        CallData& call = dynamic_cast<CallData&>(comp);
+        FunctionData& call = dynamic_cast<FunctionData&>(comp);
         if (0 != mInterpreter && call.IsValid() && call.HaveId()) {
-            if (call.GetParamClass() == CallData::PARAM_CLASS_PERIOD ||
-                call.GetParamClass() == CallData::PARAM_CLASS_BRACKET ||
-                call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_BRACE ||
-                call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_BRACKET ||
-                call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_PARENTHESIS ||
-                call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PERIOD ||
-                call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PARENTHESIS ||
-                call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_BRACKET ||
-                call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_BRACE ||
-                call.GetParamClass() == CallData::PARAM_CLASS_POINTER ||
-                call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_STAR ||
-                call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PERIOD_STAR ||
-                call.GetParamClass() == CallData::PARAM_CLASS_POINTER_STAR) {
+            if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PARENTHESIS ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACKET ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACE ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_STAR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD_STAR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER_STAR) {
                 //包装对象成员:（注意这里传进来的是obj.property，所以只需要转变成高阶形式即可）
                 //	obj.property=val -> obj.property(val)
                 //	val=obj.property -> val=obj.property()
-                CallData* pNew = mInterpreter->AddNewCallComponent();
+                FunctionData* pNew = mInterpreter->AddNewFunctionComponent();
                 if (0 != pNew) {
                     //构造一个新的obj.property
                     int paramClass = call.GetParamClass();
@@ -572,7 +566,7 @@ namespace FunctionScript
                     //将旧的call变成高阶形式
                     Value newCall(pNew);
                     call.SetNameValue(newCall);
-                    call.SetParamClass(CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
+                    call.SetParamClass(FunctionData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
                     call.ClearParams();
                     ret = TRUE;
                 }
@@ -581,36 +575,36 @@ namespace FunctionScript
         return ret;
     }
     template<class RealTypeT> inline
-        int RuntimeBuilderT<RealTypeT>::wrapObjectMemberInHighOrderFunction(CallData& arg)
+        int RuntimeBuilderT<RealTypeT>::wrapObjectMemberInHighOrderFunction(FunctionData& arg)
     {
         int ret = FALSE;
         if (0 != mInterpreter && arg.IsValid() && arg.IsHighOrder()) {
             //包装对象成员:
             //	obj.property. -> obj.property().
-            const Value& hoCall = arg.GetNameValue();
-            CallData* pCall = hoCall.GetCallData();
+            const Value& loCall = arg.GetNameValue();
+            FunctionData* pCall = loCall.GetFunction();
             if (NULL != pCall) {
-                CallData& call = *pCall;
-                if (call.GetParamClass() == CallData::PARAM_CLASS_PERIOD ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_BRACKET ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_BRACE ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_BRACKET ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_PARENTHESIS ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PERIOD ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PARENTHESIS ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_BRACKET ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_BRACE ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_POINTER ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_PERIOD_STAR ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_QUESTION_PERIOD_STAR ||
-                    call.GetParamClass() == CallData::PARAM_CLASS_POINTER_STAR) {
-                    CallData* pNew = mInterpreter->AddNewCallComponent();
+                FunctionData& call = *pCall;
+                if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PARENTHESIS ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACKET ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACE ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_STAR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD_STAR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER_STAR) {
+                    FunctionData* pNew = mInterpreter->AddNewFunctionComponent();
                     if (0 != pNew) {
                         int paramClass = call.GetParamClass();
-                        pNew->SetNameValue(hoCall);
-                        pNew->SetParamClass(CallData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
-                        Value newHoCall(pNew);
-                        arg.SetNameValue(newHoCall);
+                        pNew->SetNameValue(loCall);
+                        pNew->SetParamClass(FunctionData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
+                        Value newLoCall(pNew);
+                        arg.SetNameValue(newLoCall);
                         ret = TRUE;
                     }
                 }
@@ -626,7 +620,7 @@ namespace FunctionScript
         if (0 != mInterpreter && arg.IsValid() && 1 == arg.GetFunctionNum()) {
             FunctionData* p = arg.GetFunction(0);
             if (0 != p && p->HaveId()) {
-                CallData& call = p->GetCall();
+                FunctionData& call = *p;
                 ret = wrapObjectMember(call);
             }
         }
@@ -636,7 +630,7 @@ namespace FunctionScript
         ISyntaxComponent& RuntimeBuilderT<RealTypeT>::simplifyStatement(StatementData& data)const
     {
         int num = data.GetFunctionNum();
-        //对语句进行化简（语法分析过程中为了方便，全部按完整StatementData来构造，这里化简为原来的类型：ValueData/CallData/FunctionData等，主要涉及参数与语句部分）
+        //对语句进行化简（语法分析过程中为了方便，全部按完整StatementData来构造，这里化简为原来的类型：ValueData/FunctionData/FunctionData等，主要涉及参数与语句部分）
         if (num == 1) {
             //只有一个函数的语句退化为函数（再按函数进一步退化）。
             FunctionData& func = *data.GetFunction(0);
@@ -647,23 +641,7 @@ namespace FunctionScript
     template<class RealTypeT> inline
         ISyntaxComponent& RuntimeBuilderT<RealTypeT>::simplifyStatement(FunctionData& data)const
     {
-        if (!data.HaveStatement() && !data.HaveExternScript()) {
-            //没有语句部分的函数退化为函数调用（再按函数调用进一步退化）。
-            CallData& call = data.GetCall();
-            if (call.IsValid()) {
-                return simplifyStatement(call);
-            }
-            else {
-                //error
-                return mInterpreter->GetNullSyntaxRef();
-            }
-        }
-        return data;
-    }
-    template<class RealTypeT> inline
-        ISyntaxComponent& RuntimeBuilderT<RealTypeT>::simplifyStatement(CallData& data)const
-    {
-        if (!data.HaveParam()) {
+        if (!data.HaveParamOrStatement()) {
             //没有参数的调用退化为基本值数据
             if (data.IsHighOrder()) {
                 //这种情况应该不会出现

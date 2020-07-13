@@ -246,7 +246,7 @@ void ScriptThread::run(void)
   options.SetMaxLocalNum(256);
   options.SetMaxProgramSize(4 * 1024);
   options.SetMaxStatementApiNum(4);
-  options.SetMaxStatementNum(1024);
+  options.SetMaxParamNum(1024);
   options.SetStackValuePoolSize(4 * 1024);
   options.SetStringBufferSize(32 * 1024);
   options.SetValuePoolSize(4 * 1024);
