@@ -4857,6 +4857,7 @@ namespace FunctionScript
         m_ValuePool(NULL),
         m_StackValuePool(NULL),
         m_NullSyntax(*this),
+        m_NullFunction(*this),
         m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
     {
         m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());
@@ -4868,6 +4869,9 @@ namespace FunctionScript
         m_PredefinedValueIndexes.InitTable(m_Options.GetExpressionPoolSize());
         m_PredefinedValue = new Value[m_Options.GetExpressionPoolSize()];
         m_PredefinedValueNum = 0;
+
+        NullSyntax::GetNullSyntaxPtrRef() = &m_NullSyntax;
+        FunctionData::GetNullFunctionPtrRef() = &m_NullFunction;
 
         Init();
         InitInnerApis();
@@ -4885,6 +4889,7 @@ namespace FunctionScript
         m_ValuePool(NULL),
         m_StackValuePool(NULL),
         m_NullSyntax(*this),
+        m_NullFunction(*this),
         m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
     {
         m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());
@@ -4896,6 +4901,9 @@ namespace FunctionScript
         m_PredefinedValueIndexes.InitTable(m_Options.GetExpressionPoolSize());
         m_PredefinedValue = new Value[m_Options.GetExpressionPoolSize()];
         m_PredefinedValueNum = 0;
+
+        NullSyntax::GetNullSyntaxPtrRef() = &m_NullSyntax;
+        FunctionData::GetNullFunctionPtrRef() = &m_NullFunction;
 
         Init();
         InitInnerApis();
