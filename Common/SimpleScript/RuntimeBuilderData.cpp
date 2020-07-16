@@ -89,7 +89,7 @@ FunctionScript::FunctionData*& RuntimeBuilderData::getLastFunctionRef(void)
     if (0 != statement)
         return statement->GetLastFunctionRef();
     else
-        return FunctionData::GetNullFunctionPtrRef();
+        return GetNullFunctionPtrRef();
 }
 //--------------------------------------------------------------------------------------
 void RuntimeBuilderData::genByteCode(unsigned char data)

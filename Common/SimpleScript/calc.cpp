@@ -3838,6 +3838,16 @@ namespace FunctionScript
         }
     }
 
+    NullSyntax* FunctionData::GetNullSyntaxPtr(void)const
+    {
+        return GetInterpreter().GetNullSyntaxPtr();
+    }
+
+    FunctionData* FunctionData::GetNullFunctionPtr(void)const
+    {
+        return GetInterpreter().GetNullFunctionPtr();
+    }
+
     void FunctionData::PrepareRuntimeObject(void)
     {
         if (NULL == m_Interpreter)
@@ -4008,6 +4018,11 @@ namespace FunctionScript
     {
         const InterpreterOptions& options = interpreter.GetOptions();
         m_MaxFunctionNum = options.GetMaxFunctionDimensionNum();
+    }
+    
+    FunctionData*& StatementData::GetNullFunctionPtrRef(void)const
+    {
+        return GetInterpreter().GetNullFunctionPtrRef();
     }
 
     void StatementData::PrepareFunctions(void)
@@ -4845,38 +4860,6 @@ namespace FunctionScript
         return s_StackInfo;
     }
 
-    Interpreter::Interpreter(void) :m_IsDebugInfoEnable(FALSE),
-        m_pRunFlag(NULL),
-        m_StringBuffer(NULL),
-        m_UnusedStringPtr(NULL),
-        m_SyntaxComponentPool(NULL),
-        m_RuntimeComponentPool(NULL),
-        m_Program(NULL),
-        m_RuntimeProgram(NULL),
-        m_PredefinedValue(NULL),
-        m_ValuePool(NULL),
-        m_StackValuePool(NULL),
-        m_NullSyntax(*this),
-        m_NullFunction(*this),
-        m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
-    {
-        m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());
-        m_InnerStatementApis.InitTable(m_Options.GetMaxInnerStatementApiNum());
-        m_StatementApis.InitTable(m_Options.GetMaxStatementApiNum());
-
-        m_ValueIndexes.InitTable(m_Options.GetValuePoolSize());
-
-        m_PredefinedValueIndexes.InitTable(m_Options.GetExpressionPoolSize());
-        m_PredefinedValue = new Value[m_Options.GetExpressionPoolSize()];
-        m_PredefinedValueNum = 0;
-
-        NullSyntax::GetNullSyntaxPtrRef() = &m_NullSyntax;
-        FunctionData::GetNullFunctionPtrRef() = &m_NullFunction;
-
-        Init();
-        InitInnerApis();
-    }
-
     Interpreter::Interpreter(const InterpreterOptions& options) :m_Options(options), m_IsDebugInfoEnable(FALSE),
         m_pRunFlag(NULL),
         m_StringBuffer(NULL),
@@ -4888,9 +4871,10 @@ namespace FunctionScript
         m_PredefinedValue(NULL),
         m_ValuePool(NULL),
         m_StackValuePool(NULL),
-        m_NullSyntax(*this),
-        m_NullFunction(*this),
-        m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL)
+        m_InterpreterValuePool(MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL, MAX_FUNCTION_LEVEL*MAX_STACK_LEVEL),
+        m_pNullSyntax(NULL),
+        m_pNullFunction(NULL),
+        m_ppNullFunction(NULL)
     {
         m_InnerFunctionApis.InitTable(m_Options.GetMaxInnerFunctionApiNum());
         m_InnerStatementApis.InitTable(m_Options.GetMaxInnerStatementApiNum());
@@ -4902,8 +4886,10 @@ namespace FunctionScript
         m_PredefinedValue = new Value[m_Options.GetExpressionPoolSize()];
         m_PredefinedValueNum = 0;
 
-        NullSyntax::GetNullSyntaxPtrRef() = &m_NullSyntax;
-        FunctionData::GetNullFunctionPtrRef() = &m_NullFunction;
+        m_pNullSyntax = new NullSyntax(*this);
+        m_pNullFunction = new FunctionData(*this);
+        m_ppNullFunction = new FunctionData*[1];
+        *m_ppNullFunction = m_pNullFunction;
 
         Init();
         InitInnerApis();
@@ -4913,6 +4899,13 @@ namespace FunctionScript
     {
         ReleaseInnerApis();
         Release();
+
+        delete m_pNullSyntax;
+        m_pNullSyntax = NULL;
+        delete m_pNullFunction;
+        m_pNullFunction = NULL;
+        delete[] m_ppNullFunction;
+        m_ppNullFunction = NULL;
 
         if (m_PredefinedValue) {
             delete[] m_PredefinedValue;

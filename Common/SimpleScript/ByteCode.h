@@ -52,6 +52,7 @@ namespace FunctionScript
         RuntimeBuilderT(Interpreter& interpreter) :mThis(NULL), mInterpreter(&interpreter)
         {
             DebugAssert(mInterpreter);
+            mData.GetNullFunctionPtrRef() = mInterpreter->GetNullFunctionPtr();
         }
         inline void setEnvironmentObjRef(RealTypeT& thisObj)
         {

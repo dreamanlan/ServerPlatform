@@ -3,6 +3,7 @@
 
 #include "Type.h"
 #include "Queue.h"
+#include "calc.h"
 
 #define __SERVERVERSION__	0x0600110
 #define STACKSIZE			255
@@ -66,6 +67,11 @@ public:
     const char* getByteCode(int& len)const;
 public:
     RuntimeBuilderData(void);
+private:
+    RuntimeBuilderData(const RuntimeBuilderData& other) = delete;
+    RuntimeBuilderData& operator=(const RuntimeBuilderData& other) = delete;
+    RuntimeBuilderData(const RuntimeBuilderData&& other) = delete;
+    RuntimeBuilderData& operator=(const RuntimeBuilderData&& other) = delete;
 public:
     void push(const TokenInfo& info);
     TokenInfo pop(void);
@@ -117,6 +123,11 @@ private:
 
     int mByteCodeLength;
     char mByteCode[s_c_MaxByteCodeLength];
+public:
+    static FunctionData*& GetNullFunctionPtrRef()
+    {
+        static FunctionData* s_Ptr = 0;
+        return s_Ptr;
+    }
 };
-
 #endif //__RuntimeBuilderData_H__
