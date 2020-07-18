@@ -6,4 +6,7 @@
 通信架构是采用星形网络逻辑拓扑，ServerCenter类似交换机的功能，为星形架构中心，其他通信实体使用CenterClientLibrary与Center通信。多个Center间通过其中一个通信实体使用CenterHubLibrary同时连接多个Center来转发消息。
 
 
+采用了与DSL元语言相同的语法实现了一个基于对象的解释执行的脚本语言，这个脚本语言用作管理与配置脚本，配置数据采用tab分隔的文本表格数据配置（可以使用excel编辑），一份配置同时配置互相连接的所有Server与Center，便于全服分发与校验。每个Server的个性配置一般在/etc/ip.txt，这里配置该Server的ip地址，Server启动时执行配置脚本，配置脚本根据ip地址在配置表里找到相应的配置数据并提供给上层使用。
+
+
 CSharpGameFramework的服务器底层通信平台使用ServerPlatform。
