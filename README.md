@@ -1,5 +1,9 @@
 # ServerPlatform
 
 基于node.js与libevent的游戏服务器端通信底层架构与管理架构。主要用于支持C#实现的游戏逻辑服务器进程。可以支持windows、mac与linux（64bit）三种平台。
+
+
 通信架构是采用星形网络逻辑拓扑，ServerCenter类似交换机的功能，为星形架构中心，其他通信实体使用CenterClientLibrary与Center通信。多个Center间通过其中一个通信实体使用CenterHubLibrary同时连接多个Center来转发消息。
+
+
 CSharpGameFramework的服务器底层通信平台使用ServerPlatform。
