@@ -9,4 +9,4 @@
 采用了与DSL元语言相同的语法实现了一个基于对象的解释执行的脚本语言，这个脚本语言用作管理与配置脚本，配置数据采用tab分隔的文本表格数据配置（可以使用excel编辑），一份配置同时配置互相连接的所有Server与Center，便于全服分发与校验。每个Server的个性配置一般在/etc/ip.txt，这里配置该Server的ip地址，Server启动时执行配置脚本，配置脚本根据ip地址在配置表里找到相应的配置数据并提供给上层使用。
 
 
-CSharpGameFramework的服务器底层通信平台使用ServerPlatform。
+[CSharpGameFramework](https://github.com/dreamanlan/CSharpGameFramework)的服务器底层通信平台使用ServerPlatform。
