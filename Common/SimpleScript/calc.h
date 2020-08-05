@@ -1430,6 +1430,10 @@ namespace FunctionScript
         InterpreterValuePool* m_pInnerValuePool;
     };
 
+    /*
+    * 这里分离出这个类是为了供语法解析部分使用，因为有SourceCodeScript与ByteCodeScript两种形式的脚本
+    * ，解析部分不能依赖Interpreter而必须是一个共用的类ErrorAndStringBuffer
+    */
     class ErrorAndStringBuffer
     {
     public:
