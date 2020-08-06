@@ -238,16 +238,6 @@ namespace FunctionScript
                 action.buildSecondTernaryOperator();
             }
             break;
-            case BYTE_CODE_MARK_OPERATOR:
-            {
-                action.markOperator();
-            }
-            break;
-            case BYTE_CODE_MARK_QUESTION:
-            {
-                action.markQuestion();
-            }
-            break;
             case BYTE_CODE_MARK_QUESTION_PERIOD_PARAM:
             {
                 action.markQuestionPeriodParam();
@@ -266,11 +256,6 @@ namespace FunctionScript
             case BYTE_CODE_MARK_QUESTION_BRACE_PARAM:
             {
                 action.markQuestionBraceParam();
-            }
-            break;
-            case BYTE_CODE_MARK_POINTER:
-            {
-                action.markPointer();
             }
             break;
             case BYTE_CODE_MARK_POINTER_PARAM:

@@ -35,11 +35,6 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markOperator(void)
-    {
-        if (!preconditionCheck())return;
-    }
-    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::buildOperator(void)
     {
         if (!preconditionCheck())return;
@@ -368,11 +363,6 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(*p);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriod(void)
-    {
-        if (!preconditionCheck())return;
-    }
-    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPeriodParam(void)
     {
         if (!preconditionCheck())return;
@@ -417,11 +407,6 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestion(void)
-    {
-        if (!preconditionCheck())return;
-    }
-    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markQuestionPeriodParam(void)
     {
         if (!preconditionCheck())return;
@@ -464,11 +449,6 @@ namespace FunctionScript
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_QUESTION_BRACE);
         wrapObjectMemberInHighOrderFunction(call);
-    }
-    template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPointer(void)
-    {
-        if (!preconditionCheck())return;
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPointerParam(void)

@@ -15,7 +15,6 @@ namespace FunctionScript
         BYTE_CODE_MARK_PERIOD_BRACKET_PARAM,
         BYTE_CODE_MARK_PERIOD_BRACE_PARAM,
         BYTE_CODE_SET_MEMBER_ID,
-        BYTE_CODE_MARK_PERIOD,
         BYTE_CODE_MARK_PERIOD_PARAM,
         BYTE_CODE_MARK_BRACKET_PARAM,
         BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
@@ -31,13 +30,10 @@ namespace FunctionScript
         BYTE_CODE_BUILD_OPERATOR,
         BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR,
         BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR,
-        BYTE_CODE_MARK_OPERATOR,
-        BYTE_CODE_MARK_QUESTION,
         BYTE_CODE_MARK_QUESTION_PERIOD_PARAM,
         BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM,
         BYTE_CODE_MARK_QUESTION_BRACKET_PARAM,
         BYTE_CODE_MARK_QUESTION_BRACE_PARAM,
-        BYTE_CODE_MARK_POINTER,
         BYTE_CODE_MARK_POINTER_PARAM,
         BYTE_CODE_MARK_PERIOD_STAR_PARAM,
         BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM,
@@ -62,7 +58,6 @@ namespace FunctionScript
     public:
         inline void beginStatement(void);
         inline void endStatement(void);
-        inline void markOperator(void);
         inline void buildOperator(void);
         inline void buildFirstTernaryOperator(void);
         inline void buildSecondTernaryOperator(void);
@@ -75,18 +70,15 @@ namespace FunctionScript
         inline void buildHighOrderFunction(void);
         inline void markParenthesisParam(void);
         inline void markBracketParam(void);
-        inline void markPeriod(void);
         inline void markPeriodParam(void);
         inline void setMemberId(void);
         inline void markPeriodParenthesisParam(void);
         inline void markPeriodBracketParam(void);
         inline void markPeriodBraceParam(void);
-        inline void markQuestion(void);
         inline void markQuestionPeriodParam(void);
         inline void markQuestionParenthesisParam(void);
         inline void markQuestionBracketParam(void);
         inline void markQuestionBraceParam(void);
-        inline void markPointer(void);
         inline void markPointerParam(void);
         inline void markPeriodStarParam(void);
         inline void markQuestionPeriodStarParam(void);
