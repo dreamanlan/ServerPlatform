@@ -82,7 +82,7 @@ private:
 	void endToken(void);
 	void endTokenWithEof(void);
 public:
-    SlkToken(FunctionScript::IScriptSource& source, FunctionScript::ErrorAndStringBuffer& errorAndStringBuffer);
+	SlkToken(FunctionScript::IScriptSource& source, FunctionScript::ErrorAndStringBuffer& errorAndStringBuffer);
 private:
     FunctionScript::IScriptSource* mSource;
     FunctionScript::IScriptSource::Iterator mIterator;

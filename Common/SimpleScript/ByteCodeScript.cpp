@@ -198,6 +198,16 @@ namespace FunctionScript
                 action.markExternScript();
             }
             break;
+            case BYTE_CODE_MARK_BRACKET_ATTR_PARAM:
+            {
+                action.markBracketAttrParam();
+            }
+            break;
+            case BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM:
+            {
+                action.markParenthesisAttrParam();
+            }
+            break;
             case BYTE_CODE_SET_FUNCTION_ID:
             {
                 action.setFunctionId();

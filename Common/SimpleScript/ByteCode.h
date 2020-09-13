@@ -22,6 +22,8 @@ namespace FunctionScript
         BYTE_CODE_SET_EXTERN_SCRIPT,
         BYTE_CODE_MARK_STATEMENT,
         BYTE_CODE_MARK_EXTERN_SCRIPT,
+        BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM,
+        BYTE_CODE_MARK_BRACKET_ATTR_PARAM,
         BYTE_CODE_SET_FUNCTION_ID,
         BYTE_CODE_BEGIN_FUNCTION,
         BYTE_CODE_END_FUNCTION,
@@ -66,6 +68,8 @@ namespace FunctionScript
         inline void setFunctionId(void);
         inline void markStatement(void);
         inline void markExternScript(void);
+        inline void markBracketAttrParam(void);
+        inline void markParenthesisAttrParam(void);
         inline void setExternScript(void);
         inline void buildHighOrderFunction(void);
         inline void markParenthesisParam(void);
@@ -248,6 +252,14 @@ namespace FunctionScript
         inline void markExternScript(void)
         {
             genCode(BYTE_CODE_MARK_EXTERN_SCRIPT);
+        }
+        inline void markBracketAttrParam(void)
+        {
+            genCode(BYTE_CODE_MARK_BRACKET_ATTR_PARAM);
+        }
+        inline void markParenthesisAttrParam(void)
+        {
+            genCode(BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM);
         }
     private:
         inline bool preconditionCheck(void)const

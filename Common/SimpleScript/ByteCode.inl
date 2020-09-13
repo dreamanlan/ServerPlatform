@@ -513,6 +513,24 @@ namespace FunctionScript
         p->SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketAttrParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        p->SetParamClass(FunctionData::PARAM_CLASS_BRACKET_ATTR);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisAttrParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        p->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_ATTR);
+    }
+    template<class RealTypeT> inline
         int RuntimeBuilderT<RealTypeT>::wrapObjectMember(ISyntaxComponent& comp)
     {
         int ret = FALSE;
