@@ -245,7 +245,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::beginFunction(void)
+        void RuntimeBuilderT<RealTypeT>::addFunction(void)
     {
         if (!preconditionCheck())return;
         StatementData* statement = mData.getCurStatement();
@@ -321,11 +321,6 @@ namespace FunctionScript
                 p->SetNameValue(val);
             }
         }
-    }
-    template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::endFunction(void)
-    {
-        if (!preconditionCheck())return;
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction(void)

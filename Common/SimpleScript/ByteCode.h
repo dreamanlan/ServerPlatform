@@ -25,8 +25,7 @@ namespace FunctionScript
         BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM,
         BYTE_CODE_MARK_BRACKET_ATTR_PARAM,
         BYTE_CODE_SET_FUNCTION_ID,
-        BYTE_CODE_BEGIN_FUNCTION,
-        BYTE_CODE_END_FUNCTION,
+        BYTE_CODE_ADD_FUNCTION,
         BYTE_CODE_BEGIN_STATEMENT,
         BYTE_CODE_END_STATEMENT,
         BYTE_CODE_BUILD_OPERATOR,
@@ -63,8 +62,7 @@ namespace FunctionScript
         inline void buildOperator(void);
         inline void buildFirstTernaryOperator(void);
         inline void buildSecondTernaryOperator(void);
-        inline void beginFunction(void);
-        inline void endFunction(void);
+        inline void addFunction(void);
         inline void setFunctionId(void);
         inline void markStatement(void);
         inline void markExternScript(void);
@@ -151,9 +149,9 @@ namespace FunctionScript
         {
             genCode(BYTE_CODE_END_STATEMENT);
         }
-        inline void beginFunction(void)
+        inline void addFunction(void)
         {
-            genCode(BYTE_CODE_BEGIN_FUNCTION);
+            genCode(BYTE_CODE_ADD_FUNCTION);
         }
         inline void setFunctionId(void)
         {

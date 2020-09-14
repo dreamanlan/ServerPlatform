@@ -213,14 +213,9 @@ namespace FunctionScript
                 action.setFunctionId();
             }
             break;
-            case BYTE_CODE_BEGIN_FUNCTION:
+            case BYTE_CODE_ADD_FUNCTION:
             {
-                action.beginFunction();
-            }
-            break;
-            case BYTE_CODE_END_FUNCTION:
-            {
-                action.endFunction();
+                action.addFunction();
             }
             break;
             case BYTE_CODE_BEGIN_STATEMENT:
