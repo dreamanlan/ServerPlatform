@@ -3,7 +3,7 @@
 #include "SlkParse.h"
 #include "ByteCode.h"
 
-#define MAX_ACTION_NUM	37
+#define MAX_ACTION_NUM	41
 
 //--------------------------------------------------------------------------------------
 class ActionForSourceCodeScript : public SlkAction, public RuntimeBuilderT<ActionForSourceCodeScript>
@@ -130,25 +130,29 @@ inline void ActionForSourceCodeScript::initialize_table(void)
     Action[15] = &ActionForSourceCodeScript::markStatement;
     Action[16] = &ActionForSourceCodeScript::markExternScript;
     Action[17] = &ActionForSourceCodeScript::setExternScript;
-    Action[18] = &ActionForSourceCodeScript::markBracketAttrParam;
-    Action[19] = &ActionForSourceCodeScript::markParenthesisAttrParam;
-    Action[20] = &ActionForSourceCodeScript::markAngleBracketAttrParam;
-    Action[21] = &ActionForSourceCodeScript::markColonColonParam;
-    Action[22] = &ActionForSourceCodeScript::setMemberId;
-    Action[23] = &ActionForSourceCodeScript::markColonColonParenthesisParam;
-    Action[24] = &ActionForSourceCodeScript::markColonColonBracketParam;
-    Action[25] = &ActionForSourceCodeScript::markColonColonBraceParam;
-	Action[26] = &ActionForSourceCodeScript::markPeriodParam;
-	Action[27] = &ActionForSourceCodeScript::markPeriodParenthesisParam;
-	Action[28] = &ActionForSourceCodeScript::markPeriodBracketParam;
-	Action[29] = &ActionForSourceCodeScript::markPeriodBraceParam;
-	Action[30] = &ActionForSourceCodeScript::markQuestionPeriodParam;
-	Action[31] = &ActionForSourceCodeScript::markPointerParam;
-	Action[32] = &ActionForSourceCodeScript::markPeriodStarParam;
-	Action[33] = &ActionForSourceCodeScript::markQuestionPeriodStarParam;
-	Action[34] = &ActionForSourceCodeScript::markPointerStarParam;
-	Action[35] = &ActionForSourceCodeScript::pushStr;
-	Action[36] = &ActionForSourceCodeScript::pushNum;
+    Action[18] = &ActionForSourceCodeScript::markBracketColonParam;
+    Action[19] = &ActionForSourceCodeScript::markParenthesisColonParam;
+    Action[20] = &ActionForSourceCodeScript::markAngleBracketColonParam;
+    Action[21] = &ActionForSourceCodeScript::markBracePercentParam;
+    Action[22] = &ActionForSourceCodeScript::markBracketPercentParam;
+    Action[23] = &ActionForSourceCodeScript::markParenthesisPercentParam;
+    Action[24] = &ActionForSourceCodeScript::markAngleBracketPercentParam;
+    Action[25] = &ActionForSourceCodeScript::markColonColonParam;
+    Action[26] = &ActionForSourceCodeScript::setMemberId;
+    Action[27] = &ActionForSourceCodeScript::markColonColonParenthesisParam;
+    Action[28] = &ActionForSourceCodeScript::markColonColonBracketParam;
+    Action[29] = &ActionForSourceCodeScript::markColonColonBraceParam;
+	Action[30] = &ActionForSourceCodeScript::markPeriodParam;
+	Action[31] = &ActionForSourceCodeScript::markPeriodParenthesisParam;
+	Action[32] = &ActionForSourceCodeScript::markPeriodBracketParam;
+	Action[33] = &ActionForSourceCodeScript::markPeriodBraceParam;
+	Action[34] = &ActionForSourceCodeScript::markQuestionPeriodParam;
+	Action[35] = &ActionForSourceCodeScript::markPointerParam;
+	Action[36] = &ActionForSourceCodeScript::markPeriodStarParam;
+	Action[37] = &ActionForSourceCodeScript::markQuestionPeriodStarParam;
+	Action[38] = &ActionForSourceCodeScript::markPointerStarParam;
+	Action[39] = &ActionForSourceCodeScript::pushStr;
+	Action[40] = &ActionForSourceCodeScript::pushNum;
 }
 //--------------------------------------------------------------------------------------
 class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerator>
@@ -275,25 +279,29 @@ inline void ActionForGenerator::initialize_table(void)
     Action[15] = &ActionForGenerator::markStatement;
     Action[16] = &ActionForGenerator::markExternScript;
     Action[17] = &ActionForGenerator::setExternScript;
-    Action[18] = &ActionForGenerator::markBracketAttrParam;
-    Action[19] = &ActionForGenerator::markParenthesisAttrParam;
-    Action[20] = &ActionForGenerator::markAngleBracketAttrParam;
-    Action[21] = &ActionForGenerator::markColonColonParam;
-    Action[22] = &ActionForGenerator::setMemberId;
-    Action[23] = &ActionForGenerator::markColonColonParenthesisParam;
-    Action[24] = &ActionForGenerator::markColonColonBracketParam;
-    Action[25] = &ActionForGenerator::markColonColonBraceParam;
-    Action[26] = &ActionForGenerator::markPeriodParam;
-    Action[27] = &ActionForGenerator::markPeriodParenthesisParam;
-    Action[28] = &ActionForGenerator::markPeriodBracketParam;
-    Action[29] = &ActionForGenerator::markPeriodBraceParam;
-    Action[30] = &ActionForGenerator::markQuestionPeriodParam;
-    Action[31] = &ActionForGenerator::markPointerParam;
-    Action[32] = &ActionForGenerator::markPeriodStarParam;
-    Action[33] = &ActionForGenerator::markQuestionPeriodStarParam;
-    Action[34] = &ActionForGenerator::markPointerStarParam;
-    Action[35] = &ActionForGenerator::pushStr;
-    Action[36] = &ActionForGenerator::pushNum;
+    Action[18] = &ActionForGenerator::markBracketColonParam;
+    Action[19] = &ActionForGenerator::markParenthesisColonParam;
+    Action[20] = &ActionForGenerator::markAngleBracketColonParam;
+    Action[21] = &ActionForGenerator::markBracePercentParam;
+    Action[22] = &ActionForGenerator::markBracketPercentParam;
+    Action[23] = &ActionForGenerator::markParenthesisPercentParam;
+    Action[24] = &ActionForGenerator::markAngleBracketPercentParam;
+    Action[25] = &ActionForGenerator::markColonColonParam;
+    Action[26] = &ActionForGenerator::setMemberId;
+    Action[27] = &ActionForGenerator::markColonColonParenthesisParam;
+    Action[28] = &ActionForGenerator::markColonColonBracketParam;
+    Action[29] = &ActionForGenerator::markColonColonBraceParam;
+    Action[30] = &ActionForGenerator::markPeriodParam;
+    Action[31] = &ActionForGenerator::markPeriodParenthesisParam;
+    Action[32] = &ActionForGenerator::markPeriodBracketParam;
+    Action[33] = &ActionForGenerator::markPeriodBraceParam;
+    Action[34] = &ActionForGenerator::markQuestionPeriodParam;
+    Action[35] = &ActionForGenerator::markPointerParam;
+    Action[36] = &ActionForGenerator::markPeriodStarParam;
+    Action[37] = &ActionForGenerator::markQuestionPeriodStarParam;
+    Action[38] = &ActionForGenerator::markPointerStarParam;
+    Action[39] = &ActionForGenerator::pushStr;
+    Action[40] = &ActionForGenerator::pushNum;
 }
 //--------------------------------------------------------------------------------------
 namespace FunctionScript

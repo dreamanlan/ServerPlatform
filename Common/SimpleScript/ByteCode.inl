@@ -466,36 +466,80 @@ namespace FunctionScript
         call.SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracketAttrParam(void)
+        void RuntimeBuilderT<RealTypeT>::markBracketColonParam(void)
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
         FunctionData& call = *p;
-        call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_ATTR);
+        call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_COLON);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisAttrParam(void)
+        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParam(void)
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
         FunctionData& call = *p;
-        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_ATTR);
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_COLON);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markAngleBracketAttrParam(void)
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketColonParam(void)
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
         FunctionData& call = *p;
-        call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR);
+        call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracePercentParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_BRACE_PERCENT);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketPercentParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_PERCENT);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketPercentParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -599,9 +643,13 @@ namespace FunctionScript
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
-                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_ATTR ||
-                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_ATTR ||
-                call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_COLON ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_COLON ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_PERCENT ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACE_PERCENT ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_PARENTHESIS ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACKET ||
@@ -651,9 +699,13 @@ namespace FunctionScript
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
-                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_ATTR ||
-                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_ATTR ||
-                    call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_COLON ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_COLON ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_PERCENT ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACE_PERCENT ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_PARENTHESIS ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACKET ||

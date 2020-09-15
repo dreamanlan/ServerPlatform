@@ -198,19 +198,39 @@ namespace FunctionScript
                 action.markExternScript();
             }
             break;
-            case BYTE_CODE_MARK_BRACKET_ATTR_PARAM:
+            case BYTE_CODE_MARK_BRACKET_COLON_PARAM:
             {
-                action.markBracketAttrParam();
+                action.markBracketColonParam();
             }
             break;
-            case BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM:
+            case BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM:
             {
-                action.markParenthesisAttrParam();
+                action.markParenthesisColonParam();
             }
             break;
-            case BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM:
+            case BYTE_CODE_ANGLE_BRACKET_COLON_PARAM:
             {
-                action.markAngleBracketAttrParam();
+                action.markAngleBracketColonParam();
+            }
+            break;
+            case BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM:
+            {
+                action.markParenthesisPercentParam();
+            }
+            break;
+            case BYTE_CODE_MARK_BRACKET_PERCENT_PARAM:
+            {
+                action.markBracketPercentParam();
+            }
+            break;
+            case BYTE_CODE_MARK_BRACE_PERCENT_PARAM:
+            {
+                action.markBracePercentParam();
+            }
+            break;
+            case BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM:
+            {
+                action.markAngleBracketPercentParam();
             }
             break;
             case BYTE_CODE_COLON_COLON_PARAM:

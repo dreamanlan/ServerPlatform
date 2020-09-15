@@ -22,9 +22,13 @@ namespace FunctionScript
         BYTE_CODE_SET_EXTERN_SCRIPT,
         BYTE_CODE_MARK_STATEMENT,
         BYTE_CODE_MARK_EXTERN_SCRIPT,
-        BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM,
-        BYTE_CODE_MARK_BRACKET_ATTR_PARAM,
-        BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM,
+        BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM,
+        BYTE_CODE_MARK_BRACKET_COLON_PARAM,
+        BYTE_CODE_ANGLE_BRACKET_COLON_PARAM,
+        BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM,
+        BYTE_CODE_MARK_BRACKET_PERCENT_PARAM,
+        BYTE_CODE_MARK_BRACE_PERCENT_PARAM,
+        BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM,
         BYTE_CODE_COLON_COLON_PARAM,
         BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM,
         BYTE_CODE_COLON_COLON_BRACKET_PARAM,
@@ -77,9 +81,13 @@ namespace FunctionScript
         inline void    markQuestionBraceParam(void);
         inline void    markStatement(void);
         inline void    markExternScript(void);
-        inline void    markBracketAttrParam(void);
-        inline void    markParenthesisAttrParam(void);
-        inline void    markAngleBracketAttrParam(void);
+        inline void    markBracketColonParam(void);
+        inline void    markParenthesisColonParam(void);
+        inline void    markAngleBracketColonParam(void);
+        inline void    markBracePercentParam(void);
+        inline void    markBracketPercentParam(void);
+        inline void    markParenthesisPercentParam(void);
+        inline void    markAngleBracketPercentParam(void);
         inline void    markColonColonParam(void);
         inline void    markColonColonParenthesisParam(void);
         inline void    markColonColonBracketParam(void);
@@ -261,17 +269,33 @@ namespace FunctionScript
         {
             genCode(BYTE_CODE_MARK_EXTERN_SCRIPT);
         }
-        inline void markBracketAttrParam(void)
+        inline void markBracketColonParam(void)
         {
-            genCode(BYTE_CODE_MARK_BRACKET_ATTR_PARAM);
+            genCode(BYTE_CODE_MARK_BRACKET_COLON_PARAM);
         }
-        inline void markParenthesisAttrParam(void)
+        inline void markParenthesisColonParam(void)
         {
-            genCode(BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM);
+            genCode(BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM);
         }
-        inline void markAngleBracketAttrParam(void)
+        inline void markAngleBracketColonParam(void)
         {
-            genCode(BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM);
+            genCode(BYTE_CODE_ANGLE_BRACKET_COLON_PARAM);
+        }
+        inline void markBracePercentParam(void)
+        {
+            genCode(BYTE_CODE_MARK_BRACE_PERCENT_PARAM);
+        }
+        inline void markBracketPercentParam(void)
+        {
+            genCode(BYTE_CODE_MARK_BRACKET_PERCENT_PARAM);
+        }
+        inline void markParenthesisPercentParam(void)
+        {
+            genCode(BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM);
+        }
+        inline void markAngleBracketPercentParam(void)
+        {
+            genCode(BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM);
         }
         inline void markColonColonParam(void)
         {
