@@ -24,6 +24,11 @@ namespace FunctionScript
         BYTE_CODE_MARK_EXTERN_SCRIPT,
         BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM,
         BYTE_CODE_MARK_BRACKET_ATTR_PARAM,
+        BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM,
+        BYTE_CODE_COLON_COLON_PARAM,
+        BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM,
+        BYTE_CODE_COLON_COLON_BRACKET_PARAM,
+        BYTE_CODE_COLON_COLON_BRACE_PARAM,
         BYTE_CODE_SET_FUNCTION_ID,
         BYTE_CODE_ADD_FUNCTION,
         BYTE_CODE_BEGIN_STATEMENT,
@@ -57,34 +62,39 @@ namespace FunctionScript
             DebugAssert(mThis);
         }
     public:
-        inline void beginStatement(void);
-        inline void endStatement(void);
-        inline void buildOperator(void);
-        inline void buildFirstTernaryOperator(void);
-        inline void buildSecondTernaryOperator(void);
-        inline void addFunction(void);
-        inline void setFunctionId(void);
-        inline void markStatement(void);
-        inline void markExternScript(void);
-        inline void markBracketAttrParam(void);
-        inline void markParenthesisAttrParam(void);
-        inline void setExternScript(void);
-        inline void buildHighOrderFunction(void);
-        inline void markParenthesisParam(void);
-        inline void markBracketParam(void);
-        inline void markPeriodParam(void);
-        inline void setMemberId(void);
-        inline void markPeriodParenthesisParam(void);
-        inline void markPeriodBracketParam(void);
-        inline void markPeriodBraceParam(void);
-        inline void markQuestionPeriodParam(void);
-        inline void markQuestionParenthesisParam(void);
-        inline void markQuestionBracketParam(void);
-        inline void markQuestionBraceParam(void);
-        inline void markPointerParam(void);
-        inline void markPeriodStarParam(void);
-        inline void markQuestionPeriodStarParam(void);
-        inline void markPointerStarParam(void);
+        inline void    endStatement(void);
+        inline void    buildOperator(void);
+        inline void    buildFirstTernaryOperator(void);
+        inline void    buildSecondTernaryOperator(void);
+        inline void    beginStatement(void);
+        inline void    addFunction(void);
+        inline void    setFunctionId(void);
+        inline void    markParenthesisParam(void);
+        inline void    buildHighOrderFunction(void);
+        inline void    markBracketParam(void);
+        inline void    markQuestionParenthesisParam(void);
+        inline void    markQuestionBracketParam(void);
+        inline void    markQuestionBraceParam(void);
+        inline void    markStatement(void);
+        inline void    markExternScript(void);
+        inline void    markBracketAttrParam(void);
+        inline void    markParenthesisAttrParam(void);
+        inline void    markAngleBracketAttrParam(void);
+        inline void    markColonColonParam(void);
+        inline void    markColonColonParenthesisParam(void);
+        inline void    markColonColonBracketParam(void);
+        inline void    markColonColonBraceParam(void);
+        inline void    setExternScript(void);
+        inline void    markPeriodParam(void);
+        inline void    setMemberId(void);
+        inline void    markPeriodParenthesisParam(void);
+        inline void    markPeriodBracketParam(void);
+        inline void    markPeriodBraceParam(void);
+        inline void    markQuestionPeriodParam(void);
+        inline void    markPointerParam(void);
+        inline void    markPeriodStarParam(void);
+        inline void    markQuestionPeriodStarParam(void);
+        inline void    markPointerStarParam(void);
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
         inline int wrapObjectMemberInHighOrderFunction(FunctionData& arg);
@@ -258,6 +268,26 @@ namespace FunctionScript
         inline void markParenthesisAttrParam(void)
         {
             genCode(BYTE_CODE_MARK_PARENTHESIS_ATTR_PARAM);
+        }
+        inline void markAngleBracketAttrParam(void)
+        {
+            genCode(BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM);
+        }
+        inline void markColonColonParam(void)
+        {
+            genCode(BYTE_CODE_COLON_COLON_PARAM);
+        }
+        inline void markColonColonParenthesisParam(void)
+        {
+            genCode(BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM);
+        }
+        inline void markColonColonBracketParam(void)
+        {
+            genCode(BYTE_CODE_COLON_COLON_BRACKET_PARAM);
+        }
+        inline void markColonColonBraceParam(void)
+        {
+            genCode(BYTE_CODE_COLON_COLON_BRACE_PARAM);
         }
     private:
         inline bool preconditionCheck(void)const

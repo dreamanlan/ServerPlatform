@@ -446,6 +446,103 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markStatement(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_STATEMENT);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markExternScript(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketAttrParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_ATTR);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisAttrParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_ATTR);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketAttrParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markColonColonParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_COLON_COLON);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markColonColonParenthesisParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_COLON_COLON_PARENTHESIS);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markColonColonBracketParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_COLON_COLON_BRACKET);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markColonColonBraceParam(void)
+    {
+        if (!preconditionCheck())return;
+        FunctionData* p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        FunctionData& call = *p;
+        call.SetParamClass(FunctionData::PARAM_CLASS_COLON_COLON_BRACE);
+        wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPointerParam(void)
     {
         if (!preconditionCheck())return;
@@ -490,42 +587,6 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markStatement(void)
-    {
-        if (!preconditionCheck())return;
-        FunctionData* p = mData.getLastFunctionRef();
-        if (0 == p)
-            return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_STATEMENT);
-    }
-    template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markExternScript(void)
-    {
-        if (!preconditionCheck())return;
-        FunctionData* p = mData.getLastFunctionRef();
-        if (0 == p)
-            return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
-    }
-    template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracketAttrParam(void)
-    {
-        if (!preconditionCheck())return;
-        FunctionData* p = mData.getLastFunctionRef();
-        if (0 == p)
-            return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_BRACKET_ATTR);
-    }
-    template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisAttrParam(void)
-    {
-        if (!preconditionCheck())return;
-        FunctionData* p = mData.getLastFunctionRef();
-        if (0 == p)
-            return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_ATTR);
-    }
-    template<class RealTypeT> inline
         int RuntimeBuilderT<RealTypeT>::wrapObjectMember(ISyntaxComponent& comp)
     {
         int ret = FALSE;
@@ -538,6 +599,13 @@ namespace FunctionScript
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_ATTR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_ATTR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_PARENTHESIS ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACKET ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACE ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PARENTHESIS ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACKET ||
@@ -583,6 +651,13 @@ namespace FunctionScript
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACE ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_BRACKET ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_PARENTHESIS ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_ATTR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_ATTR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_ATTR ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_PARENTHESIS ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACKET ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_COLON_COLON_BRACE ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PERIOD ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_PARENTHESIS ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_BRACKET ||

@@ -208,6 +208,31 @@ namespace FunctionScript
                 action.markParenthesisAttrParam();
             }
             break;
+            case BYTE_CODE_ANGLE_BRACKET_ATTR_PARAM:
+            {
+                action.markAngleBracketAttrParam();
+            }
+            break;
+            case BYTE_CODE_COLON_COLON_PARAM:
+            {
+                action.markColonColonParam();
+            }
+            break;
+            case BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM:
+            {
+                action.markColonColonParenthesisParam();
+            }
+            break;
+            case BYTE_CODE_COLON_COLON_BRACKET_PARAM:
+            {
+                action.markColonColonBracketParam();
+            }
+            break;
+            case BYTE_CODE_COLON_COLON_BRACE_PARAM:
+            {
+                action.markColonColonBraceParam();
+            }
+            break;
             case BYTE_CODE_SET_FUNCTION_ID:
             {
                 action.setFunctionId();
