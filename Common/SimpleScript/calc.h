@@ -893,13 +893,13 @@ namespace FunctionScript
         int GetParamNum(void)const { return m_ParamNum; }
         ISyntaxComponent* GetParam(int index)const
         {
-            if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
+            if (0 == m_Params || index < 0 || index >= m_ParamNum)
                 return GetNullSyntaxPtr();
             return m_Params[index];
         }
         const char* GetParamId(int index)const
         {
-            if (0 == m_Params || index < 0 || index >= m_ParamNum || index >= MAX_FUNCTION_PARAM_NUM)
+            if (0 == m_Params || index < 0 || index >= m_ParamNum)
                 return "";
             return m_Params[index]->GetId();
         }

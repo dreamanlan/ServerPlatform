@@ -79,6 +79,20 @@ namespace FunctionScript
     //------------------------------------------------------------------------------------------------------
     namespace InnerApi
     {
+        class DebugBreakApi : public ExpressionApi
+        {
+        public:
+            virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
+            {
+                if (NULL != pRetValue) {
+                    pRetValue->SetInvalid();
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit DebugBreakApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
+        };
+
         class ExprApi : public ExpressionApi
         {
         public:
@@ -2759,6 +2773,7 @@ namespace FunctionScript
     {
         using namespace InnerApi;
         //
+        RegisterInnerFunctionApi("debugbreak", new DebugBreakApi(*this));
         RegisterInnerFunctionApi("expr", new ExprApi(*this));
         RegisterInnerFunctionApi("print", new PrintApi(*this));
         ExpressionApi* pAddOp = new AddApi(*this);
