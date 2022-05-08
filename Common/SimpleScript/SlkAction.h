@@ -12,9 +12,9 @@
 class SlkAction
 {
 public:
-    virtual ~SlkAction(void) {}
+	virtual ~SlkAction(void){}
 public:
-	virtual void predict(unsigned short production, unsigned short token, const char* lastTok, int lastLine, const char* curTok, int curLine){}
+	virtual void predict(unsigned short entry, unsigned short production, unsigned short token, int level, const char* lastTok, int lastLine, const char* curTok, int curLine){}
 	virtual void execute(int number)=0;
 };
 

@@ -335,7 +335,7 @@ namespace FunctionScript
     {
         m_ErrorAndStringBuffer.ClearErrorInfo();
         SlkToken tokens(source, m_ErrorAndStringBuffer);
-        SlkError error(tokens, m_ErrorAndStringBuffer);
+        SlkError error(m_ErrorAndStringBuffer);
         ActionForGenerator action(tokens);
         SlkParse(action, tokens, error, 0);
         int len = 0;
@@ -358,7 +358,7 @@ namespace FunctionScript
     {
         m_Interpreter.ClearErrorInfo();
         SlkToken tokens(source, m_Interpreter.GetErrorAndStringBuffer());
-        SlkError error(tokens, m_Interpreter.GetErrorAndStringBuffer());
+        SlkError error(m_Interpreter.GetErrorAndStringBuffer());
         ActionForSourceCodeScript action(tokens, m_Interpreter);
         SlkParse(action, tokens, error, 0);
 
