@@ -54,6 +54,19 @@ void SlkError::input_left(SlkToken& tokens)
 		tokens.getLineNumber(),
 		tokens.getLastToken(),
 		tokens.getCurToken());
+	}
+}
+
+void SlkError::message(const char* msg, SlkToken& tokens)
+{
+    if (mErrorBuffer) {
+        char* p = mErrorBuffer->NewErrorInfo();
+        if (p)
+            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] %s . \n",
+                tokens.getLineNumber(),
+                tokens.getLastToken(),
+                tokens.getCurToken(),
+                msg);
     }
 }
 
