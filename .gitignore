@@ -26,8 +26,8 @@ CSharpClientTest/obj
 CSharpClientTest/*.suo
 CSharpClientTest/*.user
 CSharpClientTest/.vs
-libevent-2.1.11-stable/build
-libevent-2.1.11-stable/.vs
+libevent-2.1.12-stable/build
+libevent-2.1.12-stable/.vs
 ServerCenter/Debug
 ServerCenter/Release
 ServerCenter/x64
