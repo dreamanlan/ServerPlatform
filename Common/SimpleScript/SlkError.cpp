@@ -27,7 +27,7 @@ short SlkError::mismatch(short terminal, short token, SlkToken& tokens)
     return token;
 }
 
-short SlkError::no_entry(short entry, short nonterminal, short token, int level, SlkToken& tokens)
+short SlkError::no_entry(short productionNumber, short nonterminal, short token, int level, SlkToken& tokens)
 {
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();

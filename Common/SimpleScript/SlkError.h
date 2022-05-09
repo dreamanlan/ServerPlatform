@@ -18,8 +18,8 @@ class SlkError
 {
 public:
   SlkError(FunctionScript::ErrorAndStringBuffer& errorBuffer);
-  short mismatch(short symbol, short token, SlkToken& tokens);
-  short no_entry(short entry, short nonterminal, short token, int level, SlkToken& tokens);
+  short mismatch(short terminal, short token, SlkToken& tokens);
+  short no_entry(short productionNumber, short nonterminal, short token, int level, SlkToken& tokens);
   void input_left(SlkToken& tokens);
   void message(const char* msg, SlkToken& tokens);
 private:
