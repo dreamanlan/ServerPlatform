@@ -777,16 +777,22 @@ namespace FunctionScript
             if (temp.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
                 ValueData& nameOrVal = dynamic_cast<ValueData&>(temp);
                 Value& val = nameOrVal.GetValue();
-                char* pStr = val.GetString();
-                if (0 != strchr(pStr, '.')) {
-                    double v = atof(pStr);
-                    val.SetDouble(-v);
+                switch (val.GetType()) {
+                case Value::TYPE_FLOAT:
+                    val.SetFloat(-val.GetFloat());
+                    return nameOrVal;
+                case Value::TYPE_DOUBLE:
+                    val.SetDouble(-val.GetDouble());
+                    return nameOrVal;
+                case Value::TYPE_INT:
+                    val.SetInt(-val.GetInt());
+                    return nameOrVal;
+                case Value::TYPE_INT64:
+                    val.SetInt64(-val.GetInt64());
+                    return nameOrVal;
+                default:
+                    return data;
                 }
-                else {
-                    long long v = atoll(pStr);
-                    val.SetInt64(-v);
-                }
-                return nameOrVal;
             }
             else {
                 return data;
@@ -796,16 +802,7 @@ namespace FunctionScript
             ISyntaxComponent& temp = *data.GetParam(0);
             if (temp.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
                 ValueData& nameOrVal = dynamic_cast<ValueData&>(temp);
-                Value& val = nameOrVal.GetValue();
-                char* pStr = val.GetString();
-                if (0 != strchr(pStr, '.')) {
-                    double v = atof(pStr);
-                    val.SetDouble(v);
-                }
-                else {
-                    long long v = atoll(pStr);
-                    val.SetInt64(v);
-                }
+                //keep value.
                 return nameOrVal;
             }
             else {
