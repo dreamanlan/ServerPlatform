@@ -11,19 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6C71CE71-E5B1-707B-310F-9831BDBDF863}</ProjectGuid>
+    <ProjectGuid>{0085DEEC-23BD-E299-4892-38DE2993B06E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>center_client</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props"/>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Label="Locals">
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props"/>
   <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props"/>
@@ -48,11 +48,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\.node-gyp\10.16.0\include\node;C:\Users\Administrator\.node-gyp\10.16.0\src;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\config;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\openssl\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\uv\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\zlib;C:\Users\Administrator\.node-gyp\10.16.0\deps\v8\include;E:\OpenSource\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\include\node;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\src;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\config;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\openssl\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\uv\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\zlib;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\v8\include;D:\GitHub\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus -std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -61,39 +60,39 @@
       <OmitFramePointers>false</OmitFramePointers>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <StringPooling>true</StringPooling>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWarningAsError>false</TreatWarningAsError>
       <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
+    <Lib>
+      <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\Users\Administrator\.node-gyp\10.16.0\x64\node.lib&quot;;$(OutDir)..\..\CenterClientLibrary.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4199 %(AdditionalOptions)</AdditionalOptions>
-      <AllowIsolation>true</AllowIsolation>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <DelayLoadDLLs>iojs.exe;node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\18.12.1\\x64\\node.lib&quot;;$(OutDir)..\..\CenterClientLibrary.lib</AdditionalDependencies>
+      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
+      <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\.node-gyp\10.16.0\include\node;C:\Users\Administrator\.node-gyp\10.16.0\src;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\config;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\openssl\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\uv\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\zlib;C:\Users\Administrator\.node-gyp\10.16.0\deps\v8\include;E:\OpenSource\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\include\node;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\src;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\config;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\openssl\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\uv\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\zlib;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\v8\include;D:\GitHub\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;V8_ENABLE_CHECKS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\.node-gyp\10.16.0\include\node;C:\Users\Administrator\.node-gyp\10.16.0\src;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\config;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\openssl\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\uv\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\zlib;C:\Users\Administrator\.node-gyp\10.16.0\deps\v8\include;E:\OpenSource\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\include\node;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\src;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\config;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\openssl\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\uv\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\zlib;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\v8\include;D:\GitHub\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus -std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
-      <CompileAsWinRT>false</CompileAsWinRT>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <DisableSpecificWarnings>4351;4355;4800;4251;4275;4244;4267;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -105,7 +104,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <Optimization>Full</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <StringPooling>true</StringPooling>
@@ -118,37 +117,34 @@
       <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\Users\Administrator\.node-gyp\10.16.0\x64\node.lib&quot;;$(OutDir)..\..\CenterClientLibrary.lib</AdditionalDependencies>
-      <AdditionalOptions>/ignore:4199 /LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
-      <AllowIsolation>true</AllowIsolation>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <DelayLoadDLLs>iojs.exe;node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\18.12.1\\x64\\node.lib&quot;;$(OutDir)..\..\CenterClientLibrary.lib</AdditionalDependencies>
+      <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
+      <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(ProjectName).node</OutputFile>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetExt>.node</TargetExt>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\.node-gyp\10.16.0\include\node;C:\Users\Administrator\.node-gyp\10.16.0\src;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\config;C:\Users\Administrator\.node-gyp\10.16.0\deps\openssl\openssl\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\uv\include;C:\Users\Administrator\.node-gyp\10.16.0\deps\zlib;C:\Users\Administrator\.node-gyp\10.16.0\deps\v8\include;E:\OpenSource\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;BUILDING_NODE_EXTENSION;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\include\node;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\src;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\config;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\openssl\openssl\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\uv\include;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\zlib;C:\Users\dreamanlan\AppData\Local\node-gyp\Cache\18.12.1\deps\v8\include;D:\GitHub\ServerPlatform\node_center_client\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=center_client;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;V8_DEPRECATION_WARNINGS;V8_IMMINENT_DEPRECATION_WARNINGS;_GLIBCXX_USE_CXX11_ABI=1;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\binding.gyp"/>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cc"/>
-    <ClCompile Include="C:\Users\Administrator\AppData\Roaming\npm\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
+    <ClCompile Include="..\main.cc">
+      <ObjectFileName>$(IntDir)\main.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="C:\Users\dreamanlan\AppData\Roaming\npm\node_modules\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\node_modules\node-addon-api\src\nothing.vcxproj">
-      <Project>{9CC7DB3C-75E1-390F-7C99-4DDA2269B602}</Project>
+    <ProjectReference Include="node_modules\node-addon-api\nothing.vcxproj">
+      <Project>{BA9A8901-B63A-B52D-D65D-60DDFE79D3E7}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-addon-api": "^1.6.3"
+    "node-addon-api": "^5.0.0"
   }
 }
