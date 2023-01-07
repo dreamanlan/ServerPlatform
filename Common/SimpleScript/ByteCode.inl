@@ -156,6 +156,51 @@ namespace FunctionScript
         }
     }
     //--------------------------------------------------------------------------------------	
+    static inline int calcSeparator(const char* tok)
+    {
+        if(nullptr==tok)
+            return ISyntaxComponent::SEPARATOR_NOTHING;
+        else if (tok[0] == ',' && tok[1] == '\0')
+            return ISyntaxComponent::SEPARATOR_COMMA;
+        else if (tok[0] == ';' && tok[1] == '\0')
+            return ISyntaxComponent::SEPARATOR_SEMICOLON;
+        else
+            return ISyntaxComponent::SEPARATOR_NOTHING;
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markSeparator(void)
+    {
+        if (!preconditionCheck())return;
+
+        RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
+        if (TRUE != tokenInfo.IsValid())return;
+
+        if (mInterpreter->IsDebugInfoEnable()) {
+            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("op2/2:%d\n", tokenInfo.mInteger);
+        }
+
+        if (mData.isSemanticStackEmpty()) {
+            int stmNum = mInterpreter->GetStatementNum();
+            if (stmNum > 0) {
+                auto* pStm = mInterpreter->GetStatement(stmNum - 1);
+                if (0 != pStm) {
+                    pStm->SetSeparator(calcSeparator(tokenInfo.mString));
+                }
+            }
+        }
+        else {
+            FunctionData* p = mData.getLastFunctionRef();
+            if (0 != p) {
+                int paramNum = p->GetParamNum();
+                if (paramNum > 0) {
+                    auto* pParam = p->GetParam(paramNum - 1);
+                    if (nullptr != pParam) {
+                        pParam->SetSeparator(calcSeparator(tokenInfo.mString));
+                    }
+                }
+            }
+        }
+    }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::beginStatement(void)
     {

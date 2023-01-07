@@ -48,6 +48,7 @@ namespace FunctionScript
         BYTE_CODE_MARK_PERIOD_STAR_PARAM,
         BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM,
         BYTE_CODE_MARK_POINTER_STAR_PARAM,
+        BYTE_CODE_MARK_SEPARATOR,
         BYTE_CODE_NUM
     };
 
@@ -66,6 +67,7 @@ namespace FunctionScript
             DebugAssert(mThis);
         }
     public:
+        inline void    markSeparator(void);
         inline void    endStatement(void);
         inline void    buildOperator(void);
         inline void    buildFirstTernaryOperator(void);
@@ -158,6 +160,11 @@ namespace FunctionScript
             genCode(BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR);
         }
         //--------------------------------------------------------------------------------------	
+        inline void markSeparator(void)
+        {
+            genPush();
+            genCode(BYTE_CODE_MARK_SEPARATOR);
+        }
         inline void beginStatement(void)
         {
             genLastLineNumber();

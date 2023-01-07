@@ -591,13 +591,19 @@ namespace FunctionScript
     public:
         enum
         {
-            TYPE_NULL,
+            SEPARATOR_NOTHING = 0,
+            SEPARATOR_COMMA,
+            SEPARATOR_SEMICOLON,
+        };
+        enum
+        {
+            TYPE_NULL = 0,
             TYPE_VALUE,
             TYPE_FUNCTION,
             TYPE_STATEMENT,
         };
     public:
-        explicit ISyntaxComponent(int syntaxType, Interpreter& interpreter) :m_SyntaxType(syntaxType), m_Interpreter(&interpreter) {}
+        explicit ISyntaxComponent(int syntaxType, Interpreter& interpreter) :m_SyntaxType(syntaxType), m_Separator(SEPARATOR_NOTHING), m_Interpreter(&interpreter) {}
         virtual ~ISyntaxComponent(void) {}
     public:
         virtual int IsValid(void) const = 0;
@@ -615,10 +621,24 @@ namespace FunctionScript
         virtual void PrepareGeneralRuntimeObject(void) = 0;
 	public:
         int GetSyntaxType(void) const { return m_SyntaxType; }
+        void SetSeparator(int sep) { m_Separator = sep; }
+        int GetSeparator(void) const { return m_Separator; }
+        const char* GetSepChar(void) const
+        {
+            switch (m_Separator) {
+            case SEPARATOR_COMMA:
+                return ",";
+            case SEPARATOR_SEMICOLON:
+                return ";";
+            default:
+                return " ";
+            }
+        }
     public:
         Interpreter& GetInterpreter(void)const { return *m_Interpreter; }
     protected:
         int	m_SyntaxType;
+        int m_Separator;
         Interpreter* m_Interpreter;
     };
 
@@ -1610,6 +1630,13 @@ namespace FunctionScript
                 m_NextStatement = ip;
         }
         int GetStatementNum(void)const { return m_StatementNum; }
+        SyntaxComponentPtr GetStatement(int ix)const
+        {
+            if (ix >= 0 && ix < m_StatementNum)
+                return m_Program[ix];
+            else
+                return nullptr;
+        }
     private:
         void Init(void);
         void Release(void);
