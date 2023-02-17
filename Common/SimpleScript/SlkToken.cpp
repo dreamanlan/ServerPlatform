@@ -1085,7 +1085,7 @@ short SlkToken::get(void)
                 pushTokenChar(curChar());
                 ++mIterator;
             }
-            for (int charCt = 0; (isNum && myisdigit(curChar(), isHex, includeEPart, includeAddSub)) || !isSpecialChar(curChar()); ++mIterator, ++charCt) {
+            for (int charCt = 0; (isNum && myisdigit(curChar(), isHex, includeEPart, includeAddSub)) || curChar() == '\'' || !isSpecialChar(curChar()); ++mIterator, ++charCt) {
                 if (curChar() == '#')
                     break;
                 else if (curChar() == '.') {
