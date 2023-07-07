@@ -19,6 +19,6 @@ windows下的操作步骤：
     npm update node-addon-api
 8、执行gyp配置，这里需要指明node-gyp.cmd的目录，一般在C:\Users\%USERNAME%\AppData\Roaming\npm\node-gyp.cmd
     C:\Users\%USERNAME%\AppData\Roaming\npm\node-gyp.cmd configure
-9、执行gpy构建
+9、执行gyp构建
     C:\Users\%USERNAME%\AppData\Roaming\npm\node-gyp.cmd build
 10、构建完毕可以拷贝相关文件到运行环境测试了（node_center_client.node与CenterClientLibrary.dll）
