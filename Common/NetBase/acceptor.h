@@ -17,7 +17,7 @@ struct evconnlistener;
 namespace net_base
 {
   class TcpSession;
-  typedef Delegation1<bool, TcpSession*> NewConnectionCallback;
+  using NewConnectionCallback = Delegation1<bool, TcpSession*>;
 
   class Acceptor
   {

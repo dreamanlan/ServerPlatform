@@ -9,7 +9,7 @@ struct TestObjectData : public PoolAllocatedObjectBaseT<TestObjectData>
 
 void CompileTest_ObjectPool(void)
 {
-	typedef ObjectPoolT<TestObjectData> DPool;
+	using DPool = ObjectPoolT<TestObjectData>;
 	DPool pool;
 	pool.Init(50);
 	TestObjectData* a1 = pool.NewObject();

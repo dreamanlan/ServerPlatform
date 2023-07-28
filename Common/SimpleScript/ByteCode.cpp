@@ -3,7 +3,7 @@
 
 class TestRuntimeBuilder : public RuntimeBuilderT<TestRuntimeBuilder>
 {
-    typedef RuntimeBuilderT<TestRuntimeBuilder> BaseType;
+    using BaseType = RuntimeBuilderT<TestRuntimeBuilder>;
 public:
     char* getLastToken(void) const { return ""; }
     int getLastLineNumber(void) const { return 0; }

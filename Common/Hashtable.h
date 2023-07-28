@@ -251,7 +251,7 @@ namespace HashtableUtility
 template<typename KeyT,typename ValT,typename KeyWorkerT=DefKeyWorkerT<KeyT>,typename ValueWorkerT=DefValueWorkerT<ValT>,int SizeV=0 >
 class HashtableT : private HashtableBase
 {
-	typedef HashtableT<KeyT,ValT,KeyWorkerT,ValueWorkerT,SizeV> HashtableType;
+	using HashtableType = HashtableT<KeyT,ValT,KeyWorkerT,ValueWorkerT,SizeV>;
 	friend class SlotKey;
 	class SlotKey : public ISlotKey
 	{
@@ -267,7 +267,7 @@ class HashtableT : private HashtableBase
 	public:
 		SlotKey(const HashtableType* ptr,const KeyT& key):m_pHashtable(ptr),m_Key(key)
 		{
-			DebugAssert(m_pHashtable);
+			MyAssert(m_pHashtable);
 		}
 	private://禁用拷贝与赋值，此类使用引用包装，只用于受限场合
 		SlotKey(const SlotKey&);
@@ -342,11 +342,11 @@ public:
 		Slot		m_Slot;
 		int		m_Allocated;
 	};
-	typedef NodeRecyclerForDataT<KeyValueData> Recycler;
-	typedef CChainNode<KeyValueData,Recycler> KeyValueDataNode;
-	typedef CChain<KeyValueData,Recycler>	KeyValueDataChain;
-	typedef typename KeyValueDataNode::Iterator	Iterator;
-	typedef typename CollectionMemory::SelectorT<KeyValueDataNode,(SizeV==0 ? 0 : HashtableUtility::Prime<SizeV>::Value)>::Type MemoryType;
+	using Recycler = NodeRecyclerForDataT<KeyValueData>;
+	using KeyValueDataNode = CChainNode<KeyValueData,Recycler>;
+	using KeyValueDataChain = CChain<KeyValueData,Recycler>;
+	using Iterator = typename KeyValueDataNode::Iterator;
+	using MemoryType = typename CollectionMemory::SelectorT<KeyValueDataNode,(SizeV==0 ? 0 : HashtableUtility::Prime<SizeV>::Value)>::Type;
 public:
 	HashtableT(void):m_pTable(NULL),m_Count(0)
 	{
@@ -391,7 +391,7 @@ public:
 		unsigned int maxVal = HashtableBase::GetPrime(maxItem);
 		if(maxVal==INVALID_HASH_INDEX)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 			return;
 		}
 		Create(maxVal);
@@ -533,7 +533,7 @@ protected:
 		int v = (int)size;
 		m_pTable = m_Memory.Create(v);
 		m_Count = (unsigned int)v;
-		DebugAssert(m_pTable);
+		MyAssert(m_pTable);
 		CleanUp();
 	}
 private:
@@ -545,18 +545,18 @@ private:
 	{
 		if(index>=m_Count)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 		}
-		DebugAssertEx(m_pTable,"You must call InitTable first!");
+		MyAssertEx(m_pTable,"You must call InitTable first!");
 		return m_pTable[index].GetData().GetSlot();
 	}
 	inline const typename KeyValueDataNode::Iterator GetChainIterator(unsigned int index) const
 	{
 		if(index>=m_Count)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 		}
-		DebugAssertEx(m_pTable,"You must call InitTable first!");
+		MyAssertEx(m_pTable,"You must call InitTable first!");
 		return typename KeyValueDataNode::Iterator(&(m_pTable[index]));
 	}
 private:
@@ -592,7 +592,7 @@ public:
 template<typename KeyT,typename KeyWorkerT=DefKeyWorkerT<KeyT>,int SizeV=0 >
 class HashsetT : private HashtableBase
 {
-	typedef HashsetT<KeyT,KeyWorkerT,SizeV> HashsetType;
+	using HashsetType = HashsetT<KeyT,KeyWorkerT,SizeV>;
 	friend class SlotKey;
 	class SlotKey : public ISlotKey
 	{
@@ -608,7 +608,7 @@ class HashsetT : private HashtableBase
 	public:
 		SlotKey(const HashsetType* ptr,const KeyT& key):m_pHashset(ptr),m_Key(key)
 		{
-			DebugAssert(m_pHashset);
+			MyAssert(m_pHashset);
 		}
 	private://禁用拷贝与赋值，此类使用引用包装，只用于受限场合
 		SlotKey(const SlotKey&);
@@ -673,11 +673,11 @@ public:
 		Slot		m_Slot;
 		int		m_Allocated;
 	};
-	typedef NodeRecyclerForDataT<KeyData> Recycler;
-	typedef CChainNode<KeyData,Recycler> KeyDataNode;
-	typedef CChain<KeyData,Recycler>	KeyDataChain;
-	typedef typename KeyDataNode::Iterator	Iterator;
-	typedef typename CollectionMemory::SelectorT<KeyDataNode,(SizeV==0 ? 0 : HashtableUtility::Prime<SizeV>::Value)>::Type MemoryType;
+	using Recycler = NodeRecyclerForDataT<KeyData>;
+	using KeyDataNode = CChainNode<KeyData,Recycler>;
+	using KeyDataChain = CChain<KeyData,Recycler>;
+	using Iterator = typename KeyDataNode::Iterator;
+	using MemoryType = typename CollectionMemory::SelectorT<KeyDataNode,(SizeV==0 ? 0 : HashtableUtility::Prime<SizeV>::Value)>::Type;
 public:
 	HashsetT(void):m_pTable(NULL),m_Count(0)
 	{
@@ -722,7 +722,7 @@ public:
 		unsigned int maxVal = HashtableBase::GetPrime(maxItem);
 		if(maxVal==INVALID_HASH_INDEX)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 			return;
 		}
 		Create(maxVal);
@@ -850,7 +850,7 @@ protected:
 		int v = (int)size;
 		m_pTable = m_Memory.Create(v);
 		m_Count = (unsigned int)v;
-		DebugAssert(m_pTable);
+		MyAssert(m_pTable);
 		CleanUp();
 	}
 private:
@@ -862,18 +862,18 @@ private:
 	{
 		if(index>=m_Count)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 		}
-		DebugAssertEx(m_pTable,"You must call InitSet first!");
+		MyAssertEx(m_pTable,"You must call InitSet first!");
 		return m_pTable[index].GetData().GetSlot();
 	}
 	inline const typename KeyDataNode::Iterator GetChainIterator(unsigned int index) const
 	{
 		if(index>=m_Count)
 		{
-			DebugAssert(FALSE);
+			MyAssert(FALSE);
 		}
-		DebugAssertEx(m_pTable,"You must call InitSet first!");
+		MyAssertEx(m_pTable,"You must call InitSet first!");
 		return typename KeyDataNode::Iterator(&(m_pTable[index]));
 	}
 private:

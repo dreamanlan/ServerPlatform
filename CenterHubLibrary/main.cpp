@@ -5,7 +5,7 @@
 #include "netioservice.h"
 #include "tcp_session.h"
 
-typedef HashtableT<int, SessionManager*> SessionManagers;
+using SessionManagers = HashtableT<int, SessionManager*>;
 static const int MAX_SESSION_MANAGER_NUM = 1024;
 
 static SessionManagers g_SessionManagers;
@@ -13,19 +13,19 @@ static int g_ConnectFinish = TRUE;
 static NetIoService* g_pNetIoService = NULL;
 static event_base* g_EventBase = NULL;
 
-typedef void(*HandleNameHandleChangedPtr)(int worldId, int addOrUpdate, const char* name, int handle);
+using HandleNameHandleChangedPtr = void(*)(int worldId, int addOrUpdate, const char* name, int handle);
 static HandleNameHandleChangedPtr g_HandleNameHandleChangedPtr = NULL;
 
-typedef void(*HandleMessagePtr)(int worldId, unsigned int seq, int src, int dest, const void* msg, int len);
+using HandleMessagePtr = void(*)(int worldId, unsigned int seq, int src, int dest, const void* msg, int len);
 static HandleMessagePtr g_HandleMessagePtr = NULL;
 
-typedef void(*HandleMessageResultPtr)(int worldId, unsigned int seq, int src, int dest, int result);
+using HandleMessageResultPtr = void(*)(int worldId, unsigned int seq, int src, int dest, int result);
 static HandleMessageResultPtr g_HandleMessageResultPtr = NULL;
 
-typedef void(*HandleCommandPtr)(int worldId, int src, int dest, const char* msg);
+using HandleCommandPtr = void(*)(int worldId, int src, int dest, const char* msg);
 static HandleCommandPtr g_HandleCommandPtr = NULL;
 
-typedef void(*LogHandlerPtr)(const char* log, int len);
+using LogHandlerPtr = void(*)(const char* log, int len);
 
 int g_IsRun = TRUE;
 

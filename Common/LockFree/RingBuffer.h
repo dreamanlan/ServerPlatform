@@ -9,9 +9,9 @@ class LockFreeRingedBuffer
 	static const int s_c_MaxRetryCount=256;
 
 #ifdef __WINDOWS__
-	typedef unsigned short	InfoPosAndTagType;
+	using InfoPosAndTagType = unsigned short;
 #else
-	typedef unsigned int	InfoPosAndTagType;
+	using InfoPosAndTagType = unsigned int;
 #endif
 
 #ifdef __WINDOWS__

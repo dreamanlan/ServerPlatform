@@ -27,7 +27,7 @@ template<typename DataT>
 class PoolAllocatedObjectBaseT
 {
 	friend class ObjectPoolBaseT<DataT>;
-	typedef ObjectPoolBaseT<DataT> ObjectPoolBase;
+	using ObjectPoolBase = ObjectPoolBaseT<DataT>;
 public:
 	PoolAllocatedObjectBaseT(void):m_ObjectPool(NULL),m_Allocated(FALSE)
 	{}
@@ -46,8 +46,8 @@ template<typename DataT,typename LockT = DummyLock,int SizeV = 0>
 class ObjectPoolT : public ObjectPoolBaseT<DataT>
 {
 public:
-	typedef DequeT<DataT*,SizeV> DataQueue;
-	typedef typename CollectionMemory::SelectorT<DataT,SizeV>::Type MemoryType;
+	using DataQueue = DequeT<DataT*,SizeV>;
+	using MemoryType = typename CollectionMemory::SelectorT<DataT,SizeV>::Type;
 public:
 	void						Init(int num);
 	void						Cleanup(void);
@@ -91,7 +91,7 @@ protected:
 	{
 		m_Num = size;
 		m_Datas = m_Memory.Create(m_Num);
-		DebugAssert(m_Datas);
+		MyAssert(m_Datas);
 		Cleanup();
 	}
 private:

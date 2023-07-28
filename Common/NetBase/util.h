@@ -9,7 +9,7 @@
 #endif
 
 namespace net_base {
-typedef void (*LogHandler)(const char* log, int len);
+using LogHandler = void (*)(const char* log, int len);
 
 void SetLogHandler(LogHandler log_handler);
 

@@ -621,8 +621,8 @@ class TxtTable
     ROW_NUM_DEFAULT = 64,
     ROW_NUM_DELTA = 1024,
   };
-  typedef char*		ColumnType;
-  typedef ColumnType*	RowType;
+  using ColumnType = char*;
+  using RowType = ColumnType*;
 public:
   struct ColumnInfo
   {
@@ -1471,8 +1471,8 @@ class StringMapObj : public ObjectBase
     CUSTOM_MEMBER_INDEX_LISTMAP,
     CUSTOM_MEMBER_INDEX_NUM,
   };
-  typedef StringKeyT<128> StringType;
-  typedef HashtableT<StringType, char*, StringType> StringMap;
+  using StringType = StringKeyT<128>;
+  using StringMap = HashtableT<StringType, char*, StringType>;
 public:
   void InitMap(int maxNum)
   {

@@ -13,7 +13,7 @@ struct event_base;
 
 namespace net_base {
   class TcpSession;
-  typedef Delegation2<bool, TcpSession*, int> ConnectFinishCallback;
+  using ConnectFinishCallback = Delegation2<bool, TcpSession*, int>;
 
   class Connector {
   public:

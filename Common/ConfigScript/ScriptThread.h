@@ -28,8 +28,8 @@ private:
       m_Line[0] = '\0';
     }
   };
-  typedef DequeT<TextLine, MAX_SCRIPT_NUM> Scripts;
-  typedef DequeT<TextLine, MAX_RESULT_NUM> Results;
+  using Scripts = DequeT<TextLine, MAX_SCRIPT_NUM>;
+  using Results = DequeT<TextLine, MAX_RESULT_NUM>;
 public:
   virtual void stop(void);
   virtual void run(void);

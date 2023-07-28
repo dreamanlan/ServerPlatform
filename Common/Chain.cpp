@@ -10,7 +10,7 @@ struct TestChainData
 	int b;
 };
 
-typedef NodeRecyclerForPoolT<TestChainData> Recycler;
+using Recycler = NodeRecyclerForPoolT<TestChainData>;
 
 void CompileTest_Chain(void)
 {
@@ -29,8 +29,8 @@ void CompileTest_Chain(void)
 	int r=(CChainNode<TestChainData,Recycler>::Iterator(&item3)==chain.GetIterator(ix));
 	r;
 
-	typedef CChainNodePoolT<TestChainData,Recycler> DPool;
-	typedef CChainNode<TestChainData,Recycler> DNode;
+	using DPool = CChainNodePoolT<TestChainData,Recycler>;
+	using DNode = CChainNode<TestChainData,Recycler>;
 	DPool pool;
 	pool.Init(50);
 	DNode::Iterator a1 = pool.NewNode();

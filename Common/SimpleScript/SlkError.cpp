@@ -72,5 +72,5 @@ void SlkError::message(const char* msg, SlkToken& tokens)
 
 SlkError::SlkError(FunctionScript::ErrorAndStringBuffer& errorBuffer) :mErrorBuffer(&errorBuffer)
 {
-    DebugAssert(mErrorBuffer);
+    MyAssert(mErrorBuffer);
 }

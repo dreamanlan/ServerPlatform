@@ -10,10 +10,10 @@ template<typename DataT,typename RecyclerT,typename LockT = DummyLock,int SizeV 
 class CChainNodePoolT
 {
 public:
-	typedef CChainNode<DataT,RecyclerT> DataNode;
-	typedef typename DataNode::Iterator Iterator;
-	typedef DequeT<DataNode*,SizeV> DataNodeQueue;
-	typedef typename CollectionMemory::SelectorT<DataNode,SizeV>::Type MemoryType;
+	using DataNode = CChainNode<DataT,RecyclerT>;
+	using Iterator = typename DataNode::Iterator;
+	using DataNodeQueue = DequeT<DataNode*,SizeV>;
+	using MemoryType = typename CollectionMemory::SelectorT<DataNode,SizeV>::Type;
 public:
 	void						Init(int num);
 	void						Cleanup(void);
@@ -55,7 +55,7 @@ protected:
 	{
 		m_Num = size;
 		m_DataNodes = m_Memory.Create(m_Num);
-		DebugAssert(m_DataNodes);
+		MyAssert(m_DataNodes);
 		Cleanup();
 	}
 private:
@@ -70,9 +70,9 @@ template<typename DataT>
 class NodeRecyclerForPoolT
 {
 public:
-	typedef NodeRecyclerForPoolT<DataT> Recycler;
-	typedef CChainNode<DataT,Recycler> DataNode;
-	typedef CChainNodePoolT<DataT,Recycler> DataNodePool;
+	using Recycler = NodeRecyclerForPoolT<DataT>;
+	using DataNode = CChainNode<DataT,Recycler>;
+	using DataNodePool = CChainNodePoolT<DataT,Recycler>;
 	friend class CChainNode<DataT,Recycler>;
 	friend class CChainNodePoolT<DataT,Recycler>;
 public:
@@ -101,9 +101,9 @@ template<typename DataT>
 class NodeRecycler2ForPoolT
 {
 public:
-	typedef NodeRecycler2ForPoolT<DataT> Recycler;
-	typedef CChainNode<DataT,Recycler> DataNode;
-	typedef CChainNodePoolT<DataT,Recycler> DataNodePool;
+	using Recycler = NodeRecycler2ForPoolT<DataT>;
+	using DataNode = CChainNode<DataT,Recycler>;
+	using DataNodePool = CChainNodePoolT<DataT,Recycler>;
 	friend class CChainNode<DataT,Recycler>;
 	friend class CChainNodePoolT<DataT,Recycler>;
 public:

@@ -3,11 +3,11 @@
 
 #include <stdint.h>
 
-typedef void(*HandleNameHandleChangedPtr)(int worldId, int addOrUpdate, const char* name, int handle);
-typedef void(*HandleMessagePtr)(int worldId, unsigned int seq, int src, int dest, const void* msg, int len);
-typedef void(*HandleMessageResultPtr)(int worldId, unsigned int seq, int src, int dest, int result);
-typedef void(*HandleCommandPtr)(int worldId, int src, int dest, const char* msg);
-typedef void(*LogHandlerPtr)(const char* log, int len);
+using HandleNameHandleChangedPtr = void(*)(int worldId, int addOrUpdate, const char* name, int handle);
+using HandleMessagePtr = void(*)(int worldId, unsigned int seq, int src, int dest, const void* msg, int len);
+using HandleMessageResultPtr = void(*)(int worldId, unsigned int seq, int src, int dest, int result);
+using HandleCommandPtr = void(*)(int worldId, int src, int dest, const char* msg);
+using LogHandlerPtr = void(*)(const char* log, int len);
 
 #ifdef WIN32
 #define DLLIMPORT __declspec(dllimport)

@@ -22,8 +22,8 @@ struct NameHandleInfo
 class SessionManager
 {
 public:
-  typedef StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1> StringKey;
-  typedef HashtableT<StringKey, NameHandleInfo, StringKey> NameHandles;
+  using StringKey = StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1>;
+  using NameHandles = HashtableT<StringKey, NameHandleInfo, StringKey>;
 public:
   void Init(void);
   void UpdateMyName(void);

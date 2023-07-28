@@ -37,7 +37,7 @@ public:
       memset(m_Content, 0, sizeof(m_Content));
     }
   };
-  typedef DequeT<MessageType> MessageQueueType;
+  using MessageQueueType = DequeT<MessageType>;
 public:
   void InitQueue(int num)
   {
@@ -106,8 +106,8 @@ class SimpleClient
   static const int MAX_IP_LEN = 128;
   static const int MAX_SESSION_NUM = 1024;
 public:
-  typedef StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1> StringKey;
-  typedef HashtableT<StringKey, NameHandleInfo, StringKey> NameHandles;
+  using StringKey = StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1>;
+  using NameHandles = HashtableT<StringKey, NameHandleInfo, StringKey>;
 public:
   void SetCallbackObj(ExpressionApi* pExpression)
   {
@@ -1019,7 +1019,7 @@ private:
 			m_Line[0]='\0';
 		}
 	};
-	typedef DequeT<ScriptLine,MAX_SCRIPT_NUM> Scripts;
+	using Scripts = DequeT<ScriptLine,MAX_SCRIPT_NUM>;
 public:
 	virtual void stop(void);
 	virtual void run(void);
@@ -1057,8 +1057,8 @@ int DecryptMemoryWithCyclone(char* pInMemory,int size,char*& pOutMemory,int& out
 
 class SharedStringMap
 {
-	typedef StringKeyT<128> StringType;
-	typedef HashtableT<StringType,char*,StringType> StringMap;
+	using StringType = StringKeyT<128>;
+	using StringMap = HashtableT<StringType,char*,StringType>;
 public:
 	void InitMap(int maxNum)
 	{

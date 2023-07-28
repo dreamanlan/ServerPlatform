@@ -45,37 +45,37 @@ namespace lock_free_utility
 		template<class T>
 		struct DeduceArgTypeT
 		{
-			typedef T Type;
+			using Type = T;
 		};
 		template<class T>
 		struct DeduceArgTypeT<T*>
 		{
-			typedef unsigned int* Type;
+			using Type = unsigned int*;
 		};
 		template<>
 		struct DeduceArgTypeT<char>
 		{
-			typedef unsigned char Type;
+			using Type = unsigned char;
 		};
 		template<>
 		struct DeduceArgTypeT<short>
 		{
-			typedef unsigned short Type;
+			using Type = unsigned short;
 		};
 		template<>
 		struct DeduceArgTypeT<int>
 		{
-			typedef unsigned int Type;
+			using Type = unsigned int;
 		};
 		template<>
 		struct DeduceArgTypeT<long>
 		{
-			typedef unsigned long Type;
+			using Type = unsigned long;
 		};
 		template<>
 		struct DeduceArgTypeT<size_t>
 		{
-			typedef unsigned long Type;
+			using Type = unsigned long;
 		};
 	}
 

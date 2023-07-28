@@ -7,7 +7,7 @@ template<class NodeT>
 class LockFreeLinkedNodePoolT
 {
 public:
-	typedef LockFreeRingedQueueT<NodeT*> FreeQueue;
+	using FreeQueue = LockFreeRingedQueueT<NodeT*>;
 public:
 	inline void Init(int maxNum)
 	{

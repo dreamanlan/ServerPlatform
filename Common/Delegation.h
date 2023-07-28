@@ -8,286 +8,364 @@
 struct ObjectPlaceHolder
 {
 public:
-	ObjectPlaceHolder()
-	{
-		clear();
-	}
-	ObjectPlaceHolder(const ObjectPlaceHolder& other)
-	{
-		obj=other.obj;
-		memcpy(ptrBuffer,other.ptrBuffer,sizeof(ptrBuffer));
-	}
-	ObjectPlaceHolder& operator=(const ObjectPlaceHolder& other)
-	{
-		if(&other==this)
-			return *this;
-		obj=other.obj;
-		memcpy(ptrBuffer,other.ptrBuffer,sizeof(ptrBuffer));
-		return *this;
-	}
-	inline bool isNull(void) const
-	{
-		if(obj!=NULL)
-			return false;
-		for(int i=0;i<PTR_BUFFER_NUM;++i)
-		{
-			if(ptrBuffer[i]!=NULL)
-				return false;
-		}
-		return true;
-	}
-	inline void clear(void)
-	{
-		obj=NULL;
-		memset(ptrBuffer,0,sizeof(ptrBuffer));
-	}
+    ObjectPlaceHolder()
+    {
+        clear();
+    }
+    ObjectPlaceHolder(const ObjectPlaceHolder& other)
+    {
+        obj = other.obj;
+        memcpy(ptrBuffer, other.ptrBuffer, sizeof(ptrBuffer));
+    }
+    ObjectPlaceHolder& operator=(const ObjectPlaceHolder& other)
+    {
+        if (&other == this)
+            return *this;
+        obj = other.obj;
+        memcpy(ptrBuffer, other.ptrBuffer, sizeof(ptrBuffer));
+        return *this;
+    }
+    inline bool isNull(void) const
+    {
+        return obj == nullptr;
+    }
+    inline void clear(void)
+    {
+        obj = nullptr;
+        memset(ptrBuffer, 0, sizeof(ptrBuffer));
+    }
 private:
-	void* obj;
-	void* ptrBuffer[PTR_BUFFER_NUM];
+    void* obj;
+    void* ptrBuffer[PTR_BUFFER_NUM];
 };
 
-template<typename Delegation,typename R>
+template<typename Delegation, typename R>
 struct FuncInvoker0
 {
 public:
-	typedef FuncInvoker0<Delegation,R> ThisType;
-	typedef R (*Fptr)(void);
-	FuncInvoker0(Fptr func)
-	{
-		mFunc=func;
-	}
-	static inline R invoke(const ObjectPlaceHolder* address)
-	{
-		const ThisType* pThis=reinterpret_cast<const ThisType*>(address);
-		Fptr pFunc=pThis->mFunc;
-		return (*pFunc)();
-	}
-	static inline void* operator new (size_t size,const ObjectPlaceHolder* address,size_t space)
-	{
-		/*char buf[1025];
-		::sprintf(buf,"%d<->%d",size,space);
-		::MessageBox(NULL,buf,"",MB_OK);
-		Assert(size<=space);*/
-		return (void*)address;
-	}
-	static inline void operator delete(void*,const ObjectPlaceHolder* address,size_t space)
-	{}
+    using ThisType = FuncInvoker0<Delegation, R>;
+    using Fptr = R(*)(void);
+    FuncInvoker0(Fptr func)
+    {
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        Fptr pFunc = pThis->mFunc;
+        return (*pFunc)();
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*char buf[1025];
+        ::sprintf(buf,"%d<->%d",size,space);
+        ::MessageBox(nullptr,buf,"",MB_OK);
+        Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
 private:
-	Fptr mFunc;
+    Fptr mFunc;
 };
 
-template<typename Delegation,typename T,typename R>
+template<typename Delegation, typename T, typename R>
 struct MemFuncInvoker0
 {
 public:
-	typedef MemFuncInvoker0<Delegation,T,R> ThisType;
-	typedef R (T::*Fptr)(void);
-	MemFuncInvoker0(T* obj,Fptr func)
-	{
-		mObj=obj;
-		mFunc=func;
-	}
-	static inline R invoke(const ObjectPlaceHolder* address)
-	{
-		const ThisType* pThis=reinterpret_cast<const ThisType*>(address);
-		T* pObj=pThis->mObj;
-		Fptr pFunc=pThis->mFunc;
-		return (pObj->*pFunc)();
-	}
-	static inline void* operator new (size_t size,const ObjectPlaceHolder* address,size_t space)
-	{
-		/*char buf[1025];
-		::sprintf(buf,"%d<->%d",size,space);
-		::MessageBox(NULL,buf,"",MB_OK);*/
-		/*Assert(size<=space);*/
-		return (void*)address;
-	}
-	static inline void operator delete(void*,const ObjectPlaceHolder* address,size_t space)
-	{}
+    using ThisType = MemFuncInvoker0<Delegation, T, R>;
+    using Fptr = R(T::*)(void);
+    MemFuncInvoker0(T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)();
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*char buf[1025];
+        ::sprintf(buf,"%d<->%d",size,space);
+        ::MessageBox(nullptr,buf,"",MB_OK);*/
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
 private:
-	T* mObj;
-	Fptr mFunc;
+    T* mObj;
+    Fptr mFunc;
+};
+
+template<typename Delegation, typename T, typename R>
+struct ConstMemFuncInvoker0
+{
+public:
+    using ThisType = ConstMemFuncInvoker0<Delegation, T, R>;
+    using Fptr = R(T::*)(void)const;
+    ConstMemFuncInvoker0(const T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        const T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)();
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*char buf[1025];
+        ::sprintf(buf,"%d<->%d",size,space);
+        ::MessageBox(nullptr,buf,"",MB_OK);*/
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
+private:
+    const T* mObj;
+    Fptr mFunc;
 };
 
 template<typename R>
 struct Delegation0
 {
 public:
-	typedef Delegation0<R> ThisType;
-	typedef R (*InvokerType)(const ObjectPlaceHolder*);
+    using ThisType = Delegation0<R>;
+    using InvokerType = R(*)(const ObjectPlaceHolder*);
 public:
-	Delegation0()
-	{
-		detach();
-	}
-	Delegation0(const Delegation0& other)
-	{
-		mObj=other.mObj;
-		invoker=other.invoker;
-	}
-	template<typename T>
-	Delegation0(T* obj,R (T::*fptr)(void))
-	{
-		attach(obj,fptr);
-	}
-	Delegation0(R (*fptr)(void))
-	{
-		attach(fptr);
-	}
-	Delegation0& operator=(const Delegation0& other)
-	{
-		if(&other==this)
-			return *this;
-		mObj=other.mObj;
-		invoker=other.invoker;
-		return *this;
-	}
-	template<typename T>
-	inline void attach(T* obj,R (T::*fptr)(void))
-	{
-		invoker=MemFuncInvoker0<ThisType,T,R>::invoke;
-		new(&mObj,sizeof(ObjectPlaceHolder)) MemFuncInvoker0<ThisType,T,R>(obj,fptr);
-	}
-	inline void attach(R (*fptr)(void))
-	{
-		invoker=FuncInvoker0<ThisType,R>::invoke;
-		new(&mObj,sizeof(ObjectPlaceHolder)) FuncInvoker0<ThisType,R>(fptr);
-	}
-	inline void detach(void)
-	{
-		mObj.clear();
-		invoker=NULL;
-	}
-	inline bool isNull(void) const
-	{
-		return mObj.isNull() || invoker==NULL;
-	}
-	inline R operator () (void)const
-	{
-		return invoker(&mObj);
-	}
+    Delegation0()
+    {
+        detach();
+    }
+    Delegation0(const Delegation0& other)
+    {
+        mObj = other.mObj;
+        invoker = other.invoker;
+    }
+    template<typename T>
+    Delegation0(const T* obj, R(T::* fptr)(void)const)
+    {
+        attach(obj, fptr);
+    }
+    template<typename T>
+    Delegation0(T* obj, R(T::* fptr)(void))
+    {
+        attach(obj, fptr);
+    }
+    Delegation0(R(*fptr)(void))
+    {
+        attach(fptr);
+    }
+    Delegation0& operator=(const Delegation0& other)
+    {
+        if (&other == this)
+            return *this;
+        mObj = other.mObj;
+        invoker = other.invoker;
+        return *this;
+    }
+    template<typename T>
+    inline void attach(const T* obj, R(T::* fptr)(void)const)
+    {
+        invoker = ConstMemFuncInvoker0<ThisType, T, R>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) ConstMemFuncInvoker0<ThisType, T, R>(obj, fptr);
+    }
+    template<typename T>
+    inline void attach(T* obj, R(T::* fptr)(void))
+    {
+        invoker = MemFuncInvoker0<ThisType, T, R>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) MemFuncInvoker0<ThisType, T, R>(obj, fptr);
+    }
+    inline void attach(R(*fptr)(void))
+    {
+        invoker = FuncInvoker0<ThisType, R>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) FuncInvoker0<ThisType, R>(fptr);
+    }
+    inline void detach(void)
+    {
+        mObj.clear();
+        invoker = nullptr;
+    }
+    inline bool isNull(void) const
+    {
+        return mObj.isNull() || invoker == nullptr;
+    }
+    inline R operator () (void)const
+    {
+        return invoker(&mObj);
+    }
 private:
-	ObjectPlaceHolder mObj;
-	InvokerType invoker;
+    ObjectPlaceHolder mObj;
+    InvokerType invoker;
 };
 
-template<typename Delegation,typename R,typename P1>
+template<typename Delegation, typename R, typename P1>
 struct FuncInvoker1
 {
 public:
-	typedef FuncInvoker1<Delegation,R,P1> ThisType;
-	typedef R (*Fptr)(P1);
-	FuncInvoker1(Fptr func)
-	{
-		mFunc=func;
-	}
-	static inline R invoke(const ObjectPlaceHolder* address,P1 p1)
-	{
-		const ThisType* pThis=reinterpret_cast<const ThisType*>(address);
-		Fptr pFunc=pThis->mFunc;
-		return (*pFunc)(p1);
-	}
-	static inline void* operator new (size_t size,const ObjectPlaceHolder* address,size_t space)
-	{
-		/*Assert(size<=space);*/
-		return (void*)address;
-	}
-	static inline void operator delete(void*,const ObjectPlaceHolder* address,size_t space)
-	{}
+    using ThisType = FuncInvoker1<Delegation, R, P1>;
+    using Fptr = R(*)(P1);
+    FuncInvoker1(Fptr func)
+    {
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, P1 p1)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        Fptr pFunc = pThis->mFunc;
+        return (*pFunc)(p1);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
 private:
-	Fptr mFunc;
+    Fptr mFunc;
 };
 
-template<typename Delegation,typename T,typename R,typename P1>
+template<typename Delegation, typename T, typename R, typename P1>
 struct MemFuncInvoker1
 {
 public:
-	typedef MemFuncInvoker1<Delegation,T,R,P1> ThisType;
-	typedef R (T::*Fptr)(P1);
-	MemFuncInvoker1(T* obj,Fptr func)
-	{
-		mObj=obj;
-		mFunc=func;
-	}
-	static inline R invoke(const ObjectPlaceHolder* address,P1 p1)
-	{
-		const ThisType* pThis=reinterpret_cast<const ThisType*>(address);
-		T* pObj=pThis->mObj;
-		Fptr pFunc=pThis->mFunc;
-		return (pObj->*pFunc)(p1);
-	}
-	static inline void* operator new (size_t size,const ObjectPlaceHolder* address,size_t space)
-	{
-		/*Assert(size<=space);*/
-		return (void*)address;
-	}
-	static inline void operator delete(void*,const ObjectPlaceHolder* address,size_t space)
-	{}
+    using ThisType = MemFuncInvoker1<Delegation, T, R, P1>;
+    using Fptr = R(T::*)(P1);
+    MemFuncInvoker1(T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, P1 p1)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)(p1);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
 private:
-	T* mObj;
-	Fptr mFunc;
+    T* mObj;
+    Fptr mFunc;
 };
 
-template<typename R,typename P1>
+template<typename Delegation, typename T, typename R, typename P1>
+struct ConstMemFuncInvoker1
+{
+public:
+    using ThisType = ConstMemFuncInvoker1<Delegation, T, R, P1>;
+    using Fptr = R(T::*)(P1)const;
+    ConstMemFuncInvoker1(const T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, P1 p1)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        const T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)(p1);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
+private:
+    const T* mObj;
+    Fptr mFunc;
+};
+
+template<typename R, typename P1>
 struct Delegation1
 {
 public:
-	typedef Delegation1<R,P1> ThisType;
-	typedef R (*InvokerType)(const ObjectPlaceHolder*,P1);
+    using ThisType = Delegation1<R, P1>;
+    using InvokerType = R(*)(const ObjectPlaceHolder*, P1);
 public:
-	Delegation1()
-	{
-		detach();
-	}
-	Delegation1(const Delegation1& other)
-	{
-		mObj=other.mObj;
-		invoker=other.invoker;
-	}
-	template<typename T>
-	Delegation1(T* obj,R (T::*fptr)(P1))
-	{
-		attach(obj,fptr);
-	}
-	Delegation1(R (*fptr)(P1))
-	{
-		attach(fptr);
-	}
-	Delegation1& operator=(const Delegation1& other)
-	{
-		if(&other==this)
-			return *this;
-		mObj=other.mObj;
-		invoker=other.invoker;
-		return *this;
-	}
-	template<typename T>
-	inline void attach(T* obj,R (T::*fptr)(P1))
-	{
-		invoker=MemFuncInvoker1<ThisType,T,R,P1>::invoke;
-		new(&mObj,sizeof(ObjectPlaceHolder)) MemFuncInvoker1<ThisType,T,R,P1>(obj,fptr);
-	}
-	inline void attach(R (*fptr)(P1))
-	{
-		invoker=FuncInvoker1<ThisType,R,P1>::invoke;
-		new(&mObj,sizeof(ObjectPlaceHolder)) FuncInvoker1<ThisType,R,P1>(fptr);
-	}
-	inline void detach(void)
-	{
-		mObj.clear();
-		invoker=NULL;
-	}
-	inline bool isNull(void) const
-	{
-		return mObj.isNull() || invoker==NULL;
-	}
-	inline R operator () (P1 p1)const
-	{
-		return invoker(&mObj,p1);
-	}
+    Delegation1()
+    {
+        detach();
+    }
+    Delegation1(const Delegation1& other)
+    {
+        mObj = other.mObj;
+        invoker = other.invoker;
+    }
+    template<typename T>
+    Delegation1(const T* obj, R(T::* fptr)(P1)const)
+    {
+        attach(obj, fptr);
+    }
+    template<typename T>
+    Delegation1(T* obj, R(T::* fptr)(P1))
+    {
+        attach(obj, fptr);
+    }
+    Delegation1(R(*fptr)(P1))
+    {
+        attach(fptr);
+    }
+    Delegation1& operator=(const Delegation1& other)
+    {
+        if (&other == this)
+            return *this;
+        mObj = other.mObj;
+        invoker = other.invoker;
+        return *this;
+    }
+    template<typename T>
+    inline void attach(const T* obj, R(T::* fptr)(P1)const)
+    {
+        invoker = ConstMemFuncInvoker1<ThisType, T, R, P1>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) ConstMemFuncInvoker1<ThisType, T, R, P1>(obj, fptr);
+    }
+    template<typename T>
+    inline void attach(T* obj, R(T::* fptr)(P1))
+    {
+        invoker = MemFuncInvoker1<ThisType, T, R, P1>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) MemFuncInvoker1<ThisType, T, R, P1>(obj, fptr);
+    }
+    inline void attach(R(*fptr)(P1))
+    {
+        invoker = FuncInvoker1<ThisType, R, P1>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) FuncInvoker1<ThisType, R, P1>(fptr);
+    }
+    inline void detach(void)
+    {
+        mObj.clear();
+        invoker = nullptr;
+    }
+    inline bool isNull(void) const
+    {
+        return mObj.isNull() || invoker == nullptr;
+    }
+    inline R operator () (P1 p1)const
+    {
+        return invoker(&mObj, p1);
+    }
 private:
-	ObjectPlaceHolder mObj;
-	InvokerType invoker;
+    ObjectPlaceHolder mObj;
+    InvokerType invoker;
 };
 
 #define RepeatArg1_1(X) X##1
@@ -329,8 +407,8 @@ template<typename Delegation,typename R,RepeatArg1_##X(typename P)>\
 struct FuncInvoker##X\
 {\
 public:\
-	typedef FuncInvoker##X<Delegation,R,RepeatArg1_##X(P)> ThisType;\
-	typedef R (*Fptr)(RepeatArg1_##X(P));\
+	using ThisType = FuncInvoker##X<Delegation,R,RepeatArg1_##X(P)>;\
+	using Fptr = R (*)(RepeatArg1_##X(P));\
 	FuncInvoker##X(Fptr func)\
 	{\
 		mFunc=func;\
@@ -356,8 +434,8 @@ template<typename Delegation,typename T,typename R,RepeatArg1_##X(typename P)>\
 struct MemFuncInvoker##X\
 {\
 public:\
-	typedef MemFuncInvoker##X<Delegation,T,R,RepeatArg1_##X(P)> ThisType;\
-	typedef R (T::*Fptr)(RepeatArg1_##X(P));\
+	using ThisType = MemFuncInvoker##X<Delegation,T,R,RepeatArg1_##X(P)>;\
+	using Fptr = R (T::*)(RepeatArg1_##X(P));\
 	MemFuncInvoker##X(T* obj,Fptr func)\
 	{\
 		mObj=obj;\
@@ -382,12 +460,42 @@ private:\
 	Fptr mFunc;\
 };\
 \
+template<typename Delegation,typename T,typename R,RepeatArg1_##X(typename P)>\
+struct ConstMemFuncInvoker##X\
+{\
+public:\
+	using ThisType = ConstMemFuncInvoker##X<Delegation,T,R,RepeatArg1_##X(P)>;\
+	using Fptr = R (T::*)(RepeatArg1_##X(P))const;\
+	ConstMemFuncInvoker##X(const T* obj,Fptr func)\
+	{\
+		mObj=obj;\
+		mFunc=func;\
+	}\
+	static inline R invoke(const ObjectPlaceHolder* address,RepeatArg2_##X(P,p))\
+	{\
+		const ThisType* pThis=reinterpret_cast<const ThisType*>(address);\
+		const T* pObj=pThis->mObj;\
+		Fptr pFunc=pThis->mFunc;\
+		return (pObj->*pFunc)(RepeatArg1_##X(p));\
+	}\
+	static inline void* operator new (size_t size,const ObjectPlaceHolder* address,size_t space)\
+	{\
+		/*Assert(size<=space);*/\
+		return (void*)address;\
+	}\
+	static inline void operator delete(void*,const ObjectPlaceHolder* address,size_t space)\
+	{}\
+private:\
+	const T* mObj;\
+	Fptr mFunc;\
+};\
+\
 template<typename R,RepeatArg1_##X(typename P)>\
 struct Delegation##X\
 {\
 public:\
-	typedef Delegation##X<R,RepeatArg1_##X(P)> ThisType;\
-	typedef R (*InvokerType)(const ObjectPlaceHolder*,RepeatArg1_##X(P));\
+	using ThisType = Delegation##X<R,RepeatArg1_##X(P)>;\
+	using InvokerType = R (*)(const ObjectPlaceHolder*,RepeatArg1_##X(P));\
 public:\
 	Delegation##X()\
 	{\
@@ -397,6 +505,11 @@ public:\
 	{\
 		mObj=other.mObj;\
 		invoker=other.invoker;\
+	}\
+	template<typename T>\
+	Delegation##X(const T* obj,R (T::*fptr)(RepeatArg1_##X(P))const)\
+	{\
+		attach(obj,fptr);\
 	}\
 	template<typename T>\
 	Delegation##X(T* obj,R (T::*fptr)(RepeatArg1_##X(P)))\
@@ -416,6 +529,12 @@ public:\
 		return *this;\
 	}\
 	template<typename T>\
+	inline void attach(const T* obj,R (T::*fptr)(RepeatArg1_##X(P))const)\
+	{\
+		invoker=ConstMemFuncInvoker##X<ThisType,T,R,RepeatArg1_##X(P)>::invoke;\
+		new(&mObj,sizeof(ObjectPlaceHolder)) ConstMemFuncInvoker##X<ThisType,T,R,RepeatArg1_##X(P)>(obj,fptr);\
+	}\
+	template<typename T>\
 	inline void attach(T* obj,R (T::*fptr)(RepeatArg1_##X(P)))\
 	{\
 		invoker=MemFuncInvoker##X<ThisType,T,R,RepeatArg1_##X(P)>::invoke;\
@@ -429,11 +548,11 @@ public:\
 	inline void detach(void)\
 	{\
 		mObj.clear();\
-		invoker=NULL;\
+		invoker=nullptr;\
 	}\
 	inline bool isNull(void) const\
 	{\
-		return mObj.isNull() || invoker==NULL;\
+		return mObj.isNull() || invoker==nullptr;\
 	}\
 	inline R operator () (RepeatArg2_##X(P,p))const\
 	{\
@@ -459,5 +578,180 @@ DefineDelegation(13)
 DefineDelegation(14)
 DefineDelegation(15)
 DefineDelegation(16)
+
+//Implementation after c++11, use varidic template args.
+template<typename Delegation, typename Fptr>
+struct FuncInvoker
+{};
+template<typename Delegation, typename R, typename... Args>
+struct FuncInvoker<Delegation, R(Args...)>
+{
+public:
+    using ThisType = FuncInvoker<Delegation, R(Args...)>;
+    using Fptr = R(*)(Args...);
+    FuncInvoker(Fptr func)
+    {
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, Args... args)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        Fptr pFunc = pThis->mFunc;
+        return (*pFunc)(args...);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
+private:
+    Fptr mFunc;
+};
+
+template<typename Delegation, typename T, typename Fptr>
+struct MemFuncInvoker
+{};
+template<typename Delegation, typename T, typename R, typename... Args>
+struct MemFuncInvoker<Delegation, T, R(Args...)>
+{
+public:
+    using ThisType = MemFuncInvoker<Delegation, T, R(Args...)>;
+    using Fptr = R(T::*)(Args...);
+    MemFuncInvoker(T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, Args... args)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)(args...);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
+private:
+    T* mObj;
+    Fptr mFunc;
+};
+
+template<typename Delegation, typename T, typename Fptr>
+struct ConstMemFuncInvoker
+{};
+template<typename Delegation, typename T, typename R, typename... Args>
+struct ConstMemFuncInvoker<Delegation, T, R(Args...)>
+{
+public:
+    using ThisType = ConstMemFuncInvoker<Delegation, T, R(Args...)>;
+    using Fptr = R(T::*)(Args...)const;
+    ConstMemFuncInvoker(const T* obj, Fptr func)
+    {
+        mObj = obj;
+        mFunc = func;
+    }
+    static inline R invoke(const ObjectPlaceHolder* address, Args... args)
+    {
+        const ThisType* pThis = reinterpret_cast<const ThisType*>(address);
+        const T* pObj = pThis->mObj;
+        Fptr pFunc = pThis->mFunc;
+        return (pObj->*pFunc)(args...);
+    }
+    static inline void* operator new (size_t size, const ObjectPlaceHolder* address, size_t space)
+    {
+        /*Assert(size<=space);*/
+        return (void*)address;
+    }
+    static inline void operator delete(void*, const ObjectPlaceHolder* address, size_t space)
+    {}
+private:
+    const T* mObj;
+    Fptr mFunc;
+};
+
+template<typename Fptr>
+struct Delegation
+{
+};
+
+template<typename R, typename... Args>
+struct Delegation<R(Args...)>
+{
+public:
+    using ThisType = Delegation<R(Args...)>;
+    using InvokerType = R(*)(const ObjectPlaceHolder*, Args...);
+public:
+    Delegation()
+    {
+        detach();
+    }
+    Delegation(const Delegation& other)
+    {
+        mObj = other.mObj;
+        invoker = other.invoker;
+    }
+    template<typename T>
+    Delegation(const T* obj, R(T::* fptr)(Args...)const)
+    {
+        attach(obj, fptr);
+    }
+    template<typename T>
+    Delegation(T* obj, R(T::* fptr)(Args...))
+    {
+        attach(obj, fptr);
+    }
+    Delegation(R(*fptr)(Args...))
+    {
+        attach(fptr);
+    }
+    Delegation& operator=(const Delegation& other)
+    {
+        if (&other == this)
+            return *this;
+        mObj = other.mObj;
+        invoker = other.invoker;
+        return *this;
+    }
+    template<typename T>
+    inline void attach(const T* obj, R(T::* fptr)(Args...)const)
+    {
+        invoker = ConstMemFuncInvoker<ThisType, T, R(Args...)>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) ConstMemFuncInvoker<ThisType, T, R(Args...)>(obj, fptr);
+    }
+    template<typename T>
+    inline void attach(T* obj, R(T::* fptr)(Args...))
+    {
+        invoker = MemFuncInvoker<ThisType, T, R(Args...)>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) MemFuncInvoker<ThisType, T, R(Args...)>(obj, fptr);
+    }
+    inline void attach(R(*fptr)(Args...))
+    {
+        invoker = FuncInvoker<ThisType, R(Args...)>::invoke;
+        new(&mObj, sizeof(ObjectPlaceHolder)) FuncInvoker<ThisType, R(Args...)>(fptr);
+    }
+    inline void detach(void)
+    {
+        mObj.clear();
+        invoker = nullptr;
+    }
+    inline bool isNull(void) const
+    {
+        return mObj.isNull() || invoker == nullptr;
+    }
+    inline R operator () (Args... args)const
+    {
+        return invoker(&mObj, args...);
+    }
+private:
+    ObjectPlaceHolder mObj;
+    InvokerType invoker;
+};
 
 #endif //__Delegation_H__

@@ -1334,8 +1334,8 @@ void SlkToken::endTokenWithEof(void)
 
 SlkToken::SlkToken(FunctionScript::IScriptSource& source, FunctionScript::ErrorAndStringBuffer& errorAndStringBuffer) :mSource(&source), mErrorAndStringBuffer(&errorAndStringBuffer)
 {
-    DebugAssert(mSource);
-    DebugAssert(mErrorAndStringBuffer);
+    MyAssert(mSource);
+    MyAssert(mErrorAndStringBuffer);
 
     mIterator = mSource->GetIterator();
 

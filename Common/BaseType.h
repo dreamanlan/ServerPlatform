@@ -49,8 +49,8 @@
 
 #include "LockEx.h"
 
-#define DebugAssert(x)
-#define DebugAssertEx(x,y)
+#define MyAssert(x)
+#define MyAssertEx(x,y)
 
 #if defined(__WINDOWS__)
 #define ThreadTls __declspec(thread)

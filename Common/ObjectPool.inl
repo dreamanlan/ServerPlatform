@@ -39,7 +39,7 @@ template<typename DataT,typename LockT,int SizeV>
 void ObjectPoolT<DataT,LockT,SizeV>::Init(int num)
 {
 	Create(num);
-	DebugAssert(m_Datas);
+	MyAssert(m_Datas);
 	m_UnusedDatas.Init(num);
 	for(int i=0;i<num;++i)
 	{
@@ -73,7 +73,7 @@ DataT* ObjectPoolT<DataT,LockT,SizeV>::GetObject(int index) const
 {	
 	if(index<0 || index>=m_Num)
 		return NULL;
-	DebugAssert(m_Datas);
+	MyAssert(m_Datas);
 	return &(m_Datas[index]);
 }
 

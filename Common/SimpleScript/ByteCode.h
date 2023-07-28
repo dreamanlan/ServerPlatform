@@ -58,13 +58,13 @@ namespace FunctionScript
     public:
         RuntimeBuilderT(Interpreter& interpreter) :mThis(NULL), mInterpreter(&interpreter)
         {
-            DebugAssert(mInterpreter);
+            MyAssert(mInterpreter);
             mData.GetNullFunctionPtrRef() = mInterpreter->GetNullFunctionPtr();
         }
         inline void setEnvironmentObjRef(RealTypeT& thisObj)
         {
             mThis = &thisObj;
-            DebugAssert(mThis);
+            MyAssert(mThis);
         }
     public:
         inline void    markSeparator(void);
@@ -130,7 +130,7 @@ namespace FunctionScript
         inline void    setEnvironmentObjRef(RealTypeT& thisObj)
         {
             mThis = &thisObj;
-            DebugAssert(mThis);
+            MyAssert(mThis);
         }
         inline const char* getByteCode(int& len)const
         {

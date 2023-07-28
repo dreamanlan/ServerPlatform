@@ -11,7 +11,7 @@ namespace LockFreeCollectionUtility
 	template<class T,bool IsOK>
 	struct TypeCheckerT
 	{
-		typedef T Type;
+		using Type = T;
 		static inline Type ToDataType(unsigned long val)
 		{
 			return static_cast<Type>(val);
@@ -34,7 +34,7 @@ namespace LockFreeCollectionUtility
 	template<class T>
 	struct TypeCheckerT<T*,true>
 	{
-		typedef T* Type;
+		using Type = T*;
 		static inline Type ToDataType(unsigned long val)
 		{
 			return reinterpret_cast<Type>(val);
@@ -51,7 +51,7 @@ namespace LockFreeCollectionUtility
 	template<>
 	struct TypeCheckerT<int,true>
 	{
-		typedef int Type;
+		using Type = int;
 		static inline int ToDataType(unsigned int val)
 		{
 			return static_cast<int>(val);
@@ -68,7 +68,7 @@ namespace LockFreeCollectionUtility
 	template<>
 	struct TypeCheckerT<short,true>
 	{
-		typedef short Type;
+		using Type = short;
 		static inline short ToDataType(unsigned short val)
 		{
 			return static_cast<short>(val);
@@ -85,7 +85,7 @@ namespace LockFreeCollectionUtility
 	template<>
 	struct TypeCheckerT<char,true>
 	{
-		typedef char Type;
+		using Type = char;
 		static inline char ToDataType(unsigned char val)
 		{
 			return static_cast<char>(val);
@@ -102,14 +102,14 @@ namespace LockFreeCollectionUtility
 	template<class T>
 	struct TypeCheckerWrapT
 	{
-		typedef TypeCheckerT<T,sizeof(T)<=sizeof(long*)> TypeCheckerType;
-		typedef typename TypeCheckerType::Type Type;
+		using TypeCheckerType = TypeCheckerT<T,sizeof(T)<=sizeof(long*)>;
+		using Type = typename TypeCheckerType::Type;
 	};
 	template<typename T,int CapacityV,unsigned long InvalidValueV>
 	class StaticMemoryT
 	{
-		typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::TypeCheckerType TypeCheckerType;
-		typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::Type ElementType;
+		using TypeCheckerType = typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::TypeCheckerType;
+		using ElementType = typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::Type;
 	public:
 		inline ElementType* Create(int& capacity)
 		{
@@ -138,8 +138,8 @@ namespace LockFreeCollectionUtility
 	template<typename T,unsigned long InvalidValueV>
 	class DynamicMemoryT
 	{
-		typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::TypeCheckerType TypeCheckerType;
-		typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::Type ElementType;
+		using TypeCheckerType = typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::TypeCheckerType;
+		using ElementType = typename LockFreeCollectionUtility::TypeCheckerWrapT<T>::Type;
 	public:
 		inline ElementType* Create(int& capacity)
 		{
@@ -192,13 +192,13 @@ namespace LockFreeCollectionUtility
 	class MemorySelectorT
 	{
 	public:
-		typedef StaticMemoryT<T,CapacityV,InvalidValueV> Type;
+		using Type = StaticMemoryT<T,CapacityV,InvalidValueV>;
 	};
 	template<typename T,int InvalidValueV>
 	class MemorySelectorT<T,0,InvalidValueV>
 	{
 	public:
-		typedef DynamicMemoryT<T,InvalidValueV> Type;
+		using Type = DynamicMemoryT<T,InvalidValueV>;
 	};
 }
 
@@ -212,10 +212,10 @@ class LockFreeRingedQueueT
 {
 	static const int s_c_MaxRetryCount=256;
 
-	typedef LockFreeRingedQueueT<DataT,SizeV,InvalidValueV>	ThisType;
-	typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<DataT>::TypeCheckerType TypeCheckerType;
-	typedef typename LockFreeCollectionUtility::TypeCheckerWrapT<DataT>::Type ElementType;
-	typedef typename LockFreeCollectionUtility::MemorySelectorT<DataT,(SizeV == 0 ? 0 : SizeV+1),InvalidValueV>::Type MemoryType;
+	using ThisType = LockFreeRingedQueueT<DataT,SizeV,InvalidValueV>;
+	using TypeCheckerType = typename LockFreeCollectionUtility::TypeCheckerWrapT<DataT>::TypeCheckerType;
+	using ElementType = typename LockFreeCollectionUtility::TypeCheckerWrapT<DataT>::Type;
+	using MemoryType = typename LockFreeCollectionUtility::MemorySelectorT<DataT,(SizeV == 0 ? 0 : SizeV+1),InvalidValueV>::Type;
 
 #ifdef __WINDOWS__
 	//32位下按8字节对齐

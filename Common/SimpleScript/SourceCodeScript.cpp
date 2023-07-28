@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------
 class ActionForSourceCodeScript : public SlkAction, public RuntimeBuilderT<ActionForSourceCodeScript>
 {
-    typedef RuntimeBuilderT<ActionForSourceCodeScript> BaseType;
+    using BaseType = RuntimeBuilderT<ActionForSourceCodeScript>;
 public:
     inline char* getLastToken(void) const;
     inline int getLastLineNumber(void) const;
@@ -170,7 +170,7 @@ inline void ActionForSourceCodeScript::initialize_table(void)
 //--------------------------------------------------------------------------------------
 class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerator>
 {
-    typedef GeneratorT<ActionForGenerator> BaseType;
+    using BaseType = GeneratorT<ActionForGenerator>;
 public:
     inline char* getLastToken(void) const;
     inline int getLastLineNumber(void) const;

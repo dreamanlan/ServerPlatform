@@ -15,8 +15,8 @@ struct bufferevent;
 namespace net_base
 {
   class TcpSession;
-  typedef Delegation3<bool, TcpSession*, const char*, int> ReceiveCallback;
-  typedef Delegation2<bool, TcpSession*, int> ErrorCallback;
+  using ReceiveCallback = Delegation3<bool, TcpSession*, const char*, int>;
+  using ErrorCallback = Delegation2<bool, TcpSession*, int>;
 
   class TcpSession
   {

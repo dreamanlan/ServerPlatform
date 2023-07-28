@@ -5,7 +5,7 @@
 class ActionForByteCodeScript : public RuntimeBuilderT<ActionForByteCodeScript>
 {
     static const int s_c_MaxStringSize = 4 * 1024;
-    typedef RuntimeBuilderT<ActionForByteCodeScript> BaseType;
+    using BaseType = RuntimeBuilderT<ActionForByteCodeScript>;
 public:
     inline int setLastToken(const char* token)
     {

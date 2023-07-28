@@ -751,9 +751,9 @@ namespace FunctionScript
             PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00010000,
             PARAM_CLASS_UNMASK = 0x0000FFFF,
         };
-        typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
-        typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > LocalIndexes;
-        typedef ISyntaxComponent* SyntaxComponentPtr;
+        using StringKey = StringKeyT<MAX_TOKEN_NAME_SIZE>;
+        using LocalIndexes = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
+        using SyntaxComponentPtr = ISyntaxComponent*;
     public:
         virtual int IsValid(void)const
         {
@@ -1313,7 +1313,7 @@ namespace FunctionScript
         ExpressionApi* m_Object;
         int m_MemberIndex;
     };
-    typedef MemberAccessor* MemberAccessorPtr;
+    using MemberAccessorPtr = MemberAccessor*;
 
     class ObjectBase : public ExpressionApi
     {
@@ -1339,8 +1339,8 @@ namespace FunctionScript
                 m_Value.SetInvalid();
             }
         };
-        typedef StringKeyT<32> StringKey;
-        typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > NameIndexMap;
+        using StringKey = StringKeyT<32>;
+        using NameIndexMap = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
     public:
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
     public:
@@ -1492,13 +1492,13 @@ namespace FunctionScript
     public:
         int GetUnusedStringLength(void)const
         {
-            DebugAssert(m_pStringBuffer);
-            DebugAssert(m_ppUnusedStringRef);
+            MyAssert(m_pStringBuffer);
+            MyAssert(m_ppUnusedStringRef);
             return m_MaxStringBufferLength - int(*m_ppUnusedStringRef - m_pStringBuffer);
         }
         char*& GetUnusedStringPtrRef(void)
         {
-            DebugAssert(m_ppUnusedStringRef);
+            MyAssert(m_ppUnusedStringRef);
             return *m_ppUnusedStringRef;
         }
     public:
@@ -1512,8 +1512,8 @@ namespace FunctionScript
             m_pStringBuffer = pStringBuffer;
             m_ppUnusedStringRef = &pUnusedStringRef;
             m_MaxStringBufferLength = maxStringBufferLength;
-            DebugAssert(m_pStringBuffer);
-            DebugAssert(m_ppUnusedStringRef);
+            MyAssert(m_pStringBuffer);
+            MyAssert(m_ppUnusedStringRef);
         }
     private:
         int	m_HasError;
@@ -1530,15 +1530,15 @@ namespace FunctionScript
      */
     class Interpreter
     {
-        typedef ISyntaxComponent* SyntaxComponentPtr;
-        typedef RuntimeComponent* RuntimeComponentPtr;
-        typedef StatementApi* StatementApiPtr;
-        typedef StringKeyT<MAX_TOKEN_NAME_SIZE> StringKey;
-        typedef HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> > ValueIndexes;
-        typedef HashtableT<StringKey, ExpressionApi*, StringKey> Functions;
-        typedef DequeT<StatementApiFactory*, MAX_FORM_NUM_PER_STATEMENT> StatementApiFactoryList;
-        typedef HashtableT<StringKey, StatementApiFactoryList, StringKey> StatementApiFactories;
-        typedef DequeT<FunctionData*, MAX_FUNCTION_LEVEL> FunctionDefinitionStack;
+        using SyntaxComponentPtr = ISyntaxComponent*;
+        using RuntimeComponentPtr = RuntimeComponent*;
+        using StatementApiPtr = StatementApi*;
+        using StringKey = StringKeyT<MAX_TOKEN_NAME_SIZE>;
+        using ValueIndexes = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
+        using Functions = HashtableT<StringKey, ExpressionApi*, StringKey>;
+        using StatementApiFactoryList = DequeT<StatementApiFactory*, MAX_FORM_NUM_PER_STATEMENT>;
+        using StatementApiFactories = HashtableT<StringKey, StatementApiFactoryList, StringKey>;
+        using FunctionDefinitionStack = DequeT<FunctionData*, MAX_FUNCTION_LEVEL>;
 
         struct StackInfo
         {
@@ -1557,7 +1557,7 @@ namespace FunctionScript
             }
             static StackInfo& GetInvalidStackInfoRef(void);
         };
-        typedef DequeT<StackInfo, MAX_STACK_LEVEL> StackInfos;
+        using StackInfos = DequeT<StackInfo, MAX_STACK_LEVEL>;
     public:
         void RegisterStatementApi(const char* id, StatementApiFactory* p);
         void RegisterPredefinedValue(const char* id, const Value& val);

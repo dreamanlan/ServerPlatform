@@ -18,19 +18,19 @@ static int g_Port = 20000;
 static event_base* g_EventBase = NULL;
 static Connector* g_Connector = NULL;
 
-typedef void(*HandleNameHandleChangedPtr)(int addOrUpdate, const char* name, int handle);
+using HandleNameHandleChangedPtr = void(*)(int addOrUpdate, const char* name, int handle);
 static HandleNameHandleChangedPtr g_HandleNameHandleChangedPtr = NULL;
 
-typedef void(*HandleMessagePtr)(unsigned int seq, int src, int dest, const void* msg, int len);
+using HandleMessagePtr = void(*)(unsigned int seq, int src, int dest, const void* msg, int len);
 static HandleMessagePtr g_HandleMessagePtr = NULL;
 
-typedef void(*HandleMessageResultPtr)(unsigned int seq, int src, int dest, int result);
+using HandleMessageResultPtr = void(*)(unsigned int seq, int src, int dest, int result);
 static HandleMessageResultPtr g_HandleMessageResultPtr = NULL;
 
-typedef void(*HandleCommandPtr)(int src, int dest, const char* msg);
+using HandleCommandPtr = void(*)(int src, int dest, const char* msg);
 static HandleCommandPtr g_HandleCommandPtr = NULL;
 
-typedef void(*LogHandlerPtr)(const char* log, int len);
+using LogHandlerPtr = void(*)(const char* log, int len);
 
 int g_IsRun = TRUE;
 

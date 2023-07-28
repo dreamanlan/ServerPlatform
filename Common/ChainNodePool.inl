@@ -17,7 +17,7 @@ template<typename DataT,typename RecyclerT,typename LockT,int SizeV>
 void CChainNodePoolT<DataT,RecyclerT,LockT,SizeV>::Init(int num)
 {
 	Create(num);
-	DebugAssert(m_DataNodes);
+	MyAssert(m_DataNodes);
 	m_UnusedDataNodes.Init(num);
 	for(int i=0;i<num;++i)
 	{
@@ -52,7 +52,7 @@ const typename CChainNodePoolT<DataT,RecyclerT,LockT,SizeV>::Iterator CChainNode
 {	
 	if(index<0 || index>=m_Num)
 		return Iterator();
-	DebugAssert(m_DataNodes);
+	MyAssert(m_DataNodes);
 	return Iterator(&(m_DataNodes[index]));
 }
 

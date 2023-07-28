@@ -27,7 +27,7 @@ struct SimpleGreatT
 template<typename T,typename LessT=SimpleLessT<T>,int SizeV=0>
 class HeapT
 {
-	typedef typename CollectionMemory::SelectorT<T,(SizeV == 0 ? 0 : SizeV+1)>::Type MemoryType;
+	using MemoryType = typename CollectionMemory::SelectorT<T,(SizeV == 0 ? 0 : SizeV+1)>::Type;
 public:
 	HeapT(void):m_CurrentSize(0),m_MaxSize(0),m_Heap(0)
 	{
@@ -86,7 +86,7 @@ protected:
 	inline void Create(int size)
 	{
 		m_Heap = m_Memory.Create(size);
-		DebugAssert(m_Heap);
+		MyAssert(m_Heap);
 		Clear();
 	}
 private:

@@ -19,8 +19,8 @@ template<typename DataT,typename RecyclerT>
 class CChainNode
 {
 public:
-	typedef CChain<DataT,RecyclerT>		ChainType;
-	typedef CChainNode<DataT,RecyclerT>	ItemType;
+	using ChainType = CChain<DataT,RecyclerT>;
+	using ItemType = CChainNode<DataT,RecyclerT>;
 	friend class CChain<DataT,RecyclerT>;
 	friend class Iterator;
 	/**	一个类似STL中迭代器的东东，但是概念上不严格一样。
@@ -65,31 +65,31 @@ public:
 			return m_pItem->IsAllocated();
 		}
 	public:
-		inline DataT& operator * (void) const {DebugAssert(m_pItem);return m_pItem->m_Data;}
-		inline DataT* operator -> (void) const {DebugAssert(m_pItem);return &(m_pItem->m_Data);}	
+		inline DataT& operator * (void) const {MyAssert(m_pItem);return m_pItem->m_Data;}
+		inline DataT* operator -> (void) const {MyAssert(m_pItem);return &(m_pItem->m_Data);}	
 	public:
 		inline Iterator& operator++(void)
 		{
-			DebugAssert(m_pItem);
+			MyAssert(m_pItem);
 			m_pItem=m_pItem->m_pNext;
 			return *this;
 		}
 		inline const Iterator operator++(int)
 		{
-			DebugAssert(m_pItem);
+			MyAssert(m_pItem);
 			Iterator tmp = *this;
 			++(*this);
 			return tmp;
 		}
 		inline Iterator& operator--(void)
 		{
-			DebugAssert(m_pItem);
+			MyAssert(m_pItem);
 			m_pItem=m_pItem->m_pPrevious;
 			return *this;
 		}
 		inline const Iterator operator--(int)
 		{
-			DebugAssert(m_pItem);
+			MyAssert(m_pItem);
 			Iterator tmp = *this;
 			--(*this);
 			return tmp;
@@ -164,9 +164,9 @@ template<typename DataT,typename RecyclerT>
 class CChain
 {
 public:
-	typedef CChain<DataT,RecyclerT>			ChainType;
-	typedef CChainNode<DataT,RecyclerT>		ItemType;
-	typedef typename ItemType::Iterator		Iterator;
+	using ChainType = CChain<DataT,RecyclerT>;
+	using ItemType = CChainNode<DataT,RecyclerT>;
+	using Iterator = typename ItemType::Iterator;
 	friend class CChainNode<DataT,RecyclerT>;
 private:
 	unsigned int				m_uNum;
@@ -228,8 +228,8 @@ template<typename DataT>
 class NodeRecyclerForDataT
 {
 public:
-	typedef NodeRecyclerForDataT<DataT> Recycler;
-	typedef CChainNode<DataT,Recycler> DataNode;
+	using Recycler = NodeRecyclerForDataT<DataT>;
+	using DataNode = CChainNode<DataT,Recycler>;
 	friend class CChainNode<DataT,Recycler>;
 public:
 	void Recycle(void)

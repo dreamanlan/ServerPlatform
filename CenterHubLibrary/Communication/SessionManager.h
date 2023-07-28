@@ -26,8 +26,8 @@ class SessionManager
 {
   static const int MAX_IP_LEN = 128;
 public:
-  typedef StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1> StringKey;
-  typedef HashtableT<StringKey, NameHandleInfo, StringKey> NameHandles;
+  using StringKey = StringKeyT<NameHandleInfo::MAX_SERVER_NAME_LENGTH + 1>;
+  using NameHandles = HashtableT<StringKey, NameHandleInfo, StringKey>;
 public:
   void Init(event_base* pEventBase);
   void SetIpPort(int worldId, const char* pIp, int port);

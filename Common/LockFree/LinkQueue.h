@@ -47,7 +47,7 @@ class LockFreeLinkedQueueT
 {
 	static const int s_c_MaxRetryCount=256;
 
-	typedef LockFreeLinkedQueueT<DataT>	ThisType;
+	using ThisType = LockFreeLinkedQueueT<DataT>;
 	struct Node
 	{
 #ifdef __WINDOWS__
@@ -98,7 +98,7 @@ class LockFreeLinkedQueueT
 		Pointer				m_Next;
 		DataT				m_Data;
 	};
-	typedef NodePoolT<Node> NodePoolType;
+	using NodePoolType = NodePoolT<Node>;
 public:
 	//此方法多线程不安全
 	inline void Init(int maxNum)

@@ -8,7 +8,7 @@
 class SessionManager
 {
 public:
-  typedef HashtableT<int, SessionInfo> Sessions;
+  using Sessions = HashtableT<int, SessionInfo>;
 public:
   void Init(void);
   void AddSession(TcpSession* session);

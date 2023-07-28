@@ -19,7 +19,7 @@ namespace PacketStreamUtility
 	class TypeClassOf
 	{
 	public:
-		typedef impl_NotBaseType<T> Classify;
+		using Classify = impl_NotBaseType<T>;
 	};
 
 #define DEF_BASETYPE(X)	\
@@ -27,7 +27,7 @@ namespace PacketStreamUtility
 	class TypeClassOf<X>\
 	{\
 	public:\
-		typedef impl_BaseType<X> Classify;\
+		using Classify = impl_BaseType<X>;\
 	};
 
 	//DEF_BASETYPE(unsigned long)

@@ -59,8 +59,8 @@ public:
         FunctionScript::Value ToValue(void)const;
     };
 private:
-    typedef DequeT<TokenInfo, STACKSIZE> TokenStack;
-    typedef DequeT<FunctionScript::StatementData*, STACKSIZE> SemanticStack;
+    using TokenStack = DequeT<TokenInfo, STACKSIZE>;
+    using SemanticStack = DequeT<FunctionScript::StatementData*, STACKSIZE>;
 public:
     void resetByteCode(void);
     void setByteCode(const char* pByteCode, int len);
