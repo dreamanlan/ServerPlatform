@@ -1,16 +1,16 @@
 #ifndef STATICCHECK_H
 #define STATICCHECK_H
 
-template<bool> 
-	class CompileSuccess
+template<bool>
+class CompileSuccess
 {
 };
 
-template<> 
-	class CompileSuccess<true>
+template<>
+class CompileSuccess<true>
 {
 public:
-	CompileSuccess(...){}; //可以接受任何参数的构造函数
+    CompileSuccess(...) {}; //可以接受任何参数的构造函数
 };
 
 int CompileChecker(CompileSuccess<true> const&);

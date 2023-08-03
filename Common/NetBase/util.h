@@ -9,11 +9,11 @@
 #endif
 
 namespace net_base {
-using LogHandler = void (*)(const char* log, int len);
+    using LogHandler = void (*)(const char* log, int len);
 
-void SetLogHandler(LogHandler log_handler);
+    void SetLogHandler(LogHandler log_handler);
 
-void __Internal_Log(const char* format, ...);
+    void __Internal_Log(const char* format, ...);
 } // namespace net_base
 
 #endif // NETBASE_UTIL_H

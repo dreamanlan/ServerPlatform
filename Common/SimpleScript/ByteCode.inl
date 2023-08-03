@@ -17,7 +17,7 @@ namespace FunctionScript
      * 5、语义数据在定义上考虑了退化情形，除必须数据外已尽量不占用额外空间
      */
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::setExternScript(void)
+        void RuntimeBuilderT<RealTypeT>::setExternScript()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -35,7 +35,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::buildOperator(void)
+        void RuntimeBuilderT<RealTypeT>::buildOperator()
     {
         if (!preconditionCheck())return;
         RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
@@ -63,7 +63,7 @@ namespace FunctionScript
 
             FunctionData* p = mInterpreter->AddNewFunctionComponent();
             if (0 != p) {
-            	FunctionData& call = *p;
+                FunctionData& call = *p;
                 if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`') {
                     call.SetParamClass(FunctionData::PARAM_CLASS_OPERATOR);
 
@@ -91,7 +91,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::buildFirstTernaryOperator(void)
+        void RuntimeBuilderT<RealTypeT>::buildFirstTernaryOperator()
     {
         if (!preconditionCheck())return;
         RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
@@ -113,7 +113,7 @@ namespace FunctionScript
         FunctionData* p = mInterpreter->AddNewFunctionComponent();
         if (0 != p) {
             //三元运算符表示成op1(cond)(true_val)op2(false_val)
-            FunctionData* lowerOrderFunction= mInterpreter->AddNewFunctionComponent();
+            FunctionData* lowerOrderFunction = mInterpreter->AddNewFunctionComponent();
             p->GetNameValue().SetFunction(lowerOrderFunction);
             p->SetParamClass(FunctionData::PARAM_CLASS_TERNARY_OPERATOR);
             lowerOrderFunction->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
@@ -130,7 +130,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::buildSecondTernaryOperator(void)
+        void RuntimeBuilderT<RealTypeT>::buildSecondTernaryOperator()
     {
         if (!preconditionCheck())return;
         RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
@@ -158,7 +158,7 @@ namespace FunctionScript
     //--------------------------------------------------------------------------------------	
     static inline int calcSeparator(const char* tok)
     {
-        if(nullptr==tok)
+        if (nullptr == tok)
             return ISyntaxComponent::SEPARATOR_NOTHING;
         else if (tok[0] == ',' && tok[1] == '\0')
             return ISyntaxComponent::SEPARATOR_COMMA;
@@ -168,7 +168,7 @@ namespace FunctionScript
             return ISyntaxComponent::SEPARATOR_NOTHING;
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markSeparator(void)
+        void RuntimeBuilderT<RealTypeT>::markSeparator()
     {
         if (!preconditionCheck())return;
 
@@ -202,7 +202,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::beginStatement(void)
+        void RuntimeBuilderT<RealTypeT>::beginStatement()
     {
         if (!preconditionCheck())return;
         StatementData* p = mInterpreter->AddNewStatementComponent();
@@ -211,7 +211,7 @@ namespace FunctionScript
         mData.pushStatement(p);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::endStatement(void)
+        void RuntimeBuilderT<RealTypeT>::endStatement()
     {
         if (!preconditionCheck())return;
         StatementData* statement = mData.popStatement();
@@ -290,7 +290,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::addFunction(void)
+        void RuntimeBuilderT<RealTypeT>::addFunction()
     {
         if (!preconditionCheck())return;
         StatementData* statement = mData.getCurStatement();
@@ -302,7 +302,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::setFunctionId(void)
+        void RuntimeBuilderT<RealTypeT>::setFunctionId()
     {
         if (!preconditionCheck())return;
         RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
@@ -333,7 +333,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::setMemberId(void)
+        void RuntimeBuilderT<RealTypeT>::setMemberId()
     {
         if (!preconditionCheck())return;
         RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
@@ -347,7 +347,7 @@ namespace FunctionScript
                 PRINT_FUNCTION_SCRIPT_DEBUG_INFO("member:%f\n", tokenInfo.mFloat);
             }
             else if (RuntimeBuilderData::BOOL_TOKEN == tokenInfo.mType) {
-                PRINT_FUNCTION_SCRIPT_DEBUG_INFO("member:%f\n", tokenInfo.mBool);
+                PRINT_FUNCTION_SCRIPT_DEBUG_INFO("member:%d\n", tokenInfo.mBool);
             }
             else {
                 PRINT_FUNCTION_SCRIPT_DEBUG_INFO("member:%d\n", tokenInfo.mInteger);
@@ -368,7 +368,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction(void)
+        void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction()
     {
         if (!preconditionCheck())return;
         //高阶函数构造（当前函数返回一个函数）
@@ -384,7 +384,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisParam(void)
+        void RuntimeBuilderT<RealTypeT>::markParenthesisParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -393,7 +393,7 @@ namespace FunctionScript
         p->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracketParam(void)
+        void RuntimeBuilderT<RealTypeT>::markBracketParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -403,7 +403,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(*p);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriodParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPeriodParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -414,7 +414,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriodParenthesisParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPeriodParenthesisParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -425,7 +425,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriodBracketParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPeriodBracketParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -436,7 +436,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriodBraceParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPeriodBraceParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -447,7 +447,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestionPeriodParam(void)
+        void RuntimeBuilderT<RealTypeT>::markQuestionPeriodParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -458,7 +458,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestionParenthesisParam(void)
+        void RuntimeBuilderT<RealTypeT>::markQuestionParenthesisParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -469,7 +469,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestionBracketParam(void)
+        void RuntimeBuilderT<RealTypeT>::markQuestionBracketParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -480,7 +480,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestionBraceParam(void)
+        void RuntimeBuilderT<RealTypeT>::markQuestionBraceParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -491,7 +491,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markStatement(void)
+        void RuntimeBuilderT<RealTypeT>::markStatement()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -501,7 +501,7 @@ namespace FunctionScript
         call.SetParamClass(FunctionData::PARAM_CLASS_STATEMENT);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markExternScript(void)
+        void RuntimeBuilderT<RealTypeT>::markExternScript()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -511,7 +511,7 @@ namespace FunctionScript
         call.SetParamClass(FunctionData::PARAM_CLASS_EXTERN_SCRIPT);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracketColonParam(void)
+        void RuntimeBuilderT<RealTypeT>::markBracketColonParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -522,7 +522,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParam(void)
+        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -533,7 +533,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markAngleBracketColonParam(void)
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketColonParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -544,7 +544,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracePercentParam(void)
+        void RuntimeBuilderT<RealTypeT>::markBracePercentParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -555,7 +555,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markBracketPercentParam(void)
+        void RuntimeBuilderT<RealTypeT>::markBracketPercentParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -566,7 +566,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParam(void)
+        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -577,7 +577,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markAngleBracketPercentParam(void)
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketPercentParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -588,7 +588,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markColonColonParam(void)
+        void RuntimeBuilderT<RealTypeT>::markColonColonParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -599,7 +599,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markColonColonParenthesisParam(void)
+        void RuntimeBuilderT<RealTypeT>::markColonColonParenthesisParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -610,7 +610,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markColonColonBracketParam(void)
+        void RuntimeBuilderT<RealTypeT>::markColonColonBracketParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -621,7 +621,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markColonColonBraceParam(void)
+        void RuntimeBuilderT<RealTypeT>::markColonColonBraceParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -632,7 +632,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPointerParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPointerParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -643,7 +643,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPeriodStarParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPeriodStarParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -654,7 +654,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markQuestionPeriodStarParam(void)
+        void RuntimeBuilderT<RealTypeT>::markQuestionPeriodStarParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -665,7 +665,7 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markPointerStarParam(void)
+        void RuntimeBuilderT<RealTypeT>::markPointerStarParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();

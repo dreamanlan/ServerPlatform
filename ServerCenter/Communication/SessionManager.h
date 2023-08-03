@@ -8,35 +8,35 @@
 class SessionManager
 {
 public:
-  using Sessions = HashtableT<int, SessionInfo>;
+    using Sessions = HashtableT<uint64_t, SessionInfo>;
 public:
-  void Init(void);
-  void AddSession(TcpSession* session);
-  void Tick(void);
+    void Init(void);
+    void AddSession(TcpSession* session);
+    void Tick(void);
 
 public:
-  bool OnSessionReceive(TcpSession* session, const char* data, int len);
-  bool OnSessionError(TcpSession* session, int err);
-  
-private:
-  void HandleMyName(TcpSession* session, const char* data, int len);
-  void HandleTransmit(TcpSession* session, const char* data, int len);
-  void HandleTransmitResult(TcpSession* session, const char* data, int len);
-  void HandleCommand(TcpSession* session, const char* data, int len);
+    bool OnSessionReceive(TcpSession* session, const char* data, int len);
+    bool OnSessionError(TcpSession* session, int err);
 
 private:
-  void BroadcastAddNameHandle(const char* name, int handle);
-  void BroadcastRemoveNameHandle(const char* name, int handle);
-  void BroadcastNameHandleList(void);
-  void SendNameHandleList(int handle);
+    void HandleMyName(TcpSession* session, const char* data, int len);
+    void HandleTransmit(TcpSession* session, const char* data, int len);
+    void HandleTransmitResult(TcpSession* session, const char* data, int len);
+    void HandleCommand(TcpSession* session, const char* data, int len);
+
+private:
+    void BroadcastAddNameHandle(const char* name, uint64_t handle);
+    void BroadcastRemoveNameHandle(const char* name, uint64_t handle);
+    void BroadcastNameHandleList(void);
+    void SendNameHandleList(uint64_t handle);
 public:
-  SessionManager(void) :m_LastSyncTime(0){}
-  ~SessionManager(void);
+    SessionManager(void) :m_LastSyncTime(0) {}
+    ~SessionManager(void);
 private:
-  Sessions m_Sessions;
-  unsigned int m_LastSyncTime;
+    Sessions m_Sessions;
+    unsigned int m_LastSyncTime;
 
-  static const int MAX_SESSION_NUM = 1024;
+    static const int MAX_SESSION_NUM = 1024;
 };
 
 #endif //SessionManager_H

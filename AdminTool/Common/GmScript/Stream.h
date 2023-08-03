@@ -76,7 +76,7 @@ public:
 			m_BufferSize=bufferSize;
 		}
 	}
-	virtual ~BinaryStream(void)
+	virtual ~BinaryStream()
 	{
 		if(m_pBuffer)
 		{
@@ -88,11 +88,11 @@ public:
 		m_Size=0;
 	}
 public:
-	inline int											GetStreamSize(void)const
+	inline int											GetStreamSize()const
 	{
 		return m_Size;
 	}
-	inline void*										GetStreamData(void) const
+	inline void*										GetStreamData() const
 	{
 		return m_pBuffer;
 	}
@@ -108,7 +108,7 @@ public:
 	}
 	inline int											GetCursorPos() const { return m_Cursor;}
 public:
-	void ResetCursor(void) const
+	void ResetCursor() const
 	{
 		m_Cursor=0;
 	}
@@ -124,7 +124,7 @@ public:
 			return TRUE;
 		}
 	}
-	void CleanUp(void)
+	void CleanUp()
 	{
 		m_Cursor=0;
 		m_Size=0;
@@ -136,7 +136,7 @@ public:
 		_Add(data,typename PacketStreamUtility::TypeClassOf<T>::Classify());
 	}
 	template<typename T>
-	inline T										   Get(void) const
+	inline T										   Get() const
 	{
 		STATIC_CHECK(PacketStreamUtility::TypeIsNotCharPtr<T>::Value,ERROR_Please_Use_2_Params_Get_For_String_Get);
 		T res=T();

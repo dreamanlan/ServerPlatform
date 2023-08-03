@@ -24,9 +24,9 @@ public:
         }
         return size;
     }
-    inline char* getLastToken(void) const { return m_LastToken; }
+    inline char* getLastToken() const { return m_LastToken; }
     inline void setLastLineNumber(int number) { m_LastNumber = number; }
-    inline int getLastLineNumber(void) const { return m_LastNumber; }
+    inline int getLastLineNumber() const { return m_LastNumber; }
     inline void setCanFinish(int val) {}
     inline void setStringDelimiter(const char* begin, const char* end) {}
     inline void setScriptDelimiter(const char* begin, const char* end) {}
@@ -66,7 +66,7 @@ public:
         setEnvironmentObjRef(*this);
     }
 private:
-    char*	m_LastToken;
+    char* m_LastToken;
     int		m_LastNumber;
 };
 //--------------------------------------------------------------------------------------

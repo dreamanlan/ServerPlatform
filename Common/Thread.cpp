@@ -1,16 +1,16 @@
 #include "Thread.h"
 
-unsigned int g_CreateThreadCount = 0; 
+unsigned int g_CreateThreadCount = 0;
 unsigned int g_QuitThreadCount = 0;
 MyLock g_thread_lock;
 
 Thread::Thread()
 {
-	m_TID		= 0;
-	m_Status	= Thread::READY;
+    m_TID = 0;
+    m_Status = Thread::READY;
 
 #if defined(__WINDOWS__)
-	m_hThread = NULL;
+    m_hThread = NULL;
 #endif
 }
 
@@ -18,140 +18,141 @@ Thread::~Thread()
 {}
 
 void Thread::start()
-{		
-	if(m_Status != Thread::READY)
-		return;
+{
+    if (m_Status != Thread::READY)
+        return;
 
 #if defined(__LINUX__)
-	pthread_create((pthread_t*)&m_TID, NULL , MyThreadProcess , this);
+    pthread_create((pthread_t*)&m_TID, NULL, MyThreadProcess, this);
 #elif defined(__WINDOWS__)
-	m_hThread = CreateThread(NULL, 0, MyThreadProcess , this, 0, &m_TID);
+    m_hThread = CreateThread(NULL, 0, MyThreadProcess, this, 0, &m_TID);
 #endif
 }
 
 void Thread::stop()
 {}
 
-void Thread::exit(void * retval)
+void Thread::exit(void* retval)
 {
-	try
-	{
-		#if defined(__LINUX__)
-			pthread_exit(retval);
-		#elif defined(__WINDOWS__)
-			CloseHandle(m_hThread);
-		#endif
-	}
-	catch(...)
-	{}
+    try {
+#if defined(__LINUX__)
+        pthread_exit(retval);
+#elif defined(__WINDOWS__)
+        CloseHandle(m_hThread);
+#endif
+    }
+    catch (...) {
+    }
 }
 
 #if defined(__LINUX__)
-void * MyThreadProcess(void * derivedThread)
+void* MyThreadProcess(void* derivedThread)
 {
-	Thread * thread =(Thread *)derivedThread;
-	if(thread==NULL)
-		return NULL;
+    Thread* thread = (Thread*)derivedThread;
+    if (thread == NULL)
+        return NULL;
 
-	{
-		AutoLock_T autolock(g_thread_lock);
-		g_CreateThreadCount++;
-	}while(FALSE);
+    {
+        AutoLock_T autolock(g_thread_lock);
+        g_CreateThreadCount++;
+    }while (FALSE);
 
-	// set thread's status to "RUNNING"
-	thread->setStatus(Thread::RUNNING);
+    // set thread's status to "RUNNING"
+    thread->setStatus(Thread::RUNNING);
 
-	// here - polymorphism used.(derived::run() called.)
-	thread->run();
-	
-	// set thread's status to "EXIT"
-	thread->setStatus(Thread::EXIT);
-	
-	//INT ret = 0;
-	//thread->exit(&ret);
+    // here - polymorphism used.(derived::run() called.)
+    thread->run();
 
-	{
-		AutoLock_T autolock(g_thread_lock);
-		g_QuitThreadCount++;
-	}while(FALSE);
+    // set thread's status to "EXIT"
+    thread->setStatus(Thread::EXIT);
 
-	thread->setStatus(Thread::READY);
+    //INT ret = 0;
+    //thread->exit(&ret);
 
-	return NULL;	// avoid compiler's warning
+    {
+        AutoLock_T autolock(g_thread_lock);
+        g_QuitThreadCount++;
+    }while (FALSE);
+
+    thread->setStatus(Thread::READY);
+
+    return NULL;	// avoid compiler's warning
 }
 #elif defined(__WINDOWS__)
 DWORD WINAPI MyThreadProcess(void* derivedThread)
 {
-	Thread * thread =(Thread *)derivedThread;
-	if(thread==NULL)
-		return 0;
-	
-	do{
-		AutoLock_T autolock(g_thread_lock);
-		g_CreateThreadCount++;
-	}while(FALSE);
+    Thread* thread = (Thread*)derivedThread;
+    if (thread == NULL)
+        return 0;
 
-	// set thread's status to "RUNNING"
-	thread->setStatus(Thread::RUNNING);
+    do {
+        AutoLock_T autolock(g_thread_lock);
+        g_CreateThreadCount++;
+    }
+    while (FALSE);
 
-	// here - polymorphism used.(derived::run() called.)
-	thread->run();
-	
-	// set thread's status to "EXIT"
-	thread->setStatus(Thread::EXIT);
+    // set thread's status to "RUNNING"
+    thread->setStatus(Thread::RUNNING);
 
-	thread->exit(NULL);
+    // here - polymorphism used.(derived::run() called.)
+    thread->run();
 
-	do{
-		AutoLock_T autolock(g_thread_lock);
-		g_QuitThreadCount++; 
-	}while(FALSE);
+    // set thread's status to "EXIT"
+    thread->setStatus(Thread::EXIT);
 
-	thread->setStatus(Thread::READY);
+    thread->exit(NULL);
 
-	return 0;	// avoid compiler's warning
+    do {
+        AutoLock_T autolock(g_thread_lock);
+        g_QuitThreadCount++;
+    }
+    while (FALSE);
+
+    thread->setStatus(Thread::READY);
+
+    return 0;	// avoid compiler's warning
 }
 #endif
 
 void Thread::run()
 {}
 
-void MySleep( unsigned int millionseconds )
+void MySleep(unsigned int millionseconds)
 {
 #if defined(__WINDOWS__)
-	Sleep( millionseconds );
+    Sleep(millionseconds);
 #elif defined(__LINUX__)
-	usleep( millionseconds*1000 );
+    usleep(millionseconds * 1000);
 #endif
 }
 
-unsigned long long MyGetCurrentThreadID(void)
+unsigned long long MyGetCurrentThreadID()
 {
-	unsigned long long tRet = MyGetCurrentTrueThreadID();
-	int nValue = 0;//g_ThreadValue.GetThreadValue( tRet );
-	tRet += nValue;
+    unsigned long long tRet = MyGetCurrentTrueThreadID();
+    int nValue = 0;//g_ThreadValue.GetThreadValue( tRet );
+    tRet += nValue;
 
-	return tRet;
+    return tRet;
 }
 
-unsigned long long MyGetCurrentTrueThreadID(void)
+unsigned long long MyGetCurrentTrueThreadID()
 {
 #if defined(__WINDOWS__)
-	return GetCurrentThreadId( )*1000;
+    return GetCurrentThreadId() * 1000;
 #elif defined(__LINUX__)
-	return (unsigned long long)pthread_self();
+    return (unsigned long long)pthread_self();
 #endif
 }
 
-unsigned int MyTimeGetTime(void)
+unsigned int MyTimeGetTime()
 {
 #if defined(__WINDOWS__)
-	return GetTickCount();
+    return GetTickCount();
 #elif defined(__LINUX__)
-	struct timeval _t;
-	struct timezone tz;
-	gettimeofday(&_t,&tz);
-	double t =  (double)_t.tv_sec*1000 + (double)_t.tv_usec/1000;
-	return (unsigned int)t;
+    struct timeval _t;
+    struct timezone tz;
+    gettimeofday(&_t, &tz);
+    double t = (double)_t.tv_sec * 1000 + (double)_t.tv_usec / 1000;
+    return (unsigned int)t;
 #endif
 }

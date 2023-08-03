@@ -4,7 +4,7 @@
 #define BYTECODE_PRINTF	nullprintf
 
 //--------------------------------------------------------------------------------------
-FunctionScript::Value RuntimeBuilderData::TokenInfo::ToValue(void)const
+FunctionScript::Value RuntimeBuilderData::TokenInfo::ToValue()const
 {
     switch (mType) {
     case VARIABLE_TOKEN:
@@ -51,7 +51,7 @@ void RuntimeBuilderData::push(const TokenInfo& info)
 {
     mTokenStack.PushBack(info);
 }
-RuntimeBuilderData::TokenInfo RuntimeBuilderData::pop(void)
+RuntimeBuilderData::TokenInfo RuntimeBuilderData::pop()
 {
     if (mTokenStack.Empty())
         return TokenInfo();
@@ -59,7 +59,7 @@ RuntimeBuilderData::TokenInfo RuntimeBuilderData::pop(void)
     mTokenStack.PopBack();
     return info;
 }
-int RuntimeBuilderData::isSemanticStackEmpty(void)const
+int RuntimeBuilderData::isSemanticStackEmpty()const
 {
     return mSemanticStack.Empty();
 }
@@ -67,7 +67,7 @@ void RuntimeBuilderData::pushStatement(FunctionScript::StatementData* p)
 {
     mSemanticStack.PushBack(p);
 }
-FunctionScript::StatementData* RuntimeBuilderData::popStatement(void)
+FunctionScript::StatementData* RuntimeBuilderData::popStatement()
 {
     if (mSemanticStack.Empty()) {
         return 0;
@@ -76,14 +76,14 @@ FunctionScript::StatementData* RuntimeBuilderData::popStatement(void)
     mSemanticStack.PopBack();
     return cdata;
 }
-FunctionScript::StatementData* RuntimeBuilderData::getCurStatement(void)
+FunctionScript::StatementData* RuntimeBuilderData::getCurStatement()
 {
     if (mSemanticStack.Empty())
         return 0;
     StatementData* topData = mSemanticStack.Back();
     return topData;
 }
-FunctionScript::FunctionData*& RuntimeBuilderData::getLastFunctionRef(void)
+FunctionScript::FunctionData*& RuntimeBuilderData::getLastFunctionRef()
 {
     StatementData* statement = getCurStatement();
     if (0 != statement)
@@ -137,7 +137,7 @@ void RuntimeBuilderData::genByteCode(const char* data)
     }
 }
 //--------------------------------------------------------------------------------------
-void RuntimeBuilderData::resetByteCode(void)
+void RuntimeBuilderData::resetByteCode()
 {
     mByteCodeLength = 0;
     memset(mByteCode, 0, sizeof(mByteCode));
@@ -154,7 +154,7 @@ const char* RuntimeBuilderData::getByteCode(int& len)const
     len = mByteCodeLength; return mByteCode;
 }
 //--------------------------------------------------------------------------------------
-RuntimeBuilderData::RuntimeBuilderData(void)
+RuntimeBuilderData::RuntimeBuilderData()
 {
     resetByteCode();
 }

@@ -39,7 +39,7 @@ public:
         };
         int mType;
 
-        TokenInfo(void) :mString(0), mType(UNKNOWN_TOKEN)
+        TokenInfo() :mString(0), mType(UNKNOWN_TOKEN)
         {}
         TokenInfo(char* pstr, int type) :mString(pstr), mType(type)
         {}
@@ -49,24 +49,24 @@ public:
         {}
         TokenInfo(bool val) :mBool(val), mType(BOOL_TOKEN)
         {}
-        int IsValid(void)const
+        int IsValid()const
         {
             if (UNKNOWN_TOKEN != mType)
                 return TRUE;
             else
                 return FALSE;
         }
-        FunctionScript::Value ToValue(void)const;
+        FunctionScript::Value ToValue()const;
     };
 private:
     using TokenStack = DequeT<TokenInfo, STACKSIZE>;
     using SemanticStack = DequeT<FunctionScript::StatementData*, STACKSIZE>;
 public:
-    void resetByteCode(void);
+    void resetByteCode();
     void setByteCode(const char* pByteCode, int len);
     const char* getByteCode(int& len)const;
 public:
-    RuntimeBuilderData(void);
+    RuntimeBuilderData();
 private:
     RuntimeBuilderData(const RuntimeBuilderData& other) = delete;
     RuntimeBuilderData& operator=(const RuntimeBuilderData& other) = delete;
@@ -74,12 +74,12 @@ private:
     RuntimeBuilderData& operator=(const RuntimeBuilderData&& other) = delete;
 public:
     void push(const TokenInfo& info);
-    TokenInfo pop(void);
-    int isSemanticStackEmpty(void)const;
+    TokenInfo pop();
+    int isSemanticStackEmpty()const;
     void pushStatement(FunctionScript::StatementData* p);
-    FunctionScript::StatementData* popStatement(void);
-    FunctionScript::StatementData* getCurStatement(void);
-    FunctionScript::FunctionData*& getLastFunctionRef(void);
+    FunctionScript::StatementData* popStatement();
+    FunctionScript::StatementData* getCurStatement();
+    FunctionScript::FunctionData*& getLastFunctionRef();
 public:
     inline void genByteCode(char data) { genByteCode(static_cast<unsigned char>(data)); }
     inline void genByteCode(short data) { genByteCode(static_cast<unsigned short>(data)); }

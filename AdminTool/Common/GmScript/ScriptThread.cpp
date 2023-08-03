@@ -15,16 +15,16 @@ int CreateStreamPacketObj(FunctionScript::Value& retValue, Interpreter& interpre
 class InteractScriptSource : public IScriptSource
 {
 public:
-  void ClearBuffer(void)
+  void ClearBuffer()
   {
     memset(m_Line[m_CurLine], 0, sizeof(m_Line[m_CurLine]));
   }
-  const char* GetBackBuffer(void)const
+  const char* GetBackBuffer()const
   {
     return m_Line[1 - m_CurLine];
   }
-  void ResetTime(void){ m_Time = 0; }
-  unsigned int GetTime(void)const{ return m_Time; }
+  void ResetTime(){ m_Time = 0; }
+  unsigned int GetTime()const{ return m_Time; }
 public:
   InteractScriptSource(ScriptThread& thread, int& runFlag) :m_pScriptThread(&thread), m_pRunFlag(&runFlag), m_Time(0)
   {
@@ -32,7 +32,7 @@ public:
     m_CurLine = 1;
   }
 protected:
-  virtual int Load(void)
+  virtual int Load()
   {
     unsigned int t1 = MyTimeGetTime();
     int ret = TRUE;
@@ -76,7 +76,7 @@ protected:
     m_Time += t2 - t1;
     return ret;
   }
-  virtual const char* GetBuffer(void)const
+  virtual const char* GetBuffer()const
   {
     return m_Line[m_CurLine];
   }
@@ -228,13 +228,13 @@ private:
   ScriptThread* m_pScriptThread;
 };
 
-void ScriptThread::stop(void)
+void ScriptThread::stop()
 {
   m_IsContinue = FALSE;
   m_RunFlag = FALSE;
 }
 
-void ScriptThread::run(void)
+void ScriptThread::run()
 {
   Reset();
   InterpreterOptions options;

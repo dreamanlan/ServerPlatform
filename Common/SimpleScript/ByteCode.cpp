@@ -5,8 +5,8 @@ class TestRuntimeBuilder : public RuntimeBuilderT<TestRuntimeBuilder>
 {
     using BaseType = RuntimeBuilderT<TestRuntimeBuilder>;
 public:
-    char* getLastToken(void) const { return ""; }
-    int getLastLineNumber(void) const { return 0; }
+    char* getLastToken() const { return ""; }
+    int getLastLineNumber() const { return 0; }
     void setCanFinish(int val) {}
     void setStringDelimiter(const char* begin, const char* end) {}
     void setScriptDelimiter(const char* begin, const char* end) {}
@@ -15,20 +15,20 @@ public:
     {}
 };
 
-void CompileTest_ByteCode(void)
+void CompileTest_ByteCode()
 {
     Interpreter interpreter;
     TestRuntimeBuilder builder(interpreter);
-	builder.addFunction();
-	builder.beginStatement();
-	builder.buildFirstTernaryOperator();
-	builder.buildHighOrderFunction();
-	builder.buildOperator();
-	builder.buildSecondTernaryOperator();
-	builder.endStatement();
-	builder.markBracketParam();
-	builder.markStatement();
-	builder.markExternScript();
+    builder.addFunction();
+    builder.beginStatement();
+    builder.buildFirstTernaryOperator();
+    builder.buildHighOrderFunction();
+    builder.buildOperator();
+    builder.buildSecondTernaryOperator();
+    builder.endStatement();
+    builder.markBracketParam();
+    builder.markStatement();
+    builder.markExternScript();
     builder.markBracketColonParam();
     builder.markParenthesisColonParam();
     builder.markAngleBracketColonParam();
@@ -36,16 +36,16 @@ void CompileTest_ByteCode(void)
     builder.markBracketPercentParam();
     builder.markParenthesisPercentParam();
     builder.markAngleBracketPercentParam();
-	builder.setExternScript();
-	builder.markParenthesisParam();
-	builder.markPeriodBraceParam();
-	builder.markPeriodBracketParam();
-	builder.markPeriodParam();
-	builder.markPeriodParenthesisParam();
-	builder.setMemberId();
-	builder.setCanFinish(false);
-	builder.setFunctionId();
-	builder.setMemberId();
+    builder.setExternScript();
+    builder.markParenthesisParam();
+    builder.markPeriodBraceParam();
+    builder.markPeriodBracketParam();
+    builder.markPeriodParam();
+    builder.markPeriodParenthesisParam();
+    builder.setMemberId();
+    builder.setCanFinish(false);
+    builder.setFunctionId();
+    builder.setMemberId();
     builder.markQuestionPeriodParam();
     builder.markQuestionParenthesisParam();
     builder.markQuestionBracketParam();

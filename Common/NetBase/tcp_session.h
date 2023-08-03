@@ -14,31 +14,31 @@ struct bufferevent;
 
 namespace net_base
 {
-  class TcpSession;
-  using ReceiveCallback = Delegation3<bool, TcpSession*, const char*, int>;
-  using ErrorCallback = Delegation2<bool, TcpSession*, int>;
+    class TcpSession;
+    using ReceiveCallback = Delegation3<bool, TcpSession*, const char*, int>;
+    using ErrorCallback = Delegation2<bool, TcpSession*, int>;
 
-  class TcpSession
-  {
-  public:
-    TcpSession(bufferevent* bev);
-    ~TcpSession(void);
+    class TcpSession
+    {
+    public:
+        TcpSession(bufferevent* bev);
+        ~TcpSession();
 
-    void SetCB(const ReceiveCallback& recv_cb, const ErrorCallback& error_cb);
-    bool Send(const char* header, int header_size, const char* full_data, int size);
-    bool Send(const char* full_data, int size);
-    bool Send(evbuffer* evbuf);
-    bool PeerInfo(char* buf, size_t size) const;
-    int32_t GetFD(void) const;
-    bool IsValid(void) const;
+        void SetCB(const ReceiveCallback& recv_cb, const ErrorCallback& error_cb);
+        bool Send(const char* header, int header_size, const char* full_data, int size);
+        bool Send(const char* full_data, int size);
+        bool Send(evbuffer* evbuf);
+        bool PeerInfo(char* buf, size_t size) const;
+        uint64_t GetFD() const;
+        bool IsValid() const;
 
-  private:
-    NONCOPYABLE(TcpSession);
-  public:
-    struct Impl;
-  private:
-    Impl* m_Impl;
-  };
+    private:
+        NONCOPYABLE(TcpSession);
+    public:
+        struct Impl;
+    private:
+        Impl* m_Impl;
+    };
 } // namespace net_base
 
 #endif // NETBASE_TCP_SESSION_H

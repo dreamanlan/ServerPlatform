@@ -52,7 +52,6 @@
     <ClInclude Include="..\Common\ConfigScript\MaintenanceScript.h" />
     <ClInclude Include="..\Common\ConfigScript\ScriptThread.h" />
     <ClInclude Include="..\Common\Delegation.h" />
-    <ClInclude Include="..\Common\FB_BaseType.h" />
     <ClInclude Include="..\Common\Hashtable.h" />
     <ClInclude Include="..\Common\Heap.h" />
     <ClInclude Include="..\Common\LockEx.h" />

@@ -14,34 +14,34 @@ namespace CSharpCenterClient
     public static extern bool GetConfig(string key, StringBuilder nameBuf, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int TargetHandle([MarshalAs(UnmanagedType.LPStr)]string name);
+    public static extern ulong TargetHandle([MarshalAs(UnmanagedType.LPStr)]string name);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool TargetName(int handle, StringBuilder nameBuf, int len);
+    public static extern bool TargetName(ulong handle, StringBuilder nameBuf, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendByHandle(int handle, byte[] data, int len);
+    public static extern bool SendByHandle(ulong handle, byte[] data, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendByName(string name, byte[] data, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByHandle(int handle, string command);
+    public static extern bool SendCommandByHandle(ulong handle, string command);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendCommandByName(string name, string command);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleNameHandleChangedCallback(bool addOrUpdate, string name, int handle);
+    public delegate void HandleNameHandleChangedCallback(bool addOrUpdate, string name, ulong handle);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleMessageCallback(uint seq, int src, int dest, IntPtr data, int len);
+    public delegate void HandleMessageCallback(uint seq, ulong src, ulong dest, IntPtr data, int len);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleMessageResultCallback(uint seq, int src, int dest, int result);
+    public delegate void HandleMessageResultCallback(uint seq, ulong src, ulong dest, int result);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleCommandCallback(int src, int dest, string msg);
+    public delegate void HandleCommandCallback(ulong src, ulong dest, string msg);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CenterLogHandler(string msg, int len);
@@ -79,34 +79,34 @@ namespace CSharpCenterClient
     public static extern bool GetConfig(string key, StringBuilder nameBuf, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern int TargetHandle(int worldId, [MarshalAs(UnmanagedType.LPStr)]string name);
+    public static extern ulong TargetHandle(int worldId, [MarshalAs(UnmanagedType.LPStr)]string name);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool TargetName(int worldId, int handle, StringBuilder nameBuf, int len);
+    public static extern bool TargetName(int worldId, ulong handle, StringBuilder nameBuf, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendByHandle(int worldId, int handle, byte[] data, int len);
+    public static extern bool SendByHandle(int worldId, ulong handle, byte[] data, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendByName(int worldId, string name, byte[] data, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByHandle(int worldId, int handle, string command);
+    public static extern bool SendCommandByHandle(int worldId, ulong handle, string command);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendCommandByName(int worldId, string name, string command);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleNameHandleChangedCallback(int worldId, bool addOrUpdate, string name, int handle);
+    public delegate void HandleNameHandleChangedCallback(int worldId, bool addOrUpdate, string name, ulong handle);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleMessageCallback(int worldId, uint seq, int src, int dest, IntPtr data, int len);
+    public delegate void HandleMessageCallback(int worldId, uint seq, ulong src, ulong dest, IntPtr data, int len);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleMessageResultCallback(int worldId, uint seq, int src, int dest, int result);
+    public delegate void HandleMessageResultCallback(int worldId, uint seq, ulong src, ulong dest, int result);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleCommandCallback(int worldId, int src, int dest, string msg);
+    public delegate void HandleCommandCallback(int worldId, ulong src, ulong dest, string msg);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void CenterLogHandler(string msg, int len);

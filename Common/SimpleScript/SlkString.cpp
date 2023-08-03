@@ -3,7 +3,7 @@
 
 #include "SlkString.h"
 
-static const char * Nonterminal_name[] ={"0"
+static const char* Nonterminal_name[] = { "0"
 
 ,"PROGRAM"
 ,"STATEMENTS"
@@ -102,7 +102,7 @@ static const char * Nonterminal_name[] ={"0"
 ,"FUNCTION_PARAMS_22_opt"
 };
 
-static const char * Terminal_name[] ={"0"
+static const char* Terminal_name[] = { "0"
 
 ,"OP_TOKEN_0"
 ,"OP_TOKEN_1"
@@ -161,7 +161,7 @@ static const char * Terminal_name[] ={"0"
 ,"END_OF_SLK_INPUT"
 };
 
-static const char * Action_name[] ={"0"
+static const char* Action_name[] = { "0"
 
 ,"_action_markSeparator"
 ,"_action_endStatement"
@@ -208,7 +208,7 @@ static const char * Action_name[] ={"0"
 ,"_action_pushSemiColon"
 };
 
-static const char * Production_name[] ={"0"
+static const char* Production_name[] = { "0"
 
 ,"PROGRAM --> STATEMENTS"
 ,"STATEMENTS --> STATEMENT SEP_STATEMENT_*"
@@ -388,20 +388,24 @@ static const char * Production_name[] ={"0"
 #define GET_ACTION_NAME(symbol) (Action_name [symbol-(START_ACTION-1)])
 #define GET_PRODUCTION_NAME(number) (Production_name [number])
 
-const char *SlkGetSymbolName ( unsigned int   symbol )
-{ if ( symbol >= START_ACTION  &&  symbol < END_ACTION ) {
-      return ( GET_ACTION_NAME (symbol) );
-  } else if ( symbol >= START_SYMBOL ) {
-      return ( GET_NONTERMINAL_NAME (symbol) );
-  } else if ( symbol > 0 ) {
-      return ( GET_TERMINAL_NAME (symbol) );
-  } else {
-      return ( "not a symbol" );
-  }
+const char* SlkGetSymbolName(unsigned int   symbol)
+{
+    if (symbol >= START_ACTION && symbol < END_ACTION) {
+        return (GET_ACTION_NAME(symbol));
+    }
+    else if (symbol >= START_SYMBOL) {
+        return (GET_NONTERMINAL_NAME(symbol));
+    }
+    else if (symbol > 0) {
+        return (GET_TERMINAL_NAME(symbol));
+    }
+    else {
+        return ("not a symbol");
+    }
 }
 
-const char *SlkGetProductionName ( unsigned int  production_number )
+const char* SlkGetProductionName(unsigned int  production_number)
 {
-  return ( GET_PRODUCTION_NAME (production_number) );
+    return (GET_PRODUCTION_NAME(production_number));
 }
 

@@ -55,7 +55,7 @@ namespace FunctionScript
         INIT_STATEMENT_FUNCTION = 1,
         DELTA_STATEMENT_FUNCTION = 1,
         INIT_FUNCTION_LOCAL = 1,
-        DELTA_FUNCTION_LOCAL = 4,        
+        DELTA_FUNCTION_LOCAL = 4,
     };
 
     enum
@@ -78,7 +78,7 @@ namespace FunctionScript
     class InterpreterOptions
     {
     public:
-        InterpreterOptions(void) :
+        InterpreterOptions() :
             m_MaxFunctionDimensionNum(MAX_FUNCTION_DIMENSION_NUM),
             m_MaxLocalNum(MAX_LOCAL_NUM),
             m_MaxParamNum(MAX_PARAM_NUM),
@@ -119,7 +119,7 @@ namespace FunctionScript
         void SetExpressionPoolSize(int val) { m_ExpressionPoolSize = val; }
         int GetStringBufferSize() const { return m_StringBufferSize; }
         void SetStringBufferSize(int val) { m_StringBufferSize = val; }
-        int GetSyntaxComponentPoolSize(void) const { return m_SyntaxComponentPoolSize; }
+        int GetSyntaxComponentPoolSize() const { return m_SyntaxComponentPoolSize; }
         void SetSyntaxComponentPoolSize(int val) { m_SyntaxComponentPoolSize = val; }
     private:
         int	m_MaxFunctionDimensionNum;
@@ -147,7 +147,9 @@ namespace FunctionScript
         {
             TYPE_INVALID = -1,
             TYPE_INT = 0,
+            TYPE_UINT,
             TYPE_INT64,
+            TYPE_UINT64,
             TYPE_FLOAT,
             TYPE_DOUBLE,
             TYPE_BOOL,
@@ -163,9 +165,11 @@ namespace FunctionScript
             TYPE_PTR,
         };
 
-        Value(void) :m_Type(TYPE_INVALID), m_Int64Val(0), m_Line(0) {}
+        Value() :m_Type(TYPE_INVALID), m_Int64Val(0), m_Line(0) {}
         explicit Value(int val) :m_Type(TYPE_INT), m_IntVal(val), m_Line(0) {}
+        explicit Value(unsigned int val) :m_Type(TYPE_UINT), m_IntVal(static_cast<int>(val)), m_Line(0) {}
         explicit Value(long long val) :m_Type(TYPE_INT64), m_Int64Val(val), m_Line(0) {}
+        explicit Value(unsigned long long val) :m_Type(TYPE_UINT64), m_Int64Val(static_cast<long long>(val)), m_Line(0) {}
         explicit Value(float val) :m_Type(TYPE_FLOAT), m_FloatVal(val), m_Line(0) {}
         explicit Value(double val) :m_Type(TYPE_DOUBLE), m_DoubleVal(val), m_Line(0) {}
         explicit Value(bool val) :m_Type(TYPE_BOOL), m_BoolVal(val), m_Line(0) {}
@@ -176,9 +180,10 @@ namespace FunctionScript
         explicit Value(FunctionData* val) :m_Type(TYPE_FUNCTION), m_FunctionVal(val), m_Line(0) {}
         explicit Value(void* val) :m_Type(TYPE_PTR), m_Ptr(val), m_Line(0) {}
         explicit Value(int val, int type) :m_Type(type), m_IntVal(val), m_Line(0) {}
+        explicit Value(long long val, int type) :m_Type(type), m_Int64Val(val), m_Line(0) {}
         explicit Value(char* val, int type) :m_Type(type), m_StringVal(val), m_Line(0) {}
         explicit Value(const char* val, int type) :m_Type(type), m_ConstStringVal(val), m_Line(0) {}
-        ~Value(void)
+        ~Value()
         {
             FreeString();
         }
@@ -214,38 +219,40 @@ namespace FunctionScript
             }
         }
 
-        int IsInvalid(void)const { return (m_Type == TYPE_INVALID ? TRUE : FALSE); }
-        int IsInt(void)const { return (m_Type == TYPE_INT ? TRUE : FALSE); }
-        int IsInt64(void)const { return (m_Type == TYPE_INT64 ? TRUE : FALSE); }
-        int IsFloat(void)const { return (m_Type == TYPE_FLOAT ? TRUE : FALSE); }
-        int IsDouble(void)const { return (m_Type == TYPE_DOUBLE ? TRUE : FALSE); }
-        int IsBool(void)const { return (m_Type == TYPE_BOOL ? TRUE : FALSE); }
-        int IsString(void)const { return ((m_Type == TYPE_STRING || m_Type == TYPE_ALLOC_STRING) ? TRUE : FALSE); }
-        int IsIdentifier(void)const { return (m_Type == TYPE_IDENTIFIER ? TRUE : FALSE); }
-        int IsArgIndex(void)const { return (m_Type == TYPE_ARG_INDEX ? TRUE : FALSE); }
-        int IsLocalIndex(void)const { return (m_Type == TYPE_LOCAL_INDEX ? TRUE : FALSE); }
-        int IsIndex(void)const { return (m_Type == TYPE_INDEX ? TRUE : FALSE); }
-        int IsExpressionApi(void)const { return (m_Type == TYPE_EXPRESSION_API ? TRUE : FALSE); }
-        int IsStatementApi(void)const { return (m_Type == TYPE_STATEMENT_API ? TRUE : FALSE); }
-        int IsFunction(void)const { return (m_Type == TYPE_FUNCTION ? TRUE : FALSE); }
-        int IsPtr(void)const { return (m_Type == TYPE_PTR ? TRUE : FALSE); }
-        int GetLine(void)const { return m_Line; }
-        int GetType(void)const { return m_Type; }
-        int GetInt(void)const { return m_IntVal; }
-        long long GetInt64(void)const { return m_Int64Val; }
-        float GetFloat(void)const { return m_FloatVal; }
-        double GetDouble(void)const { return m_DoubleVal; }
-        bool GetBool(void)const { return m_BoolVal; }
-        char* GetString(void)const { return m_StringVal; }
-        ExpressionApi* GetExpressionApi(void)const { return m_ExpressionApiVal; }
-        StatementApi* GetStatementApi(void)const { return m_StatementApiVal; }
-        FunctionData* GetFunction(void)const { return m_FunctionVal; }
-        void* GetPtr(void)const { return m_Ptr; }
+        int IsInvalid()const { return (m_Type == TYPE_INVALID ? TRUE : FALSE); }
+        int IsInt()const { return (m_Type == TYPE_INT ? TRUE : FALSE); }
+        int IsUInt()const { return (m_Type == TYPE_UINT ? TRUE : FALSE); }
+        int IsInt64()const { return (m_Type == TYPE_INT64 ? TRUE : FALSE); }
+        int IsUInt64()const { return (m_Type == TYPE_UINT64 ? TRUE : FALSE); }
+        int IsFloat()const { return (m_Type == TYPE_FLOAT ? TRUE : FALSE); }
+        int IsDouble()const { return (m_Type == TYPE_DOUBLE ? TRUE : FALSE); }
+        int IsBool()const { return (m_Type == TYPE_BOOL ? TRUE : FALSE); }
+        int IsString()const { return ((m_Type == TYPE_STRING || m_Type == TYPE_ALLOC_STRING) ? TRUE : FALSE); }
+        int IsIdentifier()const { return (m_Type == TYPE_IDENTIFIER ? TRUE : FALSE); }
+        int IsArgIndex()const { return (m_Type == TYPE_ARG_INDEX ? TRUE : FALSE); }
+        int IsLocalIndex()const { return (m_Type == TYPE_LOCAL_INDEX ? TRUE : FALSE); }
+        int IsIndex()const { return (m_Type == TYPE_INDEX ? TRUE : FALSE); }
+        int IsExpressionApi()const { return (m_Type == TYPE_EXPRESSION_API ? TRUE : FALSE); }
+        int IsStatementApi()const { return (m_Type == TYPE_STATEMENT_API ? TRUE : FALSE); }
+        int IsFunction()const { return (m_Type == TYPE_FUNCTION ? TRUE : FALSE); }
+        int IsPtr()const { return (m_Type == TYPE_PTR ? TRUE : FALSE); }
+        int GetLine()const { return m_Line; }
+        int GetType()const { return m_Type; }
+        int GetInt()const { return m_IntVal; }
+        long long GetInt64()const { return m_Int64Val; }
+        float GetFloat()const { return m_FloatVal; }
+        double GetDouble()const { return m_DoubleVal; }
+        bool GetBool()const { return m_BoolVal; }
+        char* GetString()const { return m_StringVal; }
+        ExpressionApi* GetExpressionApi()const { return m_ExpressionApiVal; }
+        StatementApi* GetStatementApi()const { return m_StatementApiVal; }
+        FunctionData* GetFunction()const { return m_FunctionVal; }
+        void* GetPtr()const { return m_Ptr; }
         void SetLine(int line)
         {
             m_Line = line;
         }
-        void SetInvalid(void)
+        void SetInvalid()
         {
             FreeString();
             m_Type = TYPE_INVALID;
@@ -257,11 +264,23 @@ namespace FunctionScript
             m_Type = TYPE_INT;
             m_IntVal = val;
         }
+        void SetUInt(unsigned int val)
+        {
+            FreeString();
+            m_Type = TYPE_INT;
+            m_IntVal = static_cast<int>(val);
+        }
         void SetInt64(long long val)
         {
             FreeString();
             m_Type = TYPE_INT64;
             m_Int64Val = val;
+        }
+        void SetUInt64(unsigned long long val)
+        {
+            FreeString();
+            m_Type = TYPE_INT64;
+            m_Int64Val = static_cast<long long>(val);
         }
         void SetFloat(float val)
         {
@@ -361,7 +380,7 @@ namespace FunctionScript
                 strcpy(m_StringVal, pstr);
             }
         }
-        int ToInt(void)const
+        int ToInt()const
         {
             switch (m_Type) {
             case TYPE_INT:
@@ -390,7 +409,7 @@ namespace FunctionScript
                 return 0;
             }
         }
-        long long ToInt64(void)const
+        long long ToInt64()const
         {
             switch (m_Type) {
             case TYPE_INT:
@@ -419,7 +438,7 @@ namespace FunctionScript
                 return 0;
             }
         }
-        float ToFloat(void)const
+        float ToFloat()const
         {
             switch (m_Type) {
             case TYPE_INT:
@@ -431,7 +450,7 @@ namespace FunctionScript
             case TYPE_DOUBLE:
                 return (float)m_DoubleVal;
             case TYPE_BOOL:
-                return m_BoolVal ? 1 : 0;
+                return m_BoolVal ? 1.0f : 0.0f;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
             {
@@ -445,7 +464,7 @@ namespace FunctionScript
                 return 0;
             }
         }
-        double ToDouble(void)const
+        double ToDouble()const
         {
             switch (m_Type) {
             case TYPE_INT:
@@ -471,7 +490,7 @@ namespace FunctionScript
                 return 0;
             }
         }
-        bool ToBool(void)const
+        bool ToBool()const
         {
             switch (m_Type) {
             case TYPE_INT:
@@ -552,7 +571,7 @@ namespace FunctionScript
                 m_Line = other.m_Line;
             }
         }
-        void FreeString(void)
+        void FreeString()
         {
             if (TYPE_ALLOC_STRING == m_Type) {
                 delete[] m_StringVal;
@@ -576,7 +595,7 @@ namespace FunctionScript
         };
         int m_Line;
     public:
-        static Value& GetInvalidValueRef(void)
+        static Value& GetInvalidValueRef()
         {
             static Value s_Val;
             s_Val.SetInvalid();
@@ -604,26 +623,26 @@ namespace FunctionScript
         };
     public:
         explicit ISyntaxComponent(int syntaxType, Interpreter& interpreter) :m_SyntaxType(syntaxType), m_Separator(SEPARATOR_NOTHING), m_Interpreter(&interpreter) {}
-        virtual ~ISyntaxComponent(void) {}
+        virtual ~ISyntaxComponent() {}
     public:
-        virtual int IsValid(void) const = 0;
-        virtual const char* GetId(void)const = 0;
-        virtual int GetIdType(void) const = 0;
-        virtual int GetLine(void) const = 0;
+        virtual int IsValid() const = 0;
+        virtual const char* GetId()const = 0;
+        virtual int GetIdType() const = 0;
+        virtual int GetLine() const = 0;
         //编译时的数据转换为运行时数据，主要目的是运行时只关心运行时需要做的工作，提升效率
         //在这里构造运行时对象并保证只构造一次，如果当前语法单位是StatementApi，则在这里处理，
         //否则调用PrepareGeneralRuntimeObject
-        virtual void PrepareRuntimeObject(void) = 0;
+        virtual void PrepareRuntimeObject() = 0;
         //得到对应的运行时对象，运行时对象有三种类型：通常意义上的单一值、ExpressionApi和StatementApi，都记录在Value里
-        virtual const Value& GetRuntimeObject(void)const = 0;
+        virtual const Value& GetRuntimeObject()const = 0;
         //当前语法单位可能是一个StatementApi或者是一个StatementApi的组成部分，二者都需要进行运行时信息的准备工作，
         //在这里完成常规运行时信息的准备，亦即除整体是一个StatementApi实例之外的运行时信息的处理工作。
-        virtual void PrepareGeneralRuntimeObject(void) = 0;
-	public:
-        int GetSyntaxType(void) const { return m_SyntaxType; }
+        virtual void PrepareGeneralRuntimeObject() = 0;
+    public:
+        int GetSyntaxType() const { return m_SyntaxType; }
         void SetSeparator(int sep) { m_Separator = sep; }
-        int GetSeparator(void) const { return m_Separator; }
-        const char* GetSepChar(void) const
+        int GetSeparator() const { return m_Separator; }
+        const char* GetSepChar() const
         {
             switch (m_Separator) {
             case SEPARATOR_COMMA:
@@ -635,7 +654,7 @@ namespace FunctionScript
             }
         }
     public:
-        Interpreter& GetInterpreter(void)const { return *m_Interpreter; }
+        Interpreter& GetInterpreter()const { return *m_Interpreter; }
     protected:
         int	m_SyntaxType;
         int m_Separator;
@@ -647,16 +666,16 @@ namespace FunctionScript
     public:
         NullSyntax(Interpreter& interpreter) : ISyntaxComponent(ISyntaxComponent::TYPE_NULL, interpreter) {}
     public:
-        virtual int IsValid(void) const { return FALSE; }
-        virtual const char* GetId(void) const { return ""; }
-        virtual int GetIdType(void) const { return Value::TYPE_IDENTIFIER; }
-        virtual int GetLine(void) const { return 0; }
-        virtual void PrepareRuntimeObject(void) {}
-        virtual const Value& GetRuntimeObject(void)const
+        virtual int IsValid() const { return FALSE; }
+        virtual const char* GetId() const { return ""; }
+        virtual int GetIdType() const { return Value::TYPE_IDENTIFIER; }
+        virtual int GetLine() const { return 0; }
+        virtual void PrepareRuntimeObject() {}
+        virtual const Value& GetRuntimeObject()const
         {
             return Value::GetInvalidValueRef();
         }
-        virtual void PrepareGeneralRuntimeObject(void) {}
+        virtual void PrepareGeneralRuntimeObject() {}
     private:
         NullSyntax(const NullSyntax&) = delete;
         NullSyntax& operator=(const NullSyntax&) = delete;
@@ -667,23 +686,23 @@ namespace FunctionScript
     class ValueData : public ISyntaxComponent
     {
     public:
-        virtual int IsValid(void)const;
-        virtual const char*	GetId(void)const;
-        virtual int GetIdType(void)const;
-        virtual int GetLine(void)const;
-        virtual void PrepareRuntimeObject(void);
-        virtual const Value& GetRuntimeObject(void)const { return m_Value; }
-        virtual void PrepareGeneralRuntimeObject(void);
+        virtual int IsValid()const;
+        virtual const char* GetId()const;
+        virtual int GetIdType()const;
+        virtual int GetLine()const;
+        virtual void PrepareRuntimeObject();
+        virtual const Value& GetRuntimeObject()const { return m_Value; }
+        virtual void PrepareGeneralRuntimeObject();
     public:
         void SetValue(const Value& val) { m_Value = val; }
-        Value& GetValue(void) { return m_Value; }
-        const Value& GetValue(void)const { return m_Value; }
+        Value& GetValue() { return m_Value; }
+        const Value& GetValue()const { return m_Value; }
     public:
         int HaveId()const;
-        int IsHighOrder(void)const { return m_Value.IsFunction(); }
+        int IsHighOrder()const { return m_Value.IsFunction(); }
     public:
         explicit ValueData(Interpreter& interpreter);
-        virtual ~ValueData(void) {}
+        virtual ~ValueData() {}
     private:
         ValueData(const ValueData& other) = delete;
         ValueData operator=(const ValueData& other) = delete;
@@ -705,7 +724,7 @@ namespace FunctionScript
      * 运行时的三种类型：单个值、ExpressionApi和StatementApi都记录在Value里。
      *
      * 独立出来的运行时理论上应该便于实现更好的运行性能。
-     * 
+     *
      * DSL语法不区分函数参数与语句块，都是参数表的形式（这是为了语法上更加灵活，凡是参数表出现的地方都可以出现语句块）。
      *
      * 一个即有参数表又有语句块的函数一般用来表示函数定义，在语法上是一种高阶函数表示。
@@ -755,7 +774,7 @@ namespace FunctionScript
         using LocalIndexes = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
         using SyntaxComponentPtr = ISyntaxComponent*;
     public:
-        virtual int IsValid(void)const
+        virtual int IsValid()const
         {
             if (m_Name.IsValid())
                 return TRUE;
@@ -764,20 +783,20 @@ namespace FunctionScript
             else
                 return FALSE;
         }
-        virtual int GetIdType(void)const { return m_Name.GetIdType(); }
-        virtual const char* GetId(void)const { return m_Name.GetId(); }
-        virtual int GetLine(void)const { return m_Name.GetLine(); }
-        virtual void PrepareRuntimeObject(void);
-        virtual const Value& GetRuntimeObject(void)const;
-        virtual void PrepareGeneralRuntimeObject(void);
+        virtual int GetIdType()const { return m_Name.GetIdType(); }
+        virtual const char* GetId()const { return m_Name.GetId(); }
+        virtual int GetLine()const { return m_Name.GetLine(); }
+        virtual void PrepareRuntimeObject();
+        virtual const Value& GetRuntimeObject()const;
+        virtual void PrepareGeneralRuntimeObject();
     public:
-        RuntimeStatementBlock* GetRuntimeFunctionBody(void)const { return m_RuntimeStatementBlock; }
+        RuntimeStatementBlock* GetRuntimeFunctionBody()const { return m_RuntimeStatementBlock; }
     public:
         void SetNameValue(const Value& val) { m_Name.SetValue(val); }
-        Value& GetNameValue(void) { return m_Name.GetValue(); }
-        ValueData& GetName(void) { return m_Name; }
-        void ClearParams(void) { m_ParamNum = 0; }
-        void AddParam(ISyntaxComponent*	pVal)
+        Value& GetNameValue() { return m_Name.GetValue(); }
+        ValueData& GetName() { return m_Name; }
+        void ClearParams() { m_ParamNum = 0; }
+        void AddParam(ISyntaxComponent* pVal)
         {
             if (0 == pVal || m_ParamNum < 0 || m_ParamNum >= m_MaxParamNum)
                 return;
@@ -794,14 +813,14 @@ namespace FunctionScript
             m_Params[index] = pVal;
         }
         void SetParamClass(int v) { m_ParamClass = v; }
-        int GetParamClass(void)const { return m_ParamClass; }
-        int HaveId(void)const { return m_Name.HaveId(); }
-        int HaveParamOrStatement(void)const { return m_ParamClass != PARAM_CLASS_NOTHING ? TRUE : FALSE; }
-        int HaveParam(void)const { return HaveParamOrStatement() && !HaveStatement() && !HaveExternScript(); }
-        int HaveStatement(void)const { return m_ParamClass == PARAM_CLASS_STATEMENT ? TRUE : FALSE; }
-        int HaveExternScript(void)const { return m_ParamClass == PARAM_CLASS_EXTERN_SCRIPT ? TRUE : FALSE; }
-        int IsHighOrder(void)const { return m_Name.IsHighOrder(); }
-        FunctionData* GetLowerOrderFunction(void)const
+        int GetParamClass()const { return m_ParamClass; }
+        int HaveId()const { return m_Name.HaveId(); }
+        int HaveParamOrStatement()const { return m_ParamClass != PARAM_CLASS_NOTHING ? TRUE : FALSE; }
+        int HaveParam()const { return HaveParamOrStatement() && !HaveStatement() && !HaveExternScript(); }
+        int HaveStatement()const { return m_ParamClass == PARAM_CLASS_STATEMENT ? TRUE : FALSE; }
+        int HaveExternScript()const { return m_ParamClass == PARAM_CLASS_EXTERN_SCRIPT ? TRUE : FALSE; }
+        int IsHighOrder()const { return m_Name.IsHighOrder(); }
+        FunctionData* GetLowerOrderFunction()const
         {
             auto fptr = m_Name.GetValue().GetFunction();
             if (IsHighOrder() && fptr) {
@@ -811,7 +830,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        const FunctionData* GetThisOrLowerOrderCall(void)const
+        const FunctionData* GetThisOrLowerOrderCall()const
         {
             if (HaveParam()) {
                 return this;
@@ -823,7 +842,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        FunctionData* GetThisOrLowerOrderCall(void)
+        FunctionData* GetThisOrLowerOrderCall()
         {
             if (HaveParam()) {
                 return this;
@@ -835,7 +854,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        const FunctionData* GetThisOrLowerOrderBody(void)const
+        const FunctionData* GetThisOrLowerOrderBody()const
         {
             if (HaveStatement()) {
                 return this;
@@ -847,7 +866,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        FunctionData* GetThisOrLowerOrderBody(void)
+        FunctionData* GetThisOrLowerOrderBody()
         {
             if (HaveStatement()) {
                 return this;
@@ -859,7 +878,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        const FunctionData* GetThisOrLowerOrderScript(void)const
+        const FunctionData* GetThisOrLowerOrderScript()const
         {
             if (HaveExternScript()) {
                 return this;
@@ -871,7 +890,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        FunctionData* GetThisOrLowerOrderScript(void)
+        FunctionData* GetThisOrLowerOrderScript()
         {
             if (HaveExternScript()) {
                 return this;
@@ -883,7 +902,7 @@ namespace FunctionScript
                 return GetNullFunctionPtr();
             }
         }
-        int HaveLowerOrderParam(void)const
+        int HaveLowerOrderParam()const
         {
             auto fptr = m_Name.GetValue().GetFunction();
             if (IsHighOrder() && fptr && fptr->HaveParam())
@@ -891,7 +910,7 @@ namespace FunctionScript
             else
                 return FALSE;
         }
-        int HaveLowerOrderStatement(void)const
+        int HaveLowerOrderStatement()const
         {
             auto fptr = m_Name.GetValue().GetFunction();
             if (IsHighOrder() && fptr && fptr->HaveStatement())
@@ -899,7 +918,7 @@ namespace FunctionScript
             else
                 return FALSE;
         }
-        int HaveLowerOrderExternScript(void)const
+        int HaveLowerOrderExternScript()const
         {
             auto fptr = m_Name.GetValue().GetFunction();
             if (IsHighOrder() && fptr && fptr->HaveExternScript())
@@ -908,9 +927,9 @@ namespace FunctionScript
                 return FALSE;
         }
     public:
-        const Value& GetNameValue(void)const { return m_Name.GetValue(); }
-        const ValueData& GetName(void)const { return m_Name; }
-        int GetParamNum(void)const { return m_ParamNum; }
+        const Value& GetNameValue()const { return m_Name.GetValue(); }
+        const ValueData& GetName()const { return m_Name; }
+        int GetParamNum()const { return m_ParamNum; }
         ISyntaxComponent* GetParam(int index)const
         {
             if (0 == m_Params || index < 0 || index >= m_ParamNum)
@@ -924,25 +943,25 @@ namespace FunctionScript
             return m_Params[index]->GetId();
         }
     public:
-        int CalculateStackSize(void)const;
+        int CalculateStackSize()const;
     public:
         int AllocLocalIndex(const char* id);
         int GetLocalIndex(const char* id)const;
         const char* GetLocalName(int index)const;
     public:
         explicit FunctionData(Interpreter& interpreter);
-        virtual ~FunctionData(void);
+        virtual ~FunctionData();
     private:
         FunctionData(const FunctionData& other) = delete;
         FunctionData operator=(const FunctionData& other) = delete;
     private:
-        void PrepareParams(void);
-        void ReleaseParams(void);
-        void PrepareLocalIndexes(void);
-        void ClearLocalIndexes(void);
+        void PrepareParams();
+        void ReleaseParams();
+        void PrepareLocalIndexes();
+        void ClearLocalIndexes();
     private:
-        NullSyntax* GetNullSyntaxPtr(void)const;
-        FunctionData* GetNullFunctionPtr(void)const;
+        NullSyntax* GetNullSyntaxPtr()const;
+        FunctionData* GetNullFunctionPtr()const;
     private:
         ValueData m_Name;
         ISyntaxComponent** m_Params;
@@ -970,14 +989,14 @@ namespace FunctionScript
     class StatementData : public ISyntaxComponent
     {
     public:
-        virtual int IsValid(void)const
+        virtual int IsValid()const
         {
             if (NULL != m_Functions && m_FunctionNum > 0 && m_Functions[0]->IsValid())
                 return TRUE;
             else
                 return FALSE;
         }
-        virtual int GetIdType(void)const
+        virtual int GetIdType()const
         {
             int type = Value::TYPE_IDENTIFIER;
             if (IsValid()) {
@@ -985,7 +1004,7 @@ namespace FunctionScript
             }
             return type;
         }
-        virtual const char* GetId(void)const
+        virtual const char* GetId()const
         {
             const char* str = "";
             if (IsValid()) {
@@ -993,7 +1012,7 @@ namespace FunctionScript
             }
             return str;
         }
-        virtual int GetLine(void)const
+        virtual int GetLine()const
         {
             int line = 0;
             if (IsValid()) {
@@ -1001,11 +1020,11 @@ namespace FunctionScript
             }
             return line;
         }
-        virtual void PrepareRuntimeObject(void);
-        virtual const Value& GetRuntimeObject(void)const;
-        virtual void PrepareGeneralRuntimeObject(void);
+        virtual void PrepareRuntimeObject();
+        virtual const Value& GetRuntimeObject()const;
+        virtual void PrepareGeneralRuntimeObject();
     public:
-        void ClearFunctions(void) { m_FunctionNum = 0; }
+        void ClearFunctions() { m_FunctionNum = 0; }
         void AddFunction(FunctionData* pVal)
         {
             if (NULL == pVal || m_FunctionNum < 0 || m_FunctionNum >= m_MaxFunctionNum)
@@ -1016,7 +1035,7 @@ namespace FunctionScript
             m_Functions[m_FunctionNum] = pVal;
             ++m_FunctionNum;
         }
-        FunctionData*& GetLastFunctionRef(void)const
+        FunctionData*& GetLastFunctionRef()const
         {
             if (NULL == m_Functions || 0 == m_FunctionNum)
                 return GetNullFunctionPtrRef();
@@ -1024,7 +1043,7 @@ namespace FunctionScript
                 return m_Functions[m_FunctionNum - 1];
         }
     public:
-        int GetFunctionNum(void)const { return m_FunctionNum; }
+        int GetFunctionNum()const { return m_FunctionNum; }
         FunctionData* GetFunction(int index)const
         {
             if (NULL == m_Functions || index < 0 || index >= m_FunctionNum || index >= m_MaxFunctionNum)
@@ -1039,7 +1058,7 @@ namespace FunctionScript
         }
     public:
         explicit StatementData(Interpreter& interpreter);
-        virtual ~StatementData(void)
+        virtual ~StatementData()
         {
             ReleaseFunctions();
         }
@@ -1047,12 +1066,12 @@ namespace FunctionScript
         StatementData(const StatementData&) = delete;
         StatementData& operator=(const StatementData&) = delete;
     private:
-        void PrepareFunctions(void);
-        void ReleaseFunctions(void);
+        void PrepareFunctions();
+        void ReleaseFunctions();
     private:
-        FunctionData*& GetNullFunctionPtrRef(void)const;
+        FunctionData*& GetNullFunctionPtrRef()const;
     private:
-        FunctionData**	m_Functions;
+        FunctionData** m_Functions;
         int m_FunctionNum;
         int m_FunctionSpace;
         int m_MaxFunctionNum;
@@ -1070,14 +1089,14 @@ namespace FunctionScript
         InterpreterValuePool(int numValue, int numValues) :m_ValueMemory(NULL), m_ValuePool(NULL), m_ValueNum(0), m_ValuesPool(NULL), m_ValuesNum(0), m_UsedValueNum(0), m_UsedValuesNum(0)
         {
             m_ValueMemory = new Value[numValue];
-            m_ValuePool = new Value*[numValue];
+            m_ValuePool = new Value * [numValue];
             if (m_ValueMemory && m_ValuePool) {
                 m_ValueNum = numValue;
                 for (int i = 0; i < numValue; ++i) {
                     m_ValuePool[i] = &m_ValueMemory[i];
                 }
             }
-            m_ValuesPool = new Value*[numValues];
+            m_ValuesPool = new Value * [numValues];
             if (m_ValuesPool) {
                 m_ValuesNum = numValues;
                 for (int i = 0; i < numValues; ++i) {
@@ -1085,7 +1104,7 @@ namespace FunctionScript
                 }
             }
         }
-        ~InterpreterValuePool(void)
+        ~InterpreterValuePool()
         {
             if (m_ValueMemory) {
                 delete[] m_ValueMemory;
@@ -1108,12 +1127,12 @@ namespace FunctionScript
             m_ValuesNum = 0;
         }
     private:
-        void Reset(void)
+        void Reset()
         {
             m_UsedValueNum = 0;
             m_UsedValuesNum = 0;
         }
-        Value* AllocValue(void)
+        Value* AllocValue()
         {
             Value* p = NULL;
             if (m_UsedValuesNum < m_ValueNum) {
@@ -1140,7 +1159,7 @@ namespace FunctionScript
                 }
             }
         }
-        Value* AllocValues(void)
+        Value* AllocValues()
         {
             Value* p = NULL;
             if (m_UsedValuesNum < m_ValuesNum) {
@@ -1183,12 +1202,12 @@ namespace FunctionScript
         explicit AutoInterpreterValuePoolValueOperation(InterpreterValuePool& pool) :m_Pool(pool), m_Value(*pool.AllocValue())
         {
         }
-        ~AutoInterpreterValuePoolValueOperation(void)
+        ~AutoInterpreterValuePoolValueOperation()
         {
             m_Pool.RecycleValue(&m_Value);
         }
     public:
-        Value& Get(void) const { return m_Value; }
+        Value& Get() const { return m_Value; }
     private:
         AutoInterpreterValuePoolValueOperation(const AutoInterpreterValuePoolValueOperation&);
         AutoInterpreterValuePoolValueOperation& operator=(const AutoInterpreterValuePoolValueOperation&);
@@ -1203,12 +1222,12 @@ namespace FunctionScript
         explicit AutoInterpreterValuePoolValuesOperation(InterpreterValuePool& pool) :m_Pool(pool), m_Value(pool.AllocValues())
         {
         }
-        ~AutoInterpreterValuePoolValuesOperation(void)
+        ~AutoInterpreterValuePoolValuesOperation()
         {
             m_Pool.RecycleValues(m_Value);
         }
     public:
-        Value* Get(void) const { return m_Value; }
+        Value* Get() const { return m_Value; }
     private:
         AutoInterpreterValuePoolValuesOperation(const AutoInterpreterValuePoolValuesOperation&);
         AutoInterpreterValuePoolValuesOperation& operator=(const AutoInterpreterValuePoolValuesOperation&);
@@ -1223,7 +1242,7 @@ namespace FunctionScript
     {
     public:
         explicit RuntimeComponent(Interpreter& interpreter) :m_Interpreter(&interpreter) {}
-        virtual ~RuntimeComponent(void) {}
+        virtual ~RuntimeComponent() {}
     protected:
         void ReplaceVariableWithValue(Value* pParams, int num)const;
         void ReplaceVariableWithValue(Value& p)const;
@@ -1298,9 +1317,9 @@ namespace FunctionScript
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
     public:
         void SetObject(ExpressionApi& object) { m_Object = &object; }
-        ExpressionApi* GetObject(void)const { return m_Object; }
+        ExpressionApi* GetObject()const { return m_Object; }
         void SetMemberIndex(int memberIndex) { m_MemberIndex = memberIndex; }
-        int GetMemberIndex(void) const { return m_MemberIndex; }
+        int GetMemberIndex() const { return m_MemberIndex; }
     public:
         MemberAccessor(Interpreter& interpreter) :ExpressionApi(interpreter), m_Object(NULL), m_MemberIndex(-1)
         {
@@ -1330,10 +1349,10 @@ namespace FunctionScript
             const char* m_Name;
             Value m_Value;
 
-            MemberInfo(void) :m_Name(0)
+            MemberInfo() :m_Name(0)
             {
             }
-            void Reset(void)
+            void Reset()
             {
                 m_Name = 0;
                 m_Value.SetInvalid();
@@ -1345,14 +1364,14 @@ namespace FunctionScript
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
     public:
         explicit ObjectBase(Interpreter& interpreter, int customInnerMemberNum);
-        virtual ~ObjectBase(void);
+        virtual ~ObjectBase();
     protected:
         virtual int	 GetCustomInnerMemberIndex(const char* name)const { return -1; }
         virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue) { return EXECUTE_RESULT_NORMAL; }
     private:
-        void Resize(void);
+        void Resize();
         int GetMemberIndex(const char* name)const;
-        void ResetTemp(void);
+        void ResetTemp();
         void AddTempToMember(int skipNum);
     private:
         NameIndexMap* m_NameIndexMap;
@@ -1372,7 +1391,7 @@ namespace FunctionScript
     {
     public:
         explicit Object(Interpreter& interpreter);
-        virtual ~Object(void);
+        virtual ~Object();
     };
 
     class Struct : public ExpressionApi
@@ -1398,7 +1417,7 @@ namespace FunctionScript
             int m_Num;
             const char* m_Name;
 
-            MemberInfo(void) :m_Offset(0), m_Size(0), m_Num(0), m_Name(0)
+            MemberInfo() :m_Offset(0), m_Size(0), m_Num(0), m_Name(0)
             {
             }
         };
@@ -1407,10 +1426,10 @@ namespace FunctionScript
     public:
         void SetDefinitionRef(const FunctionData& statement);
         void Attach(unsigned int addr);
-        Struct* Clone(void) const;
+        Struct* Clone() const;
     public:
         explicit Struct(Interpreter& interpreter) :ExpressionApi(interpreter), m_pDefinition(0), m_MemberInfos(0), m_Accessors(0), m_MemberNum(0), m_Size(0), m_Addr(0) {}
-        virtual ~Struct(void);
+        virtual ~Struct();
     private:
         int GetMemberIndex(const char* name)const;
     private:
@@ -1435,7 +1454,7 @@ namespace FunctionScript
         virtual ExecuteResultEnum Execute(Value* pRetValue)const;
     public:
         explicit RuntimeFunctionCall(Interpreter& interpreter);
-        virtual ~RuntimeFunctionCall(void);
+        virtual ~RuntimeFunctionCall();
         void Init(FunctionData& call);
     private:
         Value m_Name;
@@ -1452,7 +1471,7 @@ namespace FunctionScript
         ExecuteResultEnum Execute(Value* pRetValue)const;
     public:
         RuntimeStatementBlock(Interpreter& interpreter, FunctionData& func);
-        ~RuntimeStatementBlock(void);
+        ~RuntimeStatementBlock();
     private:
         Interpreter* m_Interpreter;
         int m_StatementNum;
@@ -1468,17 +1487,17 @@ namespace FunctionScript
     class ErrorAndStringBuffer
     {
     public:
-        void ClearErrorInfo(void);
+        void ClearErrorInfo();
         void AddError(const char* error);
-        int HasError(void)const { return m_HasError; }
-        int GetErrorNum(void)const { return m_ErrorNum; }
-        const char*	GetErrorInfo(int index) const
+        int HasError()const { return m_HasError; }
+        int GetErrorNum()const { return m_ErrorNum; }
+        const char* GetErrorInfo(int index) const
         {
             if (index < 0 || index >= m_ErrorNum || index >= MAX_RECORD_ERROR_NUM)
                 return "";
             return m_ErrorInfo[index];
         }
-        char* NewErrorInfo(void)
+        char* NewErrorInfo()
         {
             m_HasError = TRUE;
             if (m_ErrorNum < MAX_RECORD_ERROR_NUM) {
@@ -1490,19 +1509,19 @@ namespace FunctionScript
             }
         }
     public:
-        int GetUnusedStringLength(void)const
+        int GetUnusedStringLength()const
         {
             MyAssert(m_pStringBuffer);
             MyAssert(m_ppUnusedStringRef);
             return m_MaxStringBufferLength - int(*m_ppUnusedStringRef - m_pStringBuffer);
         }
-        char*& GetUnusedStringPtrRef(void)
+        char*& GetUnusedStringPtrRef()
         {
             MyAssert(m_ppUnusedStringRef);
             return *m_ppUnusedStringRef;
         }
     public:
-        ErrorAndStringBuffer(void) :m_pStringBuffer(NULL), m_ppUnusedStringRef(NULL), m_MaxStringBufferLength(0)
+        ErrorAndStringBuffer() :m_pStringBuffer(NULL), m_ppUnusedStringRef(NULL), m_MaxStringBufferLength(0)
         {
             ClearErrorInfo();
         }
@@ -1520,7 +1539,7 @@ namespace FunctionScript
         char m_ErrorInfo[MAX_RECORD_ERROR_NUM][MAX_ERROR_INFO_CAPACITY];
         int m_ErrorNum;
         char* m_pStringBuffer;
-        char**	m_ppUnusedStringRef;
+        char** m_ppUnusedStringRef;
         int m_MaxStringBufferLength;
     };
 
@@ -1548,25 +1567,25 @@ namespace FunctionScript
             Value m_ParamNum;
             const ISyntaxComponent* m_pDefinition;
 
-            StackInfo(void) :m_Start(-1), m_Size(0), m_Params(0), m_ParamNum(0), m_pDefinition(0)
+            StackInfo() :m_Start(-1), m_Size(0), m_Params(0), m_ParamNum(0), m_pDefinition(0)
             {
             }
-            int IsValid(void)const
+            int IsValid()const
             {
                 return (m_Start >= 0 ? TRUE : FALSE);
             }
-            static StackInfo& GetInvalidStackInfoRef(void);
+            static StackInfo& GetInvalidStackInfoRef();
         };
         using StackInfos = DequeT<StackInfo, MAX_STACK_LEVEL>;
     public:
         void RegisterStatementApi(const char* id, StatementApiFactory* p);
         void RegisterPredefinedValue(const char* id, const Value& val);
-        void PrepareRuntimeObject(void);
+        void PrepareRuntimeObject();
         ExecuteResultEnum Execute(Value* pRetValue);
         ExecuteResultEnum CallMember(ExpressionApi& obj, const Value& member, int isProperty, int paramClass, Value* pParams, int paramNum, Value* pRetValue);
     public:
-        StatementApiFactory* GetLiteralArrayApi(void)const;
-        StatementApiFactory* GetLiteralObjectApi(void)const;
+        StatementApiFactory* GetLiteralArrayApi()const;
+        StatementApiFactory* GetLiteralObjectApi()const;
         ExpressionApi* FindFunctionApi(const char* id)const;
         StatementApiFactory* FindStatementApi(const ISyntaxComponent& statement)const;
         const Value& GetPredefinedValue(const char* id)const;
@@ -1576,30 +1595,30 @@ namespace FunctionScript
         const char* GetValueName(int indexType, int index)const;
         void SetValue(int indexType, int index, const Value& val);
         const Value& GetValue(int indexType, int index)const;
-        int GetValueNum(void)const { return m_ValueNum; }
+        int GetValueNum()const { return m_ValueNum; }
     public:
         void PushStackInfo(Value* pParams, int paramNum, int stackSize, const ISyntaxComponent& definition);
-        void PopStackInfo(void);
-        int IsStackEmpty(void)const;
-        int IsStackFull(void)const;
-        const StackInfo& GetTopStackInfo(void)const;
-        int GetStackValueNum(void)const;
+        void PopStackInfo();
+        int IsStackEmpty()const;
+        int IsStackFull()const;
+        const StackInfo& GetTopStackInfo()const;
+        int GetStackValueNum()const;
     public:
         int PushFunctionDefinition(FunctionData* pFunction);
-        int PopFunctionDefinition(void);
-        FunctionData* GetCurFunctionDefinition(void)const;
+        int PopFunctionDefinition();
+        FunctionData* GetCurFunctionDefinition()const;
     public:
         void AddStatement(ISyntaxComponent* p);
     public:
-        ValueData* AddNewValueComponent(void);
-        FunctionData* AddNewFunctionComponent(void);
-        StatementData* AddNewStatementComponent(void);
-        RuntimeFunctionCall* AddNewRuntimeFunctionComponent(void);
-        Closure* AddNewClosureComponent(void);
-        Object* AddNewObjectComponent(void);
-        Struct* AddNewStructComponent(void);
+        ValueData* AddNewValueComponent();
+        FunctionData* AddNewFunctionComponent();
+        StatementData* AddNewStatementComponent();
+        RuntimeFunctionCall* AddNewRuntimeFunctionComponent();
+        Closure* AddNewClosureComponent();
+        Object* AddNewObjectComponent();
+        Struct* AddNewStructComponent();
     public:
-        template<typename T> inline T* AddNewStatementApiComponent(void)
+        template<typename T> inline T* AddNewStatementApiComponent()
         {
             T* p = new T(*this);
             if (NULL != p) {
@@ -1609,19 +1628,19 @@ namespace FunctionScript
         }
     public:
         void AddSyntaxComponent(ISyntaxComponent* p);
-        int GetSyntaxComponentNum(void)const { return m_SyntaxComponentNum; }
+        int GetSyntaxComponentNum()const { return m_SyntaxComponentNum; }
         void AddRuntimeComponent(RuntimeComponent* p);
-        int GetRuntimeComponentNum(void)const { return m_RuntimeComponentNum; }
+        int GetRuntimeComponentNum()const { return m_RuntimeComponentNum; }
     public:
         char* AllocString(int len);
         char* AllocString(const char* src);
-        char* GetStringBuffer(void)const { return m_StringBuffer; }
-        char*& GetUnusedStringPtrRef(void) { return m_UnusedStringPtr; }
+        char* GetStringBuffer()const { return m_StringBuffer; }
+        char*& GetUnusedStringPtrRef() { return m_UnusedStringPtr; }
     public:
-        Interpreter(void) :Interpreter(InterpreterOptions()) {}
+        Interpreter() :Interpreter(InterpreterOptions()) {}
         Interpreter(const InterpreterOptions& options);
-        ~Interpreter(void);
-        void Reset(void);
+        ~Interpreter();
+        void Reset();
         int SetNextStatement(int ip)
         {
             if (ip < 0 || ip >= m_StatementNum)
@@ -1629,7 +1648,7 @@ namespace FunctionScript
             else
                 m_NextStatement = ip;
         }
-        int GetStatementNum(void)const { return m_StatementNum; }
+        int GetStatementNum()const { return m_StatementNum; }
         SyntaxComponentPtr GetStatement(int ix)const
         {
             if (ix >= 0 && ix < m_StatementNum)
@@ -1638,10 +1657,10 @@ namespace FunctionScript
                 return nullptr;
         }
     private:
-        void Init(void);
-        void Release(void);
-        void InitInnerApis(void);
-        void ReleaseInnerApis(void);
+        void Init();
+        void Release();
+        void InitInnerApis();
+        void ReleaseInnerApis();
         void RegisterInnerFunctionApi(const char* id, ExpressionApi* p);
         void RegisterInnerStatementApi(const char* id, StatementApiFactory* p);
     private:
@@ -1649,7 +1668,7 @@ namespace FunctionScript
         char* m_UnusedStringPtr;
         SyntaxComponentPtr* m_SyntaxComponentPool;
         int m_SyntaxComponentNum;
-        RuntimeComponentPtr*  m_RuntimeComponentPool;
+        RuntimeComponentPtr* m_RuntimeComponentPool;
         int m_RuntimeComponentNum;
         SyntaxComponentPtr* m_Program;
         StatementApiPtr* m_RuntimeProgram;
@@ -1669,14 +1688,14 @@ namespace FunctionScript
 
         int m_NextStatement;
     public://仅用于解释器的数据池，仅用于函数或语句里面用来替代局部变量，alloc与recycle必须成对并且符合栈的操作顺序（后进先出）！！！
-        InterpreterValuePool& GetInnerValuePool(void) { return m_InterpreterValuePool; }
+        InterpreterValuePool& GetInnerValuePool() { return m_InterpreterValuePool; }
     private:
         InterpreterValuePool m_InterpreterValuePool;
     public:
-        void EnableDebugInfo(void) { m_IsDebugInfoEnable = TRUE; }
-        void DisableDebugInfo(void) { m_IsDebugInfoEnable = FALSE; }
-        int IsDebugInfoEnable(void)const { return m_IsDebugInfoEnable; }
-        int IsRunFlagEnable(void)const
+        void EnableDebugInfo() { m_IsDebugInfoEnable = TRUE; }
+        void DisableDebugInfo() { m_IsDebugInfoEnable = FALSE; }
+        int IsDebugInfoEnable()const { return m_IsDebugInfoEnable; }
+        int IsRunFlagEnable()const
         {
             if (0 == m_pRunFlag || *m_pRunFlag)
                 return TRUE;
@@ -1688,35 +1707,35 @@ namespace FunctionScript
         int m_IsDebugInfoEnable;
         const int* m_pRunFlag;
     public:
-        void ClearErrorInfo(void) { m_ErrorAndStringBuffer.ClearErrorInfo(); }
+        void ClearErrorInfo() { m_ErrorAndStringBuffer.ClearErrorInfo(); }
         void AddError(const char* error) { m_ErrorAndStringBuffer.AddError(error); }
-        int HasError(void)const { return m_ErrorAndStringBuffer.HasError(); }
-        int GetErrorNum(void) { return m_ErrorAndStringBuffer.GetErrorNum(); }
-        const char*	GetErrorInfo(int index) const { return m_ErrorAndStringBuffer.GetErrorInfo(index); }
-        char* NewErrorInfo(void) { return m_ErrorAndStringBuffer.NewErrorInfo(); }
+        int HasError()const { return m_ErrorAndStringBuffer.HasError(); }
+        int GetErrorNum() { return m_ErrorAndStringBuffer.GetErrorNum(); }
+        const char* GetErrorInfo(int index) const { return m_ErrorAndStringBuffer.GetErrorInfo(index); }
+        char* NewErrorInfo() { return m_ErrorAndStringBuffer.NewErrorInfo(); }
     public:
-        ErrorAndStringBuffer& GetErrorAndStringBuffer(void) { return m_ErrorAndStringBuffer; }
-        const ErrorAndStringBuffer&	GetErrorAndStringBuffer(void)const { return m_ErrorAndStringBuffer; }
+        ErrorAndStringBuffer& GetErrorAndStringBuffer() { return m_ErrorAndStringBuffer; }
+        const ErrorAndStringBuffer& GetErrorAndStringBuffer()const { return m_ErrorAndStringBuffer; }
     private:
         ErrorAndStringBuffer m_ErrorAndStringBuffer;
     public:
-        InterpreterOptions& GetOptions(void) { return m_Options; }
-        const InterpreterOptions& GetOptions(void)const { return m_Options; }
+        InterpreterOptions& GetOptions() { return m_Options; }
+        const InterpreterOptions& GetOptions()const { return m_Options; }
     private:
         InterpreterOptions m_Options;
     public:
-        NullSyntax* GetNullSyntaxPtr(void)const
+        NullSyntax* GetNullSyntaxPtr()const
         {
             return m_pNullSyntax;
         }
-        FunctionData* GetNullFunctionPtr(void)const
+        FunctionData* GetNullFunctionPtr()const
         {
             m_pNullFunction->GetName().GetValue().SetInvalid();
             m_pNullFunction->SetParamClass(FunctionData::PARAM_CLASS_NOTHING);
             m_pNullFunction->ClearParams();
             return m_pNullFunction;
         }
-        FunctionData*& GetNullFunctionPtrRef(void)const
+        FunctionData*& GetNullFunctionPtrRef()const
         {
             auto fptr = *m_ppNullFunction;
             fptr->GetName().GetValue().SetInvalid();
@@ -1733,16 +1752,16 @@ namespace FunctionScript
     class IScriptSource
     {
     public:
-        virtual ~IScriptSource(void) {}
+        virtual ~IScriptSource() {}
     public:
         class Iterator
         {
         public:
-            const char& operator * (void) const
+            const char& operator * () const
             {
                 return Peek(0);
             }
-            Iterator& operator ++ (void)
+            Iterator& operator ++ ()
             {
                 Advance();
                 return *this;
@@ -1760,7 +1779,7 @@ namespace FunctionScript
                     it.Advance();
                 return it;
             }
-            int Load(void)
+            int Load()
             {
                 if (NULL != m_pSource) {
                     int r = m_pSource->Load();
@@ -1773,11 +1792,11 @@ namespace FunctionScript
                     return FALSE;
                 }
             }
-            const char* GetBuffer(void)const
+            const char* GetBuffer()const
             {
                 return m_pSource->GetBuffer();
             }
-            const char* GetLeft(void)const
+            const char* GetLeft()const
             {
                 return m_Iterator;
             }
@@ -1791,7 +1810,7 @@ namespace FunctionScript
                 return !(operator ==(other));
             }
         public:
-            Iterator(void) :m_pSource(NULL), m_Iterator(""), m_EndIterator(m_Iterator)
+            Iterator() :m_pSource(NULL), m_Iterator(""), m_EndIterator(m_Iterator)
             {
             }
             explicit Iterator(IScriptSource& source) :m_pSource(&source)
@@ -1825,7 +1844,7 @@ namespace FunctionScript
                 else
                     return *m_EndIterator;
             }
-            void Advance(void)
+            void Advance()
             {
                 if (m_Iterator < m_EndIterator)
                     ++m_Iterator;
@@ -1843,13 +1862,13 @@ namespace FunctionScript
         };
         friend class Iterator;
     public:
-        Iterator GetIterator(void)
+        Iterator GetIterator()
         {
             return Iterator(*this);
         }
     protected:
-        virtual int Load(void) = 0;
-        virtual const char* GetBuffer(void)const = 0;
+        virtual int Load() = 0;
+        virtual const char* GetBuffer()const = 0;
     };
 }
 using namespace FunctionScript;

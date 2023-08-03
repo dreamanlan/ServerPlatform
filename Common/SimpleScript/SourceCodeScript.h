@@ -15,10 +15,10 @@ namespace FunctionScript
         int Parse(const char* buf, char* pByteCode, int codeBufferLen);
         int Parse(IScriptSource& source, char* pByteCode, int codeBufferLen);
     public:
-        ErrorAndStringBuffer& GetErrorAndStringBuffer(void) { return m_ErrorAndStringBuffer; }
-        const ErrorAndStringBuffer&	GetErrorAndStringBuffer(void)const { return m_ErrorAndStringBuffer; }
+        ErrorAndStringBuffer& GetErrorAndStringBuffer() { return m_ErrorAndStringBuffer; }
+        const ErrorAndStringBuffer& GetErrorAndStringBuffer()const { return m_ErrorAndStringBuffer; }
     public:
-        ByteCodeGenerator(void) :m_UnusedStringPtr(m_StringBuffer)
+        ByteCodeGenerator() :m_UnusedStringPtr(m_StringBuffer)
         {
             m_ErrorAndStringBuffer.Reset(m_StringBuffer, m_UnusedStringPtr, GENERATOR_STRING_BUFFER_SIZE);
         }
@@ -35,10 +35,10 @@ namespace FunctionScript
         void Parse(const char* buf);
         void Parse(IScriptSource& source);
     public:
-        inline Interpreter& GetInterpreter(void) { return m_Interpreter; }
-        inline const Interpreter& GetInterpreter(void)const { return m_Interpreter; }
+        inline Interpreter& GetInterpreter() { return m_Interpreter; }
+        inline const Interpreter& GetInterpreter()const { return m_Interpreter; }
     public:
-        SourceCodeScript(void) {}
+        SourceCodeScript() {}
         SourceCodeScript(const InterpreterOptions& options) :m_Interpreter(options) {}
     private:
         Interpreter m_Interpreter;

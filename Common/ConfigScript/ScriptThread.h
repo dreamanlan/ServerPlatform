@@ -13,80 +13,80 @@ extern char** g_Argv;
 class ScriptThread : public Thread
 {
 public:
-  enum
-  {
-    MAX_SCRIPT_NUM = 1024,
-    MAX_RESULT_NUM = 1024,
-    MAX_LINE_SIZE = 4 * 1024,
-  };
-private:
-  struct TextLine
-  {
-    char m_Line[MAX_LINE_SIZE];
-    TextLine(void)
+    enum
     {
-      m_Line[0] = '\0';
-    }
-  };
-  using Scripts = DequeT<TextLine, MAX_SCRIPT_NUM>;
-  using Results = DequeT<TextLine, MAX_RESULT_NUM>;
-public:
-  virtual void stop(void);
-  virtual void run(void);
-public:
-  int PushLine(const char* p);
-  int PopLine(char* p, int len);
-  int PushResult(const char* p);
-  int PopResult(char* p, int len);
-  void MarkWaitingQuit(void){ m_IsWaitingQuit = TRUE; }
-  int IsWaitingQuit(void)const{ return m_IsWaitingQuit; }
-  void StopAfterTheLine(void){ m_IsContinue = FALSE; }
-  int CurSrc(void) const { return m_CurSrc; }
-  void CurSrc(int val) { m_CurSrc = val; }
-public:
-  ScriptThread(void) :m_IsWaitingQuit(FALSE), m_IsContinue(TRUE), m_RunFlag(TRUE)
-  {}
+        MAX_SCRIPT_NUM = 1024,
+        MAX_RESULT_NUM = 1024,
+        MAX_LINE_SIZE = 4 * 1024,
+    };
 private:
-  int	m_IsWaitingQuit;
+    struct TextLine
+    {
+        char m_Line[MAX_LINE_SIZE];
+        TextLine()
+        {
+            m_Line[0] = '\0';
+        }
+    };
+    using Scripts = DequeT<TextLine, MAX_SCRIPT_NUM>;
+    using Results = DequeT<TextLine, MAX_RESULT_NUM>;
+public:
+    virtual void stop();
+    virtual void run();
+public:
+    int PushLine(const char* p);
+    int PopLine(char* p, int len);
+    int PushResult(const char* p);
+    int PopResult(char* p, int len);
+    void MarkWaitingQuit() { m_IsWaitingQuit = TRUE; }
+    int IsWaitingQuit()const { return m_IsWaitingQuit; }
+    void StopAfterTheLine() { m_IsContinue = FALSE; }
+    uint64_t CurSrc() const { return m_CurSrc; }
+    void CurSrc(uint64_t val) { m_CurSrc = val; }
+public:
+    ScriptThread() :m_IsWaitingQuit(FALSE), m_IsContinue(TRUE), m_RunFlag(TRUE)
+    {}
+private:
+    int	m_IsWaitingQuit;
 
-  int	m_IsContinue;
-  int	m_RunFlag;
+    int	m_IsContinue;
+    int	m_RunFlag;
 
-  int   m_CurSrc;
+    uint64_t   m_CurSrc;
 
-  MyLock	m_ScriptLock;
-  Scripts	m_Scripts;
-  MyLock m_ResultLock;
-  Results m_Results;
+    MyLock	m_ScriptLock;
+    Scripts	m_Scripts;
+    MyLock m_ResultLock;
+    Results m_Results;
 };
 
 extern ScriptThread* g_pScriptThread;
 
 class ArgvApi : public ExpressionApi
 {
-  enum
-  {
-    MAX_STRING_SIZE = 1024,
-  };
+    enum
+    {
+        MAX_STRING_SIZE = 1024,
+    };
 public:
-  virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
-  {
-    if (m_Interpreter && pParams && pRetValue) {
-      ReplaceVariableWithValue(pParams, num);
-      if (1 == num && pParams[0].IsInt()) {
-        int ix = pParams[0].GetInt();
-        if (ix >= 0 && ix < m_Argc) {
-          pRetValue->SetWeakRefConstString(m_Argv[ix]);
+    virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
+    {
+        if (m_Interpreter && pParams && pRetValue) {
+            ReplaceVariableWithValue(pParams, num);
+            if (1 == num && pParams[0].IsInt()) {
+                int ix = pParams[0].GetInt();
+                if (ix >= 0 && ix < m_Argc) {
+                    pRetValue->SetWeakRefConstString(m_Argv[ix]);
+                }
+            }
         }
-      }
+        return EXECUTE_RESULT_NORMAL;
     }
-    return EXECUTE_RESULT_NORMAL;
-  }
 public:
-  ArgvApi(Interpreter& interpreter, int argc, char** argv) :ExpressionApi(interpreter), m_Argc(argc), m_Argv(argv){}
+    ArgvApi(Interpreter& interpreter, int argc, char** argv) :ExpressionApi(interpreter), m_Argc(argc), m_Argv(argv) {}
 private:
-  int m_Argc;
-  char** m_Argv;
+    int m_Argc;
+    char** m_Argv;
 };
 
 #endif //__ScriptThread_H__

@@ -135,9 +135,6 @@
     <ClInclude Include="..\Common\Delegation.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\FB_BaseType.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\Hashtable.h">
       <Filter>Common</Filter>
     </ClInclude>

@@ -18,11 +18,11 @@ short SlkError::mismatch(short terminal, short token, SlkToken& tokens)
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
             tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] expecting '%s' but found '%s' \n",
-		tokens.getLineNumber(),
-		tokens.getLastToken(),
-		tokens.getCurToken(),
-		GET_SYMBOL_NAME(terminal),
-		GET_SYMBOL_NAME(token));
+                tokens.getLineNumber(),
+                tokens.getLastToken(),
+                tokens.getCurToken(),
+                GET_SYMBOL_NAME(terminal),
+                GET_SYMBOL_NAME(token));
     }
     return token;
 }
@@ -33,16 +33,17 @@ short SlkError::no_entry(short productionNumber, short nonterminal, short token,
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
             tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax error: skipping input '%s' \n",
-		tokens.getLineNumber(),
-		tokens.getLastToken(),
-		tokens.getCurToken(),
-		GET_SYMBOL_NAME(token));
+                tokens.getLineNumber(),
+                tokens.getLastToken(),
+                tokens.getCurToken(),
+                GET_SYMBOL_NAME(token));
 
-		token = tokens.get();// advance the input
-		return token;
-	} else {
-    	return 0;
-	}
+        token = tokens.get();// advance the input
+        return token;
+    }
+    else {
+        return 0;
+    }
 }
 
 void SlkError::input_left(SlkToken& tokens)
@@ -51,10 +52,10 @@ void SlkError::input_left(SlkToken& tokens)
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
             tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax completion, skipping left . \n",
-		tokens.getLineNumber(),
-		tokens.getLastToken(),
-		tokens.getCurToken());
-	}
+                tokens.getLineNumber(),
+                tokens.getLastToken(),
+                tokens.getCurToken());
+    }
 }
 
 void SlkError::message(const char* msg, SlkToken& tokens)

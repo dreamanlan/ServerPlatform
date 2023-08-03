@@ -67,51 +67,51 @@ namespace FunctionScript
             MyAssert(mThis);
         }
     public:
-        inline void    markSeparator(void);
-        inline void    endStatement(void);
-        inline void    buildOperator(void);
-        inline void    buildFirstTernaryOperator(void);
-        inline void    buildSecondTernaryOperator(void);
-        inline void    beginStatement(void);
-        inline void    addFunction(void);
-        inline void    setFunctionId(void);
-        inline void    markParenthesisParam(void);
-        inline void    buildHighOrderFunction(void);
-        inline void    markBracketParam(void);
-        inline void    markQuestionParenthesisParam(void);
-        inline void    markQuestionBracketParam(void);
-        inline void    markQuestionBraceParam(void);
-        inline void    markStatement(void);
-        inline void    markExternScript(void);
-        inline void    markBracketColonParam(void);
-        inline void    markParenthesisColonParam(void);
-        inline void    markAngleBracketColonParam(void);
-        inline void    markBracePercentParam(void);
-        inline void    markBracketPercentParam(void);
-        inline void    markParenthesisPercentParam(void);
-        inline void    markAngleBracketPercentParam(void);
-        inline void    markColonColonParam(void);
-        inline void    markColonColonParenthesisParam(void);
-        inline void    markColonColonBracketParam(void);
-        inline void    markColonColonBraceParam(void);
-        inline void    setExternScript(void);
-        inline void    markPeriodParam(void);
-        inline void    setMemberId(void);
-        inline void    markPeriodParenthesisParam(void);
-        inline void    markPeriodBracketParam(void);
-        inline void    markPeriodBraceParam(void);
-        inline void    markQuestionPeriodParam(void);
-        inline void    markPointerParam(void);
-        inline void    markPeriodStarParam(void);
-        inline void    markQuestionPeriodStarParam(void);
-        inline void    markPointerStarParam(void);
+        inline void    markSeparator();
+        inline void    endStatement();
+        inline void    buildOperator();
+        inline void    buildFirstTernaryOperator();
+        inline void    buildSecondTernaryOperator();
+        inline void    beginStatement();
+        inline void    addFunction();
+        inline void    setFunctionId();
+        inline void    markParenthesisParam();
+        inline void    buildHighOrderFunction();
+        inline void    markBracketParam();
+        inline void    markQuestionParenthesisParam();
+        inline void    markQuestionBracketParam();
+        inline void    markQuestionBraceParam();
+        inline void    markStatement();
+        inline void    markExternScript();
+        inline void    markBracketColonParam();
+        inline void    markParenthesisColonParam();
+        inline void    markAngleBracketColonParam();
+        inline void    markBracePercentParam();
+        inline void    markBracketPercentParam();
+        inline void    markParenthesisPercentParam();
+        inline void    markAngleBracketPercentParam();
+        inline void    markColonColonParam();
+        inline void    markColonColonParenthesisParam();
+        inline void    markColonColonBracketParam();
+        inline void    markColonColonBraceParam();
+        inline void    setExternScript();
+        inline void    markPeriodParam();
+        inline void    setMemberId();
+        inline void    markPeriodParenthesisParam();
+        inline void    markPeriodBracketParam();
+        inline void    markPeriodBraceParam();
+        inline void    markQuestionPeriodParam();
+        inline void    markPointerParam();
+        inline void    markPeriodStarParam();
+        inline void    markQuestionPeriodStarParam();
+        inline void    markPointerStarParam();
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
         inline int wrapObjectMemberInHighOrderFunction(FunctionData& arg);
         inline int wrapObjectMember(StatementData& arg);
         inline ISyntaxComponent& simplifyStatement(StatementData& data)const;
         inline ISyntaxComponent& simplifyStatement(FunctionData& data)const;
-        inline bool	preconditionCheck(void)const
+        inline bool	preconditionCheck()const
         {
             return NULL != mThis && NULL != mInterpreter;
         }
@@ -119,13 +119,13 @@ namespace FunctionScript
         RuntimeBuilderData mData;
         Interpreter* mInterpreter;
         RealTypeT* mThis;
-    }; 
+    };
 
     template<typename RealTypeT>
     class GeneratorT
     {
     public:
-        GeneratorT(void) :mThis(NULL)
+        GeneratorT() :mThis(NULL)
         {}
         inline void    setEnvironmentObjRef(RealTypeT& thisObj)
         {
@@ -137,202 +137,202 @@ namespace FunctionScript
             return mData.getByteCode(len);
         }
     public:
-        inline void setExternScript(void)
+        inline void setExternScript()
         {
             genLastToken();
             genCode(BYTE_CODE_SET_EXTERN_SCRIPT);
         }
-        inline void buildOperator(void)
+        inline void buildOperator()
         {
             genLastLineNumber();
             genPush();
             genCode(BYTE_CODE_BUILD_OPERATOR);
         }
-        inline void buildFirstTernaryOperator(void)
+        inline void buildFirstTernaryOperator()
         {
             genLastLineNumber();
             genPush();
             genCode(BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR);
         }
-        inline void buildSecondTernaryOperator(void)
+        inline void buildSecondTernaryOperator()
         {
             genPush();
             genCode(BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR);
         }
         //--------------------------------------------------------------------------------------	
-        inline void markSeparator(void)
+        inline void markSeparator()
         {
             genPush();
             genCode(BYTE_CODE_MARK_SEPARATOR);
         }
-        inline void beginStatement(void)
+        inline void beginStatement()
         {
             genLastLineNumber();
             genCode(BYTE_CODE_BEGIN_STATEMENT);
         }
-        inline void endStatement(void)
+        inline void endStatement()
         {
             genCode(BYTE_CODE_END_STATEMENT);
         }
-        inline void addFunction(void)
+        inline void addFunction()
         {
             genCode(BYTE_CODE_ADD_FUNCTION);
         }
-        inline void setFunctionId(void)
+        inline void setFunctionId()
         {
             genPush();
             genCode(BYTE_CODE_SET_FUNCTION_ID);
         }
-        inline void setMemberId(void)
+        inline void setMemberId()
         {
             genPush();
             genCode(BYTE_CODE_SET_MEMBER_ID);
         }
-        inline void endFunction(void)
+        inline void endFunction()
         {
             genCode(BYTE_CODE_END_FUNCTION);
         }
-        inline void buildHighOrderFunction(void)
+        inline void buildHighOrderFunction()
         {
             genCode(BYTE_CODE_BUILD_HIGHORDER_FUNCTION);
         }
-        inline void markParenthesisParam(void)
+        inline void markParenthesisParam()
         {
             genCode(BYTE_CODE_MARK_PARENTHESIS_PARAM);
         }
-        inline void markBracketParam(void)
+        inline void markBracketParam()
         {
             genCode(BYTE_CODE_MARK_BRACKET_PARAM);
         }
-        inline void markPeriod(void)
+        inline void markPeriod()
         {
             genCode(BYTE_CODE_MARK_PERIOD);
         }
-        inline void markPeriodParam(void)
+        inline void markPeriodParam()
         {
             genCode(BYTE_CODE_MARK_PERIOD_PARAM);
         }
-        inline void markPeriodParenthesisParam(void)
+        inline void markPeriodParenthesisParam()
         {
             genCode(BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM);
         }
-        inline void markPeriodBracketParam(void)
+        inline void markPeriodBracketParam()
         {
             genCode(BYTE_CODE_MARK_PERIOD_BRACKET_PARAM);
         }
-        inline void markPeriodBraceParam(void)
+        inline void markPeriodBraceParam()
         {
             genCode(BYTE_CODE_MARK_PERIOD_BRACE_PARAM);
         }
-        inline void markOperator(void)
+        inline void markOperator()
         {
             genCode(BYTE_CODE_MARK_OPERATOR);
         }
-        inline void markQuestion(void)
+        inline void markQuestion()
         {
             genCode(BYTE_CODE_MARK_QUESTION);
         }
-        inline void markQuestionPeriodParam(void)
+        inline void markQuestionPeriodParam()
         {
             genCode(BYTE_CODE_MARK_QUESTION_PERIOD_PARAM);
         }
-        inline void markQuestionParenthesisParam(void)
+        inline void markQuestionParenthesisParam()
         {
             genCode(BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM);
         }
-        inline void markQuestionBracketParam(void)
+        inline void markQuestionBracketParam()
         {
             genCode(BYTE_CODE_MARK_QUESTION_BRACKET_PARAM);
         }
-        inline void markQuestionBraceParam(void)
+        inline void markQuestionBraceParam()
         {
             genCode(BYTE_CODE_MARK_QUESTION_BRACE_PARAM);
         }
-        inline void markPointer(void)
+        inline void markPointer()
         {
             genCode(BYTE_CODE_MARK_POINTER);
         }
-        inline void markPointerParam(void)
+        inline void markPointerParam()
         {
             genCode(BYTE_CODE_MARK_POINTER_PARAM);
         }
-        inline void markPeriodStarParam(void)
+        inline void markPeriodStarParam()
         {
             genCode(BYTE_CODE_MARK_PERIOD_STAR_PARAM);
         }
-        inline void markQuestionPeriodStarParam(void)
+        inline void markQuestionPeriodStarParam()
         {
             genCode(BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM);
         }
-        inline void markPointerStarParam(void)
+        inline void markPointerStarParam()
         {
             genCode(BYTE_CODE_MARK_POINTER_STAR_PARAM);
         }
-        inline void markStatement(void)
+        inline void markStatement()
         {
             genCode(BYTE_CODE_MARK_STATEMENT);
         }
-        inline void markExternScript(void)
+        inline void markExternScript()
         {
             genCode(BYTE_CODE_MARK_EXTERN_SCRIPT);
         }
-        inline void markBracketColonParam(void)
+        inline void markBracketColonParam()
         {
             genCode(BYTE_CODE_MARK_BRACKET_COLON_PARAM);
         }
-        inline void markParenthesisColonParam(void)
+        inline void markParenthesisColonParam()
         {
             genCode(BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM);
         }
-        inline void markAngleBracketColonParam(void)
+        inline void markAngleBracketColonParam()
         {
             genCode(BYTE_CODE_ANGLE_BRACKET_COLON_PARAM);
         }
-        inline void markBracePercentParam(void)
+        inline void markBracePercentParam()
         {
             genCode(BYTE_CODE_MARK_BRACE_PERCENT_PARAM);
         }
-        inline void markBracketPercentParam(void)
+        inline void markBracketPercentParam()
         {
             genCode(BYTE_CODE_MARK_BRACKET_PERCENT_PARAM);
         }
-        inline void markParenthesisPercentParam(void)
+        inline void markParenthesisPercentParam()
         {
             genCode(BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM);
         }
-        inline void markAngleBracketPercentParam(void)
+        inline void markAngleBracketPercentParam()
         {
             genCode(BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM);
         }
-        inline void markColonColonParam(void)
+        inline void markColonColonParam()
         {
             genCode(BYTE_CODE_COLON_COLON_PARAM);
         }
-        inline void markColonColonParenthesisParam(void)
+        inline void markColonColonParenthesisParam()
         {
             genCode(BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM);
         }
-        inline void markColonColonBracketParam(void)
+        inline void markColonColonBracketParam()
         {
             genCode(BYTE_CODE_COLON_COLON_BRACKET_PARAM);
         }
-        inline void markColonColonBraceParam(void)
+        inline void markColonColonBraceParam()
         {
             genCode(BYTE_CODE_COLON_COLON_BRACE_PARAM);
         }
     private:
-        inline bool preconditionCheck(void)const
+        inline bool preconditionCheck()const
         {
             return NULL != mThis;
         }
-        inline void genLastLineNumber(void)
+        inline void genLastLineNumber()
         {
             //这信息就不生成了，省点空间
             //if(!preconditionCheck())return;
             //mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_LINE_NUMBER));
             //mData.genByteCode(mThis->getLastLineNumber());
         }
-        inline void genLastToken(void)
+        inline void genLastToken()
         {
             if (!preconditionCheck())return;
             mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_TOKEN));
@@ -344,7 +344,7 @@ namespace FunctionScript
                 mData.genByteCode("");
             }
         }
-        inline void genPush(void)
+        inline void genPush()
         {
             if (!preconditionCheck())return;
             RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();

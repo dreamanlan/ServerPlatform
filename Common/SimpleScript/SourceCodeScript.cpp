@@ -10,27 +10,27 @@ class ActionForSourceCodeScript : public SlkAction, public RuntimeBuilderT<Actio
 {
     using BaseType = RuntimeBuilderT<ActionForSourceCodeScript>;
 public:
-    inline char* getLastToken(void) const;
-    inline int getLastLineNumber(void) const;
+    inline char* getLastToken() const;
+    inline int getLastLineNumber() const;
     inline void setCanFinish(int val);
     inline void setStringDelimiter(const char* begin, const char* end);
     inline void setScriptDelimiter(const char* begin, const char* end);
 public:
-    ActionForSourceCodeScript(SlkToken &scanner, FunctionScript::Interpreter& interpreter);
+    ActionForSourceCodeScript(SlkToken& scanner, FunctionScript::Interpreter& interpreter);
 public:
-    inline void    pushId(void);
-    inline void    pushStr(void);
-    inline void    pushNum(void);
-    inline void    pushComma(void);
-    inline void    pushSemiColon(void);
-    void    (ActionForSourceCodeScript::*Action[MAX_ACTION_NUM]) (void);
-    inline void    initialize_table(void);
+    inline void    pushId();
+    inline void    pushStr();
+    inline void    pushNum();
+    inline void    pushComma();
+    inline void    pushSemiColon();
+    void    (ActionForSourceCodeScript::* Action[MAX_ACTION_NUM]) ();
+    inline void    initialize_table();
     inline void	execute(int  number) { (this->*Action[number]) (); }
 private:
-    SlkToken   *mScanner;
+    SlkToken* mScanner;
 };
 //--------------------------------------------------------------------------------------
-inline char* ActionForSourceCodeScript::getLastToken(void) const
+inline char* ActionForSourceCodeScript::getLastToken() const
 {
     if (NULL != mScanner) {
         return mScanner->getLastToken();
@@ -39,7 +39,7 @@ inline char* ActionForSourceCodeScript::getLastToken(void) const
         return NULL;
     }
 }
-inline int ActionForSourceCodeScript::getLastLineNumber(void) const
+inline int ActionForSourceCodeScript::getLastLineNumber() const
 {
     if (NULL != mScanner) {
         return mScanner->getLastLineNumber();
@@ -68,14 +68,14 @@ inline void ActionForSourceCodeScript::setScriptDelimiter(const char* begin, con
 }
 //--------------------------------------------------------------------------------------
 //标识符
-inline void ActionForSourceCodeScript::pushId(void)
+inline void ActionForSourceCodeScript::pushId()
 {
     char* lastToken = getLastToken();
     if (NULL != lastToken) {
         mData.push(RuntimeBuilderData::TokenInfo(lastToken, RuntimeBuilderData::VARIABLE_TOKEN));
     }
 }
-inline void ActionForSourceCodeScript::pushNum(void)
+inline void ActionForSourceCodeScript::pushNum()
 {
     char* lastToken = getLastToken();
     if (NULL != lastToken) {
@@ -95,34 +95,34 @@ inline void ActionForSourceCodeScript::pushNum(void)
         }
     }
 }
-inline void ActionForSourceCodeScript::pushStr(void)
+inline void ActionForSourceCodeScript::pushStr()
 {
     const char* token = getLastToken();
-    if(strcmp(token, "true")==0)
+    if (strcmp(token, "true") == 0)
         mData.push(RuntimeBuilderData::TokenInfo(true));
-    else if(strcmp(token, "false")==0)
+    else if (strcmp(token, "false") == 0)
         mData.push(RuntimeBuilderData::TokenInfo(false));
     else
         mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::STRING_TOKEN));
 }
-inline void ActionForSourceCodeScript::pushComma(void)
+inline void ActionForSourceCodeScript::pushComma()
 {
     mData.push(RuntimeBuilderData::TokenInfo(",", RuntimeBuilderData::STRING_TOKEN));
 }
-inline void ActionForSourceCodeScript::pushSemiColon(void)
+inline void ActionForSourceCodeScript::pushSemiColon()
 {
     mData.push(RuntimeBuilderData::TokenInfo(";", RuntimeBuilderData::STRING_TOKEN));
 }
 //--------------------------------------------------------------------------------------
-inline ActionForSourceCodeScript::ActionForSourceCodeScript(SlkToken &scanner, FunctionScript::Interpreter& interpreter) :mScanner(&scanner), BaseType(interpreter)
+inline ActionForSourceCodeScript::ActionForSourceCodeScript(SlkToken& scanner, FunctionScript::Interpreter& interpreter) :mScanner(&scanner), BaseType(interpreter)
 {
     initialize_table();
     setEnvironmentObjRef(*this);
 }
 //--------------------------------------------------------------------------------------
-inline void ActionForSourceCodeScript::initialize_table(void)
+inline void ActionForSourceCodeScript::initialize_table()
 {
-	Action[0] = 0;
+    Action[0] = 0;
     Action[1] = &ActionForSourceCodeScript::markSeparator;
     Action[2] = &ActionForSourceCodeScript::endStatement;
     Action[3] = &ActionForSourceCodeScript::pushId;
@@ -172,27 +172,27 @@ class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerato
 {
     using BaseType = GeneratorT<ActionForGenerator>;
 public:
-    inline char* getLastToken(void) const;
-    inline int getLastLineNumber(void) const;
+    inline char* getLastToken() const;
+    inline int getLastLineNumber() const;
     inline void setCanFinish(int val);
     inline void setStringDelimiter(const char* begin, const char* end);
     inline void setScriptDelimiter(const char* begin, const char* end);
 public:
-    ActionForGenerator(SlkToken &scanner);
+    ActionForGenerator(SlkToken& scanner);
 public:
-    inline void    pushId(void);
-    inline void    pushStr(void);
-    inline void    pushNum(void);
-    inline void    pushComma(void);
-    inline void    pushSemiColon(void);
-    void    (ActionForGenerator::*Action[MAX_ACTION_NUM]) (void);
-    inline void    initialize_table(void);
+    inline void    pushId();
+    inline void    pushStr();
+    inline void    pushNum();
+    inline void    pushComma();
+    inline void    pushSemiColon();
+    void    (ActionForGenerator::* Action[MAX_ACTION_NUM]) ();
+    inline void    initialize_table();
     inline void	execute(int  number) { (this->*Action[number]) (); }
 private:
-    SlkToken   *mScanner;
+    SlkToken* mScanner;
 };
 //--------------------------------------------------------------------------------------
-inline char* ActionForGenerator::getLastToken(void) const
+inline char* ActionForGenerator::getLastToken() const
 {
     if (NULL != mScanner) {
         return mScanner->getLastToken();
@@ -201,7 +201,7 @@ inline char* ActionForGenerator::getLastToken(void) const
         return NULL;
     }
 }
-inline int ActionForGenerator::getLastLineNumber(void) const
+inline int ActionForGenerator::getLastLineNumber() const
 {
     if (NULL != mScanner) {
         return mScanner->getLastLineNumber();
@@ -230,14 +230,14 @@ inline void ActionForGenerator::setScriptDelimiter(const char* begin, const char
 }
 //--------------------------------------------------------------------------------------
 //标识符
-inline void ActionForGenerator::pushId(void)
+inline void ActionForGenerator::pushId()
 {
     char* lastToken = getLastToken();
     if (NULL != lastToken) {
         mData.push(RuntimeBuilderData::TokenInfo(lastToken, RuntimeBuilderData::VARIABLE_TOKEN));
     }
 }
-inline void ActionForGenerator::pushNum(void)
+inline void ActionForGenerator::pushNum()
 {
     char* lastToken = getLastToken();
     if (NULL != lastToken) {
@@ -257,7 +257,7 @@ inline void ActionForGenerator::pushNum(void)
         }
     }
 }
-inline void ActionForGenerator::pushStr(void)
+inline void ActionForGenerator::pushStr()
 {
     const char* token = getLastToken();
     if (strcmp(token, "true") == 0)
@@ -267,22 +267,22 @@ inline void ActionForGenerator::pushStr(void)
     else
         mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::STRING_TOKEN));
 }
-inline void ActionForGenerator::pushComma(void)
+inline void ActionForGenerator::pushComma()
 {
     mData.push(RuntimeBuilderData::TokenInfo(",", RuntimeBuilderData::STRING_TOKEN));
 }
-inline void ActionForGenerator::pushSemiColon(void)
+inline void ActionForGenerator::pushSemiColon()
 {
     mData.push(RuntimeBuilderData::TokenInfo(";", RuntimeBuilderData::STRING_TOKEN));
 }
 //--------------------------------------------------------------------------------------
-inline ActionForGenerator::ActionForGenerator(SlkToken &scanner) :mScanner(&scanner)
+inline ActionForGenerator::ActionForGenerator(SlkToken& scanner) :mScanner(&scanner)
 {
     initialize_table();
     setEnvironmentObjRef(*this);
 }
 //--------------------------------------------------------------------------------------
-inline void ActionForGenerator::initialize_table(void)
+inline void ActionForGenerator::initialize_table()
 {
     Action[0] = 0;
     Action[1] = &ActionForGenerator::markSeparator;
@@ -338,11 +338,11 @@ namespace FunctionScript
         explicit CachedScriptSource(const char* p) :m_Source(p)
         {}
     protected:
-        virtual int Load(void)
+        virtual int Load()
         {
             return FALSE;
         }
-        virtual const char* GetBuffer(void)const
+        virtual const char* GetBuffer()const
         {
             return m_Source;
         }

@@ -11,24 +11,24 @@ struct event_base;
 
 namespace net_base
 {
-  class NetIoService
-  {
-  public:
-    NetIoService(void);
-    ~NetIoService(void);
-    void Init(void);
-    void Poll(void);
-    void Loop(void);
-    void Finalize(void);
-    void Shutdown(void);
-    event_base* EventBase(void) const;
+    class NetIoService
+    {
+    public:
+        NetIoService();
+        ~NetIoService();
+        void Init();
+        void Poll();
+        void Loop();
+        void Finalize();
+        void Shutdown();
+        event_base* EventBase() const;
 
-  private:
-    NONCOPYABLE(NetIoService);
+    private:
+        NONCOPYABLE(NetIoService);
 
-    struct Impl;
-    Impl* m_Impl;
-  };
+        struct Impl;
+        Impl* m_Impl;
+    };
 } // namespace net_base
 
 #endif // NETIOSERVICE_H
