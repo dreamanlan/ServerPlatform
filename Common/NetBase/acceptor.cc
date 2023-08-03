@@ -40,6 +40,7 @@ namespace
     void OnAccept(evconnlistener* lev, evutil_socket_t fd, sockaddr* sin,
         int socklen, void* arg)
     {
+        lev, sin, socklen;
         using namespace net_base;
         Acceptor::Impl* impl = reinterpret_cast<Acceptor::Impl*>(arg);
         bufferevent* bev = bufferevent_socket_new(impl->evt_base, fd,
@@ -106,7 +107,7 @@ namespace net_base {
             throw sysapi_error(errno);
 
         sin.sin_family = AF_INET;
-        sin.sin_port = htons(port);
+        sin.sin_port = htons(static_cast<u_short>(port));
 
         Listen((sockaddr*)&sin, sizeof(sin), cb);
     }

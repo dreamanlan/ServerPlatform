@@ -314,7 +314,7 @@ unsigned int _fetch_and_add(volatile unsigned int* p,
 #else
     for (;;) {
         unsigned int pv = *p;
-        if (pv == _InterlockedCompareExchange((long*)p, (long)(pv + _add), (long)pv)) {
+        if (pv == (unsigned int)_InterlockedCompareExchange((long*)p, (long)(pv + _add), (long)pv)) {
             _ret = (unsigned int)(pv + _add);
             break;
         }
@@ -346,7 +346,7 @@ unsigned long _fetch_and_add(volatile unsigned long* p,
 #else
     for (;;) {
         unsigned long pv = *p;
-        if (pv == _InterlockedCompareExchange((long*)p, (long)(pv + _add), (long)pv)) {
+        if (pv == (unsigned long)_InterlockedCompareExchange((long*)p, (long)(pv + _add), (long)pv)) {
             _ret = (unsigned long)(pv + _add);
             break;
         }

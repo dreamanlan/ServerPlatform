@@ -11,6 +11,7 @@ namespace net_base {
     static LogHandler g_log_handler = 0;
 
     static void DefaultLog(const char* msg, size_t len) {
+        len;
         struct tm tmTime;
         time_t t = time(NULL);
 #if WIN32

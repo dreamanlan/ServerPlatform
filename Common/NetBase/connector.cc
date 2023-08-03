@@ -62,7 +62,7 @@ namespace net_base
         if (1 != evutil_inet_pton(AF_INET, ip, &sin.sin_addr))
             throw sysapi_error(errno);
         sin.sin_family = AF_INET;
-        sin.sin_port = htons(port);
+        sin.sin_port = htons(static_cast<u_short>(port));
 
         Connect((sockaddr*)&sin, sizeof(sin), callback);
     }

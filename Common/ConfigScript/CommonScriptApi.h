@@ -11,6 +11,7 @@ class SleepApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         static const int s_MaxSleepTime = 60000;
         if (1 != num || 0 == pParams)
             return EXECUTE_RESULT_NORMAL;
@@ -37,6 +38,7 @@ class TestPrintfApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (3 != num || 0 == pParams)
             return EXECUTE_RESULT_NORMAL;
         ReplaceVariableWithValue(pParams, num);
@@ -124,6 +126,7 @@ class WriteConsoleApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass, pRetValue;
         if (0 == pParams)
             return EXECUTE_RESULT_NORMAL;
         else {
@@ -154,6 +157,7 @@ class GetMillisecondsApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             unsigned int t = MyTimeGetTime();
@@ -523,6 +527,7 @@ protected:
     }
     virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (NULL != pParams) {
             switch (index) {
             case CUSTOM_MEMBER_INDEX_LOAD:
@@ -550,10 +555,10 @@ protected:
             case CUSTOM_MEMBER_INDEX_GETSECTION:
             {
                 if (1 == num && pParams[0].IsInt() && NULL != pRetValue) {
-                    int index = pParams[0].GetInt();
+                    int ix = pParams[0].GetInt();
                     int ct = m_IniReader.GetInfoCount();
-                    if (index < ct) {
-                        const IniReader::IniInfo& info = m_IniReader.GetInfo(index);
+                    if (ix < ct) {
+                        const IniReader::IniInfo& info = m_IniReader.GetInfo(ix);
                         if (info.m_pSection)
                             pRetValue->SetWeakRefString(info.m_pSection);
                         else
@@ -568,10 +573,10 @@ protected:
             case CUSTOM_MEMBER_INDEX_GETKEY:
             {
                 if (1 == num && pParams[0].IsInt() && NULL != pRetValue) {
-                    int index = pParams[0].GetInt();
+                    int ix = pParams[0].GetInt();
                     int ct = m_IniReader.GetInfoCount();
-                    if (index < ct) {
-                        const IniReader::IniInfo& info = m_IniReader.GetInfo(index);
+                    if (ix < ct) {
+                        const IniReader::IniInfo& info = m_IniReader.GetInfo(ix);
                         if (info.m_pKey)
                             pRetValue->SetWeakRefString(info.m_pKey);
                         else
@@ -586,10 +591,10 @@ protected:
             case CUSTOM_MEMBER_INDEX_GETVALUE:
             {
                 if (1 == num && pParams[0].IsInt() && NULL != pRetValue) {
-                    int index = pParams[0].GetInt();
+                    int ix = pParams[0].GetInt();
                     int ct = m_IniReader.GetInfoCount();
-                    if (index < ct) {
-                        const IniReader::IniInfo& info = m_IniReader.GetInfo(index);
+                    if (ix < ct) {
+                        const IniReader::IniInfo& info = m_IniReader.GetInfo(ix);
                         if (info.m_pValue)
                             pRetValue->SetWeakRefString(info.m_pValue);
                         else
@@ -937,6 +942,7 @@ protected:
     }
     virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (NULL != pParams) {
             switch (index) {
             case CUSTOM_MEMBER_INDEX_LOAD:
@@ -1180,6 +1186,7 @@ protected:
     }
     virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (NULL != pParams) {
             switch (index) {
             case CUSTOM_MEMBER_INDEX_LOAD:
@@ -1337,8 +1344,8 @@ protected:
                     int rowIndex = pParams[0].GetInt();
                     int kvIndex = pParams[1].GetInt();
                     if (rowIndex >= 0 && rowIndex < m_RowCount && NULL != m_pLines) {
-                        int num = m_pLines[rowIndex].m_KeyValueNum;
-                        if (kvIndex >= 0 && kvIndex < num) {
+                        int vnum = m_pLines[rowIndex].m_KeyValueNum;
+                        if (kvIndex >= 0 && kvIndex < vnum) {
                             char* p = m_pLines[rowIndex].m_KeyValue[kvIndex].m_Key;
                             if (NULL != p)
                                 pRetValue->SetWeakRefString(p);
@@ -1361,8 +1368,8 @@ protected:
                     int rowIndex = pParams[0].GetInt();
                     int kvIndex = pParams[1].GetInt();
                     if (rowIndex >= 0 && rowIndex < m_RowCount && NULL != m_pLines) {
-                        int num = m_pLines[rowIndex].m_KeyValueNum;
-                        if (kvIndex >= 0 && kvIndex < num) {
+                        int vnum = m_pLines[rowIndex].m_KeyValueNum;
+                        if (kvIndex >= 0 && kvIndex < vnum) {
                             char* p = m_pLines[rowIndex].m_KeyValue[kvIndex].m_Value;
                             if (NULL != p)
                                 pRetValue->SetWeakRefString(p);
@@ -1386,8 +1393,8 @@ protected:
                     const char* p = pParams[1].GetString();
                     if (rowIndex >= 0 && rowIndex < m_RowCount && NULL != m_pLines && p) {
                         int find = FALSE;
-                        int num = m_pLines[rowIndex].m_KeyValueNum;
-                        for (int ix = 0; ix < num; ++ix) {
+                        int vnum = m_pLines[rowIndex].m_KeyValueNum;
+                        for (int ix = 0; ix < vnum; ++ix) {
                             char* pKey = m_pLines[rowIndex].m_KeyValue[ix].m_Key;
                             char* pValue = m_pLines[rowIndex].m_KeyValue[ix].m_Value;
                             if (NULL != pKey && NULL != pValue && strcmp(pKey, p) == 0) {
@@ -1611,6 +1618,7 @@ protected:
     }
     virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (pParams && pRetValue) {
             switch (index) {
             case CUSTOM_MEMBER_INDEX_INITMAP:
@@ -1708,6 +1716,7 @@ class GetLogFileIdApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             char temp[MAX_STRING_SIZE + 1];
@@ -1733,6 +1742,7 @@ class GetTimeStringApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             char temp[MAX_STRING_SIZE + 1];
@@ -1758,6 +1768,7 @@ class ReadStringApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             if (2 == num && pParams[0].IsString() && pParams[1].IsInt()) {
@@ -1790,6 +1801,7 @@ class WriteStringApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             if ((2 == num || 3 == num) && pParams[0].IsString() && pParams[1].IsString()) {
@@ -1819,6 +1831,7 @@ class CreateIniReaderApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             IniReaderObj* pObj = new IniReaderObj(*m_Interpreter);
@@ -1842,6 +1855,7 @@ class CreateTxtTableApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             TxtTableObj* pObj = new TxtTableObj(*m_Interpreter);
@@ -1865,6 +1879,7 @@ class CreateConfigTableApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             ConfigTableObj* pObj = new ConfigTableObj(*m_Interpreter);
@@ -2175,6 +2190,7 @@ protected:
     }
     virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (pParams && pRetValue) {
             switch (index) {
             case CUSTOM_MEMBER_INDEX_LOAD:
@@ -2222,6 +2238,7 @@ class CreateXmlVisitorApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             MyXmlVisitorObj* pObj = new MyXmlVisitorObj(*m_Interpreter);

@@ -140,185 +140,185 @@ namespace FunctionScript
         inline void setExternScript()
         {
             genLastToken();
-            genCode(BYTE_CODE_SET_EXTERN_SCRIPT);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_SET_EXTERN_SCRIPT);
         }
         inline void buildOperator()
         {
             genLastLineNumber();
             genPush();
-            genCode(BYTE_CODE_BUILD_OPERATOR);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_OPERATOR);
         }
         inline void buildFirstTernaryOperator()
         {
             genLastLineNumber();
             genPush();
-            genCode(BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR);
         }
         inline void buildSecondTernaryOperator()
         {
             genPush();
-            genCode(BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR);
         }
         //--------------------------------------------------------------------------------------	
         inline void markSeparator()
         {
             genPush();
-            genCode(BYTE_CODE_MARK_SEPARATOR);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_SEPARATOR);
         }
         inline void beginStatement()
         {
             genLastLineNumber();
-            genCode(BYTE_CODE_BEGIN_STATEMENT);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BEGIN_STATEMENT);
         }
         inline void endStatement()
         {
-            genCode(BYTE_CODE_END_STATEMENT);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_END_STATEMENT);
         }
         inline void addFunction()
         {
-            genCode(BYTE_CODE_ADD_FUNCTION);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_ADD_FUNCTION);
         }
         inline void setFunctionId()
         {
             genPush();
-            genCode(BYTE_CODE_SET_FUNCTION_ID);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_SET_FUNCTION_ID);
         }
         inline void setMemberId()
         {
             genPush();
-            genCode(BYTE_CODE_SET_MEMBER_ID);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_SET_MEMBER_ID);
         }
         inline void endFunction()
         {
-            genCode(BYTE_CODE_END_FUNCTION);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_END_FUNCTION);
         }
         inline void buildHighOrderFunction()
         {
-            genCode(BYTE_CODE_BUILD_HIGHORDER_FUNCTION);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_HIGHORDER_FUNCTION);
         }
         inline void markParenthesisParam()
         {
-            genCode(BYTE_CODE_MARK_PARENTHESIS_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PARAM);
         }
         inline void markBracketParam()
         {
-            genCode(BYTE_CODE_MARK_BRACKET_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PARAM);
         }
         inline void markPeriod()
         {
-            genCode(BYTE_CODE_MARK_PERIOD);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD);
         }
         inline void markPeriodParam()
         {
-            genCode(BYTE_CODE_MARK_PERIOD_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARAM);
         }
         inline void markPeriodParenthesisParam()
         {
-            genCode(BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM);
         }
         inline void markPeriodBracketParam()
         {
-            genCode(BYTE_CODE_MARK_PERIOD_BRACKET_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACKET_PARAM);
         }
         inline void markPeriodBraceParam()
         {
-            genCode(BYTE_CODE_MARK_PERIOD_BRACE_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACE_PARAM);
         }
         inline void markOperator()
         {
-            genCode(BYTE_CODE_MARK_OPERATOR);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_OPERATOR);
         }
         inline void markQuestion()
         {
-            genCode(BYTE_CODE_MARK_QUESTION);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION);
         }
         inline void markQuestionPeriodParam()
         {
-            genCode(BYTE_CODE_MARK_QUESTION_PERIOD_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_PARAM);
         }
         inline void markQuestionParenthesisParam()
         {
-            genCode(BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM);
         }
         inline void markQuestionBracketParam()
         {
-            genCode(BYTE_CODE_MARK_QUESTION_BRACKET_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACKET_PARAM);
         }
         inline void markQuestionBraceParam()
         {
-            genCode(BYTE_CODE_MARK_QUESTION_BRACE_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACE_PARAM);
         }
         inline void markPointer()
         {
-            genCode(BYTE_CODE_MARK_POINTER);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER);
         }
         inline void markPointerParam()
         {
-            genCode(BYTE_CODE_MARK_POINTER_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_PARAM);
         }
         inline void markPeriodStarParam()
         {
-            genCode(BYTE_CODE_MARK_PERIOD_STAR_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_STAR_PARAM);
         }
         inline void markQuestionPeriodStarParam()
         {
-            genCode(BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM);
         }
         inline void markPointerStarParam()
         {
-            genCode(BYTE_CODE_MARK_POINTER_STAR_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_STAR_PARAM);
         }
         inline void markStatement()
         {
-            genCode(BYTE_CODE_MARK_STATEMENT);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_STATEMENT);
         }
         inline void markExternScript()
         {
-            genCode(BYTE_CODE_MARK_EXTERN_SCRIPT);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_EXTERN_SCRIPT);
         }
         inline void markBracketColonParam()
         {
-            genCode(BYTE_CODE_MARK_BRACKET_COLON_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_COLON_PARAM);
         }
         inline void markParenthesisColonParam()
         {
-            genCode(BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM);
         }
         inline void markAngleBracketColonParam()
         {
-            genCode(BYTE_CODE_ANGLE_BRACKET_COLON_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_ANGLE_BRACKET_COLON_PARAM);
         }
         inline void markBracePercentParam()
         {
-            genCode(BYTE_CODE_MARK_BRACE_PERCENT_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACE_PERCENT_PARAM);
         }
         inline void markBracketPercentParam()
         {
-            genCode(BYTE_CODE_MARK_BRACKET_PERCENT_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PERCENT_PARAM);
         }
         inline void markParenthesisPercentParam()
         {
-            genCode(BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM);
         }
         inline void markAngleBracketPercentParam()
         {
-            genCode(BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM);
         }
         inline void markColonColonParam()
         {
-            genCode(BYTE_CODE_COLON_COLON_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARAM);
         }
         inline void markColonColonParenthesisParam()
         {
-            genCode(BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM);
         }
         inline void markColonColonBracketParam()
         {
-            genCode(BYTE_CODE_COLON_COLON_BRACKET_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACKET_PARAM);
         }
         inline void markColonColonBraceParam()
         {
-            genCode(BYTE_CODE_COLON_COLON_BRACE_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACE_PARAM);
         }
     private:
         inline bool preconditionCheck()const
@@ -329,13 +329,13 @@ namespace FunctionScript
         {
             //这信息就不生成了，省点空间
             //if(!preconditionCheck())return;
-            //mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_LINE_NUMBER));
+            //mData.genByteCode(static_cast<unsigned char>(SimpleScriptByteCodeEnum::BYTE_CODE_SET_LAST_LINE_NUMBER));
             //mData.genByteCode(mThis->getLastLineNumber());
         }
         inline void genLastToken()
         {
             if (!preconditionCheck())return;
-            mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_SET_LAST_TOKEN));
+            mData.genByteCode(static_cast<unsigned char>(SimpleScriptByteCodeEnum::BYTE_CODE_SET_LAST_TOKEN));
             char* pStr = mThis->getLastToken();
             if (NULL != pStr) {
                 mData.genByteCode(pStr);
@@ -349,7 +349,7 @@ namespace FunctionScript
             if (!preconditionCheck())return;
             RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
             if (TRUE != tokenInfo.IsValid())return;
-            mData.genByteCode(static_cast<unsigned char>(BYTE_CODE_PUSH_TOKEN));
+            mData.genByteCode(static_cast<unsigned char>(SimpleScriptByteCodeEnum::BYTE_CODE_PUSH_TOKEN));
             mData.genByteCode(static_cast<unsigned char>(tokenInfo.mType));
             if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType)
                 mData.genByteCode(tokenInfo.mString);

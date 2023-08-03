@@ -71,6 +71,7 @@ class ArgvApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
+        paramClass;
         if (m_Interpreter && pParams && pRetValue) {
             ReplaceVariableWithValue(pParams, num);
             if (1 == num && pParams[0].IsInt()) {

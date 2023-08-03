@@ -7,9 +7,9 @@ class TestRuntimeBuilder : public RuntimeBuilderT<TestRuntimeBuilder>
 public:
     char* getLastToken() const { return ""; }
     int getLastLineNumber() const { return 0; }
-    void setCanFinish(int val) {}
-    void setStringDelimiter(const char* begin, const char* end) {}
-    void setScriptDelimiter(const char* begin, const char* end) {}
+    void setCanFinish(int val) { val; }
+    void setStringDelimiter(const char* begin, const char* end) { begin, end; }
+    void setScriptDelimiter(const char* begin, const char* end) { begin, end; }
 public:
     TestRuntimeBuilder(Interpreter& interpreter) :BaseType(interpreter)
     {}

@@ -1287,6 +1287,8 @@ namespace FunctionScript
     class StatementApiFactory
     {
     public:
+        virtual ~StatementApiFactory() = default;
+    public:
         virtual int IsMatch(const ISyntaxComponent& statement)const = 0;
         //语句和表达式不一样，所有表达式都是一种函数表示，给定输入计算输出，不依赖其他编译时信息
         //每个类型的语句在形式上都不一样，需要为每个语句根据编译时信息定制运行时对象
@@ -1366,8 +1368,8 @@ namespace FunctionScript
         explicit ObjectBase(Interpreter& interpreter, int customInnerMemberNum);
         virtual ~ObjectBase();
     protected:
-        virtual int	 GetCustomInnerMemberIndex(const char* name)const { return -1; }
-        virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue) { return EXECUTE_RESULT_NORMAL; }
+        virtual int	 GetCustomInnerMemberIndex(const char* name)const { name; return -1; }
+        virtual ExecuteResultEnum ExecuteCustomMember(int index, int paramClass, Value* pParams, int num, Value* pRetValue) { index, paramClass, pParams, num, pRetValue; return EXECUTE_RESULT_NORMAL; }
     private:
         void Resize();
         int GetMemberIndex(const char* name)const;

@@ -29,6 +29,7 @@ short SlkError::mismatch(short terminal, short token, SlkToken& tokens)
 
 short SlkError::no_entry(short productionNumber, short nonterminal, short token, int level, SlkToken& tokens)
 {
+    productionNumber, nonterminal, level;
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)

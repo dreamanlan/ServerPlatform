@@ -84,10 +84,10 @@ template<ParserRepeatArg1_##X(typename P)>	\
 inline void _Format(ParserRepeatArg2_##X(P,p))	\
 {\
 	_Format(ParserRepeatArg1_##decX(p));\
-	const CHAR* fmt=ParseToNextFormat();\
-	if(NULL!=fmt)\
+	const char* fmt=ParseToNextFormat();\
+	if(nullptr!=fmt)\
 		StringFormatUtility::Value2String(m_pBuffer,m_BufPos,m_BufLen,fmt,p##X,decX);\
-	else\
+  	else\
 		StringFormatUtility::Value2String(m_pBuffer,m_BufPos,m_BufLen,"",p##X,decX);\
 }
 
@@ -113,7 +113,7 @@ namespace StringFormatUtility
 
     inline void MyTrimRight(char* dest)
     {
-        if (NULL == dest)
+        if (nullptr == dest)
             return;
         size_t len = strlen(dest);
         for (int i = (int)len - 1; i >= 0; --i) {
@@ -126,8 +126,8 @@ namespace StringFormatUtility
 
     inline char* MyStrNCpy(char* dest, const char* src, size_t len)
     {
-        if (NULL == dest || NULL == src)
-            return NULL;
+        if (nullptr == dest || nullptr == src)
+            return nullptr;
         char* res = strncpy(dest, src, len);
         if (len <= strlen(src)) {
             //·¢Éú×Ö·û´®½Ø¶ÏÊ±£¬²¹Ò»¸ö¿Õ×Ö·û
@@ -156,7 +156,7 @@ namespace StringFormatUtility
         enum { value = 0 };
         static inline int format(char* dest, int& pos, int size, const char* fmt, T t, int argIndex)
         {
-            int len = (int)::strlen(fmt);
+            int len = (int)strlen(fmt);
             if (len <= 0) {
                 return BasicValue2String(dest, pos, size, " @format:%d,unexpected_value ", argIndex);
             }
@@ -170,12 +170,12 @@ namespace StringFormatUtility
     };
 
     template<typename T>
-    struct _impl_for_format_check<T*>
+    struct _impl_for_format_check < T* >
     {
         enum { value = 1 };
         static inline int format(char* dest, int& pos, int size, const char* fmt, T* t, int argIndex)
         {
-            int len = (int)::strlen(fmt);
+            int len = (int)strlen(fmt);
             if (len <= 0) {
                 return BasicValue2String(dest, pos, size, " @format:%d,unexpected_pointer ", argIndex);
             }
@@ -204,7 +204,7 @@ namespace StringFormatUtility
     };
 
     template<typename T>
-    struct _impl_for_64<T, 8>
+    struct _impl_for_64 < T, 8 >
     {
         static inline int format(char* dest, int& pos, int size, const char* fmt, T t, int argIndex)
         {
@@ -213,7 +213,7 @@ namespace StringFormatUtility
             unsigned long long val;
             memcpy(&val, &t, sizeof(val));
             int r = 0;
-            int len = static_cast<int>(strlen(fmt));
+            int len = (int)strlen(fmt);
             if (len <= 0) {
                 return BasicValue2String(dest, pos, size, " @format:%d,unexpected_value ", argIndex);
             }
@@ -243,7 +243,7 @@ namespace StringFormatUtility
         }
     };
     template<typename T>
-    struct _impl_for_64<T*, 8>
+    struct _impl_for_64 < T*, 8 >
     {
         static inline int format(char* dest, int& pos, int size, const char* fmt, T* t, int argIndex)
         {
@@ -252,11 +252,11 @@ namespace StringFormatUtility
     };
 
     template<>
-    struct _impl_for_64<double, 8>
+    struct _impl_for_64 < double, 8 >
     {
         static inline int format(char* dest, int& pos, int size, const char* fmt, double t, int argIndex)
         {
-            int len = static_cast<int>(strlen(fmt));
+            int len = (int)strlen(fmt);
             if (len <= 0) {
                 return BasicValue2String(dest, pos, size, " @format:%d,unexpected_value ", argIndex);
             }
@@ -332,7 +332,7 @@ private:
     inline void	_Format(P1 p1)
     {
         const char* fmt = ParseToNextFormat();
-        if (NULL != fmt)
+        if (nullptr != fmt)
             StringFormatUtility::Value2String(m_pBuffer, m_BufPos, m_BufLen, fmt, p1, 0);
         else
             StringFormatUtility::Value2String(m_pBuffer, m_BufPos, m_BufLen, "", p1, 0);

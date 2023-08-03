@@ -635,10 +635,6 @@ short SlkToken::get()
             endToken();
             return ANGLE_BRACKET_COLON_BEGIN_;
         }
-        pushTokenChar('<');
-        pushTokenChar(':');
-        endToken();
-        return ANGLE_BRACKET_COLON_BEGIN_;
     }
     else if (curChar() == ':' && nextChar() == '>') {
         ++mIterator;
@@ -1160,11 +1156,12 @@ bool SlkToken::enqueueToken(char* tok, short val, int line)
 
 short SlkToken::peek(int level)
 {
-    short     token = 0;
+    level;
+    short token = 0;
 
     printf("peek_token is not called in an LL(1) grammar\n");
 
-    return  token;
+    return token;
 }
 
 void SlkToken::setStringDelimiter(const char* begin, const char* end)

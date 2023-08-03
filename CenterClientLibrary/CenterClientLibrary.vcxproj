@@ -62,6 +62,8 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>../Common/NetBase;../Common/TinyXml;../Common/SimpleScript;../Common/LockFree;../Common/ConfigScript;../Common;../SessionInfo;../libevent-2.1.12-stable/include/x64;../libevent-2.1.12-stable/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;WIN32;_DEBUG;_DLL;__WINDOWS__;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalOptions>/Zc:strictStrings- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -27,7 +27,7 @@ public:
 public:
     CChainNodePoolT() :m_Num(0), m_DataNodes(NULL)
     {
-        if (SizeV > 0) {
+        if constexpr (SizeV > 0) {
             Init(SizeV);
         }
     }

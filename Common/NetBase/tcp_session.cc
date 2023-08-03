@@ -70,11 +70,11 @@ namespace
                 size_t input_len = evbuffer_get_length(input);
                 if (input_len <= sizeof(int))
                     break;
-                size_t size;
+                int size;
                 if (evbuffer_copyout(input, &size, sizeof(size)) < sizeof(size))
                     break;
 
-                size = ntohl(static_cast<u_long>(size));
+                size = ntohl(size);
                 if (input_len < size + sizeof(size))
                     break;
 
@@ -239,7 +239,7 @@ namespace net_base
 
     uint64_t TcpSession::GetFD() const
     {
-        if (!m_Impl->bev) return -1;
+        if (!m_Impl->bev) return static_cast<uint64_t>(-1);
         return static_cast<uint64_t>(bufferevent_getfd(m_Impl->bev));
     }
 

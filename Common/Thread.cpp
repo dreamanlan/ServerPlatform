@@ -34,6 +34,7 @@ void Thread::stop()
 
 void Thread::exit(void* retval)
 {
+    retval;
     try {
 #if defined(__LINUX__)
         pthread_exit(retval);

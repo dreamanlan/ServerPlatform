@@ -154,6 +154,7 @@ bool SessionManager::OnSessionError(TcpSession* session, int err)
 
 void SessionManager::HandleMyName(TcpSession* session, const char* data, int len)
 {
+    len;
     if (NULL == session || NULL == data)
         return;
     uint64_t src = session->GetFD();
@@ -207,7 +208,9 @@ void SessionManager::HandleTransmitResult(TcpSession* session, const char* data,
         return;
     const MessageTransmitResult* msg = reinterpret_cast<const MessageTransmitResult*>(data);
     unsigned int seq = msg->m_Sequence;
+    seq;
     uint64_t src = msg->m_Src;
+    src;
     uint64_t dest = msg->m_Dest;
     const SessionInfo& sessionInfo = m_Sessions.Get(dest);
     if (sessionInfo.IsValid()) {

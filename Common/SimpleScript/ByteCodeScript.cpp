@@ -27,9 +27,9 @@ public:
     inline char* getLastToken() const { return m_LastToken; }
     inline void setLastLineNumber(int number) { m_LastNumber = number; }
     inline int getLastLineNumber() const { return m_LastNumber; }
-    inline void setCanFinish(int val) {}
-    inline void setStringDelimiter(const char* begin, const char* end) {}
-    inline void setScriptDelimiter(const char* begin, const char* end) {}
+    inline void setCanFinish(int val) { val; }
+    inline void setStringDelimiter(const char* begin, const char* end) { begin, end; }
+    inline void setScriptDelimiter(const char* begin, const char* end) { begin, end; }
     inline int pushToken(int type, const char* val)
     {
         int size = 0;
@@ -79,15 +79,15 @@ namespace FunctionScript
         for (int ix = 0; ix < size;) {
             unsigned char c = static_cast<unsigned char>(RuntimeBuilderData::Decode(buf[ix], __SERVERVERSION__));
             ix += sizeof(c);
-            switch (c) {
-            case BYTE_CODE_SET_LAST_TOKEN:
+            switch (static_cast<SimpleScriptByteCodeEnum>(c)) {
+            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_LAST_TOKEN:
             {
                 const char* pStr = buf + ix;
-                int size = action.setLastToken(pStr);
-                ix += size + 1;
+                int tokenSize = action.setLastToken(pStr);
+                ix += tokenSize + 1;
             }
             break;
-            case BYTE_CODE_SET_LAST_LINE_NUMBER:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_LAST_LINE_NUMBER:
             {
                 int lineNumber = *reinterpret_cast<const int*>(buf + ix);
                 for (int byteIndex = 0; byteIndex < sizeof(lineNumber); ++byteIndex) {
@@ -97,7 +97,7 @@ namespace FunctionScript
                 action.setLastLineNumber(lineNumber);
             }
             break;
-            case BYTE_CODE_PUSH_TOKEN:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_PUSH_TOKEN:
             {
                 unsigned char type = static_cast<unsigned char>(RuntimeBuilderData::Decode(*(buf + ix), __SERVERVERSION__));
                 ix += sizeof(type);
@@ -106,8 +106,8 @@ namespace FunctionScript
                 case RuntimeBuilderData::VARIABLE_TOKEN:
                 {
                     const char* pStr = buf + ix;
-                    int size = action.pushToken(type, pStr);
-                    ix += size + 1;
+                    int tokenSize = action.pushToken(type, pStr);
+                    ix += tokenSize + 1;
                 }
                 break;
                 case RuntimeBuilderData::INT_TOKEN:
@@ -143,187 +143,187 @@ namespace FunctionScript
                 }
             }
             break;
-            case BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM:
             {
                 action.markPeriodParenthesisParam();
             }
             break;
-            case BYTE_CODE_MARK_PERIOD_BRACKET_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACKET_PARAM:
             {
                 action.markPeriodBracketParam();
             }
             break;
-            case BYTE_CODE_MARK_PERIOD_BRACE_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACE_PARAM:
             {
                 action.markPeriodBraceParam();
             }
             break;
-            case BYTE_CODE_SET_MEMBER_ID:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_MEMBER_ID:
             {
                 action.setMemberId();
             }
             break;
-            case BYTE_CODE_MARK_PERIOD_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARAM:
             {
                 action.markPeriodParam();
             }
             break;
-            case BYTE_CODE_MARK_BRACKET_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PARAM:
             {
                 action.markBracketParam();
             }
             break;
-            case BYTE_CODE_BUILD_HIGHORDER_FUNCTION:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_HIGHORDER_FUNCTION:
             {
                 action.buildHighOrderFunction();
             }
             break;
-            case BYTE_CODE_MARK_PARENTHESIS_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PARAM:
             {
                 action.markParenthesisParam();
             }
             break;
-            case BYTE_CODE_SET_EXTERN_SCRIPT:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_EXTERN_SCRIPT:
             {
                 action.setExternScript();
             }
             break;
-            case BYTE_CODE_MARK_STATEMENT:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_STATEMENT:
             {
                 action.markStatement();
             }
             break;
-            case BYTE_CODE_MARK_EXTERN_SCRIPT:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_EXTERN_SCRIPT:
             {
                 action.markExternScript();
             }
             break;
-            case BYTE_CODE_MARK_BRACKET_COLON_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_COLON_PARAM:
             {
                 action.markBracketColonParam();
             }
             break;
-            case BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM:
             {
                 action.markParenthesisColonParam();
             }
             break;
-            case BYTE_CODE_ANGLE_BRACKET_COLON_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_ANGLE_BRACKET_COLON_PARAM:
             {
                 action.markAngleBracketColonParam();
             }
             break;
-            case BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM:
             {
                 action.markParenthesisPercentParam();
             }
             break;
-            case BYTE_CODE_MARK_BRACKET_PERCENT_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PERCENT_PARAM:
             {
                 action.markBracketPercentParam();
             }
             break;
-            case BYTE_CODE_MARK_BRACE_PERCENT_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACE_PERCENT_PARAM:
             {
                 action.markBracePercentParam();
             }
             break;
-            case BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM:
             {
                 action.markAngleBracketPercentParam();
             }
             break;
-            case BYTE_CODE_COLON_COLON_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARAM:
             {
                 action.markColonColonParam();
             }
             break;
-            case BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM:
             {
                 action.markColonColonParenthesisParam();
             }
             break;
-            case BYTE_CODE_COLON_COLON_BRACKET_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACKET_PARAM:
             {
                 action.markColonColonBracketParam();
             }
             break;
-            case BYTE_CODE_COLON_COLON_BRACE_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACE_PARAM:
             {
                 action.markColonColonBraceParam();
             }
             break;
-            case BYTE_CODE_SET_FUNCTION_ID:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_FUNCTION_ID:
             {
                 action.setFunctionId();
             }
             break;
-            case BYTE_CODE_ADD_FUNCTION:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_ADD_FUNCTION:
             {
                 action.addFunction();
             }
             break;
-            case BYTE_CODE_BEGIN_STATEMENT:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BEGIN_STATEMENT:
             {
                 action.beginStatement();
             }
             break;
-            case BYTE_CODE_END_STATEMENT:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_END_STATEMENT:
             {
                 action.endStatement();
             }
             break;
-            case BYTE_CODE_BUILD_OPERATOR:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_OPERATOR:
             {
                 action.buildOperator();
             }
             break;
-            case BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR:
             {
                 action.buildFirstTernaryOperator();
             }
             break;
-            case BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR:
             {
                 action.buildSecondTernaryOperator();
             }
             break;
-            case BYTE_CODE_MARK_QUESTION_PERIOD_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_PARAM:
             {
                 action.markQuestionPeriodParam();
             }
             break;
-            case BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM:
             {
                 action.markQuestionParenthesisParam();
             }
             break;
-            case BYTE_CODE_MARK_QUESTION_BRACKET_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACKET_PARAM:
             {
                 action.markQuestionBracketParam();
             }
             break;
-            case BYTE_CODE_MARK_QUESTION_BRACE_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACE_PARAM:
             {
                 action.markQuestionBraceParam();
             }
             break;
-            case BYTE_CODE_MARK_POINTER_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_PARAM:
             {
                 action.markPointerParam();
             }
             break;
-            case BYTE_CODE_MARK_PERIOD_STAR_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_STAR_PARAM:
             {
                 action.markPeriodStarParam();
             }
             break;
-            case BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM:
             {
                 action.markQuestionPeriodStarParam();
             }
             break;
-            case BYTE_CODE_MARK_POINTER_STAR_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_STAR_PARAM:
             {
                 action.markPointerStarParam();
             }

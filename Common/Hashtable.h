@@ -350,7 +350,7 @@ public:
 public:
     HashtableT() :m_pTable(NULL), m_Count(0)
     {
-        if (SizeV > 0) {
+        if constexpr (SizeV > 0) {
             InitTable(SizeV);
         }
     }

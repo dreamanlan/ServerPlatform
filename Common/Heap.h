@@ -31,7 +31,7 @@ class HeapT
 public:
     HeapT() :m_CurrentSize(0), m_MaxSize(0), m_Heap(0)
     {
-        if (SizeV > 0) {
+        if constexpr (SizeV > 0) {
             Init(SizeV);
         }
     }
