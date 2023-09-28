@@ -103,6 +103,7 @@ namespace FunctionScript
                 ix += sizeof(type);
                 switch (type) {
                 case RuntimeBuilderData::STRING_TOKEN:
+                case RuntimeBuilderData::DOLLAR_STRING_TOKEN:
                 case RuntimeBuilderData::VARIABLE_TOKEN:
                 {
                     const char* pStr = buf + ix;

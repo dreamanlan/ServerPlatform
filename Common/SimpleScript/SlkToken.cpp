@@ -926,8 +926,61 @@ short SlkToken::get()
         endToken();
         return SEMI_;
     }
+    else if ((curChar() == '@' && (nextChar() == '"' || nextChar() == '\'')) ||
+        (curChar() == '@' && nextChar() == '$' && (peekChar(2) == '"' || peekChar(2) == '\'')) ||
+        (curChar() == '$' && nextChar() == '@' && (peekChar(2) == '"' || peekChar(2) == '\''))) {
+        bool isDollar = false;
+        if ((curChar() == '@' && nextChar() == '$') || (curChar() == '$' && nextChar() == '@')) {
+            ++mIterator;
+            ++mIterator;
+            isDollar = true;
+        }
+        else {
+            ++mIterator;
+        }
+        int line = mLineNumber;
+        char c = curChar();
+        for (++mIterator; curChar() != '\0'; ++mIterator) {
+            if (curChar() == '\n') ++mLineNumber;
+            if (curChar() == c) {
+                if (nextChar() == c) {
+                    pushTokenChar(curChar());
+                    ++mIterator;
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                pushTokenChar(curChar());
+            }
+        }
+        if (curChar() != 0) {
+            ++mIterator;
+        }
+        else {
+            char* pInfo = mErrorAndStringBuffer->NewErrorInfo();
+            if (pInfo)
+                tsnprintf(pInfo, MAX_ERROR_INFO_CAPACITY, "[line %d ]:String can't finish！", line);
+        }
+        endToken();
+        /*普通字符串保持源码的样子，不去掉首尾空行
+        if (myhavelinefeed(mCurToken)) {
+            removeFirstAndLastEmptyLine();
+        }
+        */
+        if (isDollar)
+            return DOLLAR_STRING_;
+        else
+            return STRING_;
+    }
     else {//关键字、标识符或常数
-        if (curChar() == '"' || curChar() == '\'') {//引号括起来的名称或关键字
+        if (curChar() == '"' || curChar() == '\'' || curChar() == '$' && (nextChar() == '"' || nextChar() == '\'')) {//引号括起来的名称或关键字
+            bool isDollar = false;
+            if (curChar() == '$') {
+                ++mIterator;
+                isDollar = true;
+            }
             int line = mLineNumber;
             char c = curChar();
             for (++mIterator; curChar() != '\0' && curChar() != c;) {
@@ -1065,7 +1118,10 @@ short SlkToken::get()
                 removeFirstAndLastEmptyLine();
             }
             */
-            return STRING_;
+            if (isDollar)
+                return DOLLAR_STRING_;
+            else
+                return STRING_;
         }
         else {
             int isNum = TRUE;

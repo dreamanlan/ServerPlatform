@@ -25,6 +25,15 @@ FunctionScript::Value RuntimeBuilderData::TokenInfo::ToValue()const
         }
     }
     break;
+    case DOLLAR_STRING_TOKEN:
+    {
+        char* pStr = mString;
+        if (0 != pStr) {
+            Value val(pStr, Value::TYPE_DOLLAR_STRING);
+            return val;
+        }
+    }
+    break;
     case INT_TOKEN:
     {
         Value val(mInteger);

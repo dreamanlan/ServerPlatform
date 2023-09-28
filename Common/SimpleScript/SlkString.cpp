@@ -3,7 +3,7 @@
 
 #include "SlkString.h"
 
-static const char* Nonterminal_name[] = { "0"
+static const char * Nonterminal_name[] ={"0"
 
 ,"PROGRAM"
 ,"STATEMENTS"
@@ -102,7 +102,7 @@ static const char* Nonterminal_name[] = { "0"
 ,"FUNCTION_PARAMS_22_opt"
 };
 
-static const char* Terminal_name[] = { "0"
+static const char * Terminal_name[] ={"0"
 
 ,"OP_TOKEN_0"
 ,"OP_TOKEN_1"
@@ -156,12 +156,13 @@ static const char* Terminal_name[] = { "0"
 ,"IDENTIFIER"
 ,"STRING"
 ,"NUMBER"
+,"DOLLAR_STRING"
 ,","
 ,";"
 ,"END_OF_SLK_INPUT"
 };
 
-static const char* Action_name[] = { "0"
+static const char * Action_name[] ={"0"
 
 ,"_action_markSeparator"
 ,"_action_endStatement"
@@ -204,11 +205,12 @@ static const char* Action_name[] = { "0"
 ,"_action_markPointerStarParam"
 ,"_action_pushStr"
 ,"_action_pushNum"
+,"_action_pushDollarStr"
 ,"_action_pushComma"
 ,"_action_pushSemiColon"
 };
 
-static const char* Production_name[] = { "0"
+static const char * Production_name[] ={"0"
 
 ,"PROGRAM --> STATEMENTS"
 ,"STATEMENTS --> STATEMENT SEP_STATEMENT_*"
@@ -290,6 +292,7 @@ static const char* Production_name[] = { "0"
 ,"FUNCTION_ID --> IDENTIFIER _action_pushId"
 ,"FUNCTION_ID --> STRING _action_pushStr"
 ,"FUNCTION_ID --> NUMBER _action_pushNum"
+,"FUNCTION_ID --> DOLLAR_STRING _action_pushDollarStr"
 ,"SEP --> , _action_pushComma"
 ,"SEP --> ; _action_pushSemiColon"
 ,"SEP_STATEMENT_* --> SEP _action_markSeparator STATEMENT SEP_STATEMENT_*"
@@ -380,10 +383,10 @@ static const char* Production_name[] = { "0"
 ,"FUNCTION_PARAMS_22_opt -->"
 };
 
-#define START_SYMBOL 56
-#define START_ACTION 151
-#define END_ACTION 194
-#define GET_NONTERMINAL_NAME(symbol) (Nonterminal_name [symbol - 55])
+#define START_SYMBOL 57
+#define START_ACTION 152
+#define END_ACTION 196
+#define GET_NONTERMINAL_NAME(symbol) (Nonterminal_name [symbol - 56])
 #define GET_TERMINAL_NAME(symbol) (Terminal_name [symbol])
 #define GET_ACTION_NAME(symbol) (Action_name [symbol-(START_ACTION-1)])
 #define GET_PRODUCTION_NAME(number) (Production_name [number])

@@ -3,7 +3,7 @@
 #include "SlkParse.h"
 #include "ByteCode.h"
 
-#define MAX_ACTION_NUM	44
+#define MAX_ACTION_NUM	45
 
 //--------------------------------------------------------------------------------------
 class ActionForSourceCodeScript : public SlkAction, public RuntimeBuilderT<ActionForSourceCodeScript>
@@ -21,6 +21,7 @@ public:
     inline void    pushId();
     inline void    pushStr();
     inline void    pushNum();
+    inline void    pushDollarStr();
     inline void    pushComma();
     inline void    pushSemiColon();
     void    (ActionForSourceCodeScript::* Action[MAX_ACTION_NUM]) ();
@@ -105,6 +106,16 @@ inline void ActionForSourceCodeScript::pushStr()
     else
         mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::STRING_TOKEN));
 }
+inline void ActionForSourceCodeScript::pushDollarStr()
+{
+    const char* token = getLastToken();
+    if (strcmp(token, "true") == 0)
+        mData.push(RuntimeBuilderData::TokenInfo(true));
+    else if (strcmp(token, "false") == 0)
+        mData.push(RuntimeBuilderData::TokenInfo(false));
+    else
+        mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::DOLLAR_STRING_TOKEN));
+}
 inline void ActionForSourceCodeScript::pushComma()
 {
     mData.push(RuntimeBuilderData::TokenInfo(",", RuntimeBuilderData::STRING_TOKEN));
@@ -164,8 +175,9 @@ inline void ActionForSourceCodeScript::initialize_table()
     Action[39] = &ActionForSourceCodeScript::markPointerStarParam;
     Action[40] = &ActionForSourceCodeScript::pushStr;
     Action[41] = &ActionForSourceCodeScript::pushNum;
-    Action[42] = &ActionForSourceCodeScript::pushComma;
-    Action[43] = &ActionForSourceCodeScript::pushSemiColon;
+    Action[42] = &ActionForSourceCodeScript::pushDollarStr;
+    Action[43] = &ActionForSourceCodeScript::pushComma;
+    Action[44] = &ActionForSourceCodeScript::pushSemiColon;
 }
 //--------------------------------------------------------------------------------------
 class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerator>
@@ -183,6 +195,7 @@ public:
     inline void    pushId();
     inline void    pushStr();
     inline void    pushNum();
+    inline void    pushDollarStr();
     inline void    pushComma();
     inline void    pushSemiColon();
     void    (ActionForGenerator::* Action[MAX_ACTION_NUM]) ();
@@ -267,6 +280,16 @@ inline void ActionForGenerator::pushStr()
     else
         mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::STRING_TOKEN));
 }
+inline void ActionForGenerator::pushDollarStr()
+{
+    const char* token = getLastToken();
+    if (strcmp(token, "true") == 0)
+        mData.push(RuntimeBuilderData::TokenInfo(true));
+    else if (strcmp(token, "false") == 0)
+        mData.push(RuntimeBuilderData::TokenInfo(false));
+    else
+        mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::DOLLAR_STRING_TOKEN));
+}
 inline void ActionForGenerator::pushComma()
 {
     mData.push(RuntimeBuilderData::TokenInfo(",", RuntimeBuilderData::STRING_TOKEN));
@@ -326,8 +349,9 @@ inline void ActionForGenerator::initialize_table()
     Action[39] = &ActionForGenerator::markPointerStarParam;
     Action[40] = &ActionForGenerator::pushStr;
     Action[41] = &ActionForGenerator::pushNum;
-    Action[42] = &ActionForGenerator::pushComma;
-    Action[43] = &ActionForGenerator::pushSemiColon;
+    Action[42] = &ActionForGenerator::pushDollarStr;
+    Action[43] = &ActionForGenerator::pushComma;
+    Action[44] = &ActionForGenerator::pushSemiColon;
 }
 //--------------------------------------------------------------------------------------
 namespace FunctionScript

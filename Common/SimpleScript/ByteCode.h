@@ -351,7 +351,7 @@ namespace FunctionScript
             if (TRUE != tokenInfo.IsValid())return;
             mData.genByteCode(static_cast<unsigned char>(SimpleScriptByteCodeEnum::BYTE_CODE_PUSH_TOKEN));
             mData.genByteCode(static_cast<unsigned char>(tokenInfo.mType));
-            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType)
+            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::DOLLAR_STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType)
                 mData.genByteCode(tokenInfo.mString);
             else if (RuntimeBuilderData::FLOAT_TOKEN == tokenInfo.mType)
                 mData.genByteCode(tokenInfo.mFloat);

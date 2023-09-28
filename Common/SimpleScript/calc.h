@@ -154,7 +154,9 @@ namespace FunctionScript
             TYPE_DOUBLE,
             TYPE_BOOL,
             TYPE_STRING,
+            TYPE_DOLLAR_STRING,
             TYPE_ALLOC_STRING,
+            TYPE_ALLOC_DOLLAR_STRING,
             TYPE_IDENTIFIER,
             TYPE_ARG_INDEX,
             TYPE_LOCAL_INDEX,
@@ -218,6 +220,25 @@ namespace FunctionScript
                 strcpy(m_StringVal, pstr);
             }
         }
+        int InitDollarString(int len)
+        {
+            char* p = new char[len + 1];
+            if (NULL != p) {
+                m_StringVal = p;
+                m_Type = TYPE_ALLOC_DOLLAR_STRING;
+                return TRUE;
+            }
+            else {
+                return FALSE;
+            }
+        }
+        void InitDollarString(const char* pstr)
+        {
+            int len = (int)strlen(pstr);
+            if (InitDollarString(len)) {
+                strcpy(m_StringVal, pstr);
+            }
+        }
 
         int IsInvalid()const { return (m_Type == TYPE_INVALID ? TRUE : FALSE); }
         int IsInt()const { return (m_Type == TYPE_INT ? TRUE : FALSE); }
@@ -228,6 +249,7 @@ namespace FunctionScript
         int IsDouble()const { return (m_Type == TYPE_DOUBLE ? TRUE : FALSE); }
         int IsBool()const { return (m_Type == TYPE_BOOL ? TRUE : FALSE); }
         int IsString()const { return ((m_Type == TYPE_STRING || m_Type == TYPE_ALLOC_STRING) ? TRUE : FALSE); }
+        int IsDollarString()const { return ((m_Type == TYPE_DOLLAR_STRING || m_Type == TYPE_ALLOC_DOLLAR_STRING) ? TRUE : FALSE); }
         int IsIdentifier()const { return (m_Type == TYPE_IDENTIFIER ? TRUE : FALSE); }
         int IsArgIndex()const { return (m_Type == TYPE_ARG_INDEX ? TRUE : FALSE); }
         int IsLocalIndex()const { return (m_Type == TYPE_LOCAL_INDEX ? TRUE : FALSE); }
@@ -380,6 +402,38 @@ namespace FunctionScript
                 strcpy(m_StringVal, pstr);
             }
         }
+        void SetWeakRefDollarString(char* pstr)
+        {
+            FreeString();
+            m_Type = TYPE_DOLLAR_STRING;
+            m_StringVal = pstr;
+        }
+        void SetWeakRefConstDollarString(const char* pstr)
+        {
+            FreeString();
+            m_Type = TYPE_DOLLAR_STRING;
+            m_ConstStringVal = pstr;
+        }
+        int AllocDollarString(int len)
+        {
+            char* p = new char[len + 1];
+            if (NULL != p) {
+                FreeString();
+                m_StringVal = p;
+                m_Type = TYPE_ALLOC_DOLLAR_STRING;
+                return TRUE;
+            }
+            else {
+                return FALSE;
+            }
+        }
+        void AllocDollarString(const char* pstr)
+        {
+            int len = (int)strlen(pstr);
+            if (AllocDollarString(len)) {
+                strcpy(m_StringVal, pstr);
+            }
+        }
         int ToInt()const
         {
             switch (m_Type) {
@@ -398,6 +452,8 @@ namespace FunctionScript
                 return m_BoolVal ? 1 : 0;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 int val = 0;
                 if (m_StringVal) {
@@ -427,6 +483,8 @@ namespace FunctionScript
                 return m_BoolVal ? 1 : 0;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 long long val = 0;
                 if (m_StringVal) {
@@ -453,6 +511,8 @@ namespace FunctionScript
                 return m_BoolVal ? 1.0f : 0.0f;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 float val = 0;
                 if (m_StringVal) {
@@ -479,6 +539,8 @@ namespace FunctionScript
                 return m_BoolVal ? 1 : 0;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 double val = 0;
                 if (m_StringVal) {
@@ -505,6 +567,8 @@ namespace FunctionScript
                 return m_BoolVal;
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 return strcmp(m_StringVal, "true") == 0;
             }
@@ -548,6 +612,8 @@ namespace FunctionScript
             case TYPE_IDENTIFIER:
             case TYPE_STRING:
             case TYPE_ALLOC_STRING:
+            case TYPE_DOLLAR_STRING:
+            case TYPE_ALLOC_DOLLAR_STRING:
             {
                 if (0 == m_StringVal)
                     return "";
@@ -565,6 +631,10 @@ namespace FunctionScript
                 InitString(other.GetString());
                 m_Line = other.m_Line;
             }
+            else if (TYPE_ALLOC_DOLLAR_STRING == other.m_Type) {
+                InitDollarString(other.GetString());
+                m_Line = other.m_Line;
+            }
             else {
                 m_Type = other.GetType();
                 m_Int64Val = other.m_Int64Val;
@@ -573,7 +643,7 @@ namespace FunctionScript
         }
         void FreeString()
         {
-            if (TYPE_ALLOC_STRING == m_Type) {
+            if (TYPE_ALLOC_STRING == m_Type || TYPE_ALLOC_DOLLAR_STRING == m_Type) {
                 delete[] m_StringVal;
             }
         }

@@ -26,6 +26,7 @@ public:
         INT_TOKEN,
         FLOAT_TOKEN,
         STRING_TOKEN,
+        DOLLAR_STRING_TOKEN,
         BOOL_TOKEN,
     };
     struct TokenInfo

@@ -309,7 +309,7 @@ namespace FunctionScript
         if (TRUE != tokenInfo.IsValid())return;
 
         if (mInterpreter->IsDebugInfoEnable()) {
-            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType) {
+            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::DOLLAR_STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType) {
                 PRINT_FUNCTION_SCRIPT_DEBUG_INFO("id:%s\n", tokenInfo.mString);
             }
             else if (RuntimeBuilderData::FLOAT_TOKEN == tokenInfo.mType) {
@@ -340,7 +340,7 @@ namespace FunctionScript
         if (TRUE != tokenInfo.IsValid())return;
 
         if (mInterpreter->IsDebugInfoEnable()) {
-            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType) {
+            if (RuntimeBuilderData::STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::DOLLAR_STRING_TOKEN == tokenInfo.mType || RuntimeBuilderData::VARIABLE_TOKEN == tokenInfo.mType) {
                 PRINT_FUNCTION_SCRIPT_DEBUG_INFO("member:%s\n", tokenInfo.mString);
             }
             else if (RuntimeBuilderData::FLOAT_TOKEN == tokenInfo.mType) {
