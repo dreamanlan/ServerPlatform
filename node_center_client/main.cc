@@ -18,7 +18,7 @@
 struct CoreMessageHead {
   int size;
   unsigned int seq;
-  int src;
+  uint64_t src;
 };
 #pragma pack(pop)
 
@@ -42,7 +42,7 @@ static inline void MySleep(unsigned int ms)
 #endif
 }
 
-void PushCoreMessage(unsigned int seq, int src, const void* pData, int len) {
+void PushCoreMessage(unsigned int seq, uint64_t src, const void* pData, int len) {
   if(pData) {
     unsigned int msgLen = sizeof(CoreMessageHead) + len;
     CoreMessageHead head;
@@ -75,7 +75,7 @@ void ProcessCoreMessage(const Napi::Env& env, const Napi::Object& obj, const Nap
         memcpy(reinterpret_cast<char*>(&head), startPtr, sizeToWrapAround);
         unsigned int sizeFromBuffer = headSize - sizeToWrapAround;
         memcpy(reinterpret_cast<char*>(&head) + sizeToWrapAround, bufferPtr, sizeFromBuffer);
-        if (head.size <= g_MessageQueue.length()){
+        if (static_cast<unsigned int>(head.size) <= g_MessageQueue.length()){
           CallJsCallback(env, obj, func, head.seq, head.src, bufferPtr+sizeFromBuffer);
           g_MessageQueue.in_place_get_advance(head.size);
         } else {
@@ -83,8 +83,8 @@ void ProcessCoreMessage(const Napi::Env& env, const Napi::Object& obj, const Nap
         }
       } else {
         const CoreMessageHead* pHead = reinterpret_cast<const CoreMessageHead*>(startPtr);
-        if (pHead->size <= g_MessageQueue.length()){
-          if (pHead->size <= sizeToWrapAround){
+        if (static_cast<unsigned int>(pHead->size) <= g_MessageQueue.length()){
+          if (static_cast<unsigned int>(pHead->size) <= sizeToWrapAround){
             CallJsCallback(env, obj, func, pHead->seq, pHead->src, startPtr + headSize);
           } else {
             if (pHead->size <= c_MaxPacketSize){
@@ -107,7 +107,7 @@ void ProcessCoreMessage(const Napi::Env& env, const Napi::Object& obj, const Nap
   }
 }
 
-int SendCoreMessageByHandle(int handle, const char* pMsg) {
+int SendCoreMessageByHandle(uint64_t handle, const char* pMsg) {
   int ret=SendByHandle(handle,pMsg,strlen(pMsg)+1);
   return ret;
 }
@@ -119,8 +119,9 @@ int SendCoreMessageByName(const char* pName, const char* pMsg) {
 
 Napi::Value JsCoreQueryServiceName(const Napi::CallbackInfo& args) {
   Napi::Env env = args.Env();
-  if(args.Length()==1 && args[0].IsNumber()) {
-    int handle = args[0].As<Napi::Number>().Int32Value();
+  if(args.Length()==1 && args[0].IsBigInt()) {
+    bool lossless = false;
+    uint64_t handle = args[0].As<Napi::BigInt>().Uint64Value(&lossless);
     const int c_max_buf = 1024;
     char namebuf[c_max_buf+1];
     TargetName(handle,namebuf,c_max_buf);
@@ -134,7 +135,7 @@ Napi::Value JsCoreQueryServiceHandle(const Napi::CallbackInfo& args) {
   if(args.Length()==1 && args[0].IsString()) {
     std::string name = args[0].As<Napi::String>().Utf8Value();    
     if(name.c_str()) {
-      int handle = TargetHandle(name.c_str());
+      uint64_t handle = TargetHandle(name.c_str());
       return Napi::Number::New(env, handle);
     }
   }
@@ -151,8 +152,9 @@ Napi::Value JsCoreGetServiceName(const Napi::CallbackInfo& args) {
 
 Napi::Value JsSendCoreMessageByHandle(const Napi::CallbackInfo& args) {
   Napi::Env env = args.Env();
-  if(args.Length()==2 && args[0].IsNumber() && args[1].IsString()) {
-    unsigned int handle = args[0].As<Napi::Number>().Uint32Value();
+  if(args.Length()==2 && args[0].IsBigInt() && args[1].IsString()) {
+    bool lossless = false;
+    uint64_t handle = args[0].As<Napi::BigInt>().Uint64Value(&lossless);
     std::string msg = args[1].As<Napi::String>().Utf8Value();
     if(msg.c_str()) {
       unsigned int r = SendCoreMessageByHandle(handle, msg.c_str());
@@ -194,8 +196,9 @@ Napi::Value JsCoreQueryConfig(const Napi::CallbackInfo& args) {
 
 Napi::Value JsSendCoreCommandByHandle(const Napi::CallbackInfo& args) {
   Napi::Env env = args.Env();
-  if(args.Length()==2 && args[0].IsNumber() && args[1].IsString()) {
-    unsigned int handle = args[0].As<Napi::Number>().Uint32Value();
+  if(args.Length()==2 && args[0].IsBigInt() && args[1].IsString()) {
+    bool lossless = false;
+    uint64_t handle = args[0].As<Napi::BigInt>().Uint64Value(&lossless);
     std::string msg = args[1].As<Napi::String>().Utf8Value();
     if(msg.c_str()) {
       unsigned int r=SendCommandByHandle(handle, msg.c_str());
@@ -251,29 +254,29 @@ Napi::Value JsCoreQuit(const Napi::CallbackInfo& args) {
   return env.Null();
 }
 
-void HandleNameHandleChanged(int addOrUpdate, const char* name, int handle)
+void HandleNameHandleChanged(int addOrUpdate, const char* name, uint64_t handle)
 {
   if(0!=name) {
-    printf("name handle changed:%d %s->%d\n", addOrUpdate, name, handle);
+    printf("name handle changed:%d %s->%lld\n", addOrUpdate, name, handle);
     const int c_max_buf = 1024;
     char cmdbuf[c_max_buf+1];
-    sprintf(cmdbuf,"AddOrUpdate %d %s %d",addOrUpdate,name,handle);
+    sprintf(cmdbuf,"AddOrUpdate %d %s %lld",addOrUpdate,name,handle);
     PushCoreMessage(0xffffffff, 0, cmdbuf, strlen(cmdbuf) + 1);  
   }
 }
 
-void HandleMessage(unsigned int seq, int src, int dest, const void* msg, int len)
+void HandleMessage(unsigned int seq, uint64_t src, uint64_t dest, const void* msg, int len)
 {
   if(0!=msg) {
     PushCoreMessage(seq, src, reinterpret_cast<const char*>(msg), len);
   }
 }
 
-void HandleMessageResult(unsigned int seq, int src, int dest, int result)
+void HandleMessageResult(unsigned int seq, uint64_t src, uint64_t dest, int result)
 {
 }
 
-void HandleCommand(int src, int dest, const char* msg)
+void HandleCommand(uint64_t src, uint64_t dest, const char* msg)
 {
   if(0!=msg) {
     printf("command:%s\n", msg);

@@ -19,7 +19,7 @@ extern "C"
 {
     DLLIMPORT void ReloadConfigScript();
     DLLIMPORT int GetConfig(const char* key, char* buf, int len);
-    DLLIMPORT int TargetHandle(int worldId, const char* name);
+    DLLIMPORT uint64_t TargetHandle(int worldId, const char* name);
     DLLIMPORT int TargetName(int worldId, uint64_t handle, char* buf, int len);
     DLLIMPORT int SendByHandle(int worldId, uint64_t dest, const void* data, int len);
     DLLIMPORT int SendByName(int worldId, const char* name, const void* data, int len);

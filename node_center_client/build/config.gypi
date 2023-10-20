@@ -401,7 +401,7 @@
     "v8_trace_maps": 0,
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 0,
-    "nodedir": "C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\18.17.0",
+    "nodedir": "C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\18.18.2",
     "standalone_static_library": 1,
     "msbuild_path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"
   }
