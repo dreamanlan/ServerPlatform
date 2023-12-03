@@ -72,7 +72,9 @@ public:
     char peekNextValidChar(int beginIx, int& index)const;
     void getOperatorToken();
     short getOperatorTokenValue()const;
-    int isNotIdentifierAndEndParenthesis(char c)const;
+    int isNotIdentifier(char c)const;
+    int isNotIdentifierAndBeginParenthesis(char c)const;
+    int isNotIdentifierAndNumberAndEndParenthesis(char c)const;
     int isWhiteSpace(char c) const;
     int isDelimiter(char c) const;
     int isBeginParentheses(char c) const;
@@ -105,7 +107,7 @@ private:
         short TokenValue;
         int LineNumber;
 
-        inline TokenInfo() {}
+        inline TokenInfo() :Token(nullptr), TokenValue(0), LineNumber(0) {}
         inline TokenInfo(char* token, short tokenValue, int lineNumber) :Token(token), TokenValue(tokenValue), LineNumber(lineNumber) {}
     };
 
@@ -138,6 +140,7 @@ private:
     const char* mQuotes;
     const char* mSpecialChars;
 
+    bool mNullableSyntaxEnabled;
     const char* mScriptBeginDelimiter;
     const char* mScriptEndDelimiter;
     const char* mStringBeginDelimiter;

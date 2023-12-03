@@ -11,10 +11,6 @@ namespace FunctionScript
         BYTE_CODE_SET_LAST_TOKEN,
         BYTE_CODE_SET_LAST_LINE_NUMBER,
         BYTE_CODE_PUSH_TOKEN,
-        BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM,
-        BYTE_CODE_MARK_PERIOD_BRACKET_PARAM,
-        BYTE_CODE_MARK_PERIOD_BRACE_PARAM,
-        BYTE_CODE_SET_MEMBER_ID,
         BYTE_CODE_MARK_PERIOD_PARAM,
         BYTE_CODE_MARK_BRACKET_PARAM,
         BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
@@ -30,23 +26,16 @@ namespace FunctionScript
         BYTE_CODE_MARK_BRACE_PERCENT_PARAM,
         BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM,
         BYTE_CODE_COLON_COLON_PARAM,
-        BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM,
-        BYTE_CODE_COLON_COLON_BRACKET_PARAM,
-        BYTE_CODE_COLON_COLON_BRACE_PARAM,
         BYTE_CODE_SET_FUNCTION_ID,
         BYTE_CODE_ADD_FUNCTION,
         BYTE_CODE_BEGIN_STATEMENT,
         BYTE_CODE_END_STATEMENT,
         BYTE_CODE_BUILD_OPERATOR,
+        BYTE_CODE_BUILD_NULLABLE_OPERATOR,
         BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR,
         BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR,
-        BYTE_CODE_MARK_QUESTION_PERIOD_PARAM,
-        BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM,
-        BYTE_CODE_MARK_QUESTION_BRACKET_PARAM,
-        BYTE_CODE_MARK_QUESTION_BRACE_PARAM,
         BYTE_CODE_MARK_POINTER_PARAM,
         BYTE_CODE_MARK_PERIOD_STAR_PARAM,
-        BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM,
         BYTE_CODE_MARK_POINTER_STAR_PARAM,
         BYTE_CODE_MARK_SEPARATOR,
         BYTE_CODE_NUM
@@ -70,6 +59,7 @@ namespace FunctionScript
         inline void    markSeparator();
         inline void    endStatement();
         inline void    buildOperator();
+        inline void    buildNullableOperator();
         inline void    buildFirstTernaryOperator();
         inline void    buildSecondTernaryOperator();
         inline void    beginStatement();
@@ -78,9 +68,6 @@ namespace FunctionScript
         inline void    markParenthesisParam();
         inline void    buildHighOrderFunction();
         inline void    markBracketParam();
-        inline void    markQuestionParenthesisParam();
-        inline void    markQuestionBracketParam();
-        inline void    markQuestionBraceParam();
         inline void    markStatement();
         inline void    markExternScript();
         inline void    markBracketColonParam();
@@ -91,19 +78,10 @@ namespace FunctionScript
         inline void    markParenthesisPercentParam();
         inline void    markAngleBracketPercentParam();
         inline void    markColonColonParam();
-        inline void    markColonColonParenthesisParam();
-        inline void    markColonColonBracketParam();
-        inline void    markColonColonBraceParam();
         inline void    setExternScript();
         inline void    markPeriodParam();
-        inline void    setMemberId();
-        inline void    markPeriodParenthesisParam();
-        inline void    markPeriodBracketParam();
-        inline void    markPeriodBraceParam();
-        inline void    markQuestionPeriodParam();
         inline void    markPointerParam();
         inline void    markPeriodStarParam();
-        inline void    markQuestionPeriodStarParam();
         inline void    markPointerStarParam();
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
@@ -147,6 +125,12 @@ namespace FunctionScript
             genLastLineNumber();
             genPush();
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_OPERATOR);
+        }
+        inline void buildNullableOperator()
+        {
+            genLastLineNumber();
+            genPush();
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_NULLABLE_OPERATOR);
         }
         inline void buildFirstTernaryOperator()
         {

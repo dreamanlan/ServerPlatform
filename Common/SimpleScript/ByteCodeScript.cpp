@@ -144,26 +144,6 @@ namespace FunctionScript
                 }
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM:
-            {
-                action.markPeriodParenthesisParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACKET_PARAM:
-            {
-                action.markPeriodBracketParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACE_PARAM:
-            {
-                action.markPeriodBraceParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_SET_MEMBER_ID:
-            {
-                action.setMemberId();
-            }
-            break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARAM:
             {
                 action.markPeriodParam();
@@ -239,21 +219,6 @@ namespace FunctionScript
                 action.markColonColonParam();
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM:
-            {
-                action.markColonColonParenthesisParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACKET_PARAM:
-            {
-                action.markColonColonBracketParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACE_PARAM:
-            {
-                action.markColonColonBraceParam();
-            }
-            break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_SET_FUNCTION_ID:
             {
                 action.setFunctionId();
@@ -279,6 +244,11 @@ namespace FunctionScript
                 action.buildOperator();
             }
             break;
+            case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_NULLABLE_OPERATOR:
+            {
+                action.buildNullableOperator();
+            }
+            break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR:
             {
                 action.buildFirstTernaryOperator();
@@ -289,26 +259,6 @@ namespace FunctionScript
                 action.buildSecondTernaryOperator();
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_PARAM:
-            {
-                action.markQuestionPeriodParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM:
-            {
-                action.markQuestionParenthesisParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACKET_PARAM:
-            {
-                action.markQuestionBracketParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACE_PARAM:
-            {
-                action.markQuestionBraceParam();
-            }
-            break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_PARAM:
             {
                 action.markPointerParam();
@@ -317,11 +267,6 @@ namespace FunctionScript
             case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_STAR_PARAM:
             {
                 action.markPeriodStarParam();
-            }
-            break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM:
-            {
-                action.markQuestionPeriodStarParam();
             }
             break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER_STAR_PARAM:
