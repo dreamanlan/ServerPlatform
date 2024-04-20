@@ -212,7 +212,7 @@ class LockFreeRingedQueueT
     using MemoryType = typename LockFreeCollectionUtility::MemorySelectorT<DataT, (SizeV == 0 ? 0 : SizeV + 1), InvalidValueV>::Type;
 
 #ifdef __WINDOWS__
-    //32位下按8字节对齐
+    //Aligned by 8 bytes in 32-bit mode
     __declspec(align(8))
 #endif
         struct Pointer
@@ -231,7 +231,7 @@ class LockFreeRingedQueueT
         }
     }
 #ifndef __WINDOWS__
-    //64位下按16字节对齐
+    //Aligned to 16 bytes in 64-bit
     __attribute__((aligned(16)))
 #endif
         ;
@@ -244,34 +244,34 @@ class LockFreeRingedQueueT
         return TypeCheckerType::ToDataType(InvalidValueV);
     }
 public:
-    //此方法多线程不安全
+    //This method is not multi-thread safe
     inline void	Init(int size)
     {
         Create(size + 1);
     }
-    //此方法多线程不安全
+    //This method is not multi-thread safe
     inline void	Clear()
     {
         m_Head.Clear();
         m_Tail.Clear();
         m_Memory.Clear();
     }
-    //因为队列是lock-free的，此值仅提供参考信息，不能据此进行准确判断
+    //Because the queue is lock-free, this value only provides reference information and cannot be used to make accurate judgments.
     inline int	GetNum()const
     {
         return (m_Tail.m_Pos + m_Capacity - m_Head.m_Pos) % m_Capacity;
     }
-    //此方法为lock-free的
+    //This method is lock-free
     inline bool	Push(const ElementType& data)
     {
         bool ret = false;
-        //先移动指针（相当于为本线程本次操作申请操作权）
+        //Move the pointer first (equivalent to applying for operation rights for this thread's current operation)
         int oldPos = 0;
         for (int i = 0; i < s_c_MaxRetryCount; ++i) {
             oldPos = m_Tail.m_Pos;
             unsigned int tag = m_Tail.m_Tag;
             int pos = (oldPos + 1) % m_Capacity;
-            if (pos == m_Head.m_Pos || !IsInvalid(m_pData[oldPos]))//满了或者其它线程还没完成pop，本次操作按失败处理
+            if (pos == m_Head.m_Pos || !IsInvalid(m_pData[oldPos]))//If it is full or other threads have not completed the pop, this operation will be treated as a failure.
             {
                 break;
             }
@@ -283,7 +283,7 @@ public:
                 lock_free_utility::pause();
             }
         }
-        //然后修改数据
+        //Then modify the data
         if (ret) {
             ElementType _data = lock_free_utility::xchg(&(m_pData[oldPos]), data);
 #if	defined(LockFreeDebugPrint)
@@ -294,17 +294,17 @@ public:
         }
         return ret;
     }
-    //此方法为lock-free的
+    //This method is lock-free
     inline bool	Pop(ElementType& data)
     {
         bool ret = false;
-        //先移动指针（相当于为本线程本次操作申请操作权）
+        //Move the pointer first (equivalent to applying for operation rights for this thread's current operation)
         int oldPos = 0;
         for (int i = 0; i < s_c_MaxRetryCount; ++i) {
             oldPos = m_Head.m_Pos;
             unsigned int tag = m_Head.m_Tag;
             int pos = (oldPos + 1) % m_Capacity;
-            if (oldPos == m_Tail.m_Pos || IsInvalid(m_pData[oldPos]))//空了或者其它线程还没完成push，本次操作按失败处理
+            if (oldPos == m_Tail.m_Pos || IsInvalid(m_pData[oldPos]))//If it is empty or other threads have not completed the push, this operation will be treated as a failure.
             {
                 break;
             }
@@ -316,7 +316,7 @@ public:
                 lock_free_utility::pause();
             }
         }
-        //然后修改数据
+        //Then modify the data
         if (ret) {
             data = lock_free_utility::xchg(&(m_pData[oldPos]), GetInvalid());
 #if	defined(LockFreeDebugPrint)

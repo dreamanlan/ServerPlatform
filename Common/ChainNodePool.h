@@ -39,7 +39,7 @@ public:
     {
         Cleanup();
     }
-public://内存池的拷贝构造与复制不复制数据
+public://Memory pool copy construction and replication do not copy data
     CChainNodePoolT(const CChainNodePoolT& other)
     {
         Init(other.GetMaxNum());

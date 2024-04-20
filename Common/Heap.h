@@ -22,8 +22,8 @@ struct SimpleGreatT
     }
 };
 
-//基于完全二叉树的数组表示的堆，算法改自《数据结构与算法》中译版
-//用于需要优先队列的场合
+//Heap based on the array representation of a complete binary tree, the algorithm is adapted from the Chinese translation of "Data Structures and Algorithms"
+//Used when a priority queue is needed
 template<typename T, typename LessT = SimpleLessT<T>, int SizeV = 0>
 class HeapT
 {
@@ -131,18 +131,18 @@ inline int HeapT<T, LessT, SizeV>::Pop()
     if (NULL == m_Heap || TRUE == Empty())
         return FALSE;
     else {
-        T x = m_Heap[m_CurrentSize--];//最后一个元素
-        int i = 1;//堆的当前结点
-        int ci = 2;//i的孩子结点
+        T x = m_Heap[m_CurrentSize--];//last element
+        int i = 1;//cur node
+        int ci = 2;//i's child node
         while (ci <= m_CurrentSize) {
-            //m_Heap[ci]应是i的较大的孩子
+            //m_Heap[ci] is the largest child of i
             if (ci < m_CurrentSize && m_IsLess(m_Heap[ci], m_Heap[ci + 1]))
                 ++ci;
             if (!m_IsLess(x, m_Heap[ci]))
                 break;
-            m_Heap[i] = m_Heap[ci];//将孩子结点上移
+            m_Heap[i] = m_Heap[ci];//Move child node up
             i = ci;
-            ci *= 2;//下移一层
+            ci *= 2;//Move down one level
         }
         m_Heap[i] = x;
         return TRUE;
@@ -160,17 +160,17 @@ inline int HeapT<T, LessT, SizeV>::Build(T vals[], int size)
         }
         m_CurrentSize = size;
         for (int i = m_CurrentSize / 2; i >= 1; --i) {
-            T x = m_Heap[i];//子树的根
-            //寻找放置y的位置
-            int c = 2 * i;//c的父结点是y的目标位置
+            T x = m_Heap[i];//root of the sub tree
+            //Find where to place y
+            int c = 2 * i;//The parent node of c is the target position of y
             while (c <= m_CurrentSize) {
-                //m_Head[c]应是较大的同胞结点
+                //m_Head[c] should be the larger sibling node
                 if (c < m_CurrentSize && m_IsLess(m_Heap[c], m_Heap[c + 1]))
                     ++c;
                 if (!m_IsLess(x, m_Heap[c]))
                     break;
-                m_Heap[c / 2] = m_Heap[c];//将孩子结点上移
-                c *= 2;//下移一层
+                m_Heap[c / 2] = m_Heap[c];//Move child node up
+                c *= 2;//Move down one level
             }
             m_Heap[c / 2] = x;
         }

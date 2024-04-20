@@ -59,7 +59,7 @@ private:
 
 #endif
 
-//自动加锁解锁器
+//Automatic lock and unlocker
 class AutoLock_T
 {
 public:
@@ -91,7 +91,7 @@ private:
     MyLock* m_pLock;
 };
 
-//自动加锁解锁器
+//Automatic lock and unlocker
 template<typename LockT>
 class AutoLockT
 {
@@ -121,7 +121,7 @@ private:
     LockT* m_pLock;
 };
 
-//虚拟锁，符合MyLock的接口，但不执行锁操作。
+//Virtual lock, conforms to the MyLock interface, but does not perform lock operations.
 class DummyLock
 {
 public:

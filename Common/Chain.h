@@ -4,13 +4,13 @@
 #include "BaseType.h"
 #include "Queue.h"
 
-/**	约定CChainNode<DataT,RecyclerT>由数据池分配,Recycle方法用于返还结点给数据池，
-*	也就是说Recycle方法调用之后，结点应该不在任何链表上，数据池随后可以将该结点
-*	作为新结点分配。
-*	@Remarks
-*	RecyclerT需要符合：
-*	1、有无参数构造或默认构造。
-*	2、提供公有方法void Recycle(CChainNode<DataT,RecyclerT>* pNode)。
+/** It is agreed that CChainNode<DataT, RecyclerT> is allocated by the data pool, and the Recycle method is used to return the node to the data pool.
+* In other words, after the Recycle method is called, the node should not be on any linked list, and the data pool can then store the node
+* Assigned as a new node.
+* @Remarks
+*RecyclerT needs to comply with:
+* 1. There is no parameter construction or default construction.
+* 2. Provide the public method void Recycle(CChainNode<DataT,RecyclerT>* pNode).
 */
 template<typename DataT, typename RecyclerT>
 class CChain;
@@ -23,7 +23,7 @@ public:
     using ItemType = CChainNode<DataT, RecyclerT>;
     friend class CChain<DataT, RecyclerT>;
     friend class Iterator;
-    /**	一个类似STL中迭代器的东东，但是概念上不严格一样。
+    /** Something similar to iterators in STL, but conceptually not strictly the same.
     */
     class Iterator
     {
@@ -156,7 +156,8 @@ public:
     RecyclerT& GetRecycler() { return m_Recycler; }
     const RecyclerT& GetRecycler()const { return m_Recycler; }
 private:
-    //使当前结点从链表上脱离并保持链表不断链（前后结点成为邻接），链表上的结点数减少一个
+    //Detach the current node from the linked list and keep the linked list continuously linked (the front and rear nodes become adjacent),
+    //and the number of nodes on the linked list is reduced by one
     inline void DisConnect();
 };
 
@@ -183,44 +184,44 @@ public:
     {
         RemoveAll();
     }
-    //获取链表第一个结点
+    //Get the first node of the linked list
     inline const Iterator	First() const
     {
         return Iterator(m_pHead);
     }
-    //获取链表最后一个结点
+    //Get the last node of the linked list
     inline const Iterator	Last() const
     {
         return Iterator(m_pTail);
     }
-    //获取链表上结点总数
+    //Get the total number of nodes on the linked list
     inline unsigned int				GetNum() const
     {
         return m_uNum;
     }
-    //获取第i个结点(从0开始计数)
+    //Get the i-th node (counting from 0)
     inline Iterator			GetIterator(int i) const;
-    //在链表上查找指定结点，返回结点在链表中的位置
+    //Find the specified node on the linked list and return the node's position in the linked list
     inline int				IndexOf(const Iterator& it) const;
-    //在链表头添加一个结点，此结点将成为新的链表头
+    //Add a node to the head of the linked list, this node will become the new head of the linked list
     inline int				AddFirst(const Iterator& it);
-    //在链表尾添加一个结点，此结点将成为新的链表尾
+    //Add a node to the end of the linked list, this node will become the new end of the linked list
     inline int				AddLast(const Iterator& it);
-    //在指定结点前插入一个结点,指定结点不能为空
+    //Insert a node before the specified node. The specified node cannot be empty.
     inline int				InsertBefore(const Iterator& pos, const Iterator& it);
-    //在指定结点后插入一个结点，指定结点不能为空
+    //Insert a node after the specified node. The specified node cannot be empty.
     inline int				InsertAfter(const Iterator& pos, const Iterator& it);
-    //删除第一个结点，结点返还给数据池，返回删除后链表的第一个结点
+    //Delete the first node, return the node to the data pool, and return the first node of the linked list after deletion
     inline const Iterator	RemoveFirst();
-    //删除最后一个结点，结点返还给数据池，返回删除后链表的最后一个结点
+    //Delete the last node, return the node to the data pool, and return the last node of the linked list after deletion
     inline const Iterator	RemoveLast();
-    //从链表上删除一个结点，结点返还给数据池，返回被删除结点后面的结点
+    //Delete a node from the linked list, return the node to the data pool, and return the node behind the deleted node.
     inline const Iterator	Remove(const Iterator& it);
-    //从链表上删除所有结点，全部结点返还给数据池
+    //Delete all nodes from the linked list and return all nodes to the data pool
     inline int				RemoveAll();
-    //移动指定结点为链的首结点
+    //Move the specified node to the first node of the chain
     inline const Iterator	MoveAsFirst(const Iterator& it);
-    //移动指定结点为链的尾结点
+    //Move the specified node to the tail node of the chain
     inline const Iterator	MoveAsLast(const Iterator& it);
 };
 

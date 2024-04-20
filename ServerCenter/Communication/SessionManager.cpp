@@ -48,7 +48,7 @@ void SessionManager::Tick(void)
         m_LastSyncTime = curTime;
 
         if (m_Sessions.GetNum() > 0) {
-            //检查会话是否正常
+            //Check if the session is normal
             uint64_t handles[c_MaxCheckInvalidSessionNum];
             int ct = 0;
             for (Sessions::Iterator it = m_Sessions.First(); !it.IsNull(); ++it) {

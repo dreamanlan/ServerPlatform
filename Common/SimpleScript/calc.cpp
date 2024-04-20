@@ -443,7 +443,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次不等，后面的就不用判断了
+                        //As long as it is not equal once, there is no need to judge the subsequent ones.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -491,7 +491,8 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次相等，后面的就不用判断了
+                        //As long as there is equality once, there is no need to
+                        // judge the subsequent ones.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -539,7 +540,7 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次不小于，后面的就不用判断了
+                        //As long as it is not less than once, there is no need to judge the rest.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -587,7 +588,8 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次不大于，后面的就不用判断了
+                        //As long as it is not greater than once, there is no need to
+                        // judge the subsequent ones.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -635,7 +637,8 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次不小于等于，后面的就不用判断了
+                        //As long as it is not less than or equal to once, there is no need
+                        // to judge the subsequent ones.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -683,7 +686,8 @@ namespace FunctionScript
                         else {
                             pRetValue->SetInt(0);
                         }
-                        //只要有一次不大于等于，后面的就不用判断了
+                        //As long as one time is not greater than or equal to, there is no need
+                        // to judge the subsequent ones.
                         if (pRetValue->GetInt() == 0)
                             break;
                     }
@@ -714,7 +718,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (pParams[ix].GetInt() == 0) {
-                                //有一个为0，后面就不用再计算了
+                                //If one of them is 0, there will be no need to calculate the rest.
                                 pRetValue->SetInt(0);
                                 break;
                             }
@@ -747,7 +751,7 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (pParams[ix].GetInt() == 1) {
-                                //有一个为1，后面就不用再计算了
+                                //If one of them is 1, there will be no need to calculate the rest.
                                 pRetValue->SetInt(1);
                                 break;
                             }
@@ -1010,7 +1014,8 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (val == 0) {
-                                //运算中间结果为0，后面就不用再计算了
+                                //The intermediate result of the operation is 0, and
+                                // there is no need to calculate the rest.
                                 break;
                             }
                             else {
@@ -1046,7 +1051,8 @@ namespace FunctionScript
                     for (int ix = 0; ix < num; ++ix) {
                         if (pParams[ix].IsInt()) {
                             if (val == (int)0xffffffff) {
-                                //运算中间结果为0xffffffff，后面就不用再计算了
+                                //The intermediate result of the operation is 0xffffffff,
+                                // and there is no need to calculate the rest.
                                 break;
                             }
                             else {
@@ -2001,7 +2007,8 @@ namespace FunctionScript
             {
                 IfElseStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<IfElseStatement>();
                 if (NULL != pApi) {
-                    //在语句进行运行时处理前取最后一个函数语法的名字，一旦进行运行时处理，名字就变成局部变量索引了
+                    //Takes the name of the last function syntax before the statement is processed at runtime.
+                    // Once processed at runtime, the name becomes the local variable index.
                     Value name;
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
                         StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
@@ -2465,7 +2472,7 @@ namespace FunctionScript
             {
                 if (0 == m_Interpreter)
                     return EXECUTE_RESULT_NORMAL;
-                //函数定义生成一个Closure实例。
+                //The function definition generates a Closure instance.
                 ISyntaxComponent& statement = *m_pDefine;
                 FunctionData* pFunc0 = 0;
                 int syntaxType = statement.GetSyntaxType();
@@ -2520,7 +2527,8 @@ namespace FunctionScript
         public:
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
-                //函数定义语法：function(name)args($a,$b,$c){};其中name与args($a,$b,$c)可选
+                //Function definition syntax: function(name)args($a,$b,$c){};
+                // where name and args($a,$b,$c) are optional
                 int syntaxType = statement.GetSyntaxType();
                 if (syntaxType == ISyntaxComponent::TYPE_FUNCTION) {
                     const FunctionData& func = dynamic_cast<const FunctionData&>(statement);
@@ -2801,7 +2809,8 @@ namespace FunctionScript
         public:
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
-                //结构定义语法：struct(name){member1(size,num);member2(size,num);...};其中，size可以是数或char、short、int、ptr
+                //Structure definition syntax: struct(name){member1(size,num);member2(size,num);...};
+                // where size can be a number or char, short, int, ptr
                 if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
                     return FALSE;
                 return TRUE;
@@ -3035,11 +3044,11 @@ namespace FunctionScript
     ExecuteResultEnum Closure::Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
         paramClass;
-        //Closure实现自定义函数的调用。
+        //Closure implements the calling of custom functions.
         if (NULL != m_Statements && NULL != m_Interpreter) {
             ReplaceVariableWithValue(pParams, num);
             AutoStackInfoStackOperation op(*m_Interpreter, pParams, num, m_StackSize, *m_pDefinition);
-            //处理参数列表
+            //Process parameter list
             if (NULL != m_pArguments) {
                 for (int i = 0; i < m_ArgumentNum && i < num; ++i) {
                     SetVariableValue(m_pArguments[i], pParams[i]);
@@ -3058,7 +3067,7 @@ namespace FunctionScript
             Value* params = op.Get();
             int paramNum = num + 2;
             if (1 == num && pParams[0].IsInvalid()) {
-                //_epsilon_句法副作用的特殊处理
+                //_epsilon_Special handling of syntactic side effects
                 num = 0;
                 paramNum = 2;
             }
@@ -3202,7 +3211,7 @@ namespace FunctionScript
                             }
                         }
                         else if (index >= m_MemberNum) {
-                            //新增成员只允许通过obj.property=val方式
+                            //New members are only allowed through obj.property=val method
                             if (3 == num && (FunctionData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK & paramClass) == FunctionData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK) {
                                 MemberInfo& info = m_TempMemberInfo;
                                 info.m_Value = pParams[2];
@@ -3234,7 +3243,8 @@ namespace FunctionScript
                             }
                         }
                     }
-                    else if (pParams[0].IsInt())//直接给数值的，按脚本定义成员解释
+                    else if (pParams[0].IsInt())//If the value is given directly, the member explanation will
+                                                //be defined according to the script.
                     {
                         if (0 != pRetValue) {
                             int index = pParams[0].GetInt();
@@ -3358,7 +3368,7 @@ namespace FunctionScript
                             m_NameIndexMap->Add(m_TempMemberInfo.m_Name, m_MemberNum);
                         }
                         else {
-                            //重复名字，不可能走到这！
+                            //Repeating the name would make it impossible to get here!
                         }
                     }
                     m_MemberInfos[m_MemberNum] = m_TempMemberInfo;
@@ -3518,7 +3528,7 @@ namespace FunctionScript
                         const char* pName = pParams[0].GetString();
                         index = GetMemberIndex(pName);
                     }
-                    else if (pParams[0].IsInt())//数值解释成脚本定义成员
+                    else if (pParams[0].IsInt())//Values are interpreted as script-defined members
                     {
                         index = pParams[0].GetInt() + INNER_MEMBER_INDEX_NUM;
                     }
@@ -3534,8 +3544,8 @@ namespace FunctionScript
     void Struct::SetDefinitionRef(const FunctionData& func)
     {
         m_pDefinition = &func;
-        //先不支持嵌套结构
-        //todo:分析定义，生成结构布局数据，初始化m_Accessors
+        //Nested structures are not supported first
+        //todo:Analyze the definition, generate structural layout data, and initialize m_Accessors
         if (0 != m_Interpreter) {
             int memberNum = func.GetParamNum();
             m_MemberInfos = new MemberInfo[memberNum];
@@ -3765,7 +3775,7 @@ namespace FunctionScript
         StatementApiFactory* pApiFactory = m_Interpreter->FindStatementApi(*this);
         m_RuntimeObjectPrepared = TRUE;
         if (0 != pApiFactory) {
-            //让API生成复合运行时对象。
+            //Let the API generate composite runtime objects.
             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
             m_RuntimeFunctionCall.SetStatementApi(pApi);
         }
@@ -3780,7 +3790,7 @@ namespace FunctionScript
         if (valOfName.IsIdentifier()) {
             char* pStr = valOfName.GetString();
             if (NULL != pStr) {
-                if (pStr[0] == '$')//参数
+                if (pStr[0] == '$')//Arguments
                 {
                     if (pStr[1] == '$' && pStr[2] == 0) {
                         valOfName.SetArgIndex(-1);
@@ -3804,23 +3814,25 @@ namespace FunctionScript
                         }
                     }
                 }
-                else if (pStr[0] == '@' && pStr[1] == '@' && pStr[2] == 0)//局部变量数量
+                else if (pStr[0] == '@' && pStr[1] == '@' && pStr[2] == 0)//Number of local variables
                 {
                     valOfName.SetLocalIndex(-1);
                 }
                 else {
-                    //函数、全局变量与预定义变量
+                    //Functions, global variables and predefined variables
                     if (0 == strcmp(pStr, "this")) {
                         //this <=> $0
                         valOfName.SetArgIndex(0);
                     }
                     else {
                         ExpressionApi* p = m_Interpreter->FindFunctionApi(pStr);
-                        //普通变量
+                        //normal variable
                         AutoInterpreterValuePoolValueOperation op(*m_pInnerValuePool);
                         Value& val = op.Get();
                         if (0 != p) {
-                            //内部api名称不作变量处理，直接计算值（相当于常量），运行时会少一次计算变量值的间接处理
+                            //The internal api name is not processed as a variable, and the value is calculated directly
+                            // (equivalent to a constant). There will be one less indirect processing of calculating
+                            // the variable value during runtime.
                             val.SetExpressionApi(p);
                             valOfName = val;
                         }
@@ -3921,7 +3933,7 @@ namespace FunctionScript
         StatementApiFactory* pApiFactory = m_Interpreter->FindStatementApi(*this);
         m_RuntimeObjectPrepared = TRUE;
         if (0 != pApiFactory) {
-            //让API生成复合运行时对象。
+            //Let the API generate composite runtime objects.
             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
             m_RuntimeFunctionCall.SetStatementApi(pApi);
         }
@@ -3937,10 +3949,10 @@ namespace FunctionScript
 
     void FunctionData::PrepareGeneralRuntimeObject()
     {
-        //处理函数名
+        //Processing function name
         m_Name.PrepareGeneralRuntimeObject();
         m_RuntimeObjectPrepared = TRUE;
-        //参数
+        //Params
         if (HaveParam()) {
             if (0 != m_Params) {
                 for (int ix = 0; ix < m_ParamNum; ++ix) {
@@ -3949,7 +3961,11 @@ namespace FunctionScript
                     }
                 }
             }
-            //最后生成复合运行时对象，与语句不同，函数调用（除非退化成Value的情形，此时由外层函数去组合成RuntimeFunction）总要生成一个RuntimeFunction，从语义上讲FunctionData代表的其实也是一种StatementApi，而不是ExpressionApi
+            //Finally, a composite runtime object is generated. Unlike a statement, a function
+            // call (unless it degenerates into a Value, in which case the outer function is
+            // combined into a RuntimeFunction) always generates a RuntimeFunction. Semantically
+            // speaking, FunctionData actually represents a StatementApi. , instead of
+            // ExpressionApi
             RuntimeFunctionCall* pRuntimeFunction = m_Interpreter->AddNewRuntimeFunctionComponent();
             if (NULL != pRuntimeFunction) {
                 pRuntimeFunction->Init(*this);
@@ -3960,7 +3976,7 @@ namespace FunctionScript
             }
         }
         else if (HaveStatement()) {
-            //语句
+            //statement
             if (0 != m_Params) {
                 for (int ix = 0; ix < m_ParamNum; ++ix) {
                     if (0 != m_Params[ix]) {
@@ -4129,20 +4145,20 @@ namespace FunctionScript
         StatementApiFactory* pApiFactory = m_Interpreter->FindStatementApi(*this);
         m_RuntimeObjectPrepared = TRUE;
         if (0 != pApiFactory) {
-            //让API生成复合运行时对象。
+            //Let the API generate composite runtime objects.
             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
             m_RuntimeObject.SetStatementApi(pApi);
             return;
         }
         else {
-            //object literal检测
+            //detect object literal
             if (GetFunctionNum() == 1) {
                 FunctionData* pFunc = GetFunction(0);
                 if (0 != pFunc && !pFunc->HaveId()) {
                     if (pFunc->HaveParam() && pFunc->GetParamClass() == FunctionData::PARAM_CLASS_BRACKET) {
                         pApiFactory = m_Interpreter->GetLiteralArrayApi();
                         if (0 != pApiFactory) {
-                            //让API生成复合运行时对象。
+                            //Let the API generate composite runtime objects.
                             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
                             m_RuntimeObject.SetStatementApi(pApi);
                         }
@@ -4151,7 +4167,7 @@ namespace FunctionScript
                     else if (!pFunc->HaveParam() && pFunc->HaveStatement()) {
                         pApiFactory = m_Interpreter->GetLiteralObjectApi();
                         if (0 != pApiFactory) {
-                            //让API生成复合运行时对象。
+                            //Let the API generate composite runtime objects.
                             StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
                             m_RuntimeObject.SetStatementApi(pApi);
                         }
@@ -4159,7 +4175,7 @@ namespace FunctionScript
                     }
                 }
             }
-            //错误语法，所有语句都应该有对应的语句API
+            //Wrong syntax, all statements should have corresponding statement API
 #ifndef _GAMECLIENT_
             char errBuf[1025];
             tsnprintf(errBuf, 1024, "Error statement, line %d !\n", GetLine());
@@ -4285,14 +4301,17 @@ namespace FunctionScript
         }
         AutoInterpreterValuePoolValuesOperation op(*m_pInnerValuePool);
         Value* params = op.Get();
-        //这里有一个约定，所有参数都由处理函数自己计算参数值，传递的是原始参数信息，这样便于实现赋值或out参数特性
-        //复制参数信息
+        //There is a convention here that all parameters are calculated by the processing
+        // function itself, and the original parameter information is passed, which
+        // facilitates the implementation of assignment or out parameter characteristics.
+        //Copy parameter information
         if (0 != m_Params) {
             for (int ix = 0; ix < m_ParamNum && m_Interpreter->IsRunFlagEnable(); ++ix) {
                 params[ix] = m_Params[ix];
                 Value& param = params[ix];
                 if (param.IsStatementApi() && NULL != param.GetStatementApi()) {
-                    //参数是语句的需要执行语句后传递其返回值
+                    //The parameter is the statement and its return value needs to be passed
+                    // after executing the statement.
                     ExecuteResultEnum ret = param.GetStatementApi()->Execute(&param);
                     if (EXECUTE_RESULT_NORMAL != ret) {
 #ifndef _GAMECLIENT_
@@ -4340,25 +4359,29 @@ namespace FunctionScript
         }
         else {
             if (m_Name.IsInvalid()) {
-                //逗号表达式实现（现在我们自己就是API的实现，有对参数求值的职责）
+                //Comma expression implementation (now we are the implementation of the API
+                // ourselves and have the responsibility for parameter evaluation)
                 ReplaceVariableWithValue(params, m_ParamNum);
-                //逗号表达式返回最后一个参数的值
+                //Comma expression returns the value of the last argument
                 if (0 != pRetValue)
                     *pRetValue = params[m_ParamNum - 1];
             }
             else {
                 Value val = m_Name;
-                //变量引用函数的函数调用
+                //Function call of variable reference function
                 ReplaceVariableWithValue(val);
                 ExpressionApi* pExp = val.GetExpressionApi();
                 if (val.IsExpressionApi() && 0 != pExp) {
                     pExp->Execute(m_ParamClass, params, m_ParamNum, pRetValue);
                 }
                 else {
-                    //函数名引用的不是函数，忽略函数名，当作逗号表达式处理，返回最后一个参数的值
-                    //逗号表达式实现（现在我们自己就是API的实现，有对参数求值的职责）
+                    //The function name refers to something other than a function. The
+                    // function name is ignored, treated as a comma expression, and returns
+                    // the value of the last parameter.
+                    //Comma expression implementation (now we are the implementation of the
+                    // API ourselves and have the responsibility for parameter evaluation)
                     ReplaceVariableWithValue(params, m_ParamNum);
-                    //逗号表达式返回最后一个参数的值
+                    //Comma expression returns the value of the last argument
                     if (0 != pRetValue)
                         *pRetValue = params[m_ParamNum - 1];
                 }
@@ -4415,8 +4438,12 @@ namespace FunctionScript
 
     ExecuteResultEnum Interpreter::CallMember(ExpressionApi& obj, const Value& member, int isProperty, int paramClass, Value* pParams, int paramNum, Value* pRetValue)
     {
-        //对象成员访问分2步完成，第一步用成员名或索引作参数，获得成员访问对象。第二步用成员访问对象操作对象成员，完成实际操作。
-        //解析器在wrapObjectMember/wrapObjectMemberInHighOrderFunction方法里将这2步组合成二阶函数调用。
+        //Object member access is completed in two steps. The first step uses the member
+        // name or index as a parameter to obtain the member access object. The second step
+        // is to use the member access object to operate the object members to complete
+        // the actual operation.
+        //The parser combines these 2 steps into a second-order function call in the
+        // wrapObjectMember/wrapObjectMemberInHighOrderFunction method.
         Value param = member;
         AutoInterpreterValuePoolValueOperation op(m_InterpreterValuePool);
         Value& memberAccessor = op.Get();

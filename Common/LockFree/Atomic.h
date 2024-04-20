@@ -3,7 +3,7 @@
 
 #define REG_OP32 "l"
 #define REG_OP64 "q"
-#define REG_OPL REG_OP64 //在linux编译为64位指令
+#define REG_OPL REG_OP64 //Compile to 64-bit instructions in linux
 
 #define LockFreeDebugPrint	printf
 

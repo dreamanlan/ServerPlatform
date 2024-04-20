@@ -68,7 +68,7 @@ inline void ActionForSourceCodeScript::setScriptDelimiter(const char* begin, con
     }
 }
 //--------------------------------------------------------------------------------------
-//标识符
+//identifier
 inline void ActionForSourceCodeScript::pushId()
 {
     char* lastToken = getLastToken();
@@ -231,7 +231,7 @@ inline void ActionForGenerator::setScriptDelimiter(const char* begin, const char
     }
 }
 //--------------------------------------------------------------------------------------
-//标识符
+//identifier
 inline void ActionForGenerator::pushId()
 {
     char* lastToken = getLastToken();

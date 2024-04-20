@@ -311,7 +311,7 @@ namespace FunctionScript
         }
         inline void genLastLineNumber()
         {
-            //这信息就不生成了，省点空间
+            //This information will not be generated to save space.
             //if(!preconditionCheck())return;
             //mData.genByteCode(static_cast<unsigned char>(SimpleScriptByteCodeEnum::BYTE_CODE_SET_LAST_LINE_NUMBER));
             //mData.genByteCode(mThis->getLastLineNumber());

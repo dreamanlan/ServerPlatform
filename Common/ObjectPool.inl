@@ -63,7 +63,6 @@ DataT* ObjectPoolT<DataT, LockT, SizeV>::NewObject()
         return NULL;
     DataT* pData = m_UnusedDatas.PopFront();
     UpdateDataAllocated(pData, TRUE);
-    //	pData->CleanData();	JT:由于共享内存直接初始数据，所以在这里不清理，有清除数据的需要放在外部做
     return pData;
 }
 

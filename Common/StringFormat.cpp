@@ -18,7 +18,7 @@ namespace StringFormatUtility
     }
 }
 
-//使用方（snprintf_）保证buf、fmt不会为空，StringFormat类及其实现辅助都不再检查这2个指针是否为空。
+//The user (snprintf_) ensures that buf and fmt will not be empty. The StringFormat class and its implementation assistant will no longer check whether these two pointers are empty.
 StringParser::StringParser(char* buf, int size, const char* fmt) :m_pBuffer(buf), m_BufLen(size), m_pFmt(fmt)
 {
     m_FmtLen = (int)strlen(fmt);

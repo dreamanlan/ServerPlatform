@@ -195,9 +195,9 @@ inline const typename CChain<DataT, RecyclerT>::Iterator CChain<DataT, RecyclerT
         ItemType* pItem = it.GetPtr();
         if (NULL == pItem)
             return ret;
-        //从当前链表脱离
+        //Detach from the current linked list
         pItem->DisConnect();
-        //结点数据返还给数据池
+        //Node data is returned to the data pool
         it.GetPtr()->Recycle();
         return ret;
     }
@@ -225,7 +225,7 @@ inline const typename CChain<DataT, RecyclerT>::Iterator CChain<DataT, RecyclerT
         ItemType* pItem = it.GetPtr();
         if (NULL == pItem)
             return ret;
-        //从当前链表脱离
+        //Detach from the current linked list
         pItem->DisConnect();
         AddFirst(it);
         return ret;
@@ -243,7 +243,7 @@ inline const typename CChain<DataT, RecyclerT>::Iterator CChain<DataT, RecyclerT
         ItemType* pItem = it.GetPtr();
         if (NULL == pItem)
             return ret;
-        //从当前链表脱离
+        //Detach from the current linked list
         pItem->DisConnect();
         AddLast(it);
         return ret;

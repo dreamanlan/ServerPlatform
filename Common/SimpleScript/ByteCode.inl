@@ -9,13 +9,13 @@
 namespace FunctionScript
 {
     /*
-     * 备忘：为什么采用约简的方式而不是延迟一次性构造
-     * 1、已尝试过采用一个临时的结构比如SyntaxMaterial来收集语法解析过程中的数据，到语句完成时再构造语句
-     * 2、临时的结构与最终语义数据结构上相似度很高，也需要表示递归结构并且要与现有语义数据关联，代码重复并且逻辑不够清晰。
-     * 3、约简方式已经尽量重用语法解析中构造的实例，基本不会产生额外内存占用
-     * 4、约简方式下最终内存占用与脚本复杂度线性相关，不用担心占用过多内存
-     * 5、语义数据在定义上考虑了退化情形，除必须数据外已尽量不占用额外空间
-     */
+    * Memo: Why use reduction instead of delayed one-time construction
+    * 1. We have tried to use a temporary structure such as SyntaxMaterial to collect data during the syntax parsing process, and then construct the statement when the statement is completed.
+    * 2. The temporary structure is very similar to the final semantic data structure. It also needs to represent the recursive structure and be associated with the existing semantic data. The code is repeated and the logic is not clear enough.
+    * 3. The reduction method has tried its best to reuse the instances constructed in the grammar parsing, and basically does not cause additional memory usage.
+    * 4. In the reduction mode, the final memory usage is linearly related to the script complexity, so there is no need to worry about taking up too much memory.
+    * 5. The definition of semantic data takes degradation situations into consideration and tries not to occupy additional space except for necessary data.
+    */
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::setExternScript()
     {
@@ -50,7 +50,7 @@ namespace FunctionScript
             return;
         int handled = FALSE;
         if (0 == strcmp("=", tokenInfo.mString)) {
-            //因为这里未出栈，不能先化简
+            //Because the stack has not been popped here, we cannot simplify it first.
             handled = wrapObjectMember(*pArg);
         }
         if (FALSE == handled) {
@@ -106,7 +106,7 @@ namespace FunctionScript
             return;
         int handled = FALSE;
         if (0 == strcmp("=", tokenInfo.mString)) {
-            //因为这里未出栈，不能先化简
+            //Because the stack has not been popped here, we cannot simplify it first.
             handled = wrapObjectMember(*pArg);
         }
         if (FALSE == handled) {
@@ -168,7 +168,7 @@ namespace FunctionScript
 
         FunctionData* p = mInterpreter->AddNewFunctionComponent();
         if (0 != p) {
-            //三元运算符表示成op1(cond)(true_val)op2(false_val)
+            //The ternary operator is expressed as op1(cond)(true_val)op2(false_val)
             FunctionData* lowerOrderFunction = mInterpreter->AddNewFunctionComponent();
             p->GetNameValue().SetFunction(lowerOrderFunction);
             p->SetParamClass(FunctionData::PARAM_CLASS_TERNARY_OPERATOR);
@@ -305,18 +305,18 @@ namespace FunctionScript
         }
         if (mData.isSemanticStackEmpty()) {
             if (!statement->IsValid()) {
-                //_epsilon_表达式无语句语义
+                //_epsilon_expression has no statement semantics
                 return;
             }
-            //化简只需要处理一级，参数与语句部分应该在添加到语句时已经处理了
+            //Simplification only needs to be processed at one level, and the parameters and statement parts should have been processed when they are added to the statement.
             ISyntaxComponent& statementSyntax = simplifyStatement(*statement);
-            //顶层元素结束
+            //End of top-level element
             wrapObjectMember(statementSyntax);
             mInterpreter->AddStatement(&statementSyntax);
             mThis->setCanFinish(TRUE);
         }
         else {
-            //化简只需要处理一级，参数与语句部分应该在添加到语句时已经处理了
+            //Simplification only needs to be processed at one level, and the parameters and statement parts should have been processed when they are added to the statement.
             ISyntaxComponent& statementSyntax = simplifyStatement(*statement);
 
             FunctionData* p = mData.getLastFunctionRef();
@@ -327,15 +327,15 @@ namespace FunctionScript
                         || call.GetParamClass() == FunctionData::PARAM_CLASS_NULLABLE_OPERATOR
                         || call.GetParamClass() == FunctionData::PARAM_CLASS_TERNARY_OPERATOR
                         ) && !statement->IsValid())
-                        return;//操作符就不支持空参数了
+                        return;//The operator does not support empty parameters.
 
-                    //函数参数，允许空语句，用于表达默认状态(副作用是a()与a[]将总是会有一个空语句参数)。
+                    //Function parameters, allowing empty statements, are used to express the default state (a side effect is that a() and a[] will always have an empty statement parameter).
                     if (statementSyntax.IsValid()) {
                         wrapObjectMember(statementSyntax);
                         call.AddParam(&statementSyntax);
 
                         if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD && ISyntaxComponent::TYPE_VALUE==statementSyntax.GetSyntaxType()) {
-                            //成员名需要转成字符串常量
+                            //Member names need to be converted into string constants
                             auto&& vd = static_cast<ValueData&>(statementSyntax);
                             auto&& val = vd.GetValue();
                             if (val.IsIdentifier() && val.GetString()) {
@@ -347,10 +347,10 @@ namespace FunctionScript
                 }
                 else if (call.HaveStatement()) {
                     if (!statement->IsValid()) {
-                        //_epsilon_表达式无语句语义
+                        //_epsilon_expression has no statement semantics
                         return;
                     }
-                    //函数扩展语句部分
+                    //Function expansion statement part
                     wrapObjectMember(statementSyntax);
                     call.AddParam(&statementSyntax);
                 }
@@ -404,7 +404,7 @@ namespace FunctionScript
         void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction()
     {
         if (!preconditionCheck())return;
-        //高阶函数构造（当前函数返回一个函数）
+        //Higher-order function construction (the current function returns a function)
         FunctionData*& p = mData.getLastFunctionRef();
         if (0 == p)
             return;
@@ -608,17 +608,17 @@ namespace FunctionScript
                 call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD_STAR ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_POINTER_STAR) {
-                //包装对象成员:（注意这里传进来的是obj.property，所以只需要转变成高阶形式即可）
+                //Packaging object members: (Note that obj.property is passed in here, so it only needs to be converted into a higher-order form)
                 //	obj.property=val -> obj.property(val)
                 //	val=obj.property -> val=obj.property()
                 FunctionData* pNew = mInterpreter->AddNewFunctionComponent();
                 if (0 != pNew) {
-                    //构造一个新的obj.property
+                    //Construct a new obj.property
                     int paramClass = call.GetParamClass();
                     pNew->SetParamClass(paramClass);
                     pNew->SetNameValue(call.GetNameValue());
                     pNew->AddParam(call.GetParam(0));
-                    //将旧的call变成高阶形式
+                    //Convert old calls into higher-order forms
                     Value newCall(pNew);
                     call.SetNameValue(newCall);
                     call.SetParamClass(FunctionData::PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
@@ -634,7 +634,7 @@ namespace FunctionScript
     {
         int ret = FALSE;
         if (0 != mInterpreter && arg.IsValid() && arg.IsHighOrder()) {
-            //包装对象成员:
+            //Wrapper object members:
             //	obj.property. -> obj.property().
             const Value& loCall = arg.GetNameValue();
             FunctionData* pCall = loCall.GetFunction();
@@ -670,7 +670,7 @@ namespace FunctionScript
     template<class RealTypeT> inline
         int RuntimeBuilderT<RealTypeT>::wrapObjectMember(StatementData& arg)
     {
-        //这个函数用于无法先化简的情形
+        //This function is used when it is not possible to simplify first
         int ret = FALSE;
         if (0 != mInterpreter && arg.IsValid() && 1 == arg.GetFunctionNum()) {
             FunctionData* p = arg.GetFunction(0);
@@ -685,9 +685,12 @@ namespace FunctionScript
         ISyntaxComponent& RuntimeBuilderT<RealTypeT>::simplifyStatement(StatementData& data)const
     {
         int num = data.GetFunctionNum();
-        //对语句进行化简（语法分析过程中为了方便，全部按完整StatementData来构造，这里化简为原来的类型：ValueData/FunctionData/FunctionData等，主要涉及参数与语句部分）
+        //Simplify the statements (for convenience during the syntax analysis process,
+        // all are constructed according to the complete StatementData. Here they are
+        // simplified to the original types: ValueData/FunctionData/FunctionData, etc.
+        // mainly involving parameters and statement parts)
         if (num == 1) {
-            //只有一个函数的语句退化为函数（再按函数进一步退化）。
+            //A statement with only one function degenerates into a function (and then further degenerates by function).
             FunctionData& func = *data.GetFunction(0);
             return simplifyStatement(func);
         }
@@ -697,9 +700,9 @@ namespace FunctionScript
         ISyntaxComponent& RuntimeBuilderT<RealTypeT>::simplifyStatement(FunctionData& data)const
     {
         if (!data.HaveParamOrStatement()) {
-            //没有参数的调用退化为基本值数据
+            //Calls without parameters degenerate to basic value data
             if (data.IsHighOrder()) {
-                //这种情况应该不会出现
+                //This should not happen
                 return data;
             }
             else {
@@ -745,7 +748,7 @@ namespace FunctionScript
             }
         }
         else {
-            //有参数不会退化
+            //There are parameters that will not degrade
             return data;
         }
     }

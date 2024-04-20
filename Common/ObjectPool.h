@@ -5,7 +5,7 @@
 #include "Queue.h"
 
 /**
-*	数据对象池，使用此数据池的DataT需要继承自PoolAllocatedObjectBaseT<DataT>
+*	Data object pool. DataT using this data pool needs to inherit from PoolAllocatedObjectBaseT<DataT>
 */
 template<typename DataT>
 class PoolAllocatedObjectBaseT;
@@ -72,7 +72,7 @@ public:
     {
         Cleanup();
     }
-public://内存池的拷贝构造与复制不复制数据
+public://Memory pool copy construction and replication do not copy data
     ObjectPoolT(const ObjectPoolT& other)
     {
         Init(other.GetMaxNum());

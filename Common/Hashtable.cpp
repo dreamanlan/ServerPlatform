@@ -71,7 +71,7 @@ void HashtableBase::Cleanup(void)
 
 unsigned int HashtableBase::GetPrime(unsigned int code)
 {
-    //»ù´¡ËØÊı±í
+    //basic prime number table
     static unsigned int primes[] =
     {
         3, 7, 11, 0x11, 0x17, 0x1d, 0x25, 0x2f, 0x3b, 0x47, 0x59, 0x6b, 0x83, 0xa3, 0xc5, 0xef,

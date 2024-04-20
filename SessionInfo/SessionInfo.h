@@ -24,7 +24,7 @@ struct SessionInfo
 };
 
 /*
-* ServerCenterÏûÏ¢
+* ServerCenter message
 */
 #pragma pack(push,1)
 

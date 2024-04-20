@@ -4,17 +4,17 @@
 #include "BaseType.h"
 #include "Chain.h"
 
-//字符串hash值计算
+//String hash value calculation
 unsigned int CalcStringHashCode(const char* str);
 
-//包装c字符串作为hash表的key，hashcode的计算采用相对简洁的经典算法，需要
-//更换计算算法时，在HashtableT的第三个模板参数提供独立的KeyWorker，其中的
-//GetHashCode实现采用新算法，Equal与Clean调用StringKeyT的相应成员即可。
+//Pack the c string as the key of the hash table. The hashcode calculation uses a relatively simple classic algorithm, which requires
+//When changing the calculation algorithm, provide an independent KeyWorker in the third template parameter of HashtableT, in which
+//The implementation of GetHashCode adopts a new algorithm, and Equal and Clean can call the corresponding members of StringKeyT.
 template<int CapacityV>
 struct StringKeyT
 {
     static const int MAX_CHAR_CAPACITY = CapacityV;
-public://用作HashtableT的第3个模板参数所需的接口
+public://The interface required to be used as the 3rd template parameter of HashtableT
     static unsigned int GetHashCode(const StringKeyT& key)
     {
         return (unsigned int)CalcStringHashCode(key.m_pString);
@@ -27,16 +27,16 @@ public://用作HashtableT的第3个模板参数所需的接口
     {
         key.Clean();
     }
-public://用作HashtableT第1个模板参数与包装标准c字符串的接口,支持标准c字符串到StringKeyT的隐式转换
+public://Used as the first template parameter of HashtableT and the interface for packaging standard c strings, supporting implicit conversion from standard c strings to StringKeyT
     StringKeyT()
     {
         Clean();
     }
-    //用于支持标准c字符串到StringKeyT的隐式转换，此构造不进行字符串内容的拷贝，不要直接使用
+    //Used to support implicit conversion from standard C string to StringKeyT. This construct does not copy the string content. Do not use it directly.
     StringKeyT(const char* p)
     {
-        //此函数特殊，不使用StringKeyT的内部存储，直接引用外部c字符串，仅用于HashtableT::Add,Get,Remove的参数直接
-        //使用c字符串时的隐式转换,StringKeyT的其它构造与赋值操作均使用内部存储，不再依赖外部存储空间。
+        //This function is special. It does not use the internal storage of StringKeyT and directly references the external c string. It is only used directly for the parameters of HashtableT::Add, Get, and Remove.
+        //Implicit conversion when using c string, other construction and assignment operations of StringKeyT use internal storage and no longer rely on external storage space.
         m_pString = p;
     }
     StringKeyT(const StringKeyT& other)
@@ -70,7 +70,7 @@ private:
     const char* m_pString;
 };
 
-//哈希表的基础功能（素数获取, 整数hash计算，冲突处理等）
+//Basic functions of hash table (prime number acquisition, integer hash calculation, conflict handling, etc.)
 class HashtableBase
 {
 protected:
@@ -99,14 +99,14 @@ protected:
         virtual ~ISlot() {}
     };
 protected:
-    //增加一个表项
+    //Add an entry
     unsigned int		PrepareAddIndex(const ISlotKey& key);
-    //读取信息
+    //Read information
     unsigned int		Find(const ISlotKey& key) const;
-    //删除表项
+    //Delete entry
     unsigned int		Remove(const ISlotKey& key);
-    //清除所有数据
-    void		Cleanup(void);
+    //Clear all data
+    void		        Cleanup(void);
 protected:
     virtual unsigned int			GetSlotCount() const = 0;
     virtual ISlot& GetSlot(unsigned int index) = 0;
@@ -114,16 +114,16 @@ protected:
 protected:
     virtual ~HashtableBase() {};
 protected:
-    //得到一个大于等于指定值的素数,code必须小于0x7FFFFFFF(即有符号32位整数的最大值)
+    //Get a prime number greater than or equal to the specified value, the code must be less than 0x7FFFFFFF (that is, the maximum value of a signed 32-bit integer)
     static unsigned int	GetPrime(unsigned int code);
 private:
-    //计算hash索引值,hashSize--哈希表的最大尺寸，code--用于计算哈希值的原始值，incr--在哈希表中遇到冲突变更哈希值的增量
+    //Calculate the hash index value, hashSize - the maximum size of the hash table, code - the original value used to calculate the hash value, incr - the increment of the hash value when a conflict is encountered in the hash table
     static unsigned int	ToIndex(unsigned int hashSize, unsigned int code, unsigned int& incr);
-    //判断某数是否是素数
+    //Determine whether a number is prime
     static int IsPrime(unsigned int val);
 };
 
-//基础数值类型用作hash键时的HashtableT的第三个模板参数
+//The third template parameter of HashtableT when the underlying numeric type is used as a hash key
 template<typename KeyT>
 class DefKeyWorkerT
 {
@@ -162,7 +162,7 @@ public:
     }
 };
 
-//HashtableT的第四个模板参数的默认实现。
+//The default implementation of the fourth template parameter of HashtableT.
 template<typename ValT>
 class DefValueWorkerT
 {
@@ -183,7 +183,7 @@ public:
     }
 };
 
-//HashtableT的第四个模板参数的实现，用于以INVALID_ID表示无效值的情形。
+//Implementation of the fourth template parameter of HashtableT, used when INVALID_ID represents an invalid value.
 template<typename ValT, ValT InvalidVal = INVALID_ID>
 class IntegerValueWorkerT
 {
@@ -194,7 +194,7 @@ public:
     }
 };
 
-//用于编译时查找大于等于指定值的素数的代码（实在没别的办法了，所以用了这种比较晦涩的技术，请不要怨我！）
+//Code used to find prime numbers greater than or equal to the specified value at compile time (there is really no other way, so I used this relatively obscure technology, please don’t blame me!)
 namespace HashtableUtility
 {
     template<bool v, int V,
@@ -247,7 +247,7 @@ namespace HashtableUtility
     };
 }
 
-//哈希表模板类(最大支持0x7FFFFFFF个元素)
+//Hash table template class (supports up to 0x7FFFFFFF elements)
 template<typename KeyT, typename ValT, typename KeyWorkerT = DefKeyWorkerT<KeyT>, typename ValueWorkerT = DefValueWorkerT<ValT>, int SizeV = 0 >
 class HashtableT : private HashtableBase
 {
@@ -269,7 +269,7 @@ class HashtableT : private HashtableBase
         {
             MyAssert(m_pHashtable);
         }
-    private://禁用拷贝与赋值，此类使用引用包装，只用于受限场合
+    private://Disable copying and assignment. This type uses reference packaging and is only used in restricted situations.
         SlotKey(const SlotKey&);
         SlotKey& operator= (const SlotKey&);
     private:
@@ -384,7 +384,7 @@ public:
         return *this;
     }
 public:
-    //初始化表
+    //init hash table
     inline void				InitTable(unsigned int maxItem)
     {
         unsigned int maxVal = HashtableBase::GetPrime(maxItem);
@@ -394,7 +394,7 @@ public:
         }
         Create(maxVal);
     }
-    //增加一个表项
+    //add a entry
     inline int				Add(const KeyT& id, const ValT& val)
     {
         SlotKey key(this, id);
@@ -411,7 +411,7 @@ public:
         m_DataChain.AddLast(it);
         return TRUE;
     }
-    //读取信息
+    //read data
     inline const ValT& Get(const KeyT& id) const
     {
         SlotKey key(this, id);
@@ -420,7 +420,7 @@ public:
             return GetInvalidValueRef();
         return GetSlotImpl(index).m_Value;
     }
-    //读取信息
+    //read data
     inline ValT& Get(const KeyT& id)
     {
         SlotKey key(this, id);
@@ -429,7 +429,7 @@ public:
             return GetInvalidValueRef();
         return GetSlotImpl(index).m_Value;
     }
-    //删除表项
+    //delete a entry
     inline const Iterator	Remove(const KeyT& id)
     {
         SlotKey key(this, id);
@@ -438,7 +438,7 @@ public:
             return Iterator();
         return m_DataChain.Remove(GetChainIterator(index));
     }
-    //删除表项
+    //delete a entry
     inline const Iterator	Remove(const Iterator& it)
     {
         SlotKey key(this, it->GetKey());
@@ -447,17 +447,17 @@ public:
             return Iterator();
         return m_DataChain.Remove(GetChainIterator(index));
     }
-    //移动指定结点为遍历表的首结点
+    //Move the specified node to the first node of the traversed table
     inline const Iterator	MoveAsFirst(const Iterator& it)
     {
         return m_DataChain.MoveAsFirst(it);
     }
-    //移动指定结点为遍历表的尾结点
+    //Move the specified node to the end node of the traversed table
     inline const Iterator	MoveAsLast(const Iterator& it)
     {
         return m_DataChain.MoveAsLast(it);
     }
-    //清除所有数据
+    //Clear all data
     inline void				CleanUp(void)
     {
         HashtableBase::Cleanup();
@@ -583,7 +583,7 @@ public:
     }
 };
 
-//哈希集合模板类(最大支持0x7FFFFFFF个元素)
+//Hash collection template class (supports up to 0x7FFFFFFF elements)
 template<typename KeyT, typename KeyWorkerT = DefKeyWorkerT<KeyT>, int SizeV = 0 >
 class HashsetT : private HashtableBase
 {
@@ -605,7 +605,8 @@ class HashsetT : private HashtableBase
         {
             MyAssert(m_pHashset);
         }
-    private://禁用拷贝与赋值，此类使用引用包装，只用于受限场合
+    private://Disable copying and assignment. This type uses reference packaging and
+            //is only used in restricted situations.
         SlotKey(const SlotKey&);
         SlotKey& operator= (const SlotKey&);
     private:
@@ -710,7 +711,7 @@ public:
         return *this;
     }
 public:
-    //初始化表
+    //init table
     inline void				InitSet(unsigned int maxItem)
     {
         unsigned int maxVal = HashtableBase::GetPrime(maxItem);
@@ -720,7 +721,7 @@ public:
         }
         Create(maxVal);
     }
-    //增加一个表项
+    //add a entry
     inline int				Insert(const KeyT& id)
     {
         SlotKey key(this, id);
@@ -736,7 +737,7 @@ public:
         m_DataChain.AddLast(it);
         return TRUE;
     }
-    //读取信息
+    //read data
     inline int				Exist(const KeyT& id) const
     {
         SlotKey key(this, id);
@@ -745,7 +746,7 @@ public:
             return FALSE;
         return TRUE;
     }
-    //删除表项
+    //delete a entry
     inline const Iterator	Remove(const KeyT& id)
     {
         SlotKey key(this, id);
@@ -754,7 +755,7 @@ public:
             return Iterator();
         return m_DataChain.Remove(GetChainIterator(index));
     }
-    //删除表项
+    //delete a entry
     inline const Iterator	Remove(const Iterator& it)
     {
         SlotKey key(this, it->GetKey());
@@ -763,17 +764,17 @@ public:
             return Iterator();
         return m_DataChain.Remove(GetChainIterator(index));
     }
-    //移动指定结点为遍历表的首结点
+    //Move the specified node to the first node of the traversed table
     inline const Iterator	MoveAsFirst(const Iterator& it)
     {
         return m_DataChain.MoveAsFirst(it);
     }
-    //移动指定结点为遍历表的尾结点
+    //Move the specified node to the end node of the traversed table
     inline const Iterator	MoveAsLast(const Iterator& it)
     {
         return m_DataChain.MoveAsLast(it);
     }
-    //清除所有数据
+    //Clear all data
     inline void				CleanUp(void)
     {
         HashtableBase::Cleanup();

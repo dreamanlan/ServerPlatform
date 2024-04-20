@@ -88,7 +88,7 @@ const char* SessionManager::TargetName(uint64_t handle) const
 void SessionManager::Tick()
 {
     unsigned int curTime = MyTimeGetTime();
-    //检查会话是否正常
+    //Check if the session is normal
     if (NULL != m_Session) {
         if (!m_Session->IsValid()) {
             __Internal_Log("session removed for invalid session");
@@ -231,7 +231,7 @@ void SessionManager::HandleTransmit(TcpSession* session, const char* data, int l
     retMsg.m_IsSuccess = true;
     session->Send(reinterpret_cast<const char*>(&retMsg), sizeof(MessageTransmitResult));
 
-    //通知逻辑层
+    //notify logic layer
     ::HandleMessage(seq, src, dest, msg->m_Data, len - sizeof(MessageTransmit) + 1);
 }
 
@@ -244,7 +244,7 @@ void SessionManager::HandleTransmitResult(TcpSession* session, const char* data,
     uint64_t src = msg->m_Src;
     uint64_t dest = msg->m_Dest;
 
-    //通知逻辑层
+    //notify logic layer
     ::HandleMessageResult(seq, src, dest, msg->m_IsSuccess ? 1 : 0);
 
     if (!msg->m_IsSuccess) {

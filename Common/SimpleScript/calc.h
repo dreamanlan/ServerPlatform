@@ -661,7 +661,8 @@ namespace FunctionScript
             StatementApi* m_StatementApiVal;
             FunctionData* m_FunctionVal;
             void* m_Ptr;
-            const char* m_ConstStringVal;//在脚本里与m_StringVal类型相同,用于实现自动const_cast
+            const char* m_ConstStringVal;//The same type as m_StringVal in the script,
+                                        // used to implement automatic const_cast
         };
         int m_Line;
     public:
@@ -699,14 +700,22 @@ namespace FunctionScript
         virtual const char* GetId()const = 0;
         virtual int GetIdType() const = 0;
         virtual int GetLine() const = 0;
-        //编译时的数据转换为运行时数据，主要目的是运行时只关心运行时需要做的工作，提升效率
-        //在这里构造运行时对象并保证只构造一次，如果当前语法单位是StatementApi，则在这里处理，
-        //否则调用PrepareGeneralRuntimeObject
+        //The compile-time data is converted into run-time data. The main purpose is that
+        // the run-time only cares about the work that needs to be done at run-time and
+        // improves efficiency.
+        //Construct the runtime object here and ensure that it is constructed only once.
+        //If the current syntax unit is StatementApi, it will be processed here.
+        //Otherwise call PrepareGeneralRuntimeObject
         virtual void PrepareRuntimeObject() = 0;
-        //得到对应的运行时对象，运行时对象有三种类型：通常意义上的单一值、ExpressionApi和StatementApi，都记录在Value里
+        //Get the corresponding runtime object. There are three types of runtime objects:
+        // single value in the usual sense, ExpressionApi and StatementApi, all recorded
+        // in Value.
         virtual const Value& GetRuntimeObject()const = 0;
-        //当前语法单位可能是一个StatementApi或者是一个StatementApi的组成部分，二者都需要进行运行时信息的准备工作，
-        //在这里完成常规运行时信息的准备，亦即除整体是一个StatementApi实例之外的运行时信息的处理工作。
+        //The current syntax unit may be a StatementApi or a component of a StatementApi,
+        // both of which require preparation of runtime information.
+        //Complete the preparation of regular runtime information here, that is,
+        // the processing of runtime information except that the whole is a StatementApi
+        // instance.
         virtual void PrepareGeneralRuntimeObject() = 0;
     public:
         int GetSyntaxType() const { return m_SyntaxType; }
@@ -751,8 +760,11 @@ namespace FunctionScript
         NullSyntax& operator=(const NullSyntax&) = delete;
     };
 
-    //因为Value类用于运行时的值表示，需要像POD一样工作，这里专门为语法层提供一个类表示语法里的标识符、常量、变量和操作符
-    //这个类主要用于以ISyntaxComponent访问的情形，所以FunctionData在接口上提供了直接操作Value的方法。
+    //Because the Value class is used for value representation at runtime and needs to work
+    // like a POD, a class is specially provided for the syntax layer to represent
+    // the identifiers, constants, variables and operators in the syntax.
+    //This class is mainly used for access with ISyntaxComponent, so FunctionData provides
+    // methods for directly operating Value on the interface.
     class ValueData : public ISyntaxComponent
     {
     public:
@@ -787,18 +799,18 @@ namespace FunctionScript
     };
 
     /*
-     * ValueData、FunctionData与StatementData代表的信息是编译时信息，对运行时来说，它们只是元数据。
-     * 因FunctionData可以有高阶的表示，其名称可能也是一个FunctionData，这种递归关系依靠Value来建立（注意为了避免空间浪费，没有放在ValueData上）
-     * Value可以是一个FunctionData仅在编译时使用，运行时不应使用。
-     *
-     * 运行时的三种类型：单个值、ExpressionApi和StatementApi都记录在Value里。
-     *
-     * 独立出来的运行时理论上应该便于实现更好的运行性能。
-     *
-     * DSL语法不区分函数参数与语句块，都是参数表的形式（这是为了语法上更加灵活，凡是参数表出现的地方都可以出现语句块）。
-     *
-     * 一个即有参数表又有语句块的函数一般用来表示函数定义，在语法上是一种高阶函数表示。
-     */
+    * The information represented by ValueData, FunctionData and StatementData is compile-time information. For runtime, they are just metadata.
+    * Because FunctionData can have high-order representation, its name may also be a FunctionData. This recursive relationship relies on Value to establish (note that in order to avoid wasting space, it is not placed on ValueData)
+    * Value can be a FunctionData which is used only at compile time and should not be used at runtime.
+    *
+    * The three types of runtime: single value, ExpressionApi and StatementApi are all recorded in Value.
+    *
+    * The independent runtime should theoretically facilitate better running performance.
+    *
+    * DSL syntax does not distinguish between function parameters and statement blocks, both are in the form of parameter lists (this is to make the syntax more flexible, statement blocks can appear wherever parameter lists appear).
+    *
+    * A function with both a parameter list and a statement block is generally used to represent a function definition, which is a high-order function representation in syntax.
+    */
     class StatementData;
     class RuntimeStatementBlock;
     class FunctionData : public ISyntaxComponent
@@ -1042,10 +1054,12 @@ namespace FunctionScript
         InterpreterValuePool* m_pInnerValuePool;
     };
 
-    /* 备忘：为什么StatementData的成员不使用ISyntaxComponent[]而是FunctionData[]
-     * 1、虽然语法上这里的FunctionData可以退化为FunctionData与ValueData，但不可以是StatementData，这样在概念上不能与ISyntaxComponent等同
-     * 2、在设计上，FunctionData应该考虑到退化情形，尽量在退化情形不占用额外空间
-     */
+    /* Memo: Why do members of StatementData not use ISyntaxComponent[] but FunctionData[]?
+    * 1. Although FunctionData here can be degenerated into FunctionData and ValueData in syntax,
+    * it cannot be StatementData, so it cannot be conceptually equivalent to ISyntaxComponent.
+    * 2. In terms of design, FunctionData should take the degradation situation into consideration and
+    * try not to occupy additional space in the degradation situation.
+    */
     class StatementData : public ISyntaxComponent
     {
     public:
@@ -1313,18 +1327,18 @@ namespace FunctionScript
     };
 
     /*
-     * 备忘：实现API时注意这里有个约定，所有参数都由API自己计算参数值，传递的是原始参数信息，这样便于实现赋值或out参数特性！
-     * 特别的，自定义的语句执行时调用API，按这个约定，语句是不需要为API计算参数值的。
-     * 有一个例外是如果参数是一个StatementApi，则需要执行后传递其返回值。
-     * 还有一个约定，Value类型为StatementApi与FunctionData的，不会由脚本逻辑产生，这2种类型的值是编译环境的一部分，所以只会在编
-     * 译时才会产生这样的Value，也就是说一个Value不会因为求值后变成StatementApi或FunctionData，对于参数类型为StatementApi或FunctionData
-     * 的Value，解释器在调用具体API时都会转换为普通的值，所以RuntimeComponent类的计算参数值的方法不需要考虑这些情形，仅仅是
-     * 根据参数信息替换成对应的参数值。
-     *
-     * ExpressionApi::Execute
-     * 上面方法用于API实现时，实现上要符合带const修饰的语义，因为API注册后，一个实例在许多地方使用。接口无法添加此约束，因
-     * 为实现这些接口的不只是注册的API,还有一些可以产生多个实例的运行时对象。
-     */
+    * Memo: When implementing the API, please note that there is a convention here. All parameters are calculated by the API itself, and the original parameter information is passed. This makes it easy to implement assignment or out parameter features!
+    * In particular, when a custom statement is executed, the API is called. According to this convention, the statement does not need to calculate parameter values for the API.
+    * One exception is that if the parameter is a StatementApi, its return value needs to be passed after execution.
+    * There is also a convention that the Value types of StatementApi and FunctionData will not be generated by script logic. These two types of values are part of the compilation environment, so they will only be generated during compilation.
+    * Such a Value will be generated during translation, which means that a Value will not become StatementApi or FunctionData after evaluation. For parameter types of StatementApi or FunctionData
+    * Value, the interpreter will convert it to a common value when calling a specific API, so the method of calculating the parameter value of the RuntimeComponent class does not need to consider these situations, just
+    * Replace with the corresponding parameter value based on the parameter information.
+    *
+    * ExpressionApi::Execute
+    * When the above method is used for API implementation, the implementation must comply with const-modified semantics, because after API registration, an instance is used in many places. The interface cannot add this constraint because
+    * To implement these interfaces are not only registered APIs, but also some runtime objects that can generate multiple instances.
+    */
     class ExpressionApi : public RuntimeComponent
     {
     public:
@@ -1343,15 +1357,19 @@ namespace FunctionScript
         explicit StatementApi(Interpreter& interpreter) :RuntimeComponent(interpreter) {}
     };
 
-    //每类语句在形式上都不一样，所以需要一个api工厂来定制相应的api实例并将依赖编译时信息的工作在这里完成
+    //Each type of statement is different in form, so an api factory is needed to customize
+    //the corresponding api instance and the work that relies on compile-time information is
+    //completed here.
     class StatementApiFactory
     {
     public:
         virtual ~StatementApiFactory() = default;
     public:
         virtual int IsMatch(const ISyntaxComponent& statement)const = 0;
-        //语句和表达式不一样，所有表达式都是一种函数表示，给定输入计算输出，不依赖其他编译时信息
-        //每个类型的语句在形式上都不一样，需要为每个语句根据编译时信息定制运行时对象
+        //Statements are different from expressions. All expressions are a function representation.
+        //The output is calculated given the input and does not rely on other compile-time information.
+        //Each type of statement is different in form, and the runtime object needs to be customized
+        //based on compile-time information for each statement.
         virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const = 0;
     };
 
@@ -1504,12 +1522,12 @@ namespace FunctionScript
         unsigned int m_Addr;
     };
 
-    //每个函数调用在运行时是一个RuntimeFunctionCall，记录了函数指针与对应的调用参数
-    //API调用：RuntimeFunctionCall->ExpressionApi
-    //自定义函数调用：RuntimeFunctionCall->Closure->FunctionStatement
-    //自定义对象方法调用：RuntimeFunctionCall->MemberAccessor->ObjectBase->Closure->RuntimeStatementBlock
-    //自定义对象特性访问：RuntimeFunctionCall->MemberAccessor->ObjectBase
-    //自定义struct访问：RuntimeFunctionCall->MemberAccessor->ObjectBase
+    //Each function call is a RuntimeFunctionCall at runtime, which records the function pointer and corresponding call parameters.
+    //API：RuntimeFunctionCall->ExpressionApi
+    //Custom function：RuntimeFunctionCall->Closure->FunctionStatement
+    //Custom object method：RuntimeFunctionCall->MemberAccessor->ObjectBase->Closure->RuntimeStatementBlock
+    //Custom object property：RuntimeFunctionCall->MemberAccessor->ObjectBase
+    //Custom struct member：RuntimeFunctionCall->MemberAccessor->ObjectBase
     class RuntimeFunctionCall : public StatementApi
     {
     public:
@@ -1543,8 +1561,9 @@ namespace FunctionScript
     };
 
     /*
-    * 这里分离出这个类是为了供语法解析部分使用，因为有SourceCodeScript与ByteCodeScript两种形式的脚本
-    * ，解析部分不能依赖Interpreter而必须是一个共用的类ErrorAndStringBuffer
+    * This class is separated here for use in the syntax parsing part, because there are two forms of scripts:
+    * SourceCodeScript and ByteCodeScript,
+    * the parsing part cannot rely on Interpreter but must be a shared class ErrorAndStringBuffer
     */
     class ErrorAndStringBuffer
     {
@@ -1606,9 +1625,10 @@ namespace FunctionScript
     };
 
     /*
-     * 备忘：本脚本语言的解释器重度依赖C++函数栈的机制，所以不适合实现corountine机制（因为利用了C++函数调用栈来实现脚本栈，所以解释器的一次执行会完全抹掉调用栈，再次进入时无法继续之前的栈与上下文）。
-     * 此机制可以考虑在脚本里实现命令队列的方式来模拟。
-     */
+    * Memo: The interpreter of this script language relies heavily on the C++ function stack mechanism, so it is not suitable
+    * for implementing the corountine mechanism (because the C++ function call stack is used to implement the script stack, one execution of the interpreter will completely erase the call stack. The previous stack and context cannot be continued when entering again).
+    * This mechanism can be simulated by implementing a command queue in a script.
+    */
     class Interpreter
     {
         using SyntaxComponentPtr = ISyntaxComponent*;
@@ -1749,7 +1769,8 @@ namespace FunctionScript
         FunctionDefinitionStack	m_FunctionDefinitionStack;
 
         int m_NextStatement;
-    public://仅用于解释器的数据池，仅用于函数或语句里面用来替代局部变量，alloc与recycle必须成对并且符合栈的操作顺序（后进先出）！！！
+    public://The data pool is only used for the interpreter. It is only used in functions or statements to replace local variables.
+            //Alloc and recycle must be paired and comply with the operation order of the stack (last in, first out)! ! !
         InterpreterValuePool& GetInnerValuePool() { return m_InterpreterValuePool; }
     private:
         InterpreterValuePool m_InterpreterValuePool;

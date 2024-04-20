@@ -135,7 +135,7 @@ public:
 
             m_pNetIoService->Poll();
 
-            //检查会话是否正常
+            //Check if the session is normal
             if (NULL != m_pSession) {
                 if (!m_pSession->IsValid()) {
                     __Internal_Log("session removed for invalid session");
@@ -379,7 +379,7 @@ private:
         uint64_t src = msg->m_Src;
         uint64_t dest = msg->m_Dest;
 
-        //通知逻辑层
+        //Notification logic layer
         HandleMessage(seq, src, dest, msg->m_Data, len - sizeof(MessageTransmit) + 1);
     }
 

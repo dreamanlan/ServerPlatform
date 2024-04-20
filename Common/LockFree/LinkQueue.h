@@ -50,7 +50,7 @@ class LockFreeLinkedQueueT
     struct Node
     {
 #ifdef __WINDOWS__
-        //32位下按8字节对齐
+        //Aligned by 8 bytes in 32-bit mode
         __declspec(align(8))
 #endif
             struct Pointer
@@ -88,7 +88,7 @@ class LockFreeLinkedQueueT
             }
         }
 #ifndef __WINDOWS__
-        //64位下按16字节对齐
+        //Aligned to 16 bytes in 64-bit
         __attribute__((aligned(16)))
 #endif
             ;
@@ -98,26 +98,26 @@ class LockFreeLinkedQueueT
     };
     using NodePoolType = NodePoolT<Node>;
 public:
-    //此方法多线程不安全
+    //This method is not multi-thread safe
     inline void Init(int maxNum)
     {
         m_MaxNum = maxNum;
         m_NodePool.Init(maxNum);
         m_Head.m_Ptr = m_Tail.m_Ptr = m_NodePool.Alloc();
     }
-    //此方法多线程不安全
+    //This method is not multi-thread safe
     inline void	Clear()
     {
         while (m_Num) {
             Pop();
         }
     }
-    //因为队列是lock-free的，此值仅提供参考信息，不能据此进行准确判断
+    //Because the queue is lock-free, this value only provides reference information and cannot be used to make accurate judgments.
     inline int GetNum()const
     {
         return m_Num;
     }
-    //此方法为lock-free的
+    //This method is lock-free
     inline bool	Push(const DataT& data)
     {
         bool ret = false;
@@ -133,7 +133,7 @@ public:
                     volatile typename Node::Pointer next = tail.m_Ptr->m_Next;
                     if (tail.m_Ptr == m_Tail.m_Ptr && tail.m_Count == m_Tail.m_Count) {
                         if (next.IsNull()) {
-                            //没有下一个结点，装到尾部
+                            //There is no next node, so load it to the end.
                             if (lock_free_utility::compare_and_swap(reinterpret_cast<volatile unsigned long*>(&m_Tail.m_Ptr->m_Next), reinterpret_cast<unsigned long>(next.m_Ptr), next.m_Count, reinterpret_cast<unsigned long>(pNode), next.m_Count + 1)) {
                                 ret = true;
                                 break;
@@ -143,7 +143,7 @@ public:
                             }
                         }
                         else {
-                            //尾指针不正确，调整
+                            //The tail pointer is incorrect, adjust it
                             if (!lock_free_utility::compare_and_swap(reinterpret_cast<volatile unsigned long*>(&m_Tail), reinterpret_cast<unsigned long>(tail.m_Ptr), tail.m_Count, reinterpret_cast<unsigned long>(next.m_Ptr), tail.m_Count + 1)) {
                                 lock_free_utility::pause();
                             }
@@ -151,7 +151,8 @@ public:
                     }
                 }
                 if (ret) {
-                    //已经装好了，调整尾指针的位置，失败了什么也不用做，下次push会正确调整尾指针
+                    //Already installed, adjust the position of the tail pointer. If it fails,
+                    // don’t do anything. The next push will adjust the tail pointer correctly.
                     lock_free_utility::compare_and_swap(reinterpret_cast<volatile unsigned long*>(&m_Tail), reinterpret_cast<unsigned long>(tail.m_Ptr), tail.m_Count, reinterpret_cast<unsigned long>(pNode), tail.m_Count + 1);
                     lock_free_utility::increment(&m_Num);
                 }
@@ -159,7 +160,7 @@ public:
         }
         return ret;
     }
-    //此方法为lock-free的
+    //This method is lock-free
     inline bool Pop(DataT& data)
     {
         bool ret = false;
@@ -172,11 +173,11 @@ public:
             if (head.m_Ptr == m_Head.m_Ptr && head.m_Count == m_Head.m_Count) {
                 if (head.m_Ptr == tail.m_Ptr) {
                     if (next.IsNull()) {
-                        //失败，队列空
+                        //Failed, queue empty
                         break;
                     }
                     else {
-                        //尾指针不正确，调整
+                        //The tail pointer is incorrect, adjust it
                         if (!lock_free_utility::compare_and_swap(reinterpret_cast<volatile unsigned long*>(&m_Tail), reinterpret_cast<unsigned long>(tail.m_Ptr), tail.m_Count, reinterpret_cast<unsigned long>(next.m_Ptr), tail.m_Count + 1)) {
                             lock_free_utility::pause();
                         }
@@ -184,7 +185,7 @@ public:
                 }
                 else {
                     if (next.IsNull()) {
-                        //这情况属于异常
+                        //This situation is abnormal
                         break;
                     }
                     else {

@@ -153,7 +153,7 @@ public:
             return PUSH_FAIL_INVALID_ARG;
         }
         RINGBUF_RET ret = PUSH_FAIL_RETRYFUL;
-        //先占地方
+        //Take up space first
         Pointer tail, newTail;
         tail.Clear();
         newTail.Clear();
@@ -191,7 +191,7 @@ public:
                 memcpy((char*)m_pBuffer, buf + leftSpace, newTail.m_BufPos);
             }
             volatile Info& info = m_pInfo[tail.m_IPT.m_InfoPos];
-            //最后打标记
+            //mark last
             info.Set(tail.m_BufPos, newTail.m_BufPos);
         }
         return ret;
@@ -200,7 +200,7 @@ public:
     inline bool Pop(char* buf, int& size)
     {
         bool ret = false;
-        //先占地方
+        //Take up space first
         Pointer head, newHead;
         head.Clear();
         newHead.Clear();
@@ -211,11 +211,11 @@ public:
             ++newHead.m_IPT.m_Tag;
 
             if (head.m_IPT.m_InfoPos == m_Tail.m_IPT.m_InfoPos || !m_pInfo[head.m_IPT.m_InfoPos].Valid()) {
-                //如果队列空或者内容还没写进来,直接失败
+                //If the queue is empty or the content has not been written in, it will fail directly.
                 size = 0;
                 break;
             }
-            //对未保护的内存的读操作放在内存有效性判断之后
+            //Read operations to unprotected memory are placed after memory validity judgment
             volatile Info& info = m_pInfo[head.m_IPT.m_InfoPos];
             newHead.m_BufPos = info.m_EndPos;
 
@@ -234,7 +234,7 @@ public:
                 lock_free_utility::pause();
             }
         }
-        //取走数据
+        //Take away data
         if (ret) {
             size = (newHead.m_BufPos + m_MaxSize - head.m_BufPos) % m_MaxSize;
             if (head.m_BufPos < newHead.m_BufPos)
@@ -245,7 +245,7 @@ public:
                 memcpy(buf + leftSpace, (const char*)m_pBuffer, newHead.m_BufPos);
             }
             volatile Info& info = m_pInfo[head.m_IPT.m_InfoPos];
-            //最后清标记
+            //Last clear mark
             info.Clear();
         }
         return ret;
