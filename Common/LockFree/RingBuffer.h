@@ -92,10 +92,10 @@ class LockFreeRingedBuffer
 public:
     enum RINGBUF_RET
     {
-        PUSH_SUCESSFUL,		/* push成功		*/
-        PUSH_FAIL_BUFFUL,	/* push失败，写入的字节超过了缓冲区的字节数				*/
-        PUSH_FAIL_RETRYFUL, /* push失败，尝试次数超过255次							*/
-        PUSH_FAIL_INVALID_ARG,/* push失败，传入参数错误							*/
+        PUSH_SUCESSFUL,		/* push success */
+        PUSH_FAIL_BUFFUL,	/* push failed, the number of bytes written exceeded the number of bytes in the buffer */
+        PUSH_FAIL_RETRYFUL, /* push failed, more than 255 attempts */
+        PUSH_FAIL_INVALID_ARG,/* Push failed, the parameters passed in were wrong */
     };
 
 public:
@@ -134,7 +134,7 @@ public:
     }
 
 
-    /*	-1 是因为当Tail和Head重合时，即认为此时缓冲区为空，因此能写入的字节比空闲字节小1个	*/
+    /* -1 is because when Tail and Head overlap, the buffer is considered empty at this time, so the byte that can be written is 1 less than the free byte. */
     inline unsigned long GetFreeSize()const
     {
         return m_MaxSize - (m_Tail.m_BufPos + m_MaxSize - m_Head.m_BufPos) % m_MaxSize - 1;

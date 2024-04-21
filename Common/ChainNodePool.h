@@ -3,8 +3,8 @@
 
 #include "Chain.h"
 /**
-*	链结点池，使用此结点池的链结点类的模板参数RecyclerT需要增加一个额外约束：
-*	提供公有方法void SetPool(CChainNodePoolT<DataT,RecyclerT>* pPool)。
+* Link point pool, the template parameter RecyclerT of the link point class using this node pool needs to add an additional constraint:
+* Provide public method void SetPool(CChainNodePoolT<DataT,RecyclerT>* pPool).
 */
 template<typename DataT, typename RecyclerT, typename LockT = DummyLock, int SizeV = 0>
 class CChainNodePoolT

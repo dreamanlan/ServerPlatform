@@ -37,9 +37,9 @@ private:
 };
 
 /**
-*	基于链表的lock-free队列，与LockFreeRingedQueue不同，它可以管理指针与普通数据结构。
-*	@ref
-*	《Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms》Maged M. Michael、 Michael L. Scott， 1996
+* The lock-free queue based on linked list, unlike LockFreeRingedQueue, can manage pointers and ordinary data structures.
+* @ref
+* "Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms" Maged M. Michael, Michael L. Scott, 1996
 */
 template<class DataT, template<class T> class NodePoolT = LinkedNodePoolT>
 class LockFreeLinkedQueueT

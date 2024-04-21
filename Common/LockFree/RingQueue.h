@@ -197,9 +197,9 @@ namespace LockFreeCollectionUtility
 }
 
 /**
-*	管理指针的lock-free队列，通过头指针、尾指针与数值空来保证数据正确性，对这三类数据的操作是原子的。
-*	@remark
-*	只用于管理指针与含无效值简单数据类型（Size小于机器字长，并且InvalidValueV为无效值，特别注意InvalidValueV为无效值）！！！
+* Manage the lock-free queue of pointers, ensuring data correctness through head pointers, tail pointers and numerical nulls. The operations on these three types of data are atomic.
+* @remark
+* Only used to manage pointers and simple data types containing invalid values (Size is less than the machine word length, and InvalidValueV is an invalid value, pay special attention to InvalidValueV as an invalid value)! ! !
 */
 template<class DataT, int SizeV = 0, int InvalidValueV = 0>
 class LockFreeRingedQueueT

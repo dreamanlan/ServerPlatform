@@ -611,7 +611,7 @@ char _compare_double_and_swap_double(volatile unsigned long* p,
     };
 #endif
 #else
-    //64位cmpxchg
+    //64bit cmpxchg
     //mov %0,%%rsi;lock; .byte 0x48,0x0f,0xc7,0x0e;
     //mov %0,%%rsi;lock; cmpxchg16b (%%rsi);
     __asm__ __volatile__("mov %0,%%rsi;lock; .byte 0x48,0x0f,0xc7,0x0e; setz %1"
