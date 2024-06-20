@@ -991,7 +991,7 @@ short SlkToken::get()
             }
             int line = mLineNumber;
             char c = curChar();
-            for (++mIterator; curChar() != '\0' && curChar() != c;) {
+            for (++mIterator; curChar() != '\0';) {
                 if (curChar() == '\n')++mLineNumber;
                 if (curChar() == '\\') {
                     ++mIterator;
@@ -1092,6 +1092,15 @@ short SlkToken::get()
                     }
                     else {
                         pushTokenChar(curChar());
+                    }
+                }
+                else if (curChar() == c) {
+                    if (nextChar() == c) {
+                        pushTokenChar(curChar());
+                        ++mIterator;
+                    }
+                    else {
+                        break;
                     }
                 }
                 else {
