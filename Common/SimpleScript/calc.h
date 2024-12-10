@@ -10,7 +10,13 @@ calc.h
 #include "Type.h"
 #include "Queue.h"
 #include "Hashtable.h"
+#include <cstdint>
+#include <new>
+#include <string>
+#include <vector>
+#include <unordered_map>
 
+class ActionForSourceCodeScript;
 namespace FunctionScript
 {
     template<typename DestT>
@@ -836,11 +842,29 @@ namespace FunctionScript
             PARAM_CLASS_PERIOD_STAR,
             PARAM_CLASS_POINTER_STAR,
             PARAM_CLASS_OPERATOR,
-            PARAM_CLASS_NULLABLE_OPERATOR,
             PARAM_CLASS_TERNARY_OPERATOR,
+            PARAM_CLASS_QUESTION_NULLABLE_OPERATOR,
+            PARAM_CLASS_EXCLAMATION_NULLABLE_OPERATOR,
             PARAM_CLASS_MAX,
-            PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00010000,
-            PARAM_CLASS_UNMASK = 0x0000FFFF,
+            PARAM_CLASS_WRAP_INFIX_CALL_MASK = 0x20,
+            PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK = 0x00040,
+            PARAM_CLASS_UNMASK = 0x1F,
+        };
+        enum
+        {
+            PAIR_TYPE_NONE = 0,
+            PAIR_TYPE_QUESTION_COLON,
+            PAIR_TYPE_PARENTHESIS,
+            PAIR_TYPE_BRACKET,
+            PAIR_TYPE_BRACE,
+            PAIR_TYPE_BRACKET_COLON,
+            PAIR_TYPE_PARENTHESIS_COLON,
+            PAIR_TYPE_ANGLE_BRACKET_COLON,
+            PAIR_TYPE_BRACE_PERCENT,
+            PAIR_TYPE_BRACKET_PERCENT,
+            PAIR_TYPE_PARENTHESIS_PERCENT,
+            PAIR_TYPE_ANGLE_BRACKET_PERCENT,
+            PAIR_TYPE_MAXNUM
         };
         using StringKey = StringKeyT<MAX_TOKEN_NAME_SIZE>;
         using LocalIndexes = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
@@ -886,6 +910,200 @@ namespace FunctionScript
         }
         void SetParamClass(int v) { m_ParamClass = v; }
         int GetParamClass()const { return m_ParamClass; }
+        int GetParamClassUnmasked()const
+        {
+            int paramClass = (m_ParamClass & (int)PARAM_CLASS_UNMASK);
+            return paramClass;
+        }
+        int HaveParamClassInfixFlag()const
+        {
+            int infix = (m_ParamClass & (int)PARAM_CLASS_WRAP_INFIX_CALL_MASK);
+            return infix == (int)PARAM_CLASS_WRAP_INFIX_CALL_MASK ? TRUE : FALSE;
+        }
+        void SetInfixOperatorParamClass()
+        {
+            m_ParamClass = (int)(PARAM_CLASS_WRAP_INFIX_CALL_MASK | PARAM_CLASS_OPERATOR);
+        }
+        int HaveParamClassWrapObjectMemberFlag()const
+        {
+            int infix = (m_ParamClass & (int)PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK);
+            return infix == (int)PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK ? TRUE : FALSE;
+        }
+        void SetWrapObjectMemberParamClass(int paramClass)
+        {
+            m_ParamClass = (int)(PARAM_CLASS_WRAP_OBJECT_MEMBER_MASK | paramClass);
+        }
+        void SetOperatorParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_OPERATOR;
+        }
+        void SetQuestionNullableOperatorParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_QUESTION_NULLABLE_OPERATOR;
+        }
+        void SetExclamationNullableOperatorParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_EXCLAMATION_NULLABLE_OPERATOR;
+        }
+        void SetTernaryOperatorParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_TERNARY_OPERATOR;
+        }
+        void SetParenthesisParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS;
+        }
+        void SetBracketParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_BRACKET;
+        }
+        void SetColonColonParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_COLON_COLON;
+        }
+        void SetPeriodParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_PERIOD;
+        }
+        void SetPeriodStarParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_PERIOD_STAR;
+        }
+        void SetPointerParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_POINTER;
+        }
+        void SetPointerStarParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_POINTER_STAR;
+        }
+        void SetParenthesisColonParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS_COLON;
+        }
+        void SetBracketColonParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_BRACKET_COLON;
+        }
+        void SetAngleBracketColonParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_ANGLE_BRACKET_COLON;
+        }
+        void SetParenthesisPercentParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS_PERCENT;
+        }
+        void SetBracketPercentParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_BRACKET_PERCENT;
+        }
+        void SetBracePercentParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_BRACE_PERCENT;
+        }
+        void SetAngleBracketPercentParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_ANGLE_BRACKET_PERCENT;
+        }
+        int IsOperatorParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_OPERATOR ? TRUE : FALSE;
+        }
+        int IsQuestionNullableOperatorParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_QUESTION_NULLABLE_OPERATOR ? TRUE : FALSE;
+        }
+        int IsExclamationNullableOperatorParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_EXCLAMATION_NULLABLE_OPERATOR ? TRUE : FALSE;
+        }
+        int IsTernaryOperatorParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_TERNARY_OPERATOR ? TRUE : FALSE;
+        }
+        bool IsParenthesisParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_PARENTHESIS;
+        }
+        bool IsBracketParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_BRACKET;
+        }
+        bool IsColonColonParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_COLON_COLON;
+        }
+        bool IsPeriodParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_PERIOD;
+        }
+        bool IsPeriodStarParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_PERIOD_STAR;
+        }
+        bool IsPointerParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_POINTER;
+        }
+        bool IsPointerStarParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_POINTER_STAR;
+        }
+        bool IsParenthesisColonParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_PARENTHESIS_COLON;
+        }
+        bool IsBracketColonParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_BRACKET_COLON;
+        }
+        bool IsAngleBracketColonParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_ANGLE_BRACKET_COLON;
+        }
+        bool IsParenthesisPercentParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_PARENTHESIS_PERCENT;
+        }
+        bool IsBracketPercentParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_BRACKET_PERCENT;
+        }
+        bool IsBracePercentParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_BRACE_PERCENT;
+        }
+        bool IsAngleBracketPercentParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return paramClass == (int)PARAM_CLASS_ANGLE_BRACKET_PERCENT;
+        }
+        int IsMemberParamClass()const
+        {
+            int paramClass = GetParamClassUnmasked();
+            return (paramClass == (int)PARAM_CLASS_COLON_COLON ||
+                paramClass == (int)PARAM_CLASS_PERIOD ||
+                paramClass == (int)PARAM_CLASS_PERIOD_STAR ||
+                paramClass == (int)PARAM_CLASS_POINTER ||
+                paramClass == (int)PARAM_CLASS_POINTER_STAR) ? TRUE : FALSE;
+        }
         int HaveId()const { return m_Name.HaveId(); }
         int HaveParamOrStatement()const { return m_ParamClass != PARAM_CLASS_NOTHING ? TRUE : FALSE; }
         int HaveParam()const { return HaveParamOrStatement() && !HaveStatement() && !HaveExternScript(); }
@@ -1624,6 +1842,25 @@ namespace FunctionScript
         int m_MaxStringBufferLength;
     };
 
+    class ActionApi final
+    {
+    public:
+        int peekPairTypeStack()const;
+        int peekPairTypeStack(uint32_t& tag)const;
+        int getPairTypeStackSize()const;
+        int peekPairTypeStack(int ix)const;
+        int peekPairTypeStack(int ix, uint32_t& tag)const;
+    public:
+        inline ActionApi() :m_Impl(0) {}
+        inline void SetImpl(ActionForSourceCodeScript* p) { m_Impl = p; }
+    private:
+        ActionApi(const ActionApi& other) = delete;
+        ActionApi(ActionApi&& other) noexcept = delete;
+        ActionApi& operator=(const ActionApi& other) = delete;
+        ActionApi& operator=(ActionApi&& other) noexcept = delete;
+    private:
+        ActionForSourceCodeScript* m_Impl;
+    };
     /*
     * Memo: The interpreter of this script language relies heavily on the C++ function stack mechanism, so it is not suitable
     * for implementing the corountine mechanism (because the C++ function call stack is used to implement the script stack, one execution of the interpreter will completely erase the call stack. The previous stack and context cannot be continued when entering again).
@@ -1631,6 +1868,7 @@ namespace FunctionScript
     */
     class Interpreter
     {
+        using NameTags = std::unordered_map<std::string, uint32_t>;
         using SyntaxComponentPtr = ISyntaxComponent*;
         using RuntimeComponentPtr = RuntimeComponent*;
         using StatementApiPtr = StatementApi*;
@@ -1714,6 +1952,9 @@ namespace FunctionScript
         void AddRuntimeComponent(RuntimeComponent* p);
         int GetRuntimeComponentNum()const { return m_RuntimeComponentNum; }
     public:
+        NameTags& NameTagsRef() { return m_NameTags; }
+        const NameTags& NameTagsRef()const { return m_NameTags; }
+    public:
         char* AllocString(int len);
         char* AllocString(const char* src);
         char* GetStringBuffer()const { return m_StringBuffer; }
@@ -1746,6 +1987,7 @@ namespace FunctionScript
         void RegisterInnerFunctionApi(const char* id, ExpressionApi* p);
         void RegisterInnerStatementApi(const char* id, StatementApiFactory* p);
     private:
+        NameTags m_NameTags;
         char* m_StringBuffer;
         char* m_UnusedStringPtr;
         SyntaxComponentPtr* m_SyntaxComponentPool;

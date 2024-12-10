@@ -91,62 +91,6 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::buildNullableOperator()
-    {
-        if (!preconditionCheck())return;
-        RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
-        if (TRUE != tokenInfo.IsValid())return;
-
-        if (mInterpreter->IsDebugInfoEnable()) {
-            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("op:%s\n", tokenInfo.mString);
-        }
-
-        StatementData* pArg = mData.getCurStatement();
-        if (0 == pArg)
-            return;
-        int handled = FALSE;
-        if (0 == strcmp("=", tokenInfo.mString)) {
-            //Because the stack has not been popped here, we cannot simplify it first.
-            handled = wrapObjectMember(*pArg);
-        }
-        if (FALSE == handled) {
-            mData.popStatement();
-            ISyntaxComponent& argComp = simplifyStatement(*pArg);
-            StatementData* pStatement = mInterpreter->AddNewStatementComponent();
-            if (0 == pStatement)
-                return;
-            mData.pushStatement(pStatement);
-
-            FunctionData* p = mInterpreter->AddNewFunctionComponent();
-            if (0 != p) {
-                FunctionData& call = *p;
-                if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`') {
-                    call.SetParamClass(FunctionData::PARAM_CLASS_NULLABLE_OPERATOR);
-
-                    Value v = call.GetNameValue();
-                    Value op(tokenInfo.mString + 1, Value::TYPE_IDENTIFIER);
-                    op.SetLine(mThis->getLastLineNumber());
-                    call.SetNameValue(op);
-                }
-                else {
-                    call.SetParamClass(FunctionData::PARAM_CLASS_NULLABLE_OPERATOR);
-
-                    Value v = call.GetNameValue();
-                    Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
-                    op.SetLine(mThis->getLastLineNumber());
-                    call.SetNameValue(op);
-                }
-
-                if (argComp.IsValid()) {
-                    wrapObjectMember(argComp);
-                    call.AddParam(&argComp);
-                }
-
-                pStatement->AddFunction(p);
-            }
-        }
-    }
-    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::buildFirstTernaryOperator()
     {
         if (!preconditionCheck())return;
@@ -165,6 +109,7 @@ namespace FunctionScript
         if (0 == pStatement)
             return;
         mData.pushStatement(pStatement);
+        pushPairType(FunctionData::PAIR_TYPE_QUESTION_COLON);
 
         FunctionData* p = mInterpreter->AddNewFunctionComponent();
         if (0 != p) {
@@ -198,6 +143,8 @@ namespace FunctionScript
 
         StatementData* statement = mData.getCurStatement();
         if (0 != statement) {
+            popPairType();
+
             FunctionData* p = mInterpreter->AddNewFunctionComponent();
             if (0 != p) {
                 FunctionData& call = *p;
@@ -273,6 +220,25 @@ namespace FunctionScript
         StatementData* statement = mData.popStatement();
         if (0 == statement || statement->GetFunctionNum() == 0)
             return;
+
+        auto&& lastFunc = statement->GetLastFunctionRef();
+        if (nullptr != lastFunc) {
+            switch (lastFunc->GetParamClassUnmasked()) {
+            case FunctionData::PARAM_CLASS_PARENTHESIS:
+            case FunctionData::PARAM_CLASS_BRACKET:
+            case FunctionData::PARAM_CLASS_STATEMENT:
+            case FunctionData::PARAM_CLASS_PARENTHESIS_COLON:
+            case FunctionData::PARAM_CLASS_BRACKET_COLON:
+            case FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON:
+            case FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT:
+            case FunctionData::PARAM_CLASS_BRACKET_PERCENT:
+            case FunctionData::PARAM_CLASS_BRACE_PERCENT:
+            case FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT:
+                popPairType();
+                break;
+            }
+        }
+
         const char* id = statement->GetId();
         if (0 != id && strcmp(id, "@@delimiter") == 0 && statement->GetFunctionNum() == 1 && (statement->GetLastFunctionRef()->GetParamNum() == 1 || statement->GetLastFunctionRef()->GetParamNum() == 3) && !statement->GetLastFunctionRef()->IsHighOrder()) {
             const FunctionData& call = *statement->GetLastFunctionRef();
@@ -324,7 +290,8 @@ namespace FunctionScript
                 FunctionData& call = *p;
                 if (call.HaveParam()) {
                     if ((call.GetParamClass() == FunctionData::PARAM_CLASS_OPERATOR
-                        || call.GetParamClass() == FunctionData::PARAM_CLASS_NULLABLE_OPERATOR
+                        || call.GetParamClass() == FunctionData::PARAM_CLASS_QUESTION_NULLABLE_OPERATOR
+                        || call.GetParamClass() == FunctionData::PARAM_CLASS_EXCLAMATION_NULLABLE_OPERATOR
                         || call.GetParamClass() == FunctionData::PARAM_CLASS_TERNARY_OPERATOR
                         ) && !statement->IsValid())
                         return;//The operator does not support empty parameters.
@@ -401,6 +368,34 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::buildNullableOperator()
+    {
+        if (!preconditionCheck())return;
+        RuntimeBuilderData::TokenInfo tokenInfo = mData.pop();
+        if (TRUE != tokenInfo.IsValid())return;
+
+        if (mInterpreter->IsDebugInfoEnable()) {
+            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("op:%s\n", tokenInfo.mString);
+        }
+
+        //Higher-order function construction (the current function returns a function)
+        FunctionData*& p = mData.getLastFunctionRef();
+        if (0 == p)
+            return;
+        if (tokenInfo.mString[0] == '?')
+            p->SetParamClass(FunctionData::PARAM_CLASS_QUESTION_NULLABLE_OPERATOR);
+        else
+            p->SetParamClass(FunctionData::PARAM_CLASS_EXCLAMATION_NULLABLE_OPERATOR);
+
+        FunctionData* newP = mInterpreter->AddNewFunctionComponent();
+        if (0 != newP) {
+            Value val(p);
+            val.SetLine(p->GetLine());
+            newP->SetNameValue(val);
+            p = newP;
+        }
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::buildHighOrderFunction()
     {
         if (!preconditionCheck())return;
@@ -423,7 +418,19 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
+        FunctionData& call = *p;
+
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS, tag);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markBracketParam()
@@ -432,8 +439,19 @@ namespace FunctionScript
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
-        p->SetParamClass(FunctionData::PARAM_CLASS_BRACKET);
-        wrapObjectMemberInHighOrderFunction(*p);
+        FunctionData& call = *p;
+
+        call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_BRACKET, tag);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPeriodParam()
@@ -455,6 +473,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_STATEMENT);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_BRACE, tag);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markExternScript()
@@ -475,6 +503,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_COLON);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_BRACKET_COLON, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -486,6 +524,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_COLON);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS_COLON, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -497,6 +545,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_ANGLE_BRACKET_COLON, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -508,6 +566,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_BRACE_PERCENT);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_BRACE_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -519,6 +587,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_BRACKET_PERCENT);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_BRACKET_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -530,6 +608,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -541,6 +629,16 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
         call.SetParamClass(FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT);
+        auto&& pID = call.GetId();
+        uint32_t tag = 0;
+        if (pID) {
+            auto&& tags = mInterpreter->NameTagsRef();
+            auto&& tagIt = tags.find(pID);
+            if (tagIt != tags.end()) {
+                tag = tagIt->second;
+            }
+        }
+        pushPairType(FunctionData::PAIR_TYPE_ANGLE_BRACKET_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
@@ -751,6 +849,47 @@ namespace FunctionScript
             //There are parameters that will not degrade
             return data;
         }
+    }
+    template<class RealTypeT> inline
+        int RuntimeBuilderT<RealTypeT>::peekPairTypeStack(uint32_t& tag)const
+    {
+        uint32_t v =  mData.peekPairType();
+        tag = (v >> 8);
+        return static_cast<int>(v & 0xff);
+    }
+    template<class RealTypeT> inline
+        int RuntimeBuilderT<RealTypeT>::getPairTypeStackSize()const
+    {
+        return mData.getPairTypeStack().Size();
+    }
+    template<class RealTypeT> inline
+        int RuntimeBuilderT<RealTypeT>::peekPairTypeStack(int ix, uint32_t& tag)const
+    {
+        if (ix >= 0 && ix < getPairTypeStackSize()) {
+            auto&& stack = mData.getPairTypeStack();
+            int id = stack.BackID();
+            for (int i = 0; i < ix; ++i) {
+                id = stack.PrevID(id);
+            }
+            uint32_t v = stack[id];
+            tag = (v >> 8);
+            return static_cast<int>(v & 0xff);
+        }
+        else {
+            tag = 0;
+            return FunctionData::PAIR_TYPE_NONE;
+        }
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::pushPairType(int type, uint32_t tag)
+    {
+        uint32_t v = (tag << 8) + static_cast<uint32_t>(type & 0xff);
+        mData.pushPairType(v);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::popPairType()
+    {
+        mData.popPairType();
     }
 }
 //--------------------------------------------------------------------------------------

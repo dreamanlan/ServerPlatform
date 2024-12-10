@@ -100,6 +100,30 @@ FunctionScript::FunctionData*& RuntimeBuilderData::getLastFunctionRef()
     else
         return GetNullFunctionPtrRef();
 }
+uint32_t RuntimeBuilderData::peekPairType()const
+{
+    if (mPairTypeStack.Empty())
+        return FunctionData::PAIR_TYPE_NONE;
+    return mPairTypeStack.Back();
+}
+void RuntimeBuilderData::pushPairType(uint32_t pairType)
+{
+    mPairTypeStack.PushBack(pairType);
+}
+uint32_t RuntimeBuilderData::popPairType()
+{
+    if (mPairTypeStack.Empty())
+        return FunctionData::PAIR_TYPE_NONE;
+    return mPairTypeStack.PopBack();
+}
+const RuntimeBuilderData::PairTypeStack& RuntimeBuilderData::getPairTypeStack()const
+{
+    return mPairTypeStack;
+}
+RuntimeBuilderData::PairTypeStack& RuntimeBuilderData::getPairTypeStack()
+{
+    return mPairTypeStack;
+}
 //--------------------------------------------------------------------------------------
 void RuntimeBuilderData::genByteCode(unsigned char data)
 {

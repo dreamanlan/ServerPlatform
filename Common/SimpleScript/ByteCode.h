@@ -31,9 +31,9 @@ namespace FunctionScript
         BYTE_CODE_BEGIN_STATEMENT,
         BYTE_CODE_END_STATEMENT,
         BYTE_CODE_BUILD_OPERATOR,
-        BYTE_CODE_BUILD_NULLABLE_OPERATOR,
         BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR,
         BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR,
+        BYTE_CODE_BUILD_NULLABLE_OPERATOR,
         BYTE_CODE_MARK_POINTER_PARAM,
         BYTE_CODE_MARK_PERIOD_STAR_PARAM,
         BYTE_CODE_MARK_POINTER_STAR_PARAM,
@@ -59,12 +59,12 @@ namespace FunctionScript
         inline void    markSeparator();
         inline void    endStatement();
         inline void    buildOperator();
-        inline void    buildNullableOperator();
         inline void    buildFirstTernaryOperator();
         inline void    buildSecondTernaryOperator();
         inline void    beginStatement();
         inline void    addFunction();
         inline void    setFunctionId();
+        inline void    buildNullableOperator();
         inline void    markParenthesisParam();
         inline void    buildHighOrderFunction();
         inline void    markBracketParam();
@@ -83,6 +83,16 @@ namespace FunctionScript
         inline void    markPointerParam();
         inline void    markPeriodStarParam();
         inline void    markPointerStarParam();
+    public:
+        inline int     peekPairTypeStack()const { uint32_t tag = 0; return peekPairTypeStack(tag); }
+        inline int     peekPairTypeStack(uint32_t& tag)const;
+        inline int     getPairTypeStackSize()const;
+        inline int     peekPairTypeStack(int ix)const { uint32_t tag = 0; return peekPairTypeStack(ix, tag); }
+        inline int     peekPairTypeStack(int ix, uint32_t& tag)const;
+	private:
+        inline void    pushPairType(int type) { pushPairType(type, 0); };
+        inline void    pushPairType(int type, uint32_t tag);
+        inline void    popPairType();
     private:
         inline int wrapObjectMember(ISyntaxComponent& comp);
         inline int wrapObjectMemberInHighOrderFunction(FunctionData& arg);
@@ -95,6 +105,7 @@ namespace FunctionScript
         }
     protected:
         RuntimeBuilderData mData;
+        ActionApi mApi;
         Interpreter* mInterpreter;
         RealTypeT* mThis;
     };
@@ -167,15 +178,6 @@ namespace FunctionScript
             genPush();
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_SET_FUNCTION_ID);
         }
-        inline void setMemberId()
-        {
-            genPush();
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_SET_MEMBER_ID);
-        }
-        inline void endFunction()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_END_FUNCTION);
-        }
         inline void buildHighOrderFunction()
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_HIGHORDER_FUNCTION);
@@ -188,53 +190,9 @@ namespace FunctionScript
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PARAM);
         }
-        inline void markPeriod()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD);
-        }
         inline void markPeriodParam()
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARAM);
-        }
-        inline void markPeriodParenthesisParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_PARENTHESIS_PARAM);
-        }
-        inline void markPeriodBracketParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACKET_PARAM);
-        }
-        inline void markPeriodBraceParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_BRACE_PARAM);
-        }
-        inline void markOperator()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_OPERATOR);
-        }
-        inline void markQuestion()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION);
-        }
-        inline void markQuestionPeriodParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_PARAM);
-        }
-        inline void markQuestionParenthesisParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PARENTHESIS_PARAM);
-        }
-        inline void markQuestionBracketParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACKET_PARAM);
-        }
-        inline void markQuestionBraceParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_BRACE_PARAM);
-        }
-        inline void markPointer()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_POINTER);
         }
         inline void markPointerParam()
         {
@@ -243,10 +201,6 @@ namespace FunctionScript
         inline void markPeriodStarParam()
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PERIOD_STAR_PARAM);
-        }
-        inline void markQuestionPeriodStarParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_QUESTION_PERIOD_STAR_PARAM);
         }
         inline void markPointerStarParam()
         {
@@ -291,18 +245,6 @@ namespace FunctionScript
         inline void markColonColonParam()
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARAM);
-        }
-        inline void markColonColonParenthesisParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_PARENTHESIS_PARAM);
-        }
-        inline void markColonColonBracketParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACKET_PARAM);
-        }
-        inline void markColonColonBraceParam()
-        {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_COLON_COLON_BRACE_PARAM);
         }
     private:
         inline bool preconditionCheck()const

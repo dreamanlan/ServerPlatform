@@ -62,6 +62,7 @@ public:
 private:
     using TokenStack = DequeT<TokenInfo, STACKSIZE>;
     using SemanticStack = DequeT<FunctionScript::StatementData*, STACKSIZE>;
+    using PairTypeStack = DequeT<uint32_t, STACKSIZE>;
 public:
     void resetByteCode();
     void setByteCode(const char* pByteCode, int len);
@@ -81,6 +82,11 @@ public:
     FunctionScript::StatementData* popStatement();
     FunctionScript::StatementData* getCurStatement();
     FunctionScript::FunctionData*& getLastFunctionRef();
+    uint32_t peekPairType()const;
+    void pushPairType(uint32_t pairType);
+    uint32_t popPairType();
+    const PairTypeStack& getPairTypeStack()const;
+    PairTypeStack& getPairTypeStack();
 public:
     inline void genByteCode(char data) { genByteCode(static_cast<unsigned char>(data)); }
     inline void genByteCode(short data) { genByteCode(static_cast<unsigned short>(data)); }
@@ -121,6 +127,7 @@ public:
 private:
     TokenStack mTokenStack;
     SemanticStack mSemanticStack;
+    PairTypeStack   mPairTypeStack;
 
     int mByteCodeLength;
     char mByteCode[s_c_MaxByteCodeLength];

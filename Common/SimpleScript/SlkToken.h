@@ -100,6 +100,10 @@ private:
     void endTokenWithEof();
 public:
     SlkToken(FunctionScript::IScriptSource& source, FunctionScript::ErrorAndStringBuffer& errorAndStringBuffer);
+    void SetDslActionApi(const FunctionScript::ActionApi& api)
+    {
+        mActionApi = &api;
+    }
 private:
     struct TokenInfo
     {
@@ -125,6 +129,8 @@ private:
     char* mComments[c_MaxCommentNum];
     int mCommentNum;
     int mCommentOnNewLine;
+	
+    const FunctionScript::ActionApi* mActionApi;
     FunctionScript::ErrorAndStringBuffer* mErrorAndStringBuffer;
     DequeT<TokenInfo, 16> mTokenQueue;
 

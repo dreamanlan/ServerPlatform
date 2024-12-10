@@ -51,19 +51,19 @@ inline int ActionForSourceCodeScript::getLastLineNumber() const
 }
 inline void ActionForSourceCodeScript::setCanFinish(int val)
 {
-    if (NULL != mScanner) {
+    if (nullptr != mScanner) {
         mScanner->setCanFinish(val);
     }
 }
 inline void ActionForSourceCodeScript::setStringDelimiter(const char* begin, const char* end)
 {
-    if (NULL != mScanner) {
+    if (nullptr != mScanner) {
         mScanner->setStringDelimiter(begin, end);
     }
 }
 inline void ActionForSourceCodeScript::setScriptDelimiter(const char* begin, const char* end)
 {
-    if (NULL != mScanner) {
+    if (nullptr != mScanner) {
         mScanner->setScriptDelimiter(begin, end);
     }
 }
@@ -72,14 +72,14 @@ inline void ActionForSourceCodeScript::setScriptDelimiter(const char* begin, con
 inline void ActionForSourceCodeScript::pushId()
 {
     char* lastToken = getLastToken();
-    if (NULL != lastToken) {
+    if (nullptr != lastToken) {
         mData.push(RuntimeBuilderData::TokenInfo(lastToken, RuntimeBuilderData::VARIABLE_TOKEN));
     }
 }
 inline void ActionForSourceCodeScript::pushNum()
 {
     char* lastToken = getLastToken();
-    if (NULL != lastToken) {
+    if (nullptr != lastToken) {
         if (strchr(lastToken, '.') == 0) {
             int val = 0;
             if (lastToken[0] == '0' && lastToken[1] == 'x') {
@@ -127,6 +127,8 @@ inline void ActionForSourceCodeScript::pushSemiColon()
 //--------------------------------------------------------------------------------------
 inline ActionForSourceCodeScript::ActionForSourceCodeScript(SlkToken& scanner, FunctionScript::Interpreter& interpreter) :mScanner(&scanner), BaseType(interpreter)
 {
+    mApi.SetImpl(this);
+    scanner.SetDslActionApi(mApi);
     initialize_table();
     setEnvironmentObjRef(*this);
 }
@@ -140,10 +142,10 @@ inline void ActionForSourceCodeScript::initialize_table()
     Action[4] = &ActionForSourceCodeScript::buildOperator;
     Action[5] = &ActionForSourceCodeScript::buildFirstTernaryOperator;
     Action[6] = &ActionForSourceCodeScript::buildSecondTernaryOperator;
-    Action[7] = &ActionForSourceCodeScript::buildNullableOperator;
-    Action[8] = &ActionForSourceCodeScript::beginStatement;
-    Action[9] = &ActionForSourceCodeScript::addFunction;
-    Action[10] = &ActionForSourceCodeScript::setFunctionId;
+    Action[7] = &ActionForSourceCodeScript::beginStatement;
+    Action[8] = &ActionForSourceCodeScript::addFunction;
+    Action[9] = &ActionForSourceCodeScript::setFunctionId;
+    Action[10] = &ActionForSourceCodeScript::buildNullableOperator;
     Action[11] = &ActionForSourceCodeScript::markParenthesisParam;
     Action[12] = &ActionForSourceCodeScript::buildHighOrderFunction;
     Action[13] = &ActionForSourceCodeScript::markBracketParam;
@@ -167,6 +169,39 @@ inline void ActionForSourceCodeScript::initialize_table()
     Action[31] = &ActionForSourceCodeScript::pushDollarStr;
     Action[32] = &ActionForSourceCodeScript::pushComma;
     Action[33] = &ActionForSourceCodeScript::pushSemiColon;
+}
+//--------------------------------------------------------------------------------------
+int ActionApi::peekPairTypeStack()const
+{
+    if (!m_Impl)
+        return FunctionData::PAIR_TYPE_NONE;
+    return m_Impl->peekPairTypeStack();
+}
+int ActionApi::peekPairTypeStack(uint32_t& tag)const
+{
+    tag = 0;
+    if (!m_Impl)
+        return FunctionData::PAIR_TYPE_NONE;
+    return m_Impl->peekPairTypeStack(tag);
+}
+int ActionApi::getPairTypeStackSize()const
+{
+    if (!m_Impl)
+        return 0;
+    return m_Impl->getPairTypeStackSize();
+}
+int ActionApi::peekPairTypeStack(int ix)const
+{
+    if (!m_Impl)
+        return FunctionData::PAIR_TYPE_NONE;
+    return m_Impl->peekPairTypeStack(ix);
+}
+int ActionApi::peekPairTypeStack(int ix, uint32_t& tag)const
+{
+    tag = 0;
+    if (!m_Impl)
+        return FunctionData::PAIR_TYPE_NONE;
+    return m_Impl->peekPairTypeStack(ix, tag);
 }
 //--------------------------------------------------------------------------------------
 class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerator>
@@ -303,10 +338,10 @@ inline void ActionForGenerator::initialize_table()
     Action[4] = &ActionForGenerator::buildOperator;
     Action[5] = &ActionForGenerator::buildFirstTernaryOperator;
     Action[6] = &ActionForGenerator::buildSecondTernaryOperator;
-    Action[7] = &ActionForGenerator::buildNullableOperator;
-    Action[8] = &ActionForGenerator::beginStatement;
-    Action[9] = &ActionForGenerator::addFunction;
-    Action[10] = &ActionForGenerator::setFunctionId;
+    Action[7] = &ActionForGenerator::beginStatement;
+    Action[8] = &ActionForGenerator::addFunction;
+    Action[9] = &ActionForGenerator::setFunctionId;
+    Action[10] = &ActionForGenerator::buildNullableOperator;
     Action[11] = &ActionForGenerator::markParenthesisParam;
     Action[12] = &ActionForGenerator::buildHighOrderFunction;
     Action[13] = &ActionForGenerator::markBracketParam;
