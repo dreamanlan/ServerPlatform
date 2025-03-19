@@ -221,24 +221,6 @@ namespace FunctionScript
         if (0 == statement || statement->GetFunctionNum() == 0)
             return;
 
-        auto&& lastFunc = statement->GetLastFunctionRef();
-        if (nullptr != lastFunc) {
-            switch (lastFunc->GetParamClassUnmasked()) {
-            case FunctionData::PARAM_CLASS_PARENTHESIS:
-            case FunctionData::PARAM_CLASS_BRACKET:
-            case FunctionData::PARAM_CLASS_STATEMENT:
-            case FunctionData::PARAM_CLASS_PARENTHESIS_COLON:
-            case FunctionData::PARAM_CLASS_BRACKET_COLON:
-            case FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON:
-            case FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT:
-            case FunctionData::PARAM_CLASS_BRACKET_PERCENT:
-            case FunctionData::PARAM_CLASS_BRACE_PERCENT:
-            case FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT:
-                popPairType();
-                break;
-            }
-        }
-
         const char* id = statement->GetId();
         if (0 != id && strcmp(id, "@@delimiter") == 0 && statement->GetFunctionNum() == 1 && (statement->GetLastFunctionRef()->GetParamNum() == 1 || statement->GetLastFunctionRef()->GetParamNum() == 3) && !statement->GetLastFunctionRef()->IsHighOrder()) {
             const FunctionData& call = *statement->GetLastFunctionRef();
@@ -433,6 +415,11 @@ namespace FunctionScript
         pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS, tag);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisParamEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markBracketParam()
     {
         if (!preconditionCheck())return;
@@ -452,6 +439,11 @@ namespace FunctionScript
             }
         }
         pushPairType(FunctionData::PAIR_TYPE_BRACKET, tag);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketParamEnd()
+    {
+        popPairType();
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markPeriodParam()
@@ -485,6 +477,11 @@ namespace FunctionScript
         pushPairType(FunctionData::PAIR_TYPE_BRACE, tag);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markStatementEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markExternScript()
     {
         if (!preconditionCheck())return;
@@ -516,6 +513,11 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketColonParamEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markParenthesisColonParam()
     {
         if (!preconditionCheck())return;
@@ -535,6 +537,11 @@ namespace FunctionScript
         }
         pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS_COLON, tag);
         wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParamEnd()
+    {
+        popPairType();
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markAngleBracketColonParam()
@@ -558,6 +565,11 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketColonParamEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markBracePercentParam()
     {
         if (!preconditionCheck())return;
@@ -577,6 +589,11 @@ namespace FunctionScript
         }
         pushPairType(FunctionData::PAIR_TYPE_BRACE_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracePercentParamEnd()
+    {
+        popPairType();
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markBracketPercentParam()
@@ -600,6 +617,11 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markBracketPercentParamEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParam()
     {
         if (!preconditionCheck())return;
@@ -621,6 +643,11 @@ namespace FunctionScript
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParamEnd()
+    {
+        popPairType();
+    }
+    template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markAngleBracketPercentParam()
     {
         if (!preconditionCheck())return;
@@ -640,6 +667,11 @@ namespace FunctionScript
         }
         pushPairType(FunctionData::PAIR_TYPE_ANGLE_BRACKET_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
+    }
+    template<class RealTypeT> inline
+        void RuntimeBuilderT<RealTypeT>::markAngleBracketPercentParamEnd()
+    {
+        popPairType();
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::markColonColonParam()
