@@ -117,7 +117,7 @@ namespace FunctionScript
             FunctionData* lowerOrderFunction = mInterpreter->AddNewFunctionComponent();
             p->GetNameValue().SetFunction(lowerOrderFunction);
             p->SetParamClass(FunctionData::PARAM_CLASS_TERNARY_OPERATOR);
-            lowerOrderFunction->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
+            lowerOrderFunction->SetParamClass(FunctionData::PARAM_CLASS_PARENTHESES);
 
             Value op(tokenInfo.mString, Value::TYPE_IDENTIFIER);
             op.SetLine(mThis->getLastLineNumber());
@@ -158,7 +158,7 @@ namespace FunctionScript
             }
         }
     }
-    //--------------------------------------------------------------------------------------	
+    //--------------------------------------------------------------------------------------
     static inline int calcSeparator(const char* tok)
     {
         if (nullptr == tok)
@@ -394,7 +394,7 @@ namespace FunctionScript
         }
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisParam()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
@@ -402,7 +402,7 @@ namespace FunctionScript
             return;
         FunctionData& call = *p;
 
-        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS);
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESES);
         auto&& pID = call.GetId();
         uint32_t tag = 0;
         if (pID) {
@@ -412,10 +412,10 @@ namespace FunctionScript
                 tag = tagIt->second;
             }
         }
-        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS, tag);
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESES, tag);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisParamEnd()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesParamEnd()
     {
         popPairType();
     }
@@ -518,14 +518,14 @@ namespace FunctionScript
         popPairType();
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParam()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesColonParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
         FunctionData& call = *p;
-        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_COLON);
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESES_COLON);
         auto&& pID = call.GetId();
         uint32_t tag = 0;
         if (pID) {
@@ -535,11 +535,11 @@ namespace FunctionScript
                 tag = tagIt->second;
             }
         }
-        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS_COLON, tag);
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESES_COLON, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisColonParamEnd()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesColonParamEnd()
     {
         popPairType();
     }
@@ -622,14 +622,14 @@ namespace FunctionScript
         popPairType();
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParam()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesPercentParam()
     {
         if (!preconditionCheck())return;
         FunctionData* p = mData.getLastFunctionRef();
         if (0 == p)
             return;
         FunctionData& call = *p;
-        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT);
+        call.SetParamClass(FunctionData::PARAM_CLASS_PARENTHESES_PERCENT);
         auto&& pID = call.GetId();
         uint32_t tag = 0;
         if (pID) {
@@ -639,11 +639,11 @@ namespace FunctionScript
                 tag = tagIt->second;
             }
         }
-        pushPairType(FunctionData::PAIR_TYPE_PARENTHESIS_PERCENT, tag);
+        pushPairType(FunctionData::PAIR_TYPE_PARENTHESES_PERCENT, tag);
         wrapObjectMemberInHighOrderFunction(call);
     }
     template<class RealTypeT> inline
-        void RuntimeBuilderT<RealTypeT>::markParenthesisPercentParamEnd()
+        void RuntimeBuilderT<RealTypeT>::markParenthesesPercentParamEnd()
     {
         popPairType();
     }
@@ -727,10 +727,10 @@ namespace FunctionScript
         if (0 != mInterpreter && call.IsValid() && call.HaveId()) {
             if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET ||
-                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_COLON ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESES_COLON ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_COLON ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON ||
-                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT ||
+                call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESES_PERCENT ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_PERCENT ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_BRACE_PERCENT ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT ||
@@ -772,10 +772,10 @@ namespace FunctionScript
                 FunctionData& call = *pCall;
                 if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET ||
-                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_COLON ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESES_COLON ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_COLON ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_COLON ||
-                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESIS_PERCENT ||
+                    call.GetParamClass() == FunctionData::PARAM_CLASS_PARENTHESES_PERCENT ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET_PERCENT ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_BRACE_PERCENT ||
                     call.GetParamClass() == FunctionData::PARAM_CLASS_ANGLE_BRACKET_PERCENT ||

@@ -1907,7 +1907,7 @@ public:
         if (0 != m_pInterpreter && 0 != m_pScpObj) {
             Value params[] = { Value(doc.Value()) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 1, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -1919,7 +1919,7 @@ public:
         if (0 != m_pInterpreter && 0 != m_pScpObj) {
             Value params[] = { Value(doc.Value()) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 1, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -1945,7 +1945,7 @@ public:
             {
                 Value params[] = { Value(name), text, parent };
                 Value retVal;
-                m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
+                m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
                 if (retVal.IsInt())
                     ret = retVal.GetInt();
             }
@@ -1953,7 +1953,7 @@ public:
             while (NULL != pAttr) {
                 Value params[] = { Value(name), Value(pAttr->Name()), Value(pAttr->Value()), text, parent };
                 Value retVal;
-                m_pInterpreter->CallMember(*m_pScpObj, Value("onAttribute"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 5, &retVal);
+                m_pInterpreter->CallMember(*m_pScpObj, Value("onAttribute"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 5, &retVal);
                 pAttr = pAttr->Next();
             }
         }
@@ -1971,7 +1971,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(element.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -1989,7 +1989,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(declaration.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onDeclaration"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onDeclaration"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2007,7 +2007,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(text.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onText"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onText"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2025,7 +2025,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(comment.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onComment"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onComment"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2043,7 +2043,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(unknown.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onUnknown"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("onUnknown"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }

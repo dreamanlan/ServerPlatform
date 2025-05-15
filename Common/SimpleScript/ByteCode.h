@@ -15,20 +15,20 @@ namespace FunctionScript
         BYTE_CODE_MARK_BRACKET_PARAM,
         BYTE_CODE_MARK_BRACKET_PARAM_END,
         BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
-        BYTE_CODE_MARK_PARENTHESIS_PARAM,
-        BYTE_CODE_MARK_PARENTHESIS_PARAM_END,
+        BYTE_CODE_MARK_PARENTHESES_PARAM,
+        BYTE_CODE_MARK_PARENTHESES_PARAM_END,
         BYTE_CODE_SET_EXTERN_SCRIPT,
         BYTE_CODE_MARK_STATEMENT,
         BYTE_CODE_MARK_STATEMENT_END,
         BYTE_CODE_MARK_EXTERN_SCRIPT,
-        BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM,
-        BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM_END,
+        BYTE_CODE_MARK_PARENTHESES_COLON_PARAM,
+        BYTE_CODE_MARK_PARENTHESES_COLON_PARAM_END,
         BYTE_CODE_MARK_BRACKET_COLON_PARAM,
         BYTE_CODE_MARK_BRACKET_COLON_PARAM_END,
         BYTE_CODE_ANGLE_BRACKET_COLON_PARAM,
         BYTE_CODE_ANGLE_BRACKET_COLON_PARAM_END,
-        BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM,
-        BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM_END,
+        BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM,
+        BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM_END,
         BYTE_CODE_MARK_BRACKET_PERCENT_PARAM,
         BYTE_CODE_MARK_BRACKET_PERCENT_PARAM_END,
         BYTE_CODE_MARK_BRACE_PERCENT_PARAM,
@@ -75,8 +75,8 @@ namespace FunctionScript
         inline void    addFunction();
         inline void    setFunctionId();
         inline void    buildNullableOperator();
-        inline void    markParenthesisParam();
-        inline void    markParenthesisParamEnd();
+        inline void    markParenthesesParam();
+        inline void    markParenthesesParamEnd();
         inline void    buildHighOrderFunction();
         inline void    markBracketParam();
         inline void    markBracketParamEnd();
@@ -86,16 +86,16 @@ namespace FunctionScript
         inline void    setExternScript();
         inline void    markBracketColonParam();
         inline void    markBracketColonParamEnd();
-        inline void    markParenthesisColonParam();
-        inline void    markParenthesisColonParamEnd();
+        inline void    markParenthesesColonParam();
+        inline void    markParenthesesColonParamEnd();
         inline void    markAngleBracketColonParam();
         inline void    markAngleBracketColonParamEnd();
         inline void    markBracePercentParam();
         inline void    markBracePercentParamEnd();
         inline void    markBracketPercentParam();
         inline void    markBracketPercentParamEnd();
-        inline void    markParenthesisPercentParam();
-        inline void    markParenthesisPercentParamEnd();
+        inline void    markParenthesesPercentParam();
+        inline void    markParenthesesPercentParamEnd();
         inline void    markAngleBracketPercentParam();
         inline void    markAngleBracketPercentParamEnd();
         inline void    markColonColonParam();
@@ -174,7 +174,7 @@ namespace FunctionScript
             genPush();
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR);
         }
-        //--------------------------------------------------------------------------------------	
+        //--------------------------------------------------------------------------------------
         inline void markSeparator()
         {
             genPush();
@@ -202,13 +202,13 @@ namespace FunctionScript
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_BUILD_HIGHORDER_FUNCTION);
         }
-        inline void markParenthesisParam()
+        inline void markParenthesesParam()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PARAM);
         }
-        inline void markParenthesisParamEnd()
+        inline void markParenthesesParamEnd()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PARAM_END);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PARAM_END);
         }
         inline void markBracketParam()
         {
@@ -254,13 +254,13 @@ namespace FunctionScript
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_COLON_PARAM_END);
         }
-        inline void markParenthesisColonParam()
+        inline void markParenthesesColonParam()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_COLON_PARAM);
         }
-        inline void markParenthesisColonParamEnd()
+        inline void markParenthesesColonParamEnd()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM_END);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_COLON_PARAM_END);
         }
         inline void markAngleBracketColonParam()
         {
@@ -286,13 +286,13 @@ namespace FunctionScript
         {
             genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PERCENT_PARAM_END);
         }
-        inline void markParenthesisPercentParam()
+        inline void markParenthesesPercentParam()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM);
         }
-        inline void markParenthesisPercentParamEnd()
+        inline void markParenthesesPercentParamEnd()
         {
-            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM_END);
+            genCode(SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM_END);
         }
         inline void markAngleBracketPercentParam()
         {

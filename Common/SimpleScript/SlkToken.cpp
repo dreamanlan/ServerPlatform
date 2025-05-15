@@ -380,7 +380,7 @@ int SlkToken::isNotIdentifier(char c)const
         return (!::isalpha(c) && c != '_' && c != '@' && c != '$') ? TRUE : FALSE;
 }
 
-int SlkToken::isNotIdentifierAndBeginParenthesis(char c)const
+int SlkToken::isNotIdentifierAndBeginParentheses(char c)const
 {
     if (0 == c)
         return FALSE;
@@ -388,7 +388,7 @@ int SlkToken::isNotIdentifierAndBeginParenthesis(char c)const
         return (0 == strchr(mBeginParentheses, c) && !::isalpha(c) && c != '_' && c != '@' && c != '$') ? TRUE : FALSE;
 }
 
-int SlkToken::isNotIdentifierAndNumberAndEndParenthesis(char c)const
+int SlkToken::isNotIdentifierAndNumberAndEndParentheses(char c)const
 {
     if (0 == c)
         return FALSE;
@@ -623,7 +623,7 @@ short SlkToken::get()
         pushTokenChar('(');
         pushTokenChar(':');
         endToken();
-        return PARENTHESIS_COLON_BEGIN_;
+        return PARENTHESES_COLON_BEGIN_;
     }
     else if (curChar() == ':' && nextChar() == ')') {
         ++mIterator;
@@ -631,7 +631,7 @@ short SlkToken::get()
         pushTokenChar(':');
         pushTokenChar(')');
         endToken();
-        return PARENTHESIS_COLON_END_;
+        return PARENTHESES_COLON_END_;
     }
     else if (curChar() == '<' && nextChar() == ':') {
         ++mIterator;
@@ -709,7 +709,7 @@ short SlkToken::get()
         pushTokenChar('(');
         pushTokenChar('%');
         endToken();
-        return PARENTHESIS_PERCENT_BEGIN_;
+        return PARENTHESES_PERCENT_BEGIN_;
     }
     else if (curChar() == '%' && nextChar() == ')') {
         ++mIterator;
@@ -717,7 +717,7 @@ short SlkToken::get()
         pushTokenChar('%');
         pushTokenChar(')');
         endToken();
-        return PARENTHESIS_PERCENT_END_;
+        return PARENTHESES_PERCENT_END_;
     }
     else if (curChar() == '<' && nextChar() == '%') {
         ++mIterator;
@@ -743,13 +743,13 @@ short SlkToken::get()
         endToken();
 
         size_t len = mLastToken ? strlen(mLastToken) : 0;
-        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
             (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>'))))
             return getOperatorTokenValue();
         char nextChar = peekNextValidChar(0);
         char nextChar2 = peekNextValidChar(1);
         char nextChar3 = peekNextValidChar(2);
-        if (isNotIdentifierAndBeginParenthesis(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
+        if (isNotIdentifierAndBeginParentheses(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
             return getOperatorTokenValue();
         }
         return COLON_COLON_;
@@ -758,7 +758,7 @@ short SlkToken::get()
         char cc = curChar();
         char nc = nextChar();
         size_t len = mLastToken ? strlen(mLastToken) : 0;
-        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
             (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>')))) {
             getOperatorToken();
             return getOperatorTokenValue();
@@ -823,13 +823,13 @@ short SlkToken::get()
                 endToken();
 
                 size_t len = mLastToken ? strlen(mLastToken) : 0;
-                if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+                if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
                     (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>'))))
                     return getOperatorTokenValue();
                 char nextChar = peekNextValidChar(0);
                 char nextChar2 = peekNextValidChar(1);
                 char nextChar3 = peekNextValidChar(2);
-                if (isNotIdentifierAndBeginParenthesis(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
+                if (isNotIdentifierAndBeginParentheses(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
                     return getOperatorTokenValue();
                 }
                 return POINTER_STAR_;
@@ -840,13 +840,13 @@ short SlkToken::get()
                 endToken();
 
                 size_t len = mLastToken ? strlen(mLastToken) : 0;
-                if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+                if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
                     (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>'))))
                     return getOperatorTokenValue();
                 char nextChar = peekNextValidChar(0);
                 char nextChar2 = peekNextValidChar(1);
                 char nextChar3 = peekNextValidChar(2);
-                if (isNotIdentifierAndBeginParenthesis(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
+                if (isNotIdentifierAndBeginParentheses(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
                     return getOperatorTokenValue();
                 }
                 return POINTER_;
@@ -865,13 +865,13 @@ short SlkToken::get()
         endToken();
 
         size_t len = mLastToken ? strlen(mLastToken) : 0;
-        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
             (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>'))))
             return getOperatorTokenValue();
         char nextChar = peekNextValidChar(0);
         char nextChar2 = peekNextValidChar(1);
         char nextChar3 = peekNextValidChar(2);
-        if (isNotIdentifierAndBeginParenthesis(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
+        if (isNotIdentifierAndBeginParentheses(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
             return getOperatorTokenValue();
         }
         return PERIOD_STAR_;
@@ -905,13 +905,13 @@ short SlkToken::get()
         endToken();
 
         size_t len = mLastToken ? strlen(mLastToken) : 0;
-        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParenthesis(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
+        if (mLastToken && len > 0 && isNotIdentifierAndNumberAndEndParentheses(mLastToken[len - 1]) && mLastToken[len - 1] != '?' && mLastToken[len - 1] != '!' &&
             (len != 2 || (!(mLastToken[len - 2] == ':' && mLastToken[len - 1] == '>') && !(mLastToken[len - 2] == '%' && mLastToken[len - 1] == '>'))))
             return getOperatorTokenValue();
         char nextChar = peekNextValidChar(0);
         char nextChar2 = peekNextValidChar(1);
         char nextChar3 = peekNextValidChar(2);
-        if (isNotIdentifierAndBeginParenthesis(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
+        if (isNotIdentifierAndBeginParentheses(nextChar) && !(nextChar == '<' && nextChar2 == ':' && isWhiteSpace(nextChar3)) && !(nextChar == '<' && nextChar2 == '%' && isWhiteSpace(nextChar3))) {
             return getOperatorTokenValue();
         }
         return DOT_;

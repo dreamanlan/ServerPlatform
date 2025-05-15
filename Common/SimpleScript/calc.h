@@ -825,16 +825,16 @@ namespace FunctionScript
         enum
         {
             PARAM_CLASS_NOTHING = 0,
-            PARAM_CLASS_PARENTHESIS,
+            PARAM_CLASS_PARENTHESES,
             PARAM_CLASS_BRACKET,
             PARAM_CLASS_PERIOD,
             PARAM_CLASS_POINTER,
             PARAM_CLASS_STATEMENT,
             PARAM_CLASS_EXTERN_SCRIPT,
-            PARAM_CLASS_PARENTHESIS_COLON,
+            PARAM_CLASS_PARENTHESES_COLON,
             PARAM_CLASS_BRACKET_COLON,
             PARAM_CLASS_ANGLE_BRACKET_COLON,
-            PARAM_CLASS_PARENTHESIS_PERCENT,
+            PARAM_CLASS_PARENTHESES_PERCENT,
             PARAM_CLASS_BRACKET_PERCENT,
             PARAM_CLASS_BRACE_PERCENT,
             PARAM_CLASS_ANGLE_BRACKET_PERCENT,
@@ -854,15 +854,15 @@ namespace FunctionScript
         {
             PAIR_TYPE_NONE = 0,
             PAIR_TYPE_QUESTION_COLON,
-            PAIR_TYPE_PARENTHESIS,
+            PAIR_TYPE_PARENTHESES,
             PAIR_TYPE_BRACKET,
             PAIR_TYPE_BRACE,
             PAIR_TYPE_BRACKET_COLON,
-            PAIR_TYPE_PARENTHESIS_COLON,
+            PAIR_TYPE_PARENTHESES_COLON,
             PAIR_TYPE_ANGLE_BRACKET_COLON,
             PAIR_TYPE_BRACE_PERCENT,
             PAIR_TYPE_BRACKET_PERCENT,
-            PAIR_TYPE_PARENTHESIS_PERCENT,
+            PAIR_TYPE_PARENTHESES_PERCENT,
             PAIR_TYPE_ANGLE_BRACKET_PERCENT,
             PAIR_TYPE_MAXNUM
         };
@@ -949,9 +949,9 @@ namespace FunctionScript
         {
             m_ParamClass = (int)PARAM_CLASS_TERNARY_OPERATOR;
         }
-        void SetParenthesisParamClass()
+        void SetParenthesesParamClass()
         {
-            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS;
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESES;
         }
         void SetBracketParamClass()
         {
@@ -977,9 +977,9 @@ namespace FunctionScript
         {
             m_ParamClass = (int)PARAM_CLASS_POINTER_STAR;
         }
-        void SetParenthesisColonParamClass()
+        void SetParenthesesColonParamClass()
         {
-            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS_COLON;
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESES_COLON;
         }
         void SetBracketColonParamClass()
         {
@@ -989,9 +989,9 @@ namespace FunctionScript
         {
             m_ParamClass = (int)PARAM_CLASS_ANGLE_BRACKET_COLON;
         }
-        void SetParenthesisPercentParamClass()
+        void SetParenthesesPercentParamClass()
         {
-            m_ParamClass = (int)PARAM_CLASS_PARENTHESIS_PERCENT;
+            m_ParamClass = (int)PARAM_CLASS_PARENTHESES_PERCENT;
         }
         void SetBracketPercentParamClass()
         {
@@ -1025,10 +1025,10 @@ namespace FunctionScript
             int paramClass = GetParamClassUnmasked();
             return paramClass == (int)PARAM_CLASS_TERNARY_OPERATOR ? TRUE : FALSE;
         }
-        bool IsParenthesisParamClass()const
+        bool IsParenthesesParamClass()const
         {
             int paramClass = GetParamClassUnmasked();
-            return paramClass == (int)PARAM_CLASS_PARENTHESIS;
+            return paramClass == (int)PARAM_CLASS_PARENTHESES;
         }
         bool IsBracketParamClass()const
         {
@@ -1060,10 +1060,10 @@ namespace FunctionScript
             int paramClass = GetParamClassUnmasked();
             return paramClass == (int)PARAM_CLASS_POINTER_STAR;
         }
-        bool IsParenthesisColonParamClass()const
+        bool IsParenthesesColonParamClass()const
         {
             int paramClass = GetParamClassUnmasked();
-            return paramClass == (int)PARAM_CLASS_PARENTHESIS_COLON;
+            return paramClass == (int)PARAM_CLASS_PARENTHESES_COLON;
         }
         bool IsBracketColonParamClass()const
         {
@@ -1075,10 +1075,10 @@ namespace FunctionScript
             int paramClass = GetParamClassUnmasked();
             return paramClass == (int)PARAM_CLASS_ANGLE_BRACKET_COLON;
         }
-        bool IsParenthesisPercentParamClass()const
+        bool IsParenthesesPercentParamClass()const
         {
             int paramClass = GetParamClassUnmasked();
-            return paramClass == (int)PARAM_CLASS_PARENTHESIS_PERCENT;
+            return paramClass == (int)PARAM_CLASS_PARENTHESES_PERCENT;
         }
         bool IsBracketPercentParamClass()const
         {

@@ -159,9 +159,9 @@ namespace FunctionScript
                 action.buildHighOrderFunction();
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PARAM:
             {
-                action.markParenthesisParam();
+                action.markParenthesesParam();
             }
             break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_SET_EXTERN_SCRIPT:
@@ -184,9 +184,9 @@ namespace FunctionScript
                 action.markBracketColonParam();
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_COLON_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_COLON_PARAM:
             {
-                action.markParenthesisColonParam();
+                action.markParenthesesColonParam();
             }
             break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_ANGLE_BRACKET_COLON_PARAM:
@@ -194,9 +194,9 @@ namespace FunctionScript
                 action.markAngleBracketColonParam();
             }
             break;
-            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESIS_PERCENT_PARAM:
+            case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM:
             {
-                action.markParenthesisPercentParam();
+                action.markParenthesesPercentParam();
             }
             break;
             case SimpleScriptByteCodeEnum::BYTE_CODE_MARK_BRACKET_PERCENT_PARAM:

@@ -408,7 +408,7 @@ private:
             nameVal.InitString(name);
             Value params[] = { Value(addOrUpdate ? 1 : 0), nameVal, Value(handle) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onNameHandleChanged"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onNameHandleChanged"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
         }
     }
     void HandleMessage(unsigned int seq, uint64_t src, uint64_t dest, const char* data, int len)
@@ -420,7 +420,7 @@ private:
             CreateStreamPacketObj(packet, *m_pInterpreter, *this, *pStream);
             Value params[] = { Value((int)seq), Value(src), Value(dest), packet };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessage"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessage"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
         }
     }
     void HandleMessageResult(unsigned int seq, uint64_t src, uint64_t dest, bool result)
@@ -428,7 +428,7 @@ private:
         if (NULL != m_pInterpreter && NULL != m_pCallbackObj) {
             Value params[] = { Value((int)seq), Value(src), Value(dest), Value(result ? 1 : 0) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessageResult"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 4, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessageResult"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
         }
     }
     void HandleCommand(uint64_t src, uint64_t dest, const char* result)
@@ -436,7 +436,7 @@ private:
         if (NULL != m_pInterpreter && NULL != m_pCallbackObj) {
             Value params[] = { Value(src), Value(dest), Value(result) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onCommand"), FALSE, FunctionData::PARAM_CLASS_PARENTHESIS, params, 3, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onCommand"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
         }
     }
 private:
