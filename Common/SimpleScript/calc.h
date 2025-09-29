@@ -1104,6 +1104,14 @@ namespace FunctionScript
                 paramClass == (int)PARAM_CLASS_POINTER ||
                 paramClass == (int)PARAM_CLASS_POINTER_STAR) ? TRUE : FALSE;
         }
+        void SetStatementParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_STATEMENT;
+        }
+        void SetExternScriptParamClass()
+        {
+            m_ParamClass = (int)PARAM_CLASS_EXTERN_SCRIPT;
+        }
         int HaveId()const { return m_Name.HaveId(); }
         int HaveParamOrStatement()const { return m_ParamClass != PARAM_CLASS_NOTHING ? TRUE : FALSE; }
         int HaveParam()const { return HaveParamOrStatement() && !HaveStatement() && !HaveExternScript(); }
@@ -1327,6 +1335,13 @@ namespace FunctionScript
             m_Functions[m_FunctionNum] = pVal;
             ++m_FunctionNum;
         }
+        void RemoveLastFunction()
+        {
+            if (nullptr == m_Functions || 0 == m_FunctionNum)
+                return;
+            --m_FunctionNum;
+            m_Functions[m_FunctionNum] = nullptr;
+        }
         FunctionData*& GetLastFunctionRef()const
         {
             if (NULL == m_Functions || 0 == m_FunctionNum)
@@ -1533,8 +1548,21 @@ namespace FunctionScript
     class RuntimeComponent
     {
     public:
+        enum
+        {
+            TYPE_TAG_NOTAG = 0,
+            TYPE_TAG_OBJECT,
+            TYPE_TAG_STRUCT,
+            TYPE_TAG_PREDEFINED_LAST = TYPE_TAG_STRUCT
+        };
+    public:
         explicit RuntimeComponent(Interpreter& interpreter) :m_Interpreter(&interpreter) {}
         virtual ~RuntimeComponent() {}
+    public:
+        virtual uint32_t GetTypeTag()const
+        {
+            return 0;
+        }
     protected:
         void ReplaceVariableWithValue(Value* pParams, int num)const;
         void ReplaceVariableWithValue(Value& p)const;
@@ -1591,7 +1619,7 @@ namespace FunctionScript
         virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const = 0;
     };
 
-    class Closure : public ExpressionApi
+    class Closure final : public ExpressionApi
     {
     public:
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
@@ -1634,14 +1662,7 @@ namespace FunctionScript
 
     class ObjectBase : public ExpressionApi
     {
-    protected:
-        static const int MEMBER_INFO_CAPACITY_DELTA_SIZE = 8;
-        static const int MAX_MEMBER_NUM = 10240;
-        enum
-        {
-            INNER_MEMBER_INDEX_SIZE = 0,
-            INNER_MEMBER_INDEX_NUM
-        };
+    public:
         struct MemberInfo
         {
             const char* m_Name;
@@ -1656,10 +1677,27 @@ namespace FunctionScript
                 m_Value.SetInvalid();
             }
         };
+    protected:
+        static const int MEMBER_INFO_CAPACITY_DELTA_SIZE = 8;
+        static const int MAX_MEMBER_NUM = 10240;
+        enum
+        {
+            INNER_MEMBER_INDEX_SIZE = 0,
+            INNER_MEMBER_INDEX_NUM
+        };
         using StringKey = StringKeyT<32>;
         using NameIndexMap = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
     public:
+        virtual uint32_t GetTypeTag()const override { return TYPE_TAG_OBJECT; }
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
+    public:
+        int GetDynamicMemberNum()const { return m_MemberNum; }
+        const MemberInfo* GetDynamicMember(int index)const
+        {
+            if (index < 0 || index >= m_MemberNum)
+                return NULL;
+            return m_MemberInfos + index;
+        }
     public:
         explicit ObjectBase(Interpreter& interpreter, int customInnerMemberNum);
         virtual ~ObjectBase();
@@ -1685,14 +1723,14 @@ namespace FunctionScript
         MemberAccessor m_TempAccessor;
     };
 
-    class Object : public ObjectBase
+    class Object final : public ObjectBase
     {
     public:
         explicit Object(Interpreter& interpreter);
         virtual ~Object();
     };
 
-    class Struct : public ExpressionApi
+    class Struct final : public ExpressionApi
     {
         enum
         {
@@ -1720,6 +1758,7 @@ namespace FunctionScript
             }
         };
     public:
+        virtual uint32_t GetTypeTag()const override { return TYPE_TAG_STRUCT; }
         virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
     public:
         void SetDefinitionRef(const FunctionData& statement);
@@ -1850,6 +1889,10 @@ namespace FunctionScript
         int getPairTypeStackSize()const;
         int peekPairTypeStack(int ix)const;
         int peekPairTypeStack(int ix, uint32_t& tag)const;
+    public:
+        void beginStatement()const;
+        void endStatement()const;
+        StatementData* getCurStatement()const;
     public:
         inline ActionApi() :m_Impl(0) {}
         inline void SetImpl(ActionForSourceCodeScript* p) { m_Impl = p; }

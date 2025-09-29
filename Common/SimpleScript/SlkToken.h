@@ -83,6 +83,7 @@ public:
     int isQuote(char c) const;
     int isSpecialChar(char c) const;
 private:
+    short getImpl();
     int isCanFinish()const
     {
         return mCanFinish;

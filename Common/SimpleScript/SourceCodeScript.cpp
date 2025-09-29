@@ -213,178 +213,23 @@ int ActionApi::peekPairTypeStack(int ix, uint32_t& tag)const
         return FunctionData::PAIR_TYPE_NONE;
     return m_Impl->peekPairTypeStack(ix, tag);
 }
-//--------------------------------------------------------------------------------------
-class ActionForGenerator : public SlkAction, public GeneratorT<ActionForGenerator>
+void ActionApi::beginStatement()const
 {
-    using BaseType = GeneratorT<ActionForGenerator>;
-public:
-    inline char* getLastToken() const;
-    inline int getLastLineNumber() const;
-    inline void setCanFinish(int val);
-    inline void setStringDelimiter(const char* begin, const char* end);
-    inline void setScriptDelimiter(const char* begin, const char* end);
-public:
-    ActionForGenerator(SlkToken& scanner);
-public:
-    inline void    pushId();
-    inline void    pushStr();
-    inline void    pushNum();
-    inline void    pushDollarStr();
-    inline void    pushComma();
-    inline void    pushSemiColon();
-    void    (ActionForGenerator::* Action[MAX_ACTION_NUM]) ();
-    inline void    initialize_table();
-    inline void	execute(int  number) { (this->*Action[number]) (); }
-private:
-    SlkToken* mScanner;
-};
-//--------------------------------------------------------------------------------------
-inline char* ActionForGenerator::getLastToken() const
-{
-    if (NULL != mScanner) {
-        return mScanner->getLastToken();
-    }
-    else {
-        return NULL;
-    }
+    if (!m_Impl)
+        return;
+    m_Impl->beginStatement();
 }
-inline int ActionForGenerator::getLastLineNumber() const
+void ActionApi::endStatement()const
 {
-    if (NULL != mScanner) {
-        return mScanner->getLastLineNumber();
-    }
-    else {
-        return -1;
-    }
+    if (!m_Impl)
+        return;
+    m_Impl->endStatement();
 }
-inline void ActionForGenerator::setCanFinish(int val)
+StatementData* ActionApi::getCurStatement()const
 {
-    if (NULL != mScanner) {
-        mScanner->setCanFinish(val);
-    }
-}
-inline void ActionForGenerator::setStringDelimiter(const char* begin, const char* end)
-{
-    if (NULL != mScanner) {
-        mScanner->setStringDelimiter(begin, end);
-    }
-}
-inline void ActionForGenerator::setScriptDelimiter(const char* begin, const char* end)
-{
-    if (NULL != mScanner) {
-        mScanner->setScriptDelimiter(begin, end);
-    }
-}
-//--------------------------------------------------------------------------------------
-//identifier
-inline void ActionForGenerator::pushId()
-{
-    char* lastToken = getLastToken();
-    if (NULL != lastToken) {
-        mData.push(RuntimeBuilderData::TokenInfo(lastToken, RuntimeBuilderData::VARIABLE_TOKEN));
-    }
-}
-inline void ActionForGenerator::pushNum()
-{
-    char* lastToken = getLastToken();
-    if (NULL != lastToken) {
-        if (strchr(lastToken, '.') == 0) {
-            int val = 0;
-            if (lastToken[0] == '0' && lastToken[1] == 'x') {
-                sscanf(lastToken + 2, "%x", &val);
-            }
-            else {
-                val = atoi(lastToken);
-            }
-            mData.push(RuntimeBuilderData::TokenInfo(val, RuntimeBuilderData::INT_TOKEN));
-        }
-        else {
-            float val = static_cast<float>(atof(lastToken));
-            mData.push(RuntimeBuilderData::TokenInfo(val));
-        }
-    }
-}
-inline void ActionForGenerator::pushStr()
-{
-    const char* token = getLastToken();
-    if (strcmp(token, "true") == 0)
-        mData.push(RuntimeBuilderData::TokenInfo(true));
-    else if (strcmp(token, "false") == 0)
-        mData.push(RuntimeBuilderData::TokenInfo(false));
-    else
-        mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::STRING_TOKEN));
-}
-inline void ActionForGenerator::pushDollarStr()
-{
-    const char* token = getLastToken();
-    if (strcmp(token, "true") == 0)
-        mData.push(RuntimeBuilderData::TokenInfo(true));
-    else if (strcmp(token, "false") == 0)
-        mData.push(RuntimeBuilderData::TokenInfo(false));
-    else
-        mData.push(RuntimeBuilderData::TokenInfo(getLastToken(), RuntimeBuilderData::DOLLAR_STRING_TOKEN));
-}
-inline void ActionForGenerator::pushComma()
-{
-    mData.push(RuntimeBuilderData::TokenInfo(",", RuntimeBuilderData::STRING_TOKEN));
-}
-inline void ActionForGenerator::pushSemiColon()
-{
-    mData.push(RuntimeBuilderData::TokenInfo(";", RuntimeBuilderData::STRING_TOKEN));
-}
-//--------------------------------------------------------------------------------------
-inline ActionForGenerator::ActionForGenerator(SlkToken& scanner) :mScanner(&scanner)
-{
-    initialize_table();
-    setEnvironmentObjRef(*this);
-}
-//--------------------------------------------------------------------------------------
-inline void ActionForGenerator::initialize_table()
-{
-    Action[0] = 0;
-    Action[1] = &ActionForGenerator::markSeparator;
-    Action[2] = &ActionForGenerator::endStatement;
-    Action[3] = &ActionForGenerator::pushId;
-    Action[4] = &ActionForGenerator::buildOperator;
-    Action[5] = &ActionForGenerator::buildFirstTernaryOperator;
-    Action[6] = &ActionForGenerator::buildSecondTernaryOperator;
-    Action[7] = &ActionForGenerator::beginStatement;
-    Action[8] = &ActionForGenerator::addFunction;
-    Action[9] = &ActionForGenerator::setFunctionId;
-    Action[10] = &ActionForGenerator::buildNullableOperator;
-    Action[11] = &ActionForGenerator::markParenthesesParam;
-    Action[12] = &ActionForGenerator::markParenthesesParamEnd;
-    Action[13] = &ActionForGenerator::buildHighOrderFunction;
-    Action[14] = &ActionForGenerator::markBracketParam;
-    Action[15] = &ActionForGenerator::markBracketParamEnd;
-    Action[16] = &ActionForGenerator::markStatement;
-    Action[17] = &ActionForGenerator::markStatementEnd;
-    Action[18] = &ActionForGenerator::markExternScript;
-    Action[19] = &ActionForGenerator::setExternScript;
-    Action[20] = &ActionForGenerator::markBracketColonParam;
-    Action[21] = &ActionForGenerator::markBracketColonParamEnd;
-    Action[22] = &ActionForGenerator::markParenthesesColonParam;
-    Action[23] = &ActionForGenerator::markParenthesesColonParamEnd;
-    Action[24] = &ActionForGenerator::markAngleBracketColonParam;
-    Action[25] = &ActionForGenerator::markAngleBracketColonParamEnd;
-    Action[26] = &ActionForGenerator::markBracePercentParam;
-    Action[27] = &ActionForGenerator::markBracePercentParamEnd;
-    Action[28] = &ActionForGenerator::markBracketPercentParam;
-    Action[29] = &ActionForGenerator::markBracketPercentParamEnd;
-    Action[30] = &ActionForGenerator::markParenthesesPercentParam;
-    Action[31] = &ActionForGenerator::markParenthesesPercentParamEnd;
-    Action[32] = &ActionForGenerator::markAngleBracketPercentParam;
-    Action[33] = &ActionForGenerator::markAngleBracketPercentParamEnd;
-    Action[34] = &ActionForGenerator::markColonColonParam;
-    Action[35] = &ActionForGenerator::markPeriodParam;
-    Action[36] = &ActionForGenerator::markPointerParam;
-    Action[37] = &ActionForGenerator::markPeriodStarParam;
-    Action[38] = &ActionForGenerator::markPointerStarParam;
-    Action[39] = &ActionForGenerator::pushStr;
-    Action[40] = &ActionForGenerator::pushNum;
-    Action[41] = &ActionForGenerator::pushDollarStr;
-    Action[42] = &ActionForGenerator::pushComma;
-    Action[43] = &ActionForGenerator::pushSemiColon;
+    if (!m_Impl)
+        return 0;
+    return m_Impl->getCurStatement();
 }
 //--------------------------------------------------------------------------------------
 namespace FunctionScript
@@ -407,28 +252,6 @@ namespace FunctionScript
         const char* m_Source;
     };
     //------------------------------------------------------------------------------------------------------
-    int ByteCodeGenerator::Parse(const char* buf, char* pByteCode, int codeBufferLen)
-    {
-        if (0 == buf)
-            return 0;
-        CachedScriptSource source(buf);
-        return Parse(source, pByteCode, codeBufferLen);
-    }
-    int ByteCodeGenerator::Parse(IScriptSource& source, char* pByteCode, int codeBufferLen)
-    {
-        m_ErrorAndStringBuffer.ClearErrorInfo();
-        SlkToken tokens(source, m_ErrorAndStringBuffer);
-        SlkError error(m_ErrorAndStringBuffer);
-        ActionForGenerator action(tokens);
-        SlkParse(action, tokens, error, 0);
-        int len = 0;
-        const char* p = action.getByteCode(len);
-        if (NULL != p && len <= codeBufferLen) {
-            memcpy(pByteCode, p, len);
-        }
-        return len;
-    }
-    //------------------------------------------------------------------------------------------------------
     void SourceCodeScript::Parse(const char* buf)
     {
         if (0 == buf)
@@ -439,6 +262,7 @@ namespace FunctionScript
 
     void SourceCodeScript::Parse(IScriptSource& source)
     {
+        m_Interpreter.NameTagsRef() = ParserFineTuneHelper::ForSimpleScript().NameTags();
         m_Interpreter.ClearErrorInfo();
         SlkToken tokens(source, m_Interpreter.GetErrorAndStringBuffer());
         SlkError error(m_Interpreter.GetErrorAndStringBuffer());

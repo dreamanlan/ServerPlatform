@@ -24,8 +24,8 @@
     <ClCompile Include="..\Common\NetBase\util.cc" />
     <ClCompile Include="..\Common\ObjectPool.cpp" />
     <ClCompile Include="..\Common\SimpleScript\ByteCode.cpp" />
-    <ClCompile Include="..\Common\SimpleScript\ByteCodeScript.cpp" />
     <ClCompile Include="..\Common\SimpleScript\calc.cpp" />
+    <ClCompile Include="..\Common\SimpleScript\ParserFineTuneHelper.cpp" />
     <ClCompile Include="..\Common\SimpleScript\RuntimeBuilderData.cpp" />
     <ClCompile Include="..\Common\SimpleScript\SlkAction.cpp" />
     <ClCompile Include="..\Common\SimpleScript\SlkError.cpp" />
@@ -69,8 +69,8 @@
     <ClInclude Include="..\Common\ObjectPool.h" />
     <ClInclude Include="..\Common\Queue.h" />
     <ClInclude Include="..\Common\SimpleScript\ByteCode.h" />
-    <ClInclude Include="..\Common\SimpleScript\ByteCodeScript.h" />
     <ClInclude Include="..\Common\SimpleScript\calc.h" />
+    <ClInclude Include="..\Common\SimpleScript\ParserFineTuneHelper.h" />
     <ClInclude Include="..\Common\SimpleScript\RuntimeBuilderData.h" />
     <ClInclude Include="..\Common\SimpleScript\SlkAction.h" />
     <ClInclude Include="..\Common\SimpleScript\SlkError.h" />

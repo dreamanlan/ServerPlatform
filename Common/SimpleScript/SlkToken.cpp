@@ -5,6 +5,7 @@ SlkToken.cpp
 ******************************************************************************/
 #include "SlkParse.h"
 #include "tsnprintf.h"
+#include "ParserFineTuneHelper.h"
 
 //mIterator and mErrorInfo are passed in by the reference parameters of the constructor and will not be empty.
 //So it no longer checks whether it is empty when using it.
@@ -453,6 +454,13 @@ int SlkToken::isSpecialChar(char c) const
 }
 
 short SlkToken::get()
+{
+    short tok = getImpl();
+    ParserFineTuneHelper::ForSimpleScript().OnGetToken(*mActionApi, *this, mCurToken, tok, mLineNumber);
+    return tok;
+}
+
+short SlkToken::getImpl()
 {
     if (NULL == mSource || NULL == mErrorAndStringBuffer) {
         return END_OF_SLK_INPUT_;

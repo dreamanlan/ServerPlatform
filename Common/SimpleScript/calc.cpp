@@ -1845,7 +1845,7 @@ namespace FunctionScript
             {
                 if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
                     return FALSE;
-                const FunctionData& func = dynamic_cast<const FunctionData&>(statement);
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
                 const FunctionData* pLoFunc = func.GetLowerOrderFunction();
                 if (0 == pLoFunc)
                     return FALSE;
@@ -1856,7 +1856,7 @@ namespace FunctionScript
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
                 statement.PrepareGeneralRuntimeObject();
-                FunctionData* pFunc = dynamic_cast<FunctionData*>(&statement);
+                FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 ForStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForStatement>();
                 if (NULL != pApi) {
                     const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
@@ -1870,6 +1870,389 @@ namespace FunctionScript
                     if (NULL != p3)
                         pApi->m_Exp3 = p3->GetRuntimeObject();
                     pApi->m_Statements = pFunc->GetRuntimeFunctionBody();
+                }
+                return pApi;
+            }
+        };
+        class ForStatementFactory;
+
+        class ForEachStatement : public StatementApi
+        {
+            friend class ForEachStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                if (NULL == m_Interpreter)
+                    return EXECUTE_RESULT_NORMAL;
+                for (int i = 0; i < m_ExpNum && m_Interpreter->IsRunFlagEnable(); ++i) {
+                    if (!m_Exps[i].IsInvalid()) {
+                        AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                        Value& val = op.Get();
+                        if (m_Exps[i].IsStatementApi() && m_Exps[i].GetStatementApi()) {
+                            m_Exps[i].GetStatementApi()->Execute(&val);
+                        }
+                        else {
+                            val = m_Exps[i];
+                            ReplaceVariableWithValue(val);
+                        }
+                        if (m_IterIndex >= 0) {
+                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndex, val);
+                        }
+                    }
+                    ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
+                    if (EXECUTE_RESULT_RETURN == ret)
+                        return ret;
+                    else if (EXECUTE_RESULT_BREAK == ret)
+                        break;
+                    if (EXECUTE_RESULT_CONTINUE == ret)
+                        continue;
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit ForEachStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Exps(NULL), m_ExpNum(0), m_IterIndexType(Value::TYPE_INVALID), m_IterIndex(-1), m_Statements(NULL)
+            {
+            }
+            virtual ~ForEachStatement()
+            {
+                if (m_Exps) {
+                    delete[] m_Exps;
+                    m_Exps = NULL;
+                    m_ExpNum = 0;
+                }
+                m_Statements = NULL;
+            }
+            void SetIterator(int indexType, int index)
+            {
+                m_IterIndexType = indexType;
+                m_IterIndex = index;
+            }
+        private:
+            Value* m_Exps;
+            int m_ExpNum;
+            int m_IterIndexType;
+            int m_IterIndex;
+            RuntimeStatementBlock* m_Statements;
+        };
+        class ForEachStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
+                    return FALSE;
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
+                const FunctionData* pLoFunc = func.GetLowerOrderFunction();
+                if (0 == pLoFunc)
+                    return FALSE;
+                return TRUE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                statement.PrepareGeneralRuntimeObject();
+                FunctionData* pFunc = static_cast<FunctionData*>(&statement);
+                ForEachStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForEachStatement>();
+                if (NULL != pApi) {
+                    const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
+                    pApi->m_ExpNum = pLoFunc->GetParamNum();
+                    pApi->m_Exps = new Value[pApi->m_ExpNum];
+                    for (int i = 0; i < pApi->m_ExpNum; ++i) {
+                        ISyntaxComponent* p = pLoFunc->GetParam(i);
+                        if (NULL != p)
+                            pApi->m_Exps[i] = p->GetRuntimeObject();
+                    }
+                    pApi->m_Statements = pFunc->GetRuntimeFunctionBody();
+
+                    FunctionData* pFuncDef = statement.GetInterpreter().GetCurFunctionDefinition();
+                    if (NULL != pFuncDef) {
+                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterv"));
+                    }
+                    else {
+                        statement.GetInterpreter().SetValue("@iterv", Value());
+                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterv"));
+                    }
+                }
+                return pApi;
+            }
+        };
+
+        class WhileStatementFactory;
+        class WhileStatement : public StatementApi
+        {
+            friend class WhileStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                if (NULL == m_Interpreter)
+                    return EXECUTE_RESULT_NORMAL;
+                while (m_Interpreter->IsRunFlagEnable()) {
+                    if (!m_Exp.IsInvalid()) {
+                        AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                        Value& val = op.Get();
+                        if (m_Exp.IsStatementApi() && m_Exp.GetStatementApi()) {
+                            m_Exp.GetStatementApi()->Execute(&val);
+                        }
+                        else {
+                            val = m_Exp;
+                            ReplaceVariableWithValue(val);
+                        }
+                        if (!val.IsInt() || val.GetInt() == 0) {
+                            break;
+                        }
+                    }
+                    ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
+                    if (EXECUTE_RESULT_RETURN == ret)
+                        return ret;
+                    else if (EXECUTE_RESULT_BREAK == ret)
+                        break;
+                    if (EXECUTE_RESULT_CONTINUE == ret)
+                        continue;
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit WhileStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Statements(NULL)
+            {
+            }
+            virtual ~WhileStatement()
+            {
+                m_Statements = NULL;
+            }
+        private:
+            Value m_Exp;
+            RuntimeStatementBlock* m_Statements;
+        };
+        class WhileStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
+                    return FALSE;
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
+                const FunctionData* pLoFunc = func.GetLowerOrderFunction();
+                if (0 == pLoFunc)
+                    return FALSE;
+                if (pLoFunc->GetParamNum() != 1)
+                    return FALSE;
+                return TRUE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                statement.PrepareGeneralRuntimeObject();
+                FunctionData* pFunc = static_cast<FunctionData*>(&statement);
+                WhileStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<WhileStatement>();
+                if (NULL != pApi) {
+                    const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
+                    ISyntaxComponent* p = pLoFunc->GetParam(0);
+                    if (NULL != p)
+                        pApi->m_Exp = p->GetRuntimeObject();
+                    pApi->m_Statements = pFunc->GetRuntimeFunctionBody();
+                }
+                return pApi;
+            }
+        };
+
+        class LoopStatementFactory;
+        class LoopStatement : public StatementApi
+        {
+            friend class LoopStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                if (NULL == m_Interpreter)
+                    return EXECUTE_RESULT_NORMAL;
+                int ct = 0;
+                if (!m_Exp.IsInvalid()) {
+                    AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                    Value& val = op.Get();
+                    if (m_Exp.IsStatementApi() && m_Exp.GetStatementApi()) {
+                        m_Exp.GetStatementApi()->Execute(&val);
+                    }
+                    else {
+                        val = m_Exp;
+                        ReplaceVariableWithValue(val);
+                    }
+                    if (val.IsInt()) {
+                        ct = val.GetInt();
+                    }
+                }
+                for (int i = 0; i < ct && m_Interpreter->IsRunFlagEnable(); ++i) {
+                    if (m_IterIndex >= 0) {
+                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndex, Value(i, Value::TYPE_INT));
+                    }
+                    ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
+                    if (EXECUTE_RESULT_RETURN == ret)
+                        return ret;
+                    else if (EXECUTE_RESULT_BREAK == ret)
+                        break;
+                    if (EXECUTE_RESULT_CONTINUE == ret)
+                        continue;
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit LoopStatement(Interpreter& interpreter) :StatementApi(interpreter), m_IterIndexType(Value::TYPE_INVALID), m_IterIndex(-1), m_Statements(NULL)
+            {
+            }
+            virtual ~LoopStatement()
+            {
+                m_Statements = NULL;
+            }
+            void SetIterator(int indexType, int index)
+            {
+                m_IterIndexType = indexType;
+                m_IterIndex = index;
+            }
+        private:
+            Value m_Exp;
+            int m_IterIndexType;
+            int m_IterIndex;
+            RuntimeStatementBlock* m_Statements;
+        };
+        class LoopStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
+                    return FALSE;
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
+                const FunctionData* pLoFunc = func.GetLowerOrderFunction();
+                if (0 == pLoFunc)
+                    return FALSE;
+                if (pLoFunc->GetParamNum() != 1)
+                    return FALSE;
+                return TRUE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                statement.PrepareGeneralRuntimeObject();
+                FunctionData* pFunc = static_cast<FunctionData*>(&statement);
+                LoopStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LoopStatement>();
+                if (NULL != pApi) {
+                    const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
+                    ISyntaxComponent* p = pLoFunc->GetParam(0);
+                    if (NULL != p)
+                        pApi->m_Exp = p->GetRuntimeObject();
+                    pApi->m_Statements = pFunc->GetRuntimeFunctionBody();
+
+                    FunctionData* pFuncDef = statement.GetInterpreter().GetCurFunctionDefinition();
+                    if (NULL != pFuncDef) {
+                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterv"));
+                    }
+                    else {
+                        statement.GetInterpreter().SetValue("@iterv", Value());
+                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterv"));
+                    }
+                }
+                return pApi;
+            }
+        };
+
+        class LoopListStatementFactory;
+        class LoopListStatement : public StatementApi
+        {
+            friend class LoopListStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                if (NULL == m_Interpreter)
+                    return EXECUTE_RESULT_NORMAL;
+                ObjectBase* pList = NULL;
+                if (!m_Exp.IsInvalid()) {
+                    AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                    Value& val = op.Get();
+                    if (m_Exp.IsStatementApi() && m_Exp.GetStatementApi()) {
+                        m_Exp.GetStatementApi()->Execute(&val);
+                    }
+                    else {
+                        val = m_Exp;
+                        ReplaceVariableWithValue(val);
+                    }
+                    if(val.IsExpressionApi()) {
+                        ExpressionApi* pApi = val.GetExpressionApi();
+                        if (pApi && pApi->GetTypeTag() == RuntimeComponent::TYPE_TAG_OBJECT) {
+                            pList = static_cast<ObjectBase*>(pApi);
+                        }
+                    }
+                }
+                int ct = pList ? pList->GetDynamicMemberNum() : 0;
+                for (int i = 0; i < ct && m_Interpreter->IsRunFlagEnable(); ++i) {
+                    const ObjectBase::MemberInfo* pInfo = pList->GetDynamicMember(i);
+                    if (m_IterIndexKey >= 0) {
+                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(pInfo->m_Name, Value::TYPE_STRING));
+                    }
+                    if (m_IterIndexVal >= 0) {
+                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndexVal, pInfo->m_Value);
+                    }
+                    ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
+                    if (EXECUTE_RESULT_RETURN == ret)
+                        return ret;
+                    else if (EXECUTE_RESULT_BREAK == ret)
+                        break;
+                    if (EXECUTE_RESULT_CONTINUE == ret)
+                        continue;
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit LoopListStatement(Interpreter& interpreter) :StatementApi(interpreter), m_IterIndexType(Value::TYPE_INVALID), m_IterIndexKey(-1), m_IterIndexVal(-1), m_Statements(NULL)
+            {
+            }
+            virtual ~LoopListStatement()
+            {
+                m_Statements = NULL;
+            }
+            void SetIterator(int indexType, int indexKey, int indexValue)
+            {
+                m_IterIndexType = indexType;
+                m_IterIndexKey = indexKey;
+                m_IterIndexVal = indexValue;
+            }
+        private:
+            Value m_Exp;
+            int m_IterIndexType;
+            int m_IterIndexKey;
+            int m_IterIndexVal;
+            RuntimeStatementBlock* m_Statements;
+        };
+        class LoopListStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
+                    return FALSE;
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
+                const FunctionData* pLoFunc = func.GetLowerOrderFunction();
+                if (0 == pLoFunc)
+                    return FALSE;
+                if (pLoFunc->GetParamNum() != 1)
+                    return FALSE;
+                return TRUE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                statement.PrepareGeneralRuntimeObject();
+                FunctionData* pFunc = static_cast<FunctionData*>(&statement);
+                LoopListStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LoopListStatement>();
+                if (NULL != pApi) {
+                    const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
+                    ISyntaxComponent* p = pLoFunc->GetParam(0);
+                    if (NULL != p)
+                        pApi->m_Exp = p->GetRuntimeObject();
+                    pApi->m_Statements = pFunc->GetRuntimeFunctionBody();
+
+                    FunctionData* pFuncDef = statement.GetInterpreter().GetCurFunctionDefinition();
+                    if (NULL != pFuncDef) {
+                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterk"), pFuncDef->GetLocalIndex("$iterv"));
+                    }
+                    else {
+                        statement.GetInterpreter().SetValue("@iterk", Value());
+                        statement.GetInterpreter().SetValue("@iterv", Value());
+                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterk"), statement.GetInterpreter().GetValueIndex("@iterv"));
+                    }
                 }
                 return pApi;
             }
@@ -1953,7 +2336,7 @@ namespace FunctionScript
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
                 if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                    const FunctionData& func = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& func = static_cast<const FunctionData&>(statement);
                     const FunctionData* pLoFunc = func.GetLowerOrderFunction();
                     if (0 == pLoFunc)
                         return FALSE;
@@ -1961,7 +2344,7 @@ namespace FunctionScript
                         return FALSE;
                 }
                 else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                    const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                    const StatementData& stData = static_cast<const StatementData&>(statement);
                     FunctionData* pFunc0 = stData.GetFunction(0);
                     if (0 == pFunc0)
                         return FALSE;
@@ -2011,14 +2394,14 @@ namespace FunctionScript
                     // Once processed at runtime, the name becomes the local variable index.
                     Value name;
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                        StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                        StatementData* pStatement = static_cast<StatementData*>(&statement);
                         int num = pStatement->GetFunctionNum();
                         FunctionData* pLastFunc = pStatement->GetFunction(num - 1);
                         name = pLastFunc->GetNameValue();
                     }
                     statement.PrepareGeneralRuntimeObject();
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                        FunctionData* pFunc = dynamic_cast<FunctionData*>(&statement);
+                        FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                         FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
                         ISyntaxComponent* p = pLoFunc->GetParam(0);
                         if (NULL != p)
@@ -2026,7 +2409,7 @@ namespace FunctionScript
                         pApi->m_pIf = pFunc->GetRuntimeFunctionBody();
                     }
                     else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                        StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                        StatementData* pStatement = static_cast<StatementData*>(&statement);
                         FunctionData* pFunc = pStatement->GetFunction(0);
                         FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
 
@@ -2123,7 +2506,7 @@ namespace FunctionScript
             {
                 if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_STATEMENT)
                     return FALSE;
-                const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                const StatementData& stData = static_cast<const StatementData&>(statement);
                 if (stData.GetFunctionNum() != 2)
                     return FALSE;
                 FunctionData* pFunc0 = stData.GetFunction(0);
@@ -2150,7 +2533,7 @@ namespace FunctionScript
                 CondExpStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<CondExpStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                    StatementData* pStatement = static_cast<StatementData*>(&statement);
                     FunctionData* pFunc = pStatement->GetFunction(0);
                     FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
                     ISyntaxComponent* p = pLoFunc->GetParam(0);
@@ -2211,7 +2594,7 @@ namespace FunctionScript
             {
                 if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_STATEMENT)
                     return FALSE;
-                const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                const StatementData& stData = static_cast<const StatementData&>(statement);
                 if (stData.GetFunctionNum() != 2)
                     return FALSE;
                 FunctionData* pFunc0 = stData.GetFunction(0);
@@ -2235,7 +2618,7 @@ namespace FunctionScript
                 IfGotoStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<IfGotoStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                    StatementData* pStatement = static_cast<StatementData*>(&statement);
                     FunctionData* pFunc0 = pStatement->GetFunction(0);
                     FunctionData* pFunc1 = pStatement->GetFunction(1);
                     ISyntaxComponent* p0 = pFunc0->GetParam(0);
@@ -2282,7 +2665,7 @@ namespace FunctionScript
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
                 if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                    const FunctionData& call = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& call = static_cast<const FunctionData&>(statement);
                     if (call.GetParamNum() != 1)
                         return FALSE;
                 }
@@ -2293,7 +2676,7 @@ namespace FunctionScript
                 GotoStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<GotoStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    FunctionData* pCall = dynamic_cast<FunctionData*>(&statement);
+                    FunctionData* pCall = static_cast<FunctionData*>(&statement);
                     ISyntaxComponent* p = pCall->GetParam(0);
                     pApi->m_Goto = p->GetRuntimeObject();
                 }
@@ -2336,7 +2719,7 @@ namespace FunctionScript
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
                 if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                    const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                    const StatementData& stData = static_cast<const StatementData&>(statement);
                     if (stData.GetFunctionNum() != 2)
                         return FALSE;
                     const FunctionData* pFunc = stData.GetFunction(1);
@@ -2345,7 +2728,7 @@ namespace FunctionScript
                     return TRUE;
                 }
                 else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                    const FunctionData& call = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& call = static_cast<const FunctionData&>(statement);
                     if (call.GetParamNum() != 1)
                         return FALSE;
                 }
@@ -2360,12 +2743,12 @@ namespace FunctionScript
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                        const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                        const StatementData& stData = static_cast<const StatementData&>(statement);
                         const FunctionData& func1 = *stData.GetFunction(1);
                         pApi->m_Return = func1.GetRuntimeObject();
                     }
                     else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                        const FunctionData& call = dynamic_cast<const FunctionData&>(statement);
+                        const FunctionData& call = static_cast<const FunctionData&>(statement);
                         if (call.GetParamNum() == 1 && NULL != call.GetParam(0)) {
                             ISyntaxComponent* pStatement = call.GetParam(0);
                             pApi->m_Return = pStatement->GetRuntimeObject();
@@ -2477,10 +2860,10 @@ namespace FunctionScript
                 FunctionData* pFunc0 = 0;
                 int syntaxType = statement.GetSyntaxType();
                 if (syntaxType == ISyntaxComponent::TYPE_FUNCTION) {
-                    pFunc0 = dynamic_cast<FunctionData*>(&statement)->GetLowerOrderFunction();
+                    pFunc0 = static_cast<FunctionData*>(&statement)->GetLowerOrderFunction();
                 }
                 else if (syntaxType == ISyntaxComponent::TYPE_STATEMENT) {
-                    StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                    StatementData* pStatement = static_cast<StatementData*>(&statement);
                     pFunc0 = pStatement->GetFunction(0);
                 }
                 Closure* pClosure = m_Interpreter->AddNewClosureComponent();
@@ -2531,14 +2914,14 @@ namespace FunctionScript
                 // where name and args($a,$b,$c) are optional
                 int syntaxType = statement.GetSyntaxType();
                 if (syntaxType == ISyntaxComponent::TYPE_FUNCTION) {
-                    const FunctionData& func = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& func = static_cast<const FunctionData&>(statement);
                     if (FALSE == func.IsHighOrder())
                         return FALSE;
                     if (FALSE == func.HaveStatement())
                         return FALSE;
                 }
                 else if (syntaxType == ISyntaxComponent::TYPE_STATEMENT) {
-                    const StatementData& stData = dynamic_cast<const StatementData&>(statement);
+                    const StatementData& stData = static_cast<const StatementData&>(statement);
                     if (stData.GetFunctionNum() != 2) {
                         return FALSE;
                     }
@@ -2571,10 +2954,10 @@ namespace FunctionScript
                     FunctionData* pFunc = 0;
                     int syntaxType = statement.GetSyntaxType();
                     if (syntaxType == ISyntaxComponent::TYPE_FUNCTION) {
-                        pFunc = dynamic_cast<FunctionData*>(&statement);
+                        pFunc = static_cast<FunctionData*>(&statement);
                     }
                     else if (syntaxType == ISyntaxComponent::TYPE_STATEMENT) {
-                        StatementData* pStatement = dynamic_cast<StatementData*>(&statement);
+                        StatementData* pStatement = static_cast<StatementData*>(&statement);
                         int num = pStatement->GetFunctionNum();
                         if (num > 0) {
                             pFunc = pStatement->GetFunction(num - 1);
@@ -2652,7 +3035,7 @@ namespace FunctionScript
                 LiteralArrayStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LiteralArrayStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    const FunctionData& call = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& call = static_cast<const FunctionData&>(statement);
                     pApi->m_Count = call.GetParamNum();
                     pApi->m_pValues = new Value[pApi->m_Count];
                     if (0 != pApi->m_pValues) {
@@ -2725,7 +3108,7 @@ namespace FunctionScript
             {
                 if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
                     return FALSE;
-                const FunctionData& func = dynamic_cast<const FunctionData&>(statement);
+                const FunctionData& func = static_cast<const FunctionData&>(statement);
                 if (func.IsHighOrder() || !func.HaveParamOrStatement())
                     return FALSE;
                 return TRUE;
@@ -2735,14 +3118,17 @@ namespace FunctionScript
                 LiteralObjectStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LiteralObjectStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    const FunctionData& call = dynamic_cast<const FunctionData&>(statement);
+                    const FunctionData& call = static_cast<const FunctionData&>(statement);
 
                     pApi->m_Count = call.GetParamNum();
                     pApi->m_pKeys = new Value[pApi->m_Count];
                     pApi->m_pValues = new Value[pApi->m_Count];
                     if (0 != pApi->m_pKeys && 0 != pApi->m_pValues) {
                         for (int i = 0; i < call.GetParamNum(); ++i) {
-                            FunctionData* p = dynamic_cast<FunctionData*>(call.GetParam(i));
+                            ISyntaxComponent* pComp = call.GetParam(i);
+                            if (0 == pComp || pComp->GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
+                                continue;
+                            FunctionData* p = static_cast<FunctionData*>(pComp);
                             if (0 == p)
                                 continue;
                             if (p->GetParamNum() != 2)
@@ -2820,7 +3206,7 @@ namespace FunctionScript
                 StructStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<StructStatement>();
                 if (NULL != pApi) {
                     statement.PrepareGeneralRuntimeObject();
-                    pApi->m_pDefine = dynamic_cast<FunctionData*>(&statement);
+                    pApi->m_pDefine = static_cast<FunctionData*>(&statement);
                 }
                 return pApi;
             }
@@ -2930,6 +3316,10 @@ namespace FunctionScript
         RegisterInnerFunctionApi("arg", new ArgApi(*this));
         //
         RegisterInnerStatementApi("for", new ForStatementFactory());
+        RegisterInnerStatementApi("while", new WhileStatementFactory());
+        RegisterInnerStatementApi("foreach", new ForEachStatementFactory());
+        RegisterInnerStatementApi("loop", new LoopStatementFactory());
+        RegisterInnerStatementApi("looplist", new LoopListStatementFactory());
         RegisterInnerStatementApi("if", new IfElseStatementFactory());
         RegisterInnerStatementApi("?", new CondExpStatementFactory());
         RegisterInnerStatementApi("if", new IfGotoStatementFactory());
@@ -3025,12 +3415,12 @@ namespace FunctionScript
         m_ArgumentNum = argumentNum;
         m_pDefinition = &comp;
         if (comp.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-            const FunctionData& func = dynamic_cast<const FunctionData&>(comp);
+            const FunctionData& func = static_cast<const FunctionData&>(comp);
             m_StackSize = func.CalculateStackSize();
             m_Statements = func.GetRuntimeFunctionBody();
         }
         else if (comp.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-            const StatementData& statement = dynamic_cast<const StatementData&>(comp);
+            const StatementData& statement = static_cast<const StatementData&>(comp);
             int num = statement.GetFunctionNum();
             if (num > 1) {
                 FunctionData* pFunc = statement.GetFunction(num - 1);
@@ -3561,7 +3951,10 @@ namespace FunctionScript
                     m_Accessors[INNER_MEMBER_INDEX_SIZE] = new MemberAccessor(*m_Interpreter, *this, INNER_MEMBER_INDEX_SIZE);
                     m_Size = 0;
                     for (int ix = 0; ix < m_MemberNum; ++ix) {
-                        StatementData* pStatement = dynamic_cast<StatementData*>(func.GetParam(ix));
+                        ISyntaxComponent* pComp = func.GetParam(ix);
+                        if (NULL == pComp || pComp->GetSyntaxType() != ISyntaxComponent::TYPE_STATEMENT)
+                            continue;
+                        StatementData* pStatement = static_cast<StatementData*>(pComp);
                         if (0 != pStatement) {
                             FunctionData* pMember = pStatement->GetFunction(0);
                             if (0 != pMember) {
@@ -4663,11 +5056,11 @@ namespace FunctionScript
                 const ISyntaxComponent* pDefinition = info.m_pDefinition;
                 if (NULL != pDefinition && index < info.m_Size.GetInt()) {
                     if (pDefinition->GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
-                        const FunctionData* pFunc = dynamic_cast<const FunctionData*>(pDefinition);
+                        const FunctionData* pFunc = static_cast<const FunctionData*>(pDefinition);
                         return pFunc->GetLocalName(index);
                     }
                     else if (pDefinition->GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
-                        const StatementData* pDef = dynamic_cast<const StatementData*>(pDefinition);
+                        const StatementData* pDef = static_cast<const StatementData*>(pDefinition);
                         FunctionData* pFunc = pDef->GetFunction(pDef->GetFunctionNum() - 1);
                         if (NULL != pFunc) {
                             return pFunc->GetLocalName(index);

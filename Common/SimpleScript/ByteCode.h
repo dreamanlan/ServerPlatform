@@ -3,54 +3,10 @@
 
 #include "calc.h"
 #include "RuntimeBuilderData.h"
+#include "ParserFineTuneHelper.h"
 
 namespace FunctionScript
 {
-    enum SimpleScriptByteCodeEnum
-    {
-        BYTE_CODE_SET_LAST_TOKEN,
-        BYTE_CODE_SET_LAST_LINE_NUMBER,
-        BYTE_CODE_PUSH_TOKEN,
-        BYTE_CODE_MARK_PERIOD_PARAM,
-        BYTE_CODE_MARK_BRACKET_PARAM,
-        BYTE_CODE_MARK_BRACKET_PARAM_END,
-        BYTE_CODE_BUILD_HIGHORDER_FUNCTION,
-        BYTE_CODE_MARK_PARENTHESES_PARAM,
-        BYTE_CODE_MARK_PARENTHESES_PARAM_END,
-        BYTE_CODE_SET_EXTERN_SCRIPT,
-        BYTE_CODE_MARK_STATEMENT,
-        BYTE_CODE_MARK_STATEMENT_END,
-        BYTE_CODE_MARK_EXTERN_SCRIPT,
-        BYTE_CODE_MARK_PARENTHESES_COLON_PARAM,
-        BYTE_CODE_MARK_PARENTHESES_COLON_PARAM_END,
-        BYTE_CODE_MARK_BRACKET_COLON_PARAM,
-        BYTE_CODE_MARK_BRACKET_COLON_PARAM_END,
-        BYTE_CODE_ANGLE_BRACKET_COLON_PARAM,
-        BYTE_CODE_ANGLE_BRACKET_COLON_PARAM_END,
-        BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM,
-        BYTE_CODE_MARK_PARENTHESES_PERCENT_PARAM_END,
-        BYTE_CODE_MARK_BRACKET_PERCENT_PARAM,
-        BYTE_CODE_MARK_BRACKET_PERCENT_PARAM_END,
-        BYTE_CODE_MARK_BRACE_PERCENT_PARAM,
-        BYTE_CODE_MARK_BRACE_PERCENT_PARAM_END,
-        BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM,
-        BYTE_CODE_ANGLE_BRACKET_PERCENT_PARAM_END,
-        BYTE_CODE_COLON_COLON_PARAM,
-        BYTE_CODE_SET_FUNCTION_ID,
-        BYTE_CODE_ADD_FUNCTION,
-        BYTE_CODE_BEGIN_STATEMENT,
-        BYTE_CODE_END_STATEMENT,
-        BYTE_CODE_BUILD_OPERATOR,
-        BYTE_CODE_BUILD_FIRST_TERNARY_OPERATOR,
-        BYTE_CODE_BUILD_SECOND_TERNARY_OPERATOR,
-        BYTE_CODE_BUILD_NULLABLE_OPERATOR,
-        BYTE_CODE_MARK_POINTER_PARAM,
-        BYTE_CODE_MARK_PERIOD_STAR_PARAM,
-        BYTE_CODE_MARK_POINTER_STAR_PARAM,
-        BYTE_CODE_MARK_SEPARATOR,
-        BYTE_CODE_NUM
-    };
-
     template<typename RealTypeT>
     class RuntimeBuilderT
     {
@@ -109,6 +65,7 @@ namespace FunctionScript
         inline int     getPairTypeStackSize()const;
         inline int     peekPairTypeStack(int ix)const { uint32_t tag = 0; return peekPairTypeStack(ix, tag); }
         inline int     peekPairTypeStack(int ix, uint32_t& tag)const;
+        inline StatementData* getCurStatement();
 	private:
         inline void    pushPairType(int type) { pushPairType(type, 0); };
         inline void    pushPairType(int type, uint32_t tag);

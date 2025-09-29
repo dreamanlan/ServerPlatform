@@ -123,9 +123,6 @@
     <ClInclude Include="..\Common\SimpleScript\ByteCode.h">
       <Filter>Common\SimpleScript</Filter>
     </ClInclude>
-    <ClInclude Include="..\Common\SimpleScript\ByteCodeScript.h">
-      <Filter>Common\SimpleScript</Filter>
-    </ClInclude>
     <ClInclude Include="..\Common\SimpleScript\calc.h">
       <Filter>Common\SimpleScript</Filter>
     </ClInclude>
@@ -204,6 +201,9 @@
     <ClInclude Include="..\Common\ConfigScript\CommonScriptApi.h">
       <Filter>Common\GmScript</Filter>
     </ClInclude>
+    <ClInclude Include="..\Common\SimpleScript\ParserFineTuneHelper.h">
+      <Filter>Common\SimpleScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -240,9 +240,6 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\SimpleScript\ByteCode.cpp">
-      <Filter>Common\SimpleScript</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Common\SimpleScript\ByteCodeScript.cpp">
       <Filter>Common\SimpleScript</Filter>
     </ClCompile>
     <ClCompile Include="..\Common\SimpleScript\calc.cpp">
@@ -298,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="..\Common\NetBase\util.cc">
       <Filter>Common\NetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\SimpleScript\ParserFineTuneHelper.cpp">
+      <Filter>Common\SimpleScript</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -64,7 +64,7 @@ namespace FunctionScript
             FunctionData* p = mInterpreter->AddNewFunctionComponent();
             if (0 != p) {
                 FunctionData& call = *p;
-                if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`') {
+                if (0 != tokenInfo.mString && tokenInfo.mString[0] == '`' && tokenInfo.mString[1]) {
                     call.SetParamClass(FunctionData::PARAM_CLASS_OPERATOR);
 
                     Value v = call.GetNameValue();
@@ -312,6 +312,8 @@ namespace FunctionScript
         if (!preconditionCheck())return;
         StatementData* statement = mData.getCurStatement();
         if (0 != statement) {
+            ParserFineTuneHelper::ForSimpleScript().OnBeforeAddFunction(mApi, statement);
+            statement = mData.getCurStatement();
             FunctionData* newFunc = mInterpreter->AddNewFunctionComponent();
             if (0 != newFunc) {
                 statement->AddFunction(newFunc);
@@ -348,6 +350,10 @@ namespace FunctionScript
                 p->SetNameValue(val);
             }
         }
+        StatementData* pStm = mData.getCurStatement();
+        if (0 == pStm || 0 == p)
+            return;
+        ParserFineTuneHelper::ForSimpleScript().OnSetFunctionId(mApi, tokenInfo.mString, pStm, p);
     }
     template<class RealTypeT> inline
         void RuntimeBuilderT<RealTypeT>::buildNullableOperator()
@@ -723,7 +729,7 @@ namespace FunctionScript
         int ret = FALSE;
         if (comp.GetSyntaxType() != ISyntaxComponent::TYPE_FUNCTION)
             return ret;
-        FunctionData& call = dynamic_cast<FunctionData&>(comp);
+        FunctionData& call = static_cast<FunctionData&>(comp);
         if (0 != mInterpreter && call.IsValid() && call.HaveId()) {
             if (call.GetParamClass() == FunctionData::PARAM_CLASS_PERIOD ||
                 call.GetParamClass() == FunctionData::PARAM_CLASS_BRACKET ||
@@ -843,7 +849,7 @@ namespace FunctionScript
         else if (NULL != data.GetId() && data.GetId()[0] == '-' && data.GetId()[1] == 0 && data.GetParamNum() == 1) {
             ISyntaxComponent& temp = *data.GetParam(0);
             if (temp.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
-                ValueData& nameOrVal = dynamic_cast<ValueData&>(temp);
+                ValueData& nameOrVal = static_cast<ValueData&>(temp);
                 Value& val = nameOrVal.GetValue();
                 switch (val.GetType()) {
                 case Value::TYPE_FLOAT:
@@ -869,12 +875,48 @@ namespace FunctionScript
         else if (NULL != data.GetId() && data.GetId()[0] == '+' && data.GetId()[1] == 0 && data.GetParamNum() == 1) {
             ISyntaxComponent& temp = *data.GetParam(0);
             if (temp.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
-                ValueData& nameOrVal = dynamic_cast<ValueData&>(temp);
+                ValueData& nameOrVal = static_cast<ValueData&>(temp);
                 //keep value.
                 return nameOrVal;
             }
             else {
                 return data;
+            }
+        }
+        else if (NULL != data.GetId() && 0 == strcmp(data.GetId(), "`")) {
+            //transform
+            int paramNum = data.GetParamNum();
+            if (paramNum == 2) {
+                ISyntaxComponent* param0 = data.GetParam(0);
+                ISyntaxComponent* param1 = data.GetParam(1);
+                if (param0->GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
+                    auto&& vd = static_cast<ValueData&>(*param0);
+                    if (vd.GetId() == "return") {
+                        //return`exp; => return(exp);
+                        FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
+                        newCall->SetNameValue(Value("return", Value::TYPE_IDENTIFIER));
+                        newCall->SetParenthesesParamClass();
+                        newCall->AddParam(param1);
+
+                        newCall->GetNameValue().SetLine(data.GetLine());
+                        return *newCall;
+                    }
+                }
+                else if (param0->GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
+                    auto&& fd = static_cast<FunctionData&>(*param0);
+                    //if(cond)`exp; => if(cond){exp;}
+                    //while(cond)`exp; => while(cond){exp;}
+                    //loop(ct)`exp; => loop(ct){exp;}
+                    //looplist(list)`exp; => loop(list){exp;}
+                    //foreach(v1,v2,...)`exp; => foreach(v1,v2,...){exp;}
+                    FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
+                    newCall->SetNameValue(Value(&fd));
+                    newCall->SetStatementParamClass();
+                    newCall->AddParam(param1);
+
+                    newCall->GetNameValue().SetLine(data.GetLine());
+                    return *newCall;
+                }
             }
         }
         else {
@@ -922,6 +964,11 @@ namespace FunctionScript
         void RuntimeBuilderT<RealTypeT>::popPairType()
     {
         mData.popPairType();
+    }
+    template<class RealTypeT> inline
+        StatementData* RuntimeBuilderT<RealTypeT>::getCurStatement()
+    {
+        return mData.getCurStatement();
     }
 }
 //--------------------------------------------------------------------------------------
