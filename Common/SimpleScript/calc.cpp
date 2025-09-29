@@ -1855,7 +1855,7 @@ namespace FunctionScript
             }
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
-                statement.PrepareGeneralRuntimeObject();
+                statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 ForStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForStatement>();
                 if (NULL != pApi) {
@@ -1949,7 +1949,7 @@ namespace FunctionScript
             }
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
-                statement.PrepareGeneralRuntimeObject();
+                statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 ForEachStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForEachStatement>();
                 if (NULL != pApi) {
@@ -2039,7 +2039,7 @@ namespace FunctionScript
             }
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
-                statement.PrepareGeneralRuntimeObject();
+                statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 WhileStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<WhileStatement>();
                 if (NULL != pApi) {
@@ -2127,7 +2127,7 @@ namespace FunctionScript
             }
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
-                statement.PrepareGeneralRuntimeObject();
+                statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 LoopStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LoopStatement>();
                 if (NULL != pApi) {
@@ -2181,7 +2181,10 @@ namespace FunctionScript
                 for (int i = 0; i < ct && m_Interpreter->IsRunFlagEnable(); ++i) {
                     const ObjectBase::MemberInfo* pInfo = pList->GetDynamicMember(i);
                     if (m_IterIndexKey >= 0) {
-                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(pInfo->m_Name, Value::TYPE_STRING));
+                        if (pInfo->m_Name && pInfo->m_Name[0])
+                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(pInfo->m_Name, Value::TYPE_STRING));
+                        else
+                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(i, Value::TYPE_INT));
                     }
                     if (m_IterIndexVal >= 0) {
                         m_Interpreter->SetValue(m_IterIndexType, m_IterIndexVal, pInfo->m_Value);
@@ -2234,7 +2237,7 @@ namespace FunctionScript
             }
             virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
             {
-                statement.PrepareGeneralRuntimeObject();
+                statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                 LoopListStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LoopListStatement>();
                 if (NULL != pApi) {
@@ -2399,7 +2402,7 @@ namespace FunctionScript
                         FunctionData* pLastFunc = pStatement->GetFunction(num - 1);
                         name = pLastFunc->GetNameValue();
                     }
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
                         FunctionData* pFunc = static_cast<FunctionData*>(&statement);
                         FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
@@ -2532,7 +2535,7 @@ namespace FunctionScript
             {
                 CondExpStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<CondExpStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     StatementData* pStatement = static_cast<StatementData*>(&statement);
                     FunctionData* pFunc = pStatement->GetFunction(0);
                     FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
@@ -2617,7 +2620,7 @@ namespace FunctionScript
             {
                 IfGotoStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<IfGotoStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     StatementData* pStatement = static_cast<StatementData*>(&statement);
                     FunctionData* pFunc0 = pStatement->GetFunction(0);
                     FunctionData* pFunc1 = pStatement->GetFunction(1);
@@ -2675,7 +2678,7 @@ namespace FunctionScript
             {
                 GotoStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<GotoStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     FunctionData* pCall = static_cast<FunctionData*>(&statement);
                     ISyntaxComponent* p = pCall->GetParam(0);
                     pApi->m_Goto = p->GetRuntimeObject();
@@ -2741,7 +2744,7 @@ namespace FunctionScript
             {
                 ReturnStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ReturnStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
                         const StatementData& stData = static_cast<const StatementData&>(statement);
                         const FunctionData& func1 = *stData.GetFunction(1);
@@ -2965,7 +2968,7 @@ namespace FunctionScript
                     }
                     FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
                     AutoFunctionDefinitionStackOperation autoDefStack(pFunc->GetInterpreter(), pFunc);
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     pApi->m_pDefine = &statement;
 
                     if (syntaxType == ISyntaxComponent::TYPE_STATEMENT && 0 != pLoFunc && pLoFunc->GetParamNum() > 0) {
@@ -3034,7 +3037,7 @@ namespace FunctionScript
             {
                 LiteralArrayStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LiteralArrayStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     const FunctionData& call = static_cast<const FunctionData&>(statement);
                     pApi->m_Count = call.GetParamNum();
                     pApi->m_pValues = new Value[pApi->m_Count];
@@ -3117,7 +3120,7 @@ namespace FunctionScript
             {
                 LiteralObjectStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<LiteralObjectStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     const FunctionData& call = static_cast<const FunctionData&>(statement);
 
                     pApi->m_Count = call.GetParamNum();
@@ -3205,7 +3208,7 @@ namespace FunctionScript
             {
                 StructStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<StructStatement>();
                 if (NULL != pApi) {
-                    statement.PrepareGeneralRuntimeObject();
+                    statement.PrepareGeneralRuntimeObject(false);
                     pApi->m_pDefine = static_cast<FunctionData*>(&statement);
                 }
                 return pApi;
@@ -4149,7 +4152,7 @@ namespace FunctionScript
         }
         else if (m_Value.IsString() || m_Value.IsIdentifier()) {
             const char* p = m_Value.GetString();
-            return 0 != p ? TRUE : FALSE;
+            return 0 != p && p[0] ? TRUE : FALSE;
         }
         else if (m_Value.IsExpressionApi() || m_Value.IsStatementApi() || m_Value.IsPtr() || m_Value.IsInvalid()) {
             return FALSE;
@@ -4159,7 +4162,7 @@ namespace FunctionScript
         }
     }
 
-    void ValueData::PrepareRuntimeObject()
+    void ValueData::PrepareRuntimeObject(bool isArgument)
     {
         if (NULL == m_Interpreter)
             return;
@@ -4173,11 +4176,11 @@ namespace FunctionScript
             m_RuntimeFunctionCall.SetStatementApi(pApi);
         }
         else {
-            PrepareGeneralRuntimeObject();
+            PrepareGeneralRuntimeObject(isArgument);
         }
     }
 
-    void ValueData::PrepareGeneralRuntimeObject()
+    void ValueData::PrepareGeneralRuntimeObject(bool isArgument)
     {
         Value& valOfName = GetValue();
         if (valOfName.IsIdentifier()) {
@@ -4241,7 +4244,7 @@ namespace FunctionScript
             }
         }
         else if (valOfName.IsFunction() && 0 != valOfName.GetFunction()) {
-            valOfName.GetFunction()->PrepareRuntimeObject();
+            valOfName.GetFunction()->PrepareRuntimeObject(true);
         }
     }
 
@@ -4317,12 +4320,23 @@ namespace FunctionScript
         return GetInterpreter().GetNullFunctionPtr();
     }
 
-    void FunctionData::PrepareRuntimeObject()
+    void FunctionData::PrepareRuntimeObject(bool isArgument)
     {
         if (NULL == m_Interpreter)
             return;
         if (m_RuntimeObjectPrepared)
             return;
+        if (!m_Name.HaveId()) {
+            //literalarray & literalobject
+            if (HaveParam() && IsBracketParamClass()) {
+                m_Name.GetValue().SetIdentifier("literalarray");
+                SetParenthesesParamClass();
+            }
+            else if (HaveStatement() && isArgument) {
+                m_Name.GetValue().SetIdentifier("literalobject");
+                SetParenthesesParamClass();
+            }
+        }
         StatementApiFactory* pApiFactory = m_Interpreter->FindStatementApi(*this);
         m_RuntimeObjectPrepared = TRUE;
         if (0 != pApiFactory) {
@@ -4331,7 +4345,7 @@ namespace FunctionScript
             m_RuntimeFunctionCall.SetStatementApi(pApi);
         }
         else {
-            PrepareGeneralRuntimeObject();
+            PrepareGeneralRuntimeObject(isArgument);
         }
     }
 
@@ -4340,17 +4354,17 @@ namespace FunctionScript
         return m_RuntimeFunctionCall;
     }
 
-    void FunctionData::PrepareGeneralRuntimeObject()
+    void FunctionData::PrepareGeneralRuntimeObject(bool isArgument)
     {
         //Processing function name
-        m_Name.PrepareGeneralRuntimeObject();
+        m_Name.PrepareGeneralRuntimeObject(true);
         m_RuntimeObjectPrepared = TRUE;
         //Params
         if (HaveParam()) {
             if (0 != m_Params) {
                 for (int ix = 0; ix < m_ParamNum; ++ix) {
                     if (0 != m_Params[ix]) {
-                        m_Params[ix]->PrepareRuntimeObject();
+                        m_Params[ix]->PrepareRuntimeObject(true);
                     }
                 }
             }
@@ -4373,7 +4387,7 @@ namespace FunctionScript
             if (0 != m_Params) {
                 for (int ix = 0; ix < m_ParamNum; ++ix) {
                     if (0 != m_Params[ix]) {
-                        m_Params[ix]->PrepareRuntimeObject();
+                        m_Params[ix]->PrepareRuntimeObject(isArgument);
                     }
                 }
                 if (m_ParamNum > 0) {
@@ -4529,7 +4543,7 @@ namespace FunctionScript
         }
     }
 
-    void StatementData::PrepareRuntimeObject()
+    void StatementData::PrepareRuntimeObject(bool isArgument)
     {
         if (NULL == m_Interpreter)
             return;
@@ -4544,30 +4558,7 @@ namespace FunctionScript
             return;
         }
         else {
-            //detect object literal
-            if (GetFunctionNum() == 1) {
-                FunctionData* pFunc = GetFunction(0);
-                if (0 != pFunc && !pFunc->HaveId()) {
-                    if (pFunc->HaveParam() && pFunc->GetParamClass() == FunctionData::PARAM_CLASS_BRACKET) {
-                        pApiFactory = m_Interpreter->GetLiteralArrayApi();
-                        if (0 != pApiFactory) {
-                            //Let the API generate composite runtime objects.
-                            StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
-                            m_RuntimeObject.SetStatementApi(pApi);
-                        }
-                        return;
-                    }
-                    else if (!pFunc->HaveParam() && pFunc->HaveStatement()) {
-                        pApiFactory = m_Interpreter->GetLiteralObjectApi();
-                        if (0 != pApiFactory) {
-                            //Let the API generate composite runtime objects.
-                            StatementApi* pApi = pApiFactory->PrepareRuntimeObject(*this);
-                            m_RuntimeObject.SetStatementApi(pApi);
-                        }
-                        return;
-                    }
-                }
-            }
+            PrepareGeneralRuntimeObject(isArgument);
             //Wrong syntax, all statements should have corresponding statement API
 #ifndef _GAMECLIENT_
             char errBuf[1025];
@@ -4584,14 +4575,14 @@ namespace FunctionScript
         return m_RuntimeObject;
     }
 
-    void StatementData::PrepareGeneralRuntimeObject()
+    void StatementData::PrepareGeneralRuntimeObject(bool isArgument)
     {
         if (NULL == m_Functions)
             return;
         for (int ix = 0; ix < m_FunctionNum; ++ix) {
             FunctionData* pFunction = m_Functions[ix];
             if (0 != pFunction) {
-                pFunction->PrepareGeneralRuntimeObject();
+                pFunction->PrepareGeneralRuntimeObject(isArgument);
             }
         }
     }
@@ -4791,7 +4782,7 @@ namespace FunctionScript
             for (int ix = m_NextStatement; ix < m_StatementNum; ++ix) {
                 ISyntaxComponent* pStatement = m_Program[ix];
                 if (0 != pStatement) {
-                    pStatement->PrepareRuntimeObject();
+                    pStatement->PrepareRuntimeObject(false);
                     Value val = pStatement->GetRuntimeObject();
                     if (val.IsStatementApi()) {
                         m_RuntimeProgram[ix] = val.GetStatementApi();

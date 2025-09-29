@@ -712,7 +712,7 @@ namespace FunctionScript
         //Construct the runtime object here and ensure that it is constructed only once.
         //If the current syntax unit is StatementApi, it will be processed here.
         //Otherwise call PrepareGeneralRuntimeObject
-        virtual void PrepareRuntimeObject() = 0;
+        virtual void PrepareRuntimeObject(bool isArgument) = 0;
         //Get the corresponding runtime object. There are three types of runtime objects:
         // single value in the usual sense, ExpressionApi and StatementApi, all recorded
         // in Value.
@@ -722,7 +722,7 @@ namespace FunctionScript
         //Complete the preparation of regular runtime information here, that is,
         // the processing of runtime information except that the whole is a StatementApi
         // instance.
-        virtual void PrepareGeneralRuntimeObject() = 0;
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) = 0;
     public:
         int GetSyntaxType() const { return m_SyntaxType; }
         void SetSeparator(int sep) { m_Separator = sep; }
@@ -746,21 +746,21 @@ namespace FunctionScript
         Interpreter* m_Interpreter;
     };
 
-    class NullSyntax : public ISyntaxComponent
+    class NullSyntax final : public ISyntaxComponent
     {
     public:
         NullSyntax(Interpreter& interpreter) : ISyntaxComponent(ISyntaxComponent::TYPE_NULL, interpreter) {}
     public:
-        virtual int IsValid() const { return FALSE; }
-        virtual const char* GetId() const { return ""; }
-        virtual int GetIdType() const { return Value::TYPE_IDENTIFIER; }
-        virtual int GetLine() const { return 0; }
-        virtual void PrepareRuntimeObject() {}
-        virtual const Value& GetRuntimeObject()const
+        virtual int IsValid() const override { return FALSE; }
+        virtual const char* GetId() const override { return ""; }
+        virtual int GetIdType() const override { return Value::TYPE_IDENTIFIER; }
+        virtual int GetLine() const override { return 0; }
+        virtual void PrepareRuntimeObject(bool isArgument) override {}
+        virtual const Value& GetRuntimeObject()const override
         {
             return Value::GetInvalidValueRef();
         }
-        virtual void PrepareGeneralRuntimeObject() {}
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) override {}
     private:
         NullSyntax(const NullSyntax&) = delete;
         NullSyntax& operator=(const NullSyntax&) = delete;
@@ -771,16 +771,16 @@ namespace FunctionScript
     // the identifiers, constants, variables and operators in the syntax.
     //This class is mainly used for access with ISyntaxComponent, so FunctionData provides
     // methods for directly operating Value on the interface.
-    class ValueData : public ISyntaxComponent
+    class ValueData final : public ISyntaxComponent
     {
     public:
-        virtual int IsValid()const;
-        virtual const char* GetId()const;
-        virtual int GetIdType()const;
-        virtual int GetLine()const;
-        virtual void PrepareRuntimeObject();
-        virtual const Value& GetRuntimeObject()const { return m_Value; }
-        virtual void PrepareGeneralRuntimeObject();
+        virtual int IsValid()const override;
+        virtual const char* GetId()const override;
+        virtual int GetIdType()const override;
+        virtual int GetLine()const override;
+        virtual void PrepareRuntimeObject(bool isArgument) override;
+        virtual const Value& GetRuntimeObject()const override { return m_Value; }
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) override;
     public:
         void SetValue(const Value& val) { m_Value = val; }
         Value& GetValue() { return m_Value; }
@@ -819,7 +819,7 @@ namespace FunctionScript
     */
     class StatementData;
     class RuntimeStatementBlock;
-    class FunctionData : public ISyntaxComponent
+    class FunctionData final : public ISyntaxComponent
     {
     public:
         enum
@@ -870,7 +870,7 @@ namespace FunctionScript
         using LocalIndexes = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
         using SyntaxComponentPtr = ISyntaxComponent*;
     public:
-        virtual int IsValid()const
+        virtual int IsValid()const override
         {
             if (m_Name.IsValid())
                 return TRUE;
@@ -879,12 +879,12 @@ namespace FunctionScript
             else
                 return FALSE;
         }
-        virtual int GetIdType()const { return m_Name.GetIdType(); }
-        virtual const char* GetId()const { return m_Name.GetId(); }
-        virtual int GetLine()const { return m_Name.GetLine(); }
-        virtual void PrepareRuntimeObject();
-        virtual const Value& GetRuntimeObject()const;
-        virtual void PrepareGeneralRuntimeObject();
+        virtual int GetIdType()const override { return m_Name.GetIdType(); }
+        virtual const char* GetId()const override { return m_Name.GetId(); }
+        virtual int GetLine()const override { return m_Name.GetLine(); }
+        virtual void PrepareRuntimeObject(bool isArgument) override;
+        virtual const Value& GetRuntimeObject()const override;
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) override;
     public:
         RuntimeStatementBlock* GetRuntimeFunctionBody()const { return m_RuntimeStatementBlock; }
     public:
@@ -1286,17 +1286,17 @@ namespace FunctionScript
     * 2. In terms of design, FunctionData should take the degradation situation into consideration and
     * try not to occupy additional space in the degradation situation.
     */
-    class StatementData : public ISyntaxComponent
+    class StatementData final : public ISyntaxComponent
     {
     public:
-        virtual int IsValid()const
+        virtual int IsValid()const override
         {
             if (NULL != m_Functions && m_FunctionNum > 0 && m_Functions[0]->IsValid())
                 return TRUE;
             else
                 return FALSE;
         }
-        virtual int GetIdType()const
+        virtual int GetIdType()const override
         {
             int type = Value::TYPE_IDENTIFIER;
             if (IsValid()) {
@@ -1304,7 +1304,7 @@ namespace FunctionScript
             }
             return type;
         }
-        virtual const char* GetId()const
+        virtual const char* GetId()const override
         {
             const char* str = "";
             if (IsValid()) {
@@ -1312,7 +1312,7 @@ namespace FunctionScript
             }
             return str;
         }
-        virtual int GetLine()const
+        virtual int GetLine()const override
         {
             int line = 0;
             if (IsValid()) {
@@ -1320,9 +1320,9 @@ namespace FunctionScript
             }
             return line;
         }
-        virtual void PrepareRuntimeObject();
-        virtual const Value& GetRuntimeObject()const;
-        virtual void PrepareGeneralRuntimeObject();
+        virtual void PrepareRuntimeObject(bool isArgument) override;
+        virtual const Value& GetRuntimeObject()const override;
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) override;
     public:
         void ClearFunctions() { m_FunctionNum = 0; }
         void AddFunction(FunctionData* pVal)
@@ -1387,7 +1387,7 @@ namespace FunctionScript
         int m_RuntimeObjectPrepared;
     };
 
-    class InterpreterValuePool
+    class InterpreterValuePool final
     {
         friend class AutoInterpreterValuePoolValueOperation;
         friend class AutoInterpreterValuePoolValuesOperation;
@@ -1503,7 +1503,7 @@ namespace FunctionScript
         int m_UsedValuesNum;
     };
 
-    class AutoInterpreterValuePoolValueOperation
+    class AutoInterpreterValuePoolValueOperation final
     {
     public:
         explicit AutoInterpreterValuePoolValueOperation(InterpreterValuePool& pool) :m_Pool(pool), m_Value(*pool.AllocValue())
@@ -1523,7 +1523,7 @@ namespace FunctionScript
         Value& m_Value;
     };
 
-    class AutoInterpreterValuePoolValuesOperation
+    class AutoInterpreterValuePoolValuesOperation final
     {
     public:
         explicit AutoInterpreterValuePoolValuesOperation(InterpreterValuePool& pool) :m_Pool(pool), m_Value(pool.AllocValues())
@@ -1622,7 +1622,7 @@ namespace FunctionScript
     class Closure final : public ExpressionApi
     {
     public:
-        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
+        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue) override;
     public:
         void SetDefinitionRef(const Value* pArguments, int argumentNum, const ISyntaxComponent& comp);
     public:
@@ -1635,12 +1635,12 @@ namespace FunctionScript
         RuntimeStatementBlock* m_Statements;
     };
 
-    class MemberAccessor : public ExpressionApi
+    class MemberAccessor final : public ExpressionApi
     {
     public:
         static const int MARK_ACCESSOR_CALL = 0x12345678;
     public:
-        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
+        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue) override;
     public:
         void SetObject(ExpressionApi& object) { m_Object = &object; }
         ExpressionApi* GetObject()const { return m_Object; }
@@ -1689,7 +1689,7 @@ namespace FunctionScript
         using NameIndexMap = HashtableT<StringKey, int, StringKey, IntegerValueWorkerT<int> >;
     public:
         virtual uint32_t GetTypeTag()const override { return TYPE_TAG_OBJECT; }
-        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
+        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue) override;
     public:
         int GetDynamicMemberNum()const { return m_MemberNum; }
         const MemberInfo* GetDynamicMember(int index)const
@@ -1759,7 +1759,7 @@ namespace FunctionScript
         };
     public:
         virtual uint32_t GetTypeTag()const override { return TYPE_TAG_STRUCT; }
-        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue);
+        virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue) override;
     public:
         void SetDefinitionRef(const FunctionData& statement);
         void Attach(unsigned int addr);
@@ -1785,10 +1785,10 @@ namespace FunctionScript
     //Custom object method：RuntimeFunctionCall->MemberAccessor->ObjectBase->Closure->RuntimeStatementBlock
     //Custom object property：RuntimeFunctionCall->MemberAccessor->ObjectBase
     //Custom struct member：RuntimeFunctionCall->MemberAccessor->ObjectBase
-    class RuntimeFunctionCall : public StatementApi
+    class RuntimeFunctionCall final : public StatementApi
     {
     public:
-        virtual ExecuteResultEnum Execute(Value* pRetValue)const;
+        virtual ExecuteResultEnum Execute(Value* pRetValue)const override;
     public:
         explicit RuntimeFunctionCall(Interpreter& interpreter);
         virtual ~RuntimeFunctionCall();
@@ -1802,7 +1802,7 @@ namespace FunctionScript
         InterpreterValuePool* m_pInnerValuePool;
     };
 
-    class RuntimeStatementBlock
+    class RuntimeStatementBlock final
     {
     public:
         ExecuteResultEnum Execute(Value* pRetValue)const;
@@ -1822,7 +1822,7 @@ namespace FunctionScript
     * SourceCodeScript and ByteCodeScript,
     * the parsing part cannot rely on Interpreter but must be a shared class ErrorAndStringBuffer
     */
-    class ErrorAndStringBuffer
+    class ErrorAndStringBuffer final
     {
     public:
         void ClearErrorInfo();
@@ -1909,7 +1909,7 @@ namespace FunctionScript
     * for implementing the corountine mechanism (because the C++ function call stack is used to implement the script stack, one execution of the interpreter will completely erase the call stack. The previous stack and context cannot be continued when entering again).
     * This mechanism can be simulated by implementing a command queue in a script.
     */
-    class Interpreter
+    class Interpreter final
     {
         using NameTags = std::unordered_map<std::string, uint32_t>;
         using SyntaxComponentPtr = ISyntaxComponent*;
