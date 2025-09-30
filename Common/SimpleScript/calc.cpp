@@ -1895,8 +1895,11 @@ namespace FunctionScript
                             val = m_Exps[i];
                             ReplaceVariableWithValue(val);
                         }
-                        if (m_IterIndex >= 0) {
-                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndex, val);
+                        if (m_IterIndexKey >= 0) {
+                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(i, Value::TYPE_INT));
+                        }
+                        if (m_IterIndexVal >= 0) {
+                            m_Interpreter->SetValue(m_IterIndexType, m_IterIndexVal, val);
                         }
                     }
                     ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
@@ -1910,7 +1913,7 @@ namespace FunctionScript
                 return EXECUTE_RESULT_NORMAL;
             }
         public:
-            explicit ForEachStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Exps(NULL), m_ExpNum(0), m_IterIndexType(Value::TYPE_INVALID), m_IterIndex(-1), m_Statements(NULL)
+            explicit ForEachStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Exps(NULL), m_ExpNum(0), m_IterIndexType(Value::TYPE_INVALID), m_IterIndexKey(-1), m_IterIndexVal(-1), m_Statements(NULL)
             {
             }
             virtual ~ForEachStatement()
@@ -1922,16 +1925,18 @@ namespace FunctionScript
                 }
                 m_Statements = NULL;
             }
-            void SetIterator(int indexType, int index)
+            void SetIterator(int indexType, int indexKey, int indexValue)
             {
                 m_IterIndexType = indexType;
-                m_IterIndex = index;
+                m_IterIndexKey = indexKey;
+                m_IterIndexVal = indexValue;
             }
         private:
             Value* m_Exps;
             int m_ExpNum;
             int m_IterIndexType;
-            int m_IterIndex;
+            int m_IterIndexKey;
+            int m_IterIndexVal;
             RuntimeStatementBlock* m_Statements;
         };
         class ForEachStatementFactory : public StatementApiFactory
@@ -1965,11 +1970,12 @@ namespace FunctionScript
 
                     FunctionData* pFuncDef = statement.GetInterpreter().GetCurFunctionDefinition();
                     if (NULL != pFuncDef) {
-                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterv"));
+                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterk"), pFuncDef->GetLocalIndex("$iterv"));
                     }
                     else {
+                        statement.GetInterpreter().SetValue("@iterk", Value());
                         statement.GetInterpreter().SetValue("@iterv", Value());
-                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterv"));
+                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterk"), statement.GetInterpreter().GetValueIndex("@iterv"));
                     }
                 }
                 return pApi;
@@ -2078,8 +2084,11 @@ namespace FunctionScript
                     }
                 }
                 for (int i = 0; i < ct && m_Interpreter->IsRunFlagEnable(); ++i) {
-                    if (m_IterIndex >= 0) {
-                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndex, Value(i, Value::TYPE_INT));
+                    if (m_IterIndexKey >= 0) {
+                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndexKey, Value(i, Value::TYPE_INT));
+                    }
+                    if (m_IterIndexVal >= 0) {
+                        m_Interpreter->SetValue(m_IterIndexType, m_IterIndexVal, Value(i, Value::TYPE_INT));
                     }
                     ExecuteResultEnum ret = m_Statements->Execute(pRetValue);
                     if (EXECUTE_RESULT_RETURN == ret)
@@ -2092,22 +2101,24 @@ namespace FunctionScript
                 return EXECUTE_RESULT_NORMAL;
             }
         public:
-            explicit LoopStatement(Interpreter& interpreter) :StatementApi(interpreter), m_IterIndexType(Value::TYPE_INVALID), m_IterIndex(-1), m_Statements(NULL)
+            explicit LoopStatement(Interpreter& interpreter) :StatementApi(interpreter), m_IterIndexType(Value::TYPE_INVALID), m_IterIndexKey(-1), m_IterIndexVal(-1), m_Statements(NULL)
             {
             }
             virtual ~LoopStatement()
             {
                 m_Statements = NULL;
             }
-            void SetIterator(int indexType, int index)
+            void SetIterator(int indexType, int indexKey, int indexValue)
             {
                 m_IterIndexType = indexType;
-                m_IterIndex = index;
+                m_IterIndexKey = indexKey;
+                m_IterIndexVal = indexValue;
             }
         private:
             Value m_Exp;
             int m_IterIndexType;
-            int m_IterIndex;
+            int m_IterIndexKey;
+            int m_IterIndexVal;
             RuntimeStatementBlock* m_Statements;
         };
         class LoopStatementFactory : public StatementApiFactory
@@ -2139,11 +2150,12 @@ namespace FunctionScript
 
                     FunctionData* pFuncDef = statement.GetInterpreter().GetCurFunctionDefinition();
                     if (NULL != pFuncDef) {
-                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterv"));
+                        pApi->SetIterator(Value::TYPE_LOCAL_INDEX, pFuncDef->GetLocalIndex("$iterk"), pFuncDef->GetLocalIndex("$iterv"));
                     }
                     else {
+                        statement.GetInterpreter().SetValue("@iterk", Value());
                         statement.GetInterpreter().SetValue("@iterv", Value());
-                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterv"));
+                        pApi->SetIterator(Value::TYPE_INDEX, statement.GetInterpreter().GetValueIndex("@iterk"), statement.GetInterpreter().GetValueIndex("@iterv"));
                     }
                 }
                 return pApi;
