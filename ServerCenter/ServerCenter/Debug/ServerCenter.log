@@ -1,4 +1,1468 @@
-﻿  calc.cpp
+﻿  MaintenanceScript.cpp
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/ConfigScript/MaintenanceScript.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(58,13):
+          查看对正在编译的 类 模板 实例化“DequeT<ScriptThread::TextLine,1024>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<ScriptThread::TextLine,1024>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(48,5):
+              请参阅 "ScriptThread::ScriptThread" 中对 "DequeT<ScriptThread::TextLine,1024>::DequeT" 的第一个引用
+  
+D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/ConfigScript/MaintenanceScript.cpp”)
+      D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1707,15):
+          查看对正在编译的 类 模板 实例化“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>”的引用
+          with
+          [
+              ValT=char *
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(351,5):
+          在编译 类 模板 成员函数“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT(void)”时
+          with
+          [
+              ValT=char *
+          ]
+              D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1592,5):
+              请参阅 "StringMapObj::StringMapObj" 中对 "HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT" 的第一个引用
+          with
+          [
+              ValT=char *
+          ]
+  
+  ScriptThread.cpp
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/ConfigScript/ScriptThread.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(58,13):
+          查看对正在编译的 类 模板 实例化“DequeT<ScriptThread::TextLine,1024>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<ScriptThread::TextLine,1024>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(48,5):
+              请参阅 "ScriptThread::ScriptThread" 中对 "DequeT<ScriptThread::TextLine,1024>::DequeT" 的第一个引用
+  
+D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/ConfigScript/ScriptThread.cpp”)
+      D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1707,15):
+          查看对正在编译的 类 模板 实例化“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>”的引用
+          with
+          [
+              ValT=char *
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(351,5):
+          在编译 类 模板 成员函数“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT(void)”时
+          with
+          [
+              ValT=char *
+          ]
+              D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1592,5):
+              请参阅 "StringMapObj::StringMapObj" 中对 "HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT" 的第一个引用
+          with
+          [
+              ValT=char *
+          ]
+  
+  acceptor.cc
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(60,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(73,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker0<Delegation,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(93,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(107,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(127,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(141,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(157,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(167,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker0<Delegation,FObj,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(279,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(289,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker1<Delegation,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(309,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(320,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(340,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(351,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(367,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(377,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker1<Delegation,FObj,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(718,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker2<Delegation,R,P1,P2>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(719,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker3<Delegation,R,P1,P2,P3>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(720,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker4<Delegation,R,P1,P2,P3,P4>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(721,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker5<Delegation,R,P1,P2,P3,P4,P5>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(722,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker6<Delegation,R,P1,P2,P3,P4,P5,P6>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(723,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker7<Delegation,R,P1,P2,P3,P4,P5,P6,P7>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(724,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker8<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(725,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker9<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(726,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker10<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(727,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker11<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(728,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker12<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(729,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker13<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(730,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker14<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(731,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker15<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(732,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker16<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(754,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(764,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker<Delegation,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(787,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(798,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(821,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(832,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(846,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(856,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker<Delegation,FObj,R,Args...>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/acceptor.cc”)
+  
+  connector.cc
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(60,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(73,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker0<Delegation,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(93,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(107,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(127,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(141,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(157,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(167,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker0<Delegation,FObj,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(279,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(289,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker1<Delegation,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(309,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(320,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(340,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(351,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(367,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(377,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker1<Delegation,FObj,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(718,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker2<Delegation,R,P1,P2>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(719,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker3<Delegation,R,P1,P2,P3>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(720,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker4<Delegation,R,P1,P2,P3,P4>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(721,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker5<Delegation,R,P1,P2,P3,P4,P5>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(722,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker6<Delegation,R,P1,P2,P3,P4,P5,P6>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(723,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker7<Delegation,R,P1,P2,P3,P4,P5,P6,P7>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(724,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker8<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(725,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker9<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(726,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker10<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(727,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker11<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(728,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker12<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(729,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker13<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(730,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker14<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(731,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker15<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(732,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker16<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(754,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(764,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker<Delegation,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(787,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(798,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(821,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(832,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(846,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(856,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker<Delegation,FObj,R,Args...>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/connector.cc”)
+  
+  exception.cc
+  netioservice.cc
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(60,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(73,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker0<Delegation,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(93,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(107,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(127,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(141,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(157,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(167,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker0<Delegation,FObj,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(279,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(289,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker1<Delegation,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(309,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(320,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(340,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(351,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(367,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(377,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker1<Delegation,FObj,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(718,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker2<Delegation,R,P1,P2>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(719,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker3<Delegation,R,P1,P2,P3>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(720,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker4<Delegation,R,P1,P2,P3,P4>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(721,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker5<Delegation,R,P1,P2,P3,P4,P5>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(722,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker6<Delegation,R,P1,P2,P3,P4,P5,P6>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(723,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker7<Delegation,R,P1,P2,P3,P4,P5,P6,P7>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(724,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker8<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(725,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker9<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(726,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker10<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(727,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker11<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(728,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker12<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(729,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker13<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(730,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker14<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(731,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker15<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(732,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker16<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(754,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(764,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker<Delegation,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(787,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(798,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(821,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(832,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(846,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(856,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker<Delegation,FObj,R,Args...>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/netioservice.cc”)
+  
+  tcp_session.cc
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(60,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(73,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker0<Delegation,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(93,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(107,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(127,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(141,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(157,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(167,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker0<Delegation,FObj,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(279,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(289,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker1<Delegation,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(309,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(320,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(340,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(351,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(367,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(377,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker1<Delegation,FObj,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(718,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker2<Delegation,R,P1,P2>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(719,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker3<Delegation,R,P1,P2,P3>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(720,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker4<Delegation,R,P1,P2,P3,P4>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(721,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker5<Delegation,R,P1,P2,P3,P4,P5>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(722,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker6<Delegation,R,P1,P2,P3,P4,P5,P6>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(723,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker7<Delegation,R,P1,P2,P3,P4,P5,P6,P7>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(724,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker8<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(725,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker9<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(726,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker10<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(727,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker11<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(728,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker12<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(729,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker13<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(730,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker14<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(731,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker15<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(732,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker16<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(754,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(764,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker<Delegation,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(787,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(798,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(821,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(832,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(846,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(856,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker<Delegation,FObj,R,Args...>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/NetBase/tcp_session.cc”)
+  
+  RuntimeBuilderData.cpp
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/SimpleScript/RuntimeBuilderData.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\SimpleScript\RuntimeBuilderData.h(89,21):
+          查看对正在编译的 类 模板 实例化“DequeT<uint32_t,255>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<uint32_t,255>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\SimpleScript\RuntimeBuilderData.cpp(129,1):
+              请参阅 "RuntimeBuilderData::RuntimeBuilderData" 中对 "DequeT<uint32_t,255>::DequeT" 的第一个引用
+  
+  SlkError.cpp
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,27): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,71): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,116): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,155): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,183): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,221): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,252): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,289): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/SimpleScript/SlkError.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\SimpleScript\calc.h(2044,31):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(348,1):
+          查看对正在编译的 类 模板 实例化“CChainNode<HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData,NodeRecyclerForDataT<HashtableT<FunctionScript::Interpreter::StringKey,ValT,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData>>”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Chain.h(138,1):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(342,1):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(313,14):
+          查看对正在编译的 类 模板 实例化“DequeT<FunctionScript::StatementApiFactory *,8>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<FunctionScript::StatementApiFactory *,8>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(172,13):
+              请参阅 "DefValueWorkerT<ValT>::Clean" 中对 "DequeT<FunctionScript::StatementApiFactory *,8>::DequeT" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(308,32):
+              请参阅 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Clear" 中对 "DefValueWorkerT<ValT>::Clean" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(296,18):
+              请参阅 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Cleanup" 中对 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Clear" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+  
+  SlkParse.cpp
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,27): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,71): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,116): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,155): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,183): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,221): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,252): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,289): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/SimpleScript/SlkParse.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\SimpleScript\calc.h(2044,31):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(348,1):
+          查看对正在编译的 类 模板 实例化“CChainNode<HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData,NodeRecyclerForDataT<HashtableT<FunctionScript::Interpreter::StringKey,ValT,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData>>”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Chain.h(138,1):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::KeyValueData”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(342,1):
+          查看对正在编译的 类 模板 实例化“HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot”的引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(313,14):
+          查看对正在编译的 类 模板 实例化“DequeT<FunctionScript::StatementApiFactory *,8>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<FunctionScript::StatementApiFactory *,8>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(172,13):
+              请参阅 "DefValueWorkerT<ValT>::Clean" 中对 "DequeT<FunctionScript::StatementApiFactory *,8>::DequeT" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(308,32):
+              请参阅 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Clear" 中对 "DefValueWorkerT<ValT>::Clean" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+              D:\GitHub\ServerPlatform\Common\Hashtable.h(296,18):
+              请参阅 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Cleanup" 中对 "HashtableT<FunctionScript::Interpreter::StringKey,FunctionScript::Interpreter::StatementApiFactoryList,FunctionScript::Interpreter::StringKey,DefValueWorkerT<ValT>,0>::Slot::Clear" 的第一个引用
+          with
+          [
+              ValT=FunctionScript::Interpreter::StatementApiFactoryList
+          ]
+  
+  SlkToken.cpp
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,27): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,71): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,116): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,155): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,183): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,221): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,252): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkAction.h(17,289): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\SimpleScript\SlkToken.cpp(1276,23): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“../Common/SimpleScript/SlkToken.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\SimpleScript\SlkToken.h(136,27):
+          查看对正在编译的 类 模板 实例化“DequeT<SlkToken::TokenInfo,16>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<SlkToken::TokenInfo,16>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\SimpleScript\SlkToken.cpp(1451,1):
+              请参阅 "SlkToken::SlkToken" 中对 "DequeT<SlkToken::TokenInfo,16>::DequeT" 的第一个引用
+  
+  calc.cpp
 D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
   (编译源文件“../Common/SimpleScript/calc.cpp”)
       D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
@@ -33,4 +1497,339 @@ D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9): warning C4984: "if constexpr
               ValT=FunctionScript::Interpreter::StatementApiFactoryList
           ]
   
+  SessionManager.cpp
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(60,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(73,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker0<Delegation,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(60,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(68,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(93,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(107,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(93,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(101,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(127,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(141,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker0<Delegation,T,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(127,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(135,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(157,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(167,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker0<Delegation,FObj,R>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(157,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(162,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(279,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(289,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker1<Delegation,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(279,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(284,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(309,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(320,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(309,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(314,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(340,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(351,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker1<Delegation,T,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(340,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(345,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(367,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(377,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker1<Delegation,FObj,R,P1>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(367,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(372,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(718,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(718,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker2<Delegation,R,P1,P2>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(719,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(719,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker3<Delegation,R,P1,P2,P3>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(720,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(720,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker4<Delegation,R,P1,P2,P3,P4>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(721,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(721,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker5<Delegation,R,P1,P2,P3,P4,P5>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(722,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(722,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker6<Delegation,R,P1,P2,P3,P4,P5,P6>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(723,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(723,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker7<Delegation,R,P1,P2,P3,P4,P5,P6,P7>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(724,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(724,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker8<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(725,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(725,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker9<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(726,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(726,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker10<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(727,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(727,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker11<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(728,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(728,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker12<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(729,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(729,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker13<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(730,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(730,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker14<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(731,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(731,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker15<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(732,1): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(732,1):
+          查看对正在编译的 类 模板 实例化“FuncInvoker16<Delegation,R,P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(754,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(764,2):
+          查看对正在编译的 类 模板 实例化“FuncInvoker<Delegation,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(754,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(759,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(787,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(798,2):
+          查看对正在编译的 类 模板 实例化“MemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(787,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(792,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(821,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(832,2):
+          查看对正在编译的 类 模板 实例化“ConstMemFuncInvoker<Delegation,T,R(Args...)>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(821,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(826,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,40): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Delegation.h(846,40):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\Delegation.h(856,2):
+          查看对正在编译的 类 模板 实例化“FuncObjInvoker<Delegation,FObj,R,Args...>”的引用
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(846,104): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,48): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Delegation.h(851,99): warning C5051: 属性 [[maybe_unused]] 至少需要“/std:c++17”；已忽略
+  (编译源文件“Communication/SessionManager.cpp”)
+  
+D:\GitHub\ServerPlatform\Common\Queue.h(282,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Queue.h(282,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(58,13):
+          查看对正在编译的 类 模板 实例化“DequeT<ScriptThread::TextLine,1024>”的引用
+          D:\GitHub\ServerPlatform\Common\Queue.h(280,5):
+          在编译 类 模板 成员函数“DequeT<ScriptThread::TextLine,1024>::DequeT(void)”时
+              D:\GitHub\ServerPlatform\Common\ConfigScript\ScriptThread.h(48,5):
+              请参阅 "ScriptThread::ScriptThread" 中对 "DequeT<ScriptThread::TextLine,1024>::DequeT" 的第一个引用
+  
+D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9): warning C4984: "if constexpr" 是一种 C++17 语言扩展
+  (编译源文件“Communication/SessionManager.cpp”)
+      D:\GitHub\ServerPlatform\Common\Hashtable.h(353,9):
+      模板实例化上下文(最早的实例化上下文)为
+          D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1707,15):
+          查看对正在编译的 类 模板 实例化“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>”的引用
+          with
+          [
+              ValT=char *
+          ]
+          D:\GitHub\ServerPlatform\Common\Hashtable.h(351,5):
+          在编译 类 模板 成员函数“HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT(void)”时
+          with
+          [
+              ValT=char *
+          ]
+              D:\GitHub\ServerPlatform\Common\ConfigScript\CommonScriptApi.h(1592,5):
+              请参阅 "StringMapObj::StringMapObj" 中对 "HashtableT<StringMapObj::StringType,char *,StringMapObj::StringType,DefValueWorkerT<ValT>,0>::HashtableT" 的第一个引用
+          with
+          [
+              ValT=char *
+          ]
+  
+  正在生成代码...
+  LINK : 没有找到 D:\GitHub\ServerPlatform\ServerCenter\Debug\ServerCenter.exe 或上一个增量链接没有生成它；正在执行完全链接
+LINK : warning LNK4098: 默认库“LIBCMT”与其他库的使用冲突；请使用 /NODEFAULTLIB:library
   ServerCenter.vcxproj -> D:\GitHub\ServerPlatform\ServerCenter\Debug\ServerCenter.exe
