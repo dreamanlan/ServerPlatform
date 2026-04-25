@@ -1,5 +1,6 @@
 #include "ScriptThread.h"
 #include "CommonScriptApi.h"
+#include "../Encoding/ConsoleWriter.h"
 
 extern int g_IsRun;
 ScriptThread* g_pScriptThread = NULL;
@@ -48,8 +49,8 @@ protected:
             }
             if (TRUE == ret) {
                 if (strcmp(p, ".") == 0 ||
-                    strcmp(p, "enabledebuginfo") == 0 ||
-                    strcmp(p, "disabledebuginfo") == 0) {
+                    strcmp(p, "enabledebug") == 0 ||
+                    strcmp(p, "disabledebug") == 0) {
                     ret = FALSE;
                 }
                 else if (p == strstr(p, "runfile")) {
@@ -57,9 +58,16 @@ protected:
                     FILE* fp = fopen(pFile, "r");
                     if (NULL != fp) {
                         int size = (int)fread(g_FileBuffer, 1, c_MaxFileBuffer, fp);
+                        int startIx = 0;
+                        if (size >= 3 &&
+                            static_cast<unsigned char>(g_FileBuffer[0]) == 0xEF &&
+                            static_cast<unsigned char>(g_FileBuffer[1]) == 0xBB &&
+                            static_cast<unsigned char>(g_FileBuffer[2]) == 0xBF) {
+                            startIx = 3;
+                        }
                         char temp[ScriptThread::MAX_LINE_SIZE + 1];
                         int pos = 0;
-                        for (int cix = 0; cix <= size; ++cix) {
+                        for (int cix = startIx; cix <= size; ++cix) {
                             char c = g_FileBuffer[cix];
                             if (c && c != '\n') {
                                 temp[pos] = (c == '\r' ? 0 : c);
@@ -211,49 +219,49 @@ void ScriptThread::run(void)
         unsigned int t2 = MyTimeGetTime();
         if (interpreter.HasError()) {
             for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
-                printf("%s\n", interpreter.GetErrorInfo(ix));
+                console_writer::ConsolePrintf("%s\n", interpreter.GetErrorInfo(ix));
             }
             interpreter.Reset();
-            printf("Interpreter has already reset !\n");
+            console_writer::ConsolePrintf("Interpreter has already reset !\n");
         }
         else {
             Value val;
             interpreter.Execute(&val);
             if (!val.IsInvalid()) {
                 if (val.IsString()) {
-                    printf("%s\n", val.GetString());
+                    console_writer::ConsolePrintf("%s\n", val.GetString());
                 }
                 else {
                     char temp[MAX_NUMBER_STRING_SIZE];
                     const char* p = val.ToString(temp, MAX_NUMBER_STRING_SIZE);
                     if (p && p[0] != '\0') {
-                        printf("Command Result:%s\n", p);
+                        console_writer::ConsolePrintf("Command Result:%s\n", p);
                     }
                     else {
-                        printf("Command Result Is Empty.\n");
+                        console_writer::ConsolePrintf("Command Result Is Empty.\n");
                     }
                 }
             }
             else {
-                printf("Command No Result.\n");
+                console_writer::ConsolePrintf("Command No Result.\n");
             }
         }
         unsigned int t3 = MyTimeGetTime();
-        printf("[Time] parse:%u interpret:%u\n", t2 - t1, t3 - t2);
+        console_writer::ConsolePrintf("[Time] parse:%u interpret:%u\n", t2 - t1, t3 - t2);
         const char* line = source.GetBackBuffer();
         if (NULL != line) {
             if (strcmp(line, ".") == 0) {
                 interpreter.Reset();
                 m_RunFlag = TRUE;
-                printf("Process command: reset\n");
+                console_writer::ConsolePrintf("Process command: reset\n");
             }
-            else if (strcmp(line, "enabledebuginfo") == 0) {
+            else if (strcmp(line, "enabledebug") == 0) {
                 interpreter.EnableDebugInfo();
-                printf("Process command: enabledebuginfo\n");
+                console_writer::ConsolePrintf("Process command: enabledebug\n");
             }
-            else if (strcmp(line, "disabledebuginfo") == 0) {
+            else if (strcmp(line, "disabledebug") == 0) {
                 interpreter.DisableDebugInfo();
-                printf("Process command: disabledebuginfo\n");
+                console_writer::ConsolePrintf("Process command: disabledebug\n");
             }
         }
         MySleep(100);

@@ -6,6 +6,7 @@
 #include <time.h>
 // mine
 #include "util.h"
+#include "../Encoding/ConsoleWriter.h"
 
 namespace net_base {
     static LogHandler g_log_handler = 0;
@@ -19,7 +20,7 @@ namespace net_base {
 #else
         localtime_r(&t, &tmTime);
 #endif
-        printf("[%u-%u-%u_%u-%u-%u]: %s\n", tmTime.tm_year + 1900, tmTime.tm_mon + 1, tmTime.tm_mday, tmTime.tm_hour, tmTime.tm_min, tmTime.tm_sec, msg);
+        console_writer::ConsolePrintf("[%u-%u-%u_%u-%u-%u]: %s\n", tmTime.tm_year + 1900, tmTime.tm_mon + 1, tmTime.tm_mday, tmTime.tm_hour, tmTime.tm_min, tmTime.tm_sec, msg);
         fflush(stdout);
     }
 

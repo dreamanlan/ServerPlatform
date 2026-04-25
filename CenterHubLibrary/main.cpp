@@ -4,6 +4,7 @@
 #include "Communication/SessionManager.h"
 #include "netioservice.h"
 #include "tcp_session.h"
+#include "../Common/Encoding/ConsoleWriter.h"
 
 using SessionManagers = HashtableT<int, SessionManager*>;
 static const int MAX_SESSION_MANAGER_NUM = 1024;
@@ -238,6 +239,8 @@ extern "C" void Init(const char* serverType, int argc, const char* const* argv, 
     signal(SIGPIPE, SIG_IGN);
 #endif
 
+    console_writer::InitConsole();
+
     InitConfigState(serverType, argc, argv);
 
     g_HandleNameHandleChangedPtr = nameHandleCallback;
@@ -306,6 +309,7 @@ extern "C" void Release()
 #ifdef _CONSOLE
 int main(int argc, char* argv[])
 {
+    console_writer::InitConsole();
     Init("centerhub", NULL);
     for (;;) {
         Tick();

@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ScriptThread.h"
 #include "SourceCodeScript.h"
+#include "../Common/Encoding/ConsoleWriter.h"
 
 #if defined(__WINDOWS__)
 #include <conio.h>
@@ -26,6 +27,12 @@ public:
     }
     void SetBuffer(const char* pBuf)
     {
+        if (pBuf &&
+            static_cast<unsigned char>(pBuf[0]) == 0xEF &&
+            static_cast<unsigned char>(pBuf[1]) == 0xBB &&
+            static_cast<unsigned char>(pBuf[2]) == 0xBF) {
+            pBuf += 3;
+        }
         m_pSource = pBuf;
     }
     const char* GetBackBuffer()const
@@ -51,7 +58,7 @@ protected:
         }
         else {
             char* p = m_Line[1 - m_CurLine];
-            printf(">");
+            console_writer::ConsolePrintf(">");
 #ifdef __WINDOWS__
             gets_s(p, ScriptThread::MAX_LINE_SIZE);
 #else
@@ -59,8 +66,8 @@ protected:
 #endif
             if (strcmp(p, ".") == 0 ||
                 strcmp(p, "quit") == 0 || strcmp(p, "exit") == 0 ||
-                strcmp(p, "enabledebuginfo") == 0 ||
-                strcmp(p, "disabledebuginfo") == 0) {
+                strcmp(p, "enabledebug") == 0 ||
+                strcmp(p, "disabledebug") == 0) {
                 ret = FALSE;
             }
             else {
@@ -94,37 +101,13 @@ private:
     unsigned int m_Time;
 };
 
-int DecryptMemoryWithCyclone(char* pInMemory, int size, char*& pOutMemory, int& outSize, int& haveOutMemory)
+int DecryptMemory(char* pInMemory, int size, char*& pOutMemory, int& outSize, int& haveOutMemory)
 {
     int ret = FALSE;
-    /*if(Cyclone::IsEncrptMemory(pInMemory,size))
-    {
-        outSize = size + 32;
-        pOutMemory = new CHAR[outSize];
-        if(pOutMemory)
-        {
-            if(Cyclone::PlatformDecrypMemory("key", pInMemory, size, pOutMemory, outSize))
-            {
-                haveOutMemory=TRUE;
-                ret=TRUE;
-            }
-            else
-            {
-                delete[] pOutMemory;
-                pOutMemory=NULL;
-                outSize=0;
-                haveOutMemory=FALSE;
-                ret=FALSE;
-            }
-        }
-    }
-    else*/
-    {
-        pOutMemory = NULL;
-        outSize = 0;
-        haveOutMemory = FALSE;
-        ret = TRUE;
-    }
+    pOutMemory = NULL;
+    outSize = 0;
+    haveOutMemory = FALSE;
+    ret = TRUE;
     return ret;
 }
 
@@ -151,10 +134,17 @@ public:
                         int size = (int)fread(g_FileBuffer, 1, g_c_MaxFileBuffer, fp);
                         if (size >= 0) {
                             g_FileBuffer[size] = 0;
+                            if (size >= 3 &&
+                                static_cast<unsigned char>(g_FileBuffer[0]) == 0xEF &&
+                                static_cast<unsigned char>(g_FileBuffer[1]) == 0xBB &&
+                                static_cast<unsigned char>(g_FileBuffer[2]) == 0xBF) {
+                                memmove(g_FileBuffer, g_FileBuffer + 3, size - 3 + 1);
+                                size -= 3;
+                            }
                             int outSize = 0;
                             char* pOutMemory = NULL;
                             int haveOutMemory = FALSE;
-                            int isContinue = DecryptMemoryWithCyclone(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
+                            int isContinue = DecryptMemory(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
                             if (TRUE == isContinue) {
                                 if (TRUE == haveOutMemory && NULL != pOutMemory && outSize > 0) {
                                     tsnprintf(g_FileBuffer, g_c_MaxFileBuffer, "%s", pOutMemory);
@@ -171,7 +161,7 @@ public:
                         fclose(fp);
                     }
                     else {
-                        printf("Can't open %s !!!\n", pFile);
+                        console_writer::ConsolePrintf("Can't open %s !!!\n", pFile);
                     }
                 }
             }
@@ -185,10 +175,17 @@ public:
                             int size = (int)fread(g_FileBuffer, 1, g_c_MaxFileBuffer, fp);
                             if (size >= 0) {
                                 g_FileBuffer[size] = 0;
+                                if (size >= 3 &&
+                                    static_cast<unsigned char>(g_FileBuffer[0]) == 0xEF &&
+                                    static_cast<unsigned char>(g_FileBuffer[1]) == 0xBB &&
+                                    static_cast<unsigned char>(g_FileBuffer[2]) == 0xBF) {
+                                    memmove(g_FileBuffer, g_FileBuffer + 3, size - 3 + 1);
+                                    size -= 3;
+                                }
                                 int outSize = 0;
                                 char* pOutMemory = NULL;
                                 int haveOutMemory = FALSE;
-                                int isContinue = DecryptMemoryWithCyclone(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
+                                int isContinue = DecryptMemory(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
                                 if (TRUE == isContinue) {
                                     if (TRUE == haveOutMemory && NULL != pOutMemory && outSize > 0) {
                                         tsnprintf(g_FileBuffer, g_c_MaxFileBuffer, "%s", pOutMemory);
@@ -220,7 +217,7 @@ public:
                             fclose(fp);
                         }
                         else {
-                            printf("Can't open %s !!!\n", pFile);
+                            console_writer::ConsolePrintf("Can't open %s !!!\n", pFile);
                         }
                     }
                 }
@@ -482,7 +479,7 @@ class SendMessageM2TApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
-        if (0 == pParams || 0 == m_Interpreter)
+        if (0 == pParams)
             return EXECUTE_RESULT_NORMAL;
         ReplaceVariableWithValue(pParams, num);
         if (2 == num && pParams[0].IsInt() && pParams[1].IsString() && 0 != pRetValue) {
@@ -507,7 +504,7 @@ class PushMessageMT2MApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
-        if (0 == pParams || 0 == m_Interpreter)
+        if (0 == pParams)
             return EXECUTE_RESULT_NORMAL;
         ReplaceVariableWithValue(pParams, num);
         if (1 == num && pParams[0].IsString() && 0 != pRetValue) {
@@ -531,7 +528,7 @@ class PopMessageMT2MApi : public ExpressionApi
 public:
     virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
-        if (0 == pParams || 0 == m_Interpreter)
+        if (0 == pParams)
             return EXECUTE_RESULT_NORMAL;
         ReplaceVariableWithValue(pParams, num);
         if (0 != pRetValue) {
@@ -569,6 +566,8 @@ int main(int argc, char* argv[])
 #if defined(__LINUX__)
     signal(SIGPIPE, SIG_IGN);
 #endif
+
+    console_writer::InitConsole();
 
     g_pSharedMessageQueueT2M = new SharedMessageQueue();
     g_pMap = new SharedStringMap();
@@ -612,10 +611,17 @@ int main(int argc, char* argv[])
             int size = (int)fread(g_FileBuffer, 1, g_c_MaxFileBuffer, fp);
             if (size >= 0) {
                 g_FileBuffer[size] = 0;
+                if (size >= 3 &&
+                    static_cast<unsigned char>(g_FileBuffer[0]) == 0xEF &&
+                    static_cast<unsigned char>(g_FileBuffer[1]) == 0xBB &&
+                    static_cast<unsigned char>(g_FileBuffer[2]) == 0xBF) {
+                    memmove(g_FileBuffer, g_FileBuffer + 3, size - 3 + 1);
+                    size -= 3;
+                }
                 int outSize = 0;
                 char* pOutMemory = NULL;
                 int haveOutMemory = FALSE;
-                int isContinue = DecryptMemoryWithCyclone(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
+                int isContinue = DecryptMemory(g_FileBuffer, size, pOutMemory, outSize, haveOutMemory);
                 if (TRUE == isContinue) {
                     if (TRUE == haveOutMemory && NULL != pOutMemory && outSize > 0) {
                         tsnprintf(g_FileBuffer, g_c_MaxFileBuffer, "%s", pOutMemory);
@@ -631,14 +637,14 @@ int main(int argc, char* argv[])
             fclose(fp);
         }
         else {
-            printf("Can't open %s !!!\n", pFile);
+            console_writer::ConsolePrintf("Can't open %s !!!\n", pFile);
         }
     }
     else {
-        printf("[usage]:\n");
-        printf("\tadmintool\n");
-        printf("\tadmintool file.scp [arg1 arg2 ...]\n");
-        printf("Start interaction script ...\n");
+        console_writer::ConsolePrintf("[usage]:\n");
+        console_writer::ConsolePrintf("\tadmintool\n");
+        console_writer::ConsolePrintf("\tadmintool file.scp [arg1 arg2 ...]\n");
+        console_writer::ConsolePrintf("Start interaction script ...\n");
     }
 
     for (int ix = 0; ix < g_c_MaxScriptThread; ++ix) {
@@ -716,10 +722,10 @@ int main(int argc, char* argv[])
         unsigned int t2 = MyTimeGetTime();
         if (interpreter.HasError()) {
             for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
-                printf("%s\n", interpreter.GetErrorInfo(ix));
+                console_writer::ConsolePrintf("%s\n", interpreter.GetErrorInfo(ix));
             }
             interpreter.Reset();
-            printf("Interpreter has already reset !\n");
+            console_writer::ConsolePrintf("Interpreter has already reset !\n");
         }
         else {
             if (interpreter.GetStatementNum() >= options.GetMaxProgramSize() - 10 ||
@@ -727,20 +733,20 @@ int main(int argc, char* argv[])
                 interpreter.GetStackValueNum() != options.GetStackValuePoolSize() && interpreter.GetStackValueNum() >= options.GetStackValuePoolSize() - 10 ||
                 interpreter.GetSyntaxComponentNum() >= options.GetExpressionPoolSize() - 10 ||
                 int(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()) >= options.GetStringBufferSize() - 1024) {
-                printf("[Statistic] statements:%u value:%u stack:%u syntax:%u string:%u\n", interpreter.GetStatementNum(), interpreter.GetValueNum(), interpreter.GetStackValueNum(), interpreter.GetSyntaxComponentNum(), (unsigned int)(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()));
+                console_writer::ConsolePrintf("[Statistic] statements:%u value:%u stack:%u syntax:%u string:%u\n", interpreter.GetStatementNum(), interpreter.GetValueNum(), interpreter.GetStackValueNum(), interpreter.GetSyntaxComponentNum(), (unsigned int)(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()));
             }
             Value val;
             interpreter.Execute(&val);
             if (argc == 1) {
                 if (!val.IsInvalid()) {
                     if (val.IsString()) {
-                        printf("%s\n", val.GetString());
+                        console_writer::ConsolePrintf("%s\n", val.GetString());
                     }
                     else {
                         char temp[MAX_NUMBER_STRING_SIZE];
                         const char* p = val.ToString(temp, MAX_NUMBER_STRING_SIZE);
                         if (p && p[0] != '\0') {
-                            printf("Command Result:%s\n", p);
+                            console_writer::ConsolePrintf("Command Result:%s\n", p);
                         }
                     }
                 }
@@ -762,16 +768,16 @@ int main(int argc, char* argv[])
                 interpreter.Reset();
                 runFlag = TRUE;
                 if (argc == 1) {
-                    printf("Process command: reset\n");
+                    console_writer::ConsolePrintf("Process command: reset\n");
                 }
             }
             else if (strcmp(line, "quit") == 0 || strcmp(line, "exit") == 0) {
                 runFlag = FALSE;
             }
-            else if (strcmp(line, "enabledebuginfo") == 0) {
+            else if (strcmp(line, "enabledebug") == 0) {
                 interpreter.EnableDebugInfo();
             }
-            else if (strcmp(line, "disabledebuginfo") == 0) {
+            else if (strcmp(line, "disabledebug") == 0) {
                 interpreter.DisableDebugInfo();
             }
         }
@@ -787,7 +793,7 @@ int main(int argc, char* argv[])
     }
 
     if (argc == 1) {
-        printf("Wait script thread exiting ...\n");
+        console_writer::ConsolePrintf("Wait script thread exiting ...\n");
     }
 
     while (g_CreateThreadCount != g_QuitThreadCount) {
@@ -795,7 +801,7 @@ int main(int argc, char* argv[])
     }
 
     if (argc == 1) {
-        printf("Now quit ...\n");
+        console_writer::ConsolePrintf("Now quit ...\n");
     }
 
     for (int ix = 0; ix < g_ScriptThreadNum; ++ix) {

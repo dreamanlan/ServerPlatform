@@ -1,5 +1,7 @@
 #include "MaintenanceScript.h"
 #include "ScriptThread.h"
+#include "ConsoleWriter.h"
+#include "EncodingUtil.h"
 
 char* g_ServerType = NULL;
 int g_Argc = 0;
@@ -40,11 +42,14 @@ public:
                     p[size] = 0;
                     int scpRet = FALSE;
 
-                    m_Script.Parse(p);
+                    encoding_util::EnsureUtf8(p, size);
+                    char* pParse = p;
+
+                    m_Script.Parse(pParse);
                     if (interpreter.HasError()) {
                         for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
                             tsnprintf(logMsg, sizeof(logMsg), "%s\n", interpreter.GetErrorInfo(ix));
-                            printf("%s", logMsg);
+                            console_writer::ConsolePrintf("%s", logMsg);
                             WriteString(logFilePath, logMsg);
                         }
                         interpreter.Reset();
@@ -59,25 +64,25 @@ public:
                     p = NULL;
                     {
                         tsnprintf(logMsg, sizeof(logMsg), "config.scp return %d.", scpRet);
-                        printf("%s", logMsg);
+                        console_writer::ConsolePrintf("%s", logMsg);
                         WriteString(logFilePath, logMsg);
                         if (!scpRet) {
-                            printf("Config.scp execute failed !!! Please read ./log/config_*.log !!!\n");
+                            console_writer::ConsolePrintf("Config.scp execute failed !!! Please read ./log/config_*.log !!!\n");
                         }
                     }
                 }
                 else {
                     fclose(fp);
-                    printf("Can't alloc memory for read ./config/config.scp size !!!\n");
+                    console_writer::ConsolePrintf("Can't alloc memory for read ./config/config.scp size !!!\n");
                 }
             }
             else {
                 fclose(fp);
-                printf("Can't get ./config/config.scp size !!!\n");
+                console_writer::ConsolePrintf("Can't get ./config/config.scp size !!!\n");
             }
         }
         else {
-            printf("Can't open ./config/config.scp !!!\n");
+            console_writer::ConsolePrintf("Can't open ./config/config.scp !!!\n");
         }
     }
     const char* GetString(const char* key) const

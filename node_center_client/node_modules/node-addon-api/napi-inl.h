@@ -1199,6 +1199,13 @@ inline Date Date::New(napi_env env, double val) {
   return Date(env, value);
 }
 
+inline Date Date::New(napi_env env, std::chrono::system_clock::time_point tp) {
+  using namespace std::chrono;
+  auto ms = static_cast<double>(
+      duration_cast<milliseconds>(tp.time_since_epoch()).count());
+  return Date::New(env, ms);
+}
+
 inline void Date::CheckCast(napi_env env, napi_value value) {
   NAPI_CHECK(value != nullptr, "Date::CheckCast", "empty value");
 
@@ -1966,6 +1973,19 @@ inline MaybeOrValue<bool> Object::Seal() const {
 }
 #endif  // NAPI_VERSION >= 8
 
+inline MaybeOrValue<Object> Object::GetPrototype() const {
+  napi_value result;
+  napi_status status = napi_get_prototype(_env, _value, &result);
+  NAPI_RETURN_OR_THROW_IF_FAILED(_env, status, Object(_env, result), Object);
+}
+
+#ifdef NODE_API_EXPERIMENTAL_HAS_SET_PROTOTYPE
+inline MaybeOrValue<bool> Object::SetPrototype(const Object& value) const {
+  napi_status status = node_api_set_prototype(_env, _value, value);
+  NAPI_RETURN_OR_THROW_IF_FAILED(_env, status, status == napi_ok, bool);
+}
+#endif
+
 ////////////////////////////////////////////////////////////////////////////////
 // External class
 ////////////////////////////////////////////////////////////////////////////////
@@ -2289,6 +2309,39 @@ inline DataView DataView::New(napi_env env,
   return DataView(env, value);
 }
 
+#ifdef NODE_API_EXPERIMENTAL_HAS_SHAREDARRAYBUFFER
+inline DataView DataView::New(napi_env env,
+                              Napi::SharedArrayBuffer arrayBuffer) {
+  return New(env, arrayBuffer, 0, arrayBuffer.ByteLength());
+}
+
+inline DataView DataView::New(napi_env env,
+                              Napi::SharedArrayBuffer arrayBuffer,
+                              size_t byteOffset) {
+  if (byteOffset > arrayBuffer.ByteLength()) {
+    NAPI_THROW(RangeError::New(
+                   env, "Start offset is outside the bounds of the buffer"),
+               DataView());
+  }
+  return New(
+      env, arrayBuffer, byteOffset, arrayBuffer.ByteLength() - byteOffset);
+}
+
+inline DataView DataView::New(napi_env env,
+                              Napi::SharedArrayBuffer arrayBuffer,
+                              size_t byteOffset,
+                              size_t byteLength) {
+  if (byteOffset + byteLength > arrayBuffer.ByteLength()) {
+    NAPI_THROW(RangeError::New(env, "Invalid DataView length"), DataView());
+  }
+  napi_value value;
+  napi_status status =
+      napi_create_dataview(env, byteLength, arrayBuffer, byteOffset, &value);
+  NAPI_THROW_IF_FAILED(env, status, DataView());
+  return DataView(env, value);
+}
+#endif  // NODE_API_EXPERIMENTAL_HAS_SHAREDARRAYBUFFER
+
 inline void DataView::CheckCast(napi_env env, napi_value value) {
   NAPI_CHECK(value != nullptr, "DataView::CheckCast", "empty value");
 
@@ -2312,6 +2365,10 @@ inline DataView::DataView(napi_env env, napi_value value) : Object(env, value) {
 }
 
 inline Napi::ArrayBuffer DataView::ArrayBuffer() const {
+  return Buffer().As<Napi::ArrayBuffer>();
+}
+
+inline Napi::Value DataView::Buffer() const {
   napi_value arrayBuffer;
   napi_status status = napi_get_dataview_info(_env,
                                               _value /* dataView */,
@@ -2319,8 +2376,8 @@ inline Napi::ArrayBuffer DataView::ArrayBuffer() const {
                                               nullptr /* data */,
                                               &arrayBuffer /* arrayBuffer */,
                                               nullptr /* byteOffset */);
-  NAPI_THROW_IF_FAILED(_env, status, Napi::ArrayBuffer());
-  return Napi::ArrayBuffer(_env, arrayBuffer);
+  NAPI_THROW_IF_FAILED(_env, status, Napi::Value());
+  return Napi::Value(_env, arrayBuffer);
 }
 
 inline size_t DataView::ByteOffset() const {
@@ -3809,8 +3866,8 @@ inline MaybeOrValue<bool> ObjectReference::Set(const std::string& utf8name,
   return Value().Set(utf8name, value);
 }
 
-inline MaybeOrValue<bool> ObjectReference::Set(const std::string& utf8name,
-                                               std::string& utf8value) const {
+inline MaybeOrValue<bool> ObjectReference::Set(
+    const std::string& utf8name, const std::string& utf8value) const {
   HandleScope scope(_env);
   return Value().Set(utf8name, utf8value);
 }

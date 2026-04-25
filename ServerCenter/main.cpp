@@ -8,6 +8,7 @@
 #include "MaintenanceScript.h"
 #include "ScriptThread.h"
 #include "Communication/SessionManager.h"
+#include "../Common/Encoding/ConsoleWriter.h"
 
 using namespace net_base;
 
@@ -31,6 +32,8 @@ int main(int argc, char* argv[])
 #if defined(__LINUX__)
     signal(SIGPIPE, SIG_IGN);
 #endif
+
+    console_writer::InitConsole();
 
     InitConfigState("center", argc - 1, argc > 1 ? &argv[1] : NULL);
 

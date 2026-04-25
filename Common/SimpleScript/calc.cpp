@@ -4,6 +4,7 @@ calc.cpp
 
 ******************************************************************************/
 #include "calc.h"
+#include "../Encoding/ConsoleWriter.h"
 
 #if defined(__LINUX__)
 #include <ctype.h>
@@ -79,13 +80,41 @@ namespace FunctionScript
     //------------------------------------------------------------------------------------------------------
     namespace InnerApi
     {
+        class SetDebugApi : public ExpressionApi
+        {
+        public:
+            virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
+            {
+                (void)paramClass;
+                if (1 != num || 0 == pParams)
+                    return EXECUTE_RESULT_NORMAL;
+                else {
+                    ReplaceVariableWithValue(pParams, num);
+                    if (NULL != pRetValue) {
+                        *pRetValue = pParams[0];
+                        bool v = pRetValue->ToBool();
+                        if (v)
+                            m_Interpreter->EnableDebugInfo();
+                        else
+                            m_Interpreter->DisableDebugInfo();
+                    }
+                    return EXECUTE_RESULT_NORMAL;
+                }
+            }
+        public:
+            explicit SetDebugApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
+        };
+
         class DebugBreakApi : public ExpressionApi
         {
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass, pParams, num;
+                (void)paramClass, (void)pParams, (void)num;
                 if (NULL != pRetValue) {
+#if _MSC_VER
+                    __debugbreak();
+#endif
                     pRetValue->SetInvalid();
                 }
                 return EXECUTE_RESULT_NORMAL;
@@ -99,7 +128,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 else {
@@ -122,7 +151,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                if (2 != num || 0 == pParams || 0 == m_Interpreter)
+                if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 else {
                     ExpressionApi* pExp = m_pProxyApi;
@@ -178,13 +207,13 @@ namespace FunctionScript
                         char buf[MAX_NUMBER_STRING_SIZE];
                         const char* pBuf = pParams[ix].ToString(buf, MAX_NUMBER_STRING_SIZE);
                         if (0 != pBuf) {
-                            printf("%s", pBuf);
+                            console_writer::ConsolePrintf("%s", pBuf);
                         }
                         if (ix < num - 1) {
-                            printf(",");
+                            console_writer::ConsolePrintf(",");
                         }
                         else {
-                            printf("\n");
+                            console_writer::ConsolePrintf("\n");
                         }
                     }
                     return EXECUTE_RESULT_NORMAL;
@@ -199,7 +228,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 1 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -259,7 +288,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 1 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -309,7 +338,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -346,7 +375,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -383,7 +412,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -417,7 +446,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -465,7 +494,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -514,7 +543,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -562,7 +591,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -611,7 +640,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -660,7 +689,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -709,7 +738,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -742,7 +771,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -775,7 +804,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -801,7 +830,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 1 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 for (int ix = 0; ix < num; ++ix) {
@@ -841,7 +870,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 1 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 for (int ix = 0; ix < num; ++ix) {
@@ -881,7 +910,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -899,7 +928,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -917,7 +946,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -940,7 +969,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -963,7 +992,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -986,7 +1015,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1005,7 +1034,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1042,7 +1071,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1079,7 +1108,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1115,7 +1144,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1141,7 +1170,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1177,7 +1206,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1213,7 +1242,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 2 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1249,7 +1278,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1274,7 +1303,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1303,7 +1332,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num && 3 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1349,7 +1378,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1379,7 +1408,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1409,7 +1438,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1435,7 +1464,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (2 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1461,7 +1490,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1498,7 +1527,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1535,7 +1564,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (1 != num && 2 != num && 3 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1580,7 +1609,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1628,7 +1657,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (3 != num || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1680,7 +1709,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass, pParams, num;
+                (void)paramClass, (void)pParams, (void)num;
                 if (0 != m_Interpreter && 0 != pRetValue) {
                     Object* pObject = m_Interpreter->AddNewObjectComponent();
                     if (0 != pObject) {
@@ -1701,7 +1730,7 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (num < 1 || 0 == pParams)
                     return EXECUTE_RESULT_NORMAL;
                 ReplaceVariableWithValue(pParams, num);
@@ -1735,12 +1764,43 @@ namespace FunctionScript
             explicit NewApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
         };
 
+        class ArgsApi : public ExpressionApi
+        {
+        public:
+            virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
+            {
+                (void)paramClass, (void)pParams, (void)num;
+                Object* pObject = m_Interpreter->AddNewObjectComponent();
+                if (0 != pObject) {
+                    pRetValue->SetExpressionApi(pObject);
+                    int count = m_Interpreter->GetValue(Value::TYPE_ARG_INDEX, -1).GetInt();
+                    for (int i = 0; i < count; ++i) {
+                        auto&& value = m_Interpreter->GetValue(Value::TYPE_ARG_INDEX, i);
+                        AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                        Value& val = op.Get();
+                        val = value;
+                        ReplaceVariableWithValue(val);
+                        AutoInterpreterValuePoolValueOperation ret(m_Interpreter->GetInnerValuePool());
+                        Value& retVal = ret.Get();
+                        Value key(i);
+                        m_Interpreter->CallMember(*pObject, key, TRUE, FunctionData::PARAM_CLASS_OPERATOR, &val, 1, &retVal);
+                    }
+                }
+                else {
+                    pRetValue->SetInt(0);
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit ArgsApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
+        };
+
         class ArgApi : public ExpressionApi
         {
         public:
             virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
             {
-                paramClass;
+                (void)paramClass;
                 if (0 != m_Interpreter && 0 != pRetValue && 0 != pParams) {
                     ReplaceVariableWithValue(pParams, num);
                     if (1 == num && pParams[0].IsInt()) {
@@ -1758,6 +1818,21 @@ namespace FunctionScript
             }
         public:
             explicit ArgApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
+        };
+
+        class ArgNumApi : public ExpressionApi
+        {
+        public:
+            virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
+            {
+                (void)paramClass, (void)pParams, (void)num;
+                if (NULL != pRetValue) {
+                    *pRetValue = m_Interpreter->GetValue(Value::TYPE_ARG_INDEX, -1);
+                }
+                return EXECUTE_RESULT_NORMAL;
+            }
+        public:
+            explicit ArgNumApi(Interpreter& interpreter) :ExpressionApi(interpreter) {}
         };
     }
     //------------------------------------------------------------------------------------------------------
@@ -2182,7 +2257,7 @@ namespace FunctionScript
                         val = m_Exp;
                         ReplaceVariableWithValue(val);
                     }
-                    if(val.IsExpressionApi()) {
+                    if (val.IsExpressionApi()) {
                         ExpressionApi* pApi = val.GetExpressionApi();
                         if (pApi && pApi->GetTypeTag() == RuntimeComponent::TYPE_TAG_OBJECT) {
                             pList = static_cast<ObjectBase*>(pApi);
@@ -2868,8 +2943,6 @@ namespace FunctionScript
         public:
             virtual ExecuteResultEnum Execute(Value* pRetValue)const
             {
-                if (0 == m_Interpreter)
-                    return EXECUTE_RESULT_NORMAL;
                 //The function definition generates a Closure instance.
                 ISyntaxComponent& statement = *m_pDefine;
                 FunctionData* pFunc0 = 0;
@@ -2925,8 +2998,8 @@ namespace FunctionScript
         public:
             virtual int IsMatch(const ISyntaxComponent& statement)const
             {
-                //Function definition syntax: function(name)args($a,$b,$c){};
-                // where name and args($a,$b,$c) are optional
+                //Function definition syntax: function(name)params($a,$b,$c){};
+                // where name and params($a,$b,$c) are optional
                 int syntaxType = statement.GetSyntaxType();
                 if (syntaxType == ISyntaxComponent::TYPE_FUNCTION) {
                     const FunctionData& func = static_cast<const FunctionData&>(statement);
@@ -2948,7 +3021,7 @@ namespace FunctionScript
                                 return FALSE;
                             const char* id = pFunc1->GetId();
                             if (0 != id) {
-                                if (0 != strcmp(id, "args"))
+                                if (0 != strcmp(id, "params") && 0 != strcmp(id, "args"))
                                     return FALSE;
                             }
                             else {
@@ -3170,8 +3243,6 @@ namespace FunctionScript
             {
                 FunctionData& func = *m_pDefine;
                 FunctionData* pLoFunc = func.GetLowerOrderFunction();
-                if (0 == m_Interpreter)
-                    return EXECUTE_RESULT_NORMAL;
                 int pnum = pLoFunc->GetParamNum();
                 if (1 < pnum)
                     return EXECUTE_RESULT_NORMAL;
@@ -3232,6 +3303,7 @@ namespace FunctionScript
     {
         using namespace InnerApi;
         //
+        RegisterInnerFunctionApi("setdebug", new SetDebugApi(*this));
         RegisterInnerFunctionApi("debugbreak", new DebugBreakApi(*this));
         RegisterInnerFunctionApi("expr", new ExprApi(*this));
         RegisterInnerFunctionApi("print", new PrintApi(*this));
@@ -3328,7 +3400,9 @@ namespace FunctionScript
         //
         RegisterInnerFunctionApi("object", new ObjectApi(*this));
         RegisterInnerFunctionApi("new", new NewApi(*this));
+        RegisterInnerFunctionApi("args", new ArgsApi(*this));
         RegisterInnerFunctionApi("arg", new ArgApi(*this));
+        RegisterInnerFunctionApi("argnum", new ArgNumApi(*this));
         //
         RegisterInnerStatementApi("for", new ForStatementFactory());
         RegisterInnerStatementApi("while", new WhileStatementFactory());
@@ -3448,7 +3522,7 @@ namespace FunctionScript
     }
     ExecuteResultEnum Closure::Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
     {
-        paramClass;
+        (void)paramClass;
         //Closure implements the calling of custom functions.
         if (NULL != m_Statements && NULL != m_Interpreter) {
             ReplaceVariableWithValue(pParams, num);
@@ -3649,7 +3723,7 @@ namespace FunctionScript
                         }
                     }
                     else if (pParams[0].IsInt())//If the value is given directly, the member explanation will
-                                                //be defined according to the script.
+                        //be defined according to the script.
                     {
                         if (0 != pRetValue) {
                             int index = pParams[0].GetInt();
@@ -4167,7 +4241,11 @@ namespace FunctionScript
             else
                 return FALSE;
         }
-        else if (m_Value.IsString() || m_Value.IsIdentifier()) {
+        else if (m_Value.IsString() || m_Value.IsDollarString()) {
+            const char* p = m_Value.GetString();
+            return 0 != p ? TRUE : FALSE;
+        }
+        else if (m_Value.IsIdentifier()) {
             const char* p = m_Value.GetString();
             return 0 != p && p[0] ? TRUE : FALSE;
         }
@@ -4205,31 +4283,16 @@ namespace FunctionScript
             if (NULL != pStr) {
                 if (pStr[0] == '$')//Arguments
                 {
-                    if (pStr[1] == '$' && pStr[2] == 0) {
-                        valOfName.SetArgIndex(-1);
-                    }
-                    else if (isdigit(pStr[1])) {
-                        int index = atoi(pStr + 1);
-                        if (index >= 0 && index < MAX_FUNCTION_PARAM_NUM) {
-                            valOfName.SetArgIndex(index);
+                    FunctionData* pFuncDef = m_Interpreter->GetCurFunctionDefinition();
+                    if (0 != pFuncDef) {
+                        int index = pFuncDef->GetLocalIndex(pStr);
+                        if (index < 0) {
+                            index = pFuncDef->AllocLocalIndex(pStr);
+                        }
+                        if (index >= 0 && index < m_MaxLocalNum) {
+                            valOfName.SetLocalIndex(index);
                         }
                     }
-                    else {
-                        FunctionData* pFuncDef = m_Interpreter->GetCurFunctionDefinition();
-                        if (0 != pFuncDef) {
-                            int index = pFuncDef->GetLocalIndex(pStr);
-                            if (index < 0) {
-                                index = pFuncDef->AllocLocalIndex(pStr);
-                            }
-                            if (index >= 0 && index < m_MaxLocalNum) {
-                                valOfName.SetLocalIndex(index);
-                            }
-                        }
-                    }
-                }
-                else if (pStr[0] == '@' && pStr[1] == '@' && pStr[2] == 0)//Number of local variables
-                {
-                    valOfName.SetLocalIndex(-1);
                 }
                 else {
                     //Functions, global variables and predefined variables
@@ -4580,7 +4643,7 @@ namespace FunctionScript
 #ifndef _GAMECLIENT_
             char errBuf[1025];
             tsnprintf(errBuf, 1024, "Error statement, line %d !\n", GetLine());
-            printf(errBuf);
+            console_writer::ConsolePrintf("%s", errBuf);
             m_Interpreter->AddError(errBuf);
 #endif
             m_RuntimeObject.SetInvalid();
@@ -4718,7 +4781,7 @@ namespace FunctionScript
 #ifndef _GAMECLIENT_
                         char errBuf[1025];
                         tsnprintf(errBuf, 1024, "Error break/continue/return, line %d !\n", param.GetLine());
-                        printf(errBuf);
+                        console_writer::ConsolePrintf("%s", errBuf);
                         m_Interpreter->AddError(errBuf);
 #endif
                     }
@@ -4738,7 +4801,7 @@ namespace FunctionScript
 #ifndef _GAMECLIENT_
                     char errBuf[1025];
                     tsnprintf(errBuf, 1024, "Error break/continue/return, line %d !\n", m_Name.GetLine());
-                    printf(errBuf);
+                    console_writer::ConsolePrintf("%s", errBuf);
                     m_Interpreter->AddError(errBuf);
 #endif
                 }
@@ -5046,20 +5109,14 @@ namespace FunctionScript
         break;
         case Value::TYPE_ARG_INDEX:
         {
-            if (index < 0) {
-                return "$$";
-            }
-            else if (index < sizeof(g_ArgNames) / sizeof(const char*)) {
+            if (index >= 0 && index < sizeof(g_ArgNames) / sizeof(const char*)) {
                 return g_ArgNames[index];
             }
         }
         break;
         case Value::TYPE_LOCAL_INDEX:
         {
-            if (index < 0) {
-                return "@@";
-            }
-            else if (index < m_Options.GetMaxLocalNum() && FALSE == m_StackInfos.Empty()) {
+            if (index >= 0 && index < m_Options.GetMaxLocalNum() && FALSE == m_StackInfos.Empty()) {
                 const StackInfo& info = m_StackInfos.Front();
                 const ISyntaxComponent* pDefinition = info.m_pDefinition;
                 if (NULL != pDefinition && index < info.m_Size.GetInt()) {
@@ -5132,7 +5189,7 @@ namespace FunctionScript
         break;
         case Value::TYPE_ARG_INDEX:
         {
-            if (-1 == index) {
+            if (index < 0) {
                 const StackInfo& info = m_StackInfos.Front();
                 return info.m_ParamNum;
             }
@@ -5144,7 +5201,7 @@ namespace FunctionScript
         break;
         case Value::TYPE_LOCAL_INDEX:
         {
-            if (-1 == index) {
+            if (index < 0) {
                 const StackInfo& info = m_StackInfos.Front();
                 return info.m_Size;
             }

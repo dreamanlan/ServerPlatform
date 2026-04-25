@@ -1,4 +1,5 @@
 #include "ScriptThread.h"
+#include "../../../Common/Encoding/ConsoleWriter.h"
 
 int CreateStreamPacketObj(FunctionScript::Value& retValue, Interpreter& interpreter, SimpleClient& client, BinaryStream& stream)
 {
@@ -57,8 +58,8 @@ protected:
       if (TRUE == ret)
       {
         if (strcmp(p, ".") == 0 ||
-          strcmp(p, "enabledebuginfo") == 0 ||
-          strcmp(p, "disabledebuginfo") == 0)
+          strcmp(p, "enabledebug") == 0 ||
+          strcmp(p, "disabledebug") == 0)
         {
           ret = FALSE;
         } else
@@ -95,7 +96,7 @@ public:
   virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
   {
     void SendMessageMT2T(int, const char*);
-    if (0 == pParams || 0 == m_Interpreter)
+    if (0 == pParams)
       return EXECUTE_RESULT_NORMAL;
     ReplaceVariableWithValue(pParams, num);
     if (1 == num && pParams[0].IsString() && 0 != pRetValue) {
@@ -128,7 +129,7 @@ class PushMessageMT2TApi : public ExpressionApi
 public:
   virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
   {
-    if (0 == pParams || 0 == m_Interpreter)
+    if (0 == pParams)
       return EXECUTE_RESULT_NORMAL;
     ReplaceVariableWithValue(pParams, num);
     if (1 == num && pParams[0].IsString() && 0 != pRetValue) {
@@ -155,7 +156,7 @@ class PopMessageMT2TApi : public ExpressionApi
 public:
   virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
   {
-    if (0 == pParams || 0 == m_Interpreter)
+    if (0 == pParams)
       return EXECUTE_RESULT_NORMAL;
     ReplaceVariableWithValue(pParams, num);
     if (0 != pRetValue) {
@@ -205,7 +206,7 @@ class ExitScriptThreadApi : public ExpressionApi
 public:
   virtual ExecuteResultEnum Execute(int paramClass, Value* pParams, int num, Value* pRetValue)
   {
-    if (0 == pParams || 0 == m_Interpreter)
+    if (0 == pParams)
       return EXECUTE_RESULT_NORMAL;
     ReplaceVariableWithValue(pParams, num);
     if (0 != pRetValue)
@@ -314,10 +315,10 @@ void ScriptThread::run()
     {
       for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix)
       {
-        printf("[%X]:%s\n", (unsigned int)getTID(), interpreter.GetErrorInfo(ix));
+        console_writer::ConsolePrintf("[%X]:%s\n", (unsigned int)getTID(), interpreter.GetErrorInfo(ix));
       }
       interpreter.Reset();
-      printf("[%X]:Interpreter has already reset !\n", (unsigned int)getTID());
+      console_writer::ConsolePrintf("[%X]:Interpreter has already reset !\n", (unsigned int)getTID());
     } else
     {
       if (interpreter.GetStatementNum() >= options.GetMaxProgramSize() - 10 ||
@@ -326,7 +327,7 @@ void ScriptThread::run()
         interpreter.GetSyntaxComponentNum() >= options.GetExpressionPoolSize() - 10 ||
         int(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()) >= options.GetStringBufferSize() - 1024)
       {
-        printf("[%X Statistic] statements:%u value:%u stack:%u syntax:%u string:%u\n", (unsigned int)getTID(), interpreter.GetStatementNum(), interpreter.GetValueNum(), interpreter.GetStackValueNum(), interpreter.GetSyntaxComponentNum(), (unsigned int)(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()));
+        console_writer::ConsolePrintf("[%X Statistic] statements:%u value:%u stack:%u syntax:%u string:%u\n", (unsigned int)getTID(), interpreter.GetStatementNum(), interpreter.GetValueNum(), interpreter.GetStackValueNum(), interpreter.GetSyntaxComponentNum(), (unsigned int)(interpreter.GetUnusedStringPtrRef() - interpreter.GetStringBuffer()));
       }
       Value val;
       interpreter.Execute(&val);
@@ -340,7 +341,7 @@ void ScriptThread::run()
       {
         interpreter.Reset();
         m_RunFlag = TRUE;
-        printf("[%X]:Process command: reset\n", (unsigned int)getTID());
+        console_writer::ConsolePrintf("[%X]:Process command: reset\n", (unsigned int)getTID());
       } else if (strcmp(line, "enabledebuginfo") == 0)
       {
         interpreter.EnableDebugInfo();

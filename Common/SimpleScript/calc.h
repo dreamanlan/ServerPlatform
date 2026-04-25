@@ -668,7 +668,7 @@ namespace FunctionScript
             FunctionData* m_FunctionVal;
             void* m_Ptr;
             const char* m_ConstStringVal;//The same type as m_StringVal in the script,
-                                        // used to implement automatic const_cast
+            // used to implement automatic const_cast
         };
         int m_Line;
     public:
@@ -2056,7 +2056,7 @@ namespace FunctionScript
 
         int m_NextStatement;
     public://The data pool is only used for the interpreter. It is only used in functions or statements to replace local variables.
-            //Alloc and recycle must be paired and comply with the operation order of the stack (last in, first out)! ! !
+        //Alloc and recycle must be paired and comply with the operation order of the stack (last in, first out)! ! !
         InterpreterValuePool& GetInnerValuePool() { return m_InterpreterValuePool; }
     private:
         InterpreterValuePool m_InterpreterValuePool;

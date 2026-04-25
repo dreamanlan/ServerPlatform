@@ -5,6 +5,8 @@
 #include <time.h>
 #include "Thread.h"
 #include "SourceCodeScript.h"
+#include "ConsoleWriter.h"
+#include "EncodingUtil.h"
 
 class SleepApi : public ExpressionApi
 {
@@ -142,7 +144,7 @@ public:
                 char buf[MAX_NUMBER_STRING_SIZE];
                 const char* pBuf = pParams[ix].ToString(buf, MAX_NUMBER_STRING_SIZE);
                 if (0 != pBuf) {
-                    printf("%s", pBuf);
+                    console_writer::ConsolePrintf("%s", pBuf);
                 }
             }
             return EXECUTE_RESULT_NORMAL;
@@ -239,14 +241,22 @@ static inline int ReadString(const char* pFile, int startRow, char* pStr, int sp
     if (pFile && pStr) {
         FILE* fp = fopen(pFile, "rb");
         if (NULL != fp) {
+            int isFirstLine = TRUE;
             for (int ix = 0; ix < startRow && !feof(fp); ++ix) {
                 char temp[MAX_STRING_SIZE + 1] = { 0 };
                 fgets(temp, MAX_STRING_SIZE, fp);
+                isFirstLine = FALSE;
             }
             if (!feof(fp)) {
                 char line[MAX_STRING_SIZE + 1] = { 0 };
                 fgets(line, MAX_STRING_SIZE, fp);
                 char* p = line;
+                if (TRUE == isFirstLine &&
+                    static_cast<unsigned char>(p[0]) == 0xEF &&
+                    static_cast<unsigned char>(p[1]) == 0xBB &&
+                    static_cast<unsigned char>(p[2]) == 0xBF) {
+                    p += 3;
+                }
                 Trim(p);
                 tsnprintf(pStr, space, "%s", p);
                 ret = TRUE;
@@ -310,6 +320,7 @@ public:
                         size_t realSize = fread(m_pBuffer, 1, size, fp);
                         if (realSize == (size_t)size) {
                             m_pBuffer[size] = 0;
+                            encoding_util::EnsureUtf8(m_pBuffer, size);
                             int lineNum = INFO_NUM_DEFAULT;
                             char* p0 = m_pBuffer;
                             if (p0) {
@@ -700,6 +711,7 @@ public:
                         size_t realSize = fread(m_pBuffer, 1, size, fp);
                         if (realSize == (size_t)size) {
                             m_pBuffer[size] = 0;
+                            encoding_util::EnsureUtf8(m_pBuffer, size);
                             int lineNum = ROW_NUM_DEFAULT;
                             char* p0 = strchr(m_pBuffer, '\n');
                             if (p0) {
@@ -1578,7 +1590,7 @@ public:
         for (; FALSE == it.IsNull(); ++it) {
             const char* key = it->GetKey().GetString();
             char* p = it->GetValue();
-            printf("%s -> %s\n", key, p);
+            console_writer::ConsolePrintf("%s -> %s\n", key, p);
             if (fp) {
                 fprintf(fp, "%s -> %s\n", key, p);
             }

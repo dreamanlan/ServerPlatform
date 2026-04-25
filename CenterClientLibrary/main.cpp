@@ -7,6 +7,7 @@
 #include "ScriptThread.h"
 #include "MaintenanceScript.h"
 #include "Communication/SessionManager.h"
+#include "../Common/Encoding/ConsoleWriter.h"
 
 static const int MAX_IP_LEN = 128;
 
@@ -213,6 +214,8 @@ extern "C" void Init(const char* serverType, int argc, const char* const* argv, 
     signal(SIGPIPE, SIG_IGN);
 #endif
 
+    console_writer::InitConsole();
+
     InitConfigState(serverType, argc, argv);
 
     const char* pIp = GetConfig("ip");
@@ -305,6 +308,7 @@ extern "C" void Release()
 #ifdef _CONSOLE
 int main(int argc, char* argv[])
 {
+    console_writer::InitConsole();
     Init("centerclient", NULL);
     for (;;) {
         Tick();

@@ -11,28 +11,28 @@ namespace CSharpCenterClient
     public static extern int ReloadConfigScript();
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool GetConfig(string key, StringBuilder nameBuf, int len);
+    public static extern bool GetConfig([MarshalAs(UnmanagedType.LPUTF8Str)] string key, [MarshalAs(UnmanagedType.LPUTF8Str)] StringBuilder nameBuf, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong TargetHandle([MarshalAs(UnmanagedType.LPStr)]string name);
+    public static extern ulong TargetHandle([MarshalAs(UnmanagedType.LPUTF8Str)] string name);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool TargetName(ulong handle, StringBuilder nameBuf, int len);
+    public static extern bool TargetName(ulong handle, [MarshalAs(UnmanagedType.LPUTF8Str)] StringBuilder nameBuf, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendByHandle(ulong handle, byte[] data, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendByName(string name, byte[] data, int len);
+    public static extern bool SendByName([MarshalAs(UnmanagedType.LPUTF8Str)] string name, byte[] data, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByHandle(ulong handle, string command);
+    public static extern bool SendCommandByHandle(ulong handle, [MarshalAs(UnmanagedType.LPUTF8Str)] string command);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByName(string name, string command);
+    public static extern bool SendCommandByName([MarshalAs(UnmanagedType.LPUTF8Str)] string name, [MarshalAs(UnmanagedType.LPUTF8Str)] string command);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleNameHandleChangedCallback(bool addOrUpdate, string name, ulong handle);
+    public delegate void HandleNameHandleChangedCallback(bool addOrUpdate, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, ulong handle);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void HandleMessageCallback(uint seq, ulong src, ulong dest, IntPtr data, int len);
@@ -41,10 +41,10 @@ namespace CSharpCenterClient
     public delegate void HandleMessageResultCallback(uint seq, ulong src, ulong dest, int result);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleCommandCallback(ulong src, ulong dest, string msg);
+    public delegate void HandleCommandCallback(ulong src, ulong dest, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void CenterLogHandler(string msg, int len);
+    public delegate void CenterLogHandler([MarshalAs(UnmanagedType.LPUTF8Str)] string msg, int len);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool IsRun();
@@ -56,7 +56,7 @@ namespace CSharpCenterClient
     public static extern void SetCenterLogHandler(CenterLogHandler logHandler);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void Init(string serverType, int argc, string[] argv, HandleNameHandleChangedCallback nameHandleCallback, HandleMessageCallback msgCallback, HandleMessageResultCallback msgResultCallback, HandleCommandCallback cmdResultCallback);
+    public static extern void Init([MarshalAs(UnmanagedType.LPUTF8Str)] string serverType, int argc, [MarshalAs(UnmanagedType.LPUTF8Str)] string[] argv, HandleNameHandleChangedCallback nameHandleCallback, HandleMessageCallback msgCallback, HandleMessageResultCallback msgResultCallback, HandleCommandCallback cmdResultCallback);
 
     [DllImport("CenterClientLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern void Tick();
@@ -76,28 +76,28 @@ namespace CSharpCenterClient
     public static extern int ReloadConfigScript();
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool GetConfig(string key, StringBuilder nameBuf, int len);
+    public static extern bool GetConfig([MarshalAs(UnmanagedType.LPUTF8Str)] string key, [MarshalAs(UnmanagedType.LPUTF8Str)] StringBuilder nameBuf, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern ulong TargetHandle(int worldId, [MarshalAs(UnmanagedType.LPStr)]string name);
+    public static extern ulong TargetHandle(int worldId, [MarshalAs(UnmanagedType.LPUTF8Str)] string name);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool TargetName(int worldId, ulong handle, StringBuilder nameBuf, int len);
+    public static extern bool TargetName(int worldId, ulong handle, [MarshalAs(UnmanagedType.LPUTF8Str)] StringBuilder nameBuf, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool SendByHandle(int worldId, ulong handle, byte[] data, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendByName(int worldId, string name, byte[] data, int len);
+    public static extern bool SendByName(int worldId, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, byte[] data, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByHandle(int worldId, ulong handle, string command);
+    public static extern bool SendCommandByHandle(int worldId, ulong handle, [MarshalAs(UnmanagedType.LPUTF8Str)] string command);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern bool SendCommandByName(int worldId, string name, string command);
+    public static extern bool SendCommandByName(int worldId, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, [MarshalAs(UnmanagedType.LPUTF8Str)] string command);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleNameHandleChangedCallback(int worldId, bool addOrUpdate, string name, ulong handle);
+    public delegate void HandleNameHandleChangedCallback(int worldId, bool addOrUpdate, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, ulong handle);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void HandleMessageCallback(int worldId, uint seq, ulong src, ulong dest, IntPtr data, int len);
@@ -106,10 +106,10 @@ namespace CSharpCenterClient
     public delegate void HandleMessageResultCallback(int worldId, uint seq, ulong src, ulong dest, int result);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void HandleCommandCallback(int worldId, ulong src, ulong dest, string msg);
+    public delegate void HandleCommandCallback(int worldId, ulong src, ulong dest, [MarshalAs(UnmanagedType.LPUTF8Str)] string msg);
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void CenterLogHandler(string msg, int len);
+    public delegate void CenterLogHandler([MarshalAs(UnmanagedType.LPUTF8Str)] string msg, int len);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern bool IsRun();
@@ -121,7 +121,7 @@ namespace CSharpCenterClient
     public static extern void SetCenterLogHandler(CenterLogHandler logHandler);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
-    public static extern void Init(string serverType, int argc, string[] argv, HandleNameHandleChangedCallback nameHandleCallback, HandleMessageCallback msgCallback, HandleMessageResultCallback msgResultCallback, HandleCommandCallback cmdResultCallback);
+    public static extern void Init([MarshalAs(UnmanagedType.LPUTF8Str)] string serverType, int argc, [MarshalAs(UnmanagedType.LPUTF8Str)] string[] argv, HandleNameHandleChangedCallback nameHandleCallback, HandleMessageCallback msgCallback, HandleMessageResultCallback msgResultCallback, HandleCommandCallback cmdResultCallback);
 
     [DllImport("CenterHubLibrary", CallingConvention = CallingConvention.Cdecl)]
     public static extern void Tick();

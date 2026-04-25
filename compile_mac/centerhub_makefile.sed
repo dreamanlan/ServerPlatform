@@ -4,7 +4,7 @@
 include_Headers=CenterHub.h
 
 /^libCenterHubLibrary_la_LIBADD/ c\
-libCenterHubLibrary_la_LIBADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a
+libCenterHubLibrary_la_LIBADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a -liconv
 
 /^libCenterHubLibrary_la_DEFINES/ c\
 libCenterHubLibrary_la_DEFINES = -D_DEBUG -D__LINUX__ -w -std=c++0x

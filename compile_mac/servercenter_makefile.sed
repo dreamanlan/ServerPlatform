@@ -1,7 +1,7 @@
 #!/bin/sed -f
 # servercenter_makefile.sed
 /^ServerCenter_LDADD/ c\
-ServerCenter_LDADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a
+ServerCenter_LDADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a -liconv
 
 /^ServerCenter_DEFINES/ c\
 ServerCenter_DEFINES = -D_DEBUG -D_CONSOLE -D__LINUX__ -w -std=c++0x

@@ -179,7 +179,7 @@ namespace FunctionScript
         if (TRUE != tokenInfo.IsValid())return;
 
         if (mInterpreter->IsDebugInfoEnable()) {
-            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("op2/2:%d\n", tokenInfo.mInteger);
+            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("sep:%s\n", tokenInfo.mString);
         }
 
         if (mData.isSemanticStackEmpty()) {

@@ -4,6 +4,7 @@
 #include "Type.h"
 #include "Queue.h"
 #include "ConfigScript/CommonScriptApi.h"
+#include "../../../Common/Encoding/ConsoleWriter.h"
 #include <event2/event.h>
 #include <event2/thread.h>
 #include "connector.h"
@@ -1019,7 +1020,7 @@ private:
     SharedMessageQueue  m_SharedMessageQueue;
 };
 
-int DecryptMemoryWithCyclone(char* pInMemory, int size, char*& pOutMemory, int& outSize, int& haveOutMemory);
+int DecryptMemory(char* pInMemory, int size, char*& pOutMemory, int& outSize, int& haveOutMemory);
 
 class SharedStringMap
 {
@@ -1086,7 +1087,7 @@ public:
         for (; FALSE == it.IsNull(); ++it) {
             const char* key = it->GetKey().GetString();
             char* p = it->GetValue();
-            printf("%s -> %s\n", key, p);
+            console_writer::ConsolePrintf("%s -> %s\n", key, p);
             if (fp) {
                 fprintf(fp, "%s -> %s\n", key, p);
             }

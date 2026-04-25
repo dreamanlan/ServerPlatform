@@ -6,6 +6,7 @@ SlkToken.cpp
 #include "SlkParse.h"
 #include "tsnprintf.h"
 #include "ParserFineTuneHelper.h"
+#include "../Encoding/ConsoleWriter.h"
 
 //mIterator and mErrorInfo are passed in by the reference parameters of the constructor and will not be empty.
 //So it no longer checks whether it is empty when using it.
@@ -1277,7 +1278,7 @@ short SlkToken::peek([[maybe_unused]] int level)
 {
     short token = 0;
 
-    printf("peek_token is not called in an LL(1) grammar\n");
+    console_writer::ConsolePrintf("peek_token is not called in an LL(1) grammar\n");
 
     return token;
 }

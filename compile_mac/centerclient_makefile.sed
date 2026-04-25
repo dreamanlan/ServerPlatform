@@ -4,7 +4,7 @@
 include_Headers=CenterClient.h
 
 /^libCenterClientLibrary_la_LIBADD/ c\
-libCenterClientLibrary_la_LIBADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a
+libCenterClientLibrary_la_LIBADD = $(ALLLIBS) /usr/local/lib/libevent_core.a /usr/local/lib/libevent_pthreads.a -liconv
 
 /^libCenterClientLibrary_la_DEFINES/ c\
 libCenterClientLibrary_la_DEFINES = -D_DEBUG -D__LINUX__ -w -std=c++0x

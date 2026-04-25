@@ -11,6 +11,7 @@
     "control_flow_guard": "false",
     "node_use_amaro": "true",
     "debug_node": "false",
+    "debug_symbols": "false",
     "error_on_warn": "false",
     "suppress_all_error_on_warn": "false",
     "use_prefix_to_find_headers": "false",
@@ -205,7 +206,6 @@
       "lib/internal/modules/customization_hooks.js",
       "lib/internal/modules/esm/assert.js",
       "lib/internal/modules/esm/create_dynamic_module.js",
-      "lib/internal/modules/esm/formats.js",
       "lib/internal/modules/esm/get_format.js",
       "lib/internal/modules/esm/hooks.js",
       "lib/internal/modules/esm/initialize_import_meta.js",
@@ -333,7 +333,6 @@
       "lib/internal/util/types.js",
       "lib/internal/v8/startup_snapshot.js",
       "lib/internal/v8_prof_polyfill.js",
-      "lib/internal/v8_prof_processor.js",
       "lib/internal/validators.js",
       "lib/internal/vm.js",
       "lib/internal/vm/module.js",
@@ -405,6 +404,7 @@
       "test/cctest/test_cppgc.cc",
       "test/cctest/test_crypto_clienthello.cc",
       "test/cctest/test_dataqueue.cc",
+      "test/cctest/test_diagnostics_channel.cc",
       "test/cctest/test_environment.cc",
       "test/cctest/test_inspector_socket.cc",
       "test/cctest/test_inspector_socket_server.cc",
@@ -495,7 +495,7 @@
       "deps/amaro/dist/index.js"
     ],
     "ossfuzz": "false",
-    "nodedir": "C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\24.14.0",
+    "nodedir": "C:\\Users\\dreamanlan\\AppData\\Local\\node-gyp\\Cache\\24.15.0",
     "python": "C:\\Python311\\python.exe",
     "standalone_static_library": 1,
     "msbuild_path": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe"
@@ -509,11 +509,11 @@
     "configurations": {
       "Release": {
         "variables": {},
-        "v8_enable_v8_checks": 1
+        "v8_enable_v8_checks": 0
       },
       "Debug": {
         "variables": {},
-        "v8_enable_v8_checks": 0
+        "v8_enable_v8_checks": 1
       }
     },
     "msbuild_toolset": "v143",
