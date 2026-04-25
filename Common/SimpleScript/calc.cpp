@@ -4095,7 +4095,8 @@ namespace FunctionScript
         ISyntaxComponent(ISyntaxComponent::TYPE_VALUE, interpreter),
         m_RuntimeFunctionCall(0),
         m_RuntimeObjectPrepared(FALSE),
-        m_pInnerValuePool(0)
+        m_pInnerValuePool(0),
+        m_Temp(0)
     {
         const InterpreterOptions& options = interpreter.GetOptions();
         m_MaxLocalNum = options.GetMaxLocalNum();
@@ -4137,9 +4138,13 @@ namespace FunctionScript
             return m_Value.GetString();
         }
         else {
-            char temp[MAX_NUMBER_STRING_SIZE];
-            const char* p = m_Value.ToString(temp, MAX_NUMBER_STRING_SIZE);
-            return p;
+            if (0 == m_Temp && 0 != m_Interpreter) {
+                m_Temp = m_Interpreter->AllocString(MAX_NUMBER_STRING_SIZE);
+            }
+            if (0 == m_Temp) {
+                return "";
+            }
+            return m_Value.ToString(m_Temp, MAX_NUMBER_STRING_SIZE);
         }
     }
     int ValueData::GetLine()const

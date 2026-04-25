@@ -797,6 +797,7 @@ namespace FunctionScript
     private:
         Value m_Value;
         int m_MaxLocalNum;
+        mutable char* m_Temp;
     private:
         Value m_RuntimeFunctionCall;
         int m_RuntimeObjectPrepared;

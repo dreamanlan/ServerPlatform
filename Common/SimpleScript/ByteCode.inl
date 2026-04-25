@@ -891,7 +891,7 @@ namespace FunctionScript
                 ISyntaxComponent* param1 = data.GetParam(1);
                 if (param0->GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
                     auto&& vd = static_cast<ValueData&>(*param0);
-                    if (vd.GetId() == "return") {
+                    if (0 == strcmp(vd.GetId(), "return")) {
                         //return`exp; => return(exp);
                         FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
                         newCall->SetNameValue(Value("return", Value::TYPE_IDENTIFIER));
@@ -918,6 +918,7 @@ namespace FunctionScript
                     return *newCall;
                 }
             }
+            return data;
         }
         else {
             //There are parameters that will not degrade
