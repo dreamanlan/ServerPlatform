@@ -4326,6 +4326,13 @@ namespace FunctionScript
         else if (valOfName.IsFunction() && 0 != valOfName.GetFunction()) {
             valOfName.GetFunction()->PrepareRuntimeObject(true);
         }
+        if (!isArgument) {
+            RuntimeValue* pRuntimeValue = m_Interpreter->AddNewRuntimeValueComponent();
+            if (NULL != pRuntimeValue) {
+                pRuntimeValue->Init(*this);
+                valOfName.SetStatementApi(pRuntimeValue);
+            }
+        }
     }
 
     FunctionData::FunctionData(Interpreter& interpreter) :
@@ -4854,6 +4861,36 @@ namespace FunctionScript
         return EXECUTE_RESULT_NORMAL;
     }
 
+    RuntimeValue::RuntimeValue(Interpreter& interpreter) :StatementApi(interpreter), m_pInnerValuePool(NULL)
+    {
+        m_pInnerValuePool = &interpreter.GetInnerValuePool();
+    }
+
+    RuntimeValue::~RuntimeValue()
+    {
+    }
+
+    void RuntimeValue::Init(ValueData& val)
+    {
+        m_Value = val.GetRuntimeObject();
+    }
+
+    ExecuteResultEnum RuntimeValue::Execute(Value* pRetValue)const
+    {
+        if (NULL == m_Interpreter)
+            return EXECUTE_RESULT_NORMAL;
+        if (!m_Interpreter->IsRunFlagEnable()) {
+            return EXECUTE_RESULT_NORMAL;
+        }
+        AutoInterpreterValuePoolValueOperation op(*m_pInnerValuePool);
+        Value val = op.Get();
+        val = m_Value;
+        ReplaceVariableWithValue(val);
+        if (0 != pRetValue)
+            *pRetValue = val;
+        return EXECUTE_RESULT_NORMAL;
+    }
+
     void Interpreter::PrepareRuntimeObject()
     {
         if (0 == m_Program)
@@ -5337,6 +5374,13 @@ namespace FunctionScript
     RuntimeFunctionCall* Interpreter::AddNewRuntimeFunctionComponent()
     {
         RuntimeFunctionCall* p = new RuntimeFunctionCall(*this);
+        AddRuntimeComponent(p);
+        return p;
+    }
+
+    RuntimeValue* Interpreter::AddNewRuntimeValueComponent()
+    {
+        RuntimeValue* p = new RuntimeValue(*this);
         AddRuntimeComponent(p);
         return p;
     }

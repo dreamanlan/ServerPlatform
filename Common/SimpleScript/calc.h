@@ -1803,6 +1803,21 @@ namespace FunctionScript
         InterpreterValuePool* m_pInnerValuePool;
     };
 
+    //Enable the value as a statement.
+    class RuntimeValue final : public StatementApi
+    {
+    public:
+        virtual ExecuteResultEnum Execute(Value* pRetValue)const override;
+    public:
+        explicit RuntimeValue(Interpreter& interpreter);
+        virtual ~RuntimeValue();
+        void Init(ValueData& val);
+    private:
+        Value m_Value;
+
+        InterpreterValuePool* m_pInnerValuePool;
+    };
+
     class RuntimeStatementBlock final
     {
     public:
@@ -1978,6 +1993,7 @@ namespace FunctionScript
         FunctionData* AddNewFunctionComponent();
         StatementData* AddNewStatementComponent();
         RuntimeFunctionCall* AddNewRuntimeFunctionComponent();
+        RuntimeValue* AddNewRuntimeValueComponent();
         Closure* AddNewClosureComponent();
         Object* AddNewObjectComponent();
         Struct* AddNewStructComponent();
