@@ -4,7 +4,7 @@
 #include "Communication/SessionManager.h"
 #include "netioservice.h"
 #include "tcp_session.h"
-#include "../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 using SessionManagers = HashtableT<int, SessionManager*>;
 static const int MAX_SESSION_MANAGER_NUM = 1024;

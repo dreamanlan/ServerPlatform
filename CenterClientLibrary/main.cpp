@@ -7,7 +7,7 @@
 #include "ScriptThread.h"
 #include "MaintenanceScript.h"
 #include "Communication/SessionManager.h"
-#include "../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 static const int MAX_IP_LEN = 128;
 

@@ -901,21 +901,50 @@ namespace FunctionScript
                         newCall->GetNameValue().SetLine(data.GetLine());
                         return *newCall;
                     }
+                    else {
+                        if (mInterpreter->IsDebugInfoEnable()) {
+                            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d\n", data.GetLine());
+                        }
+                        char* pErr = mInterpreter->NewErrorInfo();
+                        if (pErr) {
+                            tsnprintf(pErr, MAX_ERROR_INFO_CAPACITY, "Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d", data.GetLine());
+                        }
+                    }
                 }
                 else if (param0->GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
                     auto&& fd = static_cast<FunctionData&>(*param0);
-                    //if(cond)`exp; => if(cond){exp;}
-                    //while(cond)`exp; => while(cond){exp;}
-                    //loop(ct)`exp; => loop(ct){exp;}
-                    //looplist(list)`exp; => loop(list){exp;}
-                    //foreach(v1,v2,...)`exp; => foreach(v1,v2,...){exp;}
-                    FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
-                    newCall->SetNameValue(Value(&fd));
-                    newCall->SetStatementParamClass();
-                    newCall->AddParam(param1);
+                    if (fd.IsOperatorParamClass() || fd.IsTernaryOperatorParamClass()) {
+                        if (mInterpreter->IsDebugInfoEnable()) {
+                            PRINT_FUNCTION_SCRIPT_DEBUG_INFO("Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d\n", data.GetLine());
+                        }
+                        char* pErr = mInterpreter->NewErrorInfo();
+                        if (pErr) {
+                            tsnprintf(pErr, MAX_ERROR_INFO_CAPACITY, "Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d", data.GetLine());
+                        }
+                    }
+                    else {
+                        //if(cond)`exp; => if(cond){exp;}
+                        //while(cond)`exp; => while(cond){exp;}
+                        //loop(ct)`exp; => loop(ct){exp;}
+                        //looplist(list)`exp; => loop(list){exp;}
+                        //foreach(v1,v2,...)`exp; => foreach(v1,v2,...){exp;}
+                        FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
+                        newCall->SetNameValue(Value(&fd));
+                        newCall->SetStatementParamClass();
+                        newCall->AddParam(param1);
 
-                    newCall->GetNameValue().SetLine(data.GetLine());
-                    return *newCall;
+                        newCall->GetNameValue().SetLine(data.GetLine());
+                        return *newCall;
+                    }
+                }
+                else {
+                    if (mInterpreter->IsDebugInfoEnable()) {
+                        PRINT_FUNCTION_SCRIPT_DEBUG_INFO("Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d\n", data.GetLine());
+                    }
+                    char* pErr = mInterpreter->NewErrorInfo();
+                    if (pErr) {
+                        tsnprintf(pErr, MAX_ERROR_INFO_CAPACITY, "Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses, line %d", data.GetLine());
+                    }
                 }
             }
             return data;

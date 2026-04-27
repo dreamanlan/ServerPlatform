@@ -48,8 +48,8 @@ public:
                     m_Script.Parse(pParse);
                     if (interpreter.HasError()) {
                         for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
+                            interpreter.PrintErrorInfo(ix);
                             tsnprintf(logMsg, sizeof(logMsg), "%s\n", interpreter.GetErrorInfo(ix));
-                            console_writer::ConsolePrintf("%s", logMsg);
                             WriteString(logFilePath, logMsg);
                         }
                         interpreter.Reset();

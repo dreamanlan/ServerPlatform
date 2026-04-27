@@ -1,6 +1,6 @@
 #include "ScriptThread.h"
 #include "CommonScriptApi.h"
-#include "../Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 extern int g_IsRun;
 ScriptThread* g_pScriptThread = NULL;
@@ -219,7 +219,7 @@ void ScriptThread::run(void)
         unsigned int t2 = MyTimeGetTime();
         if (interpreter.HasError()) {
             for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
-                console_writer::ConsolePrintf("%s\n", interpreter.GetErrorInfo(ix));
+                interpreter.PrintErrorInfo(ix);
             }
             interpreter.Reset();
             console_writer::ConsolePrintf("Interpreter has already reset !\n");

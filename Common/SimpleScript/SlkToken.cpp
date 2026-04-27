@@ -6,7 +6,7 @@ SlkToken.cpp
 #include "SlkParse.h"
 #include "tsnprintf.h"
 #include "ParserFineTuneHelper.h"
-#include "../Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 //mIterator and mErrorInfo are passed in by the reference parameters of the constructor and will not be empty.
 //So it no longer checks whether it is empty when using it.

@@ -8,7 +8,7 @@
 #include "MaintenanceScript.h"
 #include "ScriptThread.h"
 #include "Communication/SessionManager.h"
-#include "../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 using namespace net_base;
 

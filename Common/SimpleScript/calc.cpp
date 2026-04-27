@@ -4,7 +4,8 @@ calc.cpp
 
 ******************************************************************************/
 #include "calc.h"
-#include "../Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
+#include "Thread.h"
 
 #if defined(__LINUX__)
 #include <ctype.h>
@@ -5574,6 +5575,20 @@ namespace FunctionScript
         if (0 != m_StackValuePool) {
             delete[] m_StackValuePool;
             m_StackValuePool = 0;
+        }
+    }
+
+    void Interpreter::PrintErrorInfo(int index) const
+    {
+        unsigned long tid = GetCurrentThreadIdPortable();
+        const char* pErr = GetErrorInfo(index);
+        if (pErr) {
+            if (strstr(pErr, "OP_TOKEN_0")) {
+                console_writer::ConsolePrintf("[%X]:Compound statements within an expression cannot be abbreviated to the brace-less form, return statements must be enclosed in parentheses (%s)\n", static_cast<unsigned int>(tid), pErr);
+            }
+            else {
+                console_writer::ConsolePrintf("[%X]:%s\n", static_cast<unsigned int>(tid), pErr);
+            }
         }
     }
 

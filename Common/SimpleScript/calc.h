@@ -46,7 +46,7 @@ namespace FunctionScript
 
     enum
     {
-        MAX_ERROR_INFO_CAPACITY = 256,
+        MAX_ERROR_INFO_CAPACITY = 1024,
         MAX_RECORD_ERROR_NUM = 16,
         MAX_TOKEN_NAME_SIZE = 32,
         MAX_NUMBER_STRING_SIZE = 32,
@@ -755,12 +755,12 @@ namespace FunctionScript
         virtual const char* GetId() const override { return ""; }
         virtual int GetIdType() const override { return Value::TYPE_IDENTIFIER; }
         virtual int GetLine() const override { return 0; }
-        virtual void PrepareRuntimeObject(bool isArgument) override {}
+        virtual void PrepareRuntimeObject(bool isArgument) override { (void)isArgument; }
         virtual const Value& GetRuntimeObject()const override
         {
             return Value::GetInvalidValueRef();
         }
-        virtual void PrepareGeneralRuntimeObject(bool isArgument) override {}
+        virtual void PrepareGeneralRuntimeObject(bool isArgument) override { (void)isArgument; }
     private:
         NullSyntax(const NullSyntax&) = delete;
         NullSyntax& operator=(const NullSyntax&) = delete;
@@ -2098,6 +2098,7 @@ namespace FunctionScript
         int GetErrorNum() { return m_ErrorAndStringBuffer.GetErrorNum(); }
         const char* GetErrorInfo(int index) const { return m_ErrorAndStringBuffer.GetErrorInfo(index); }
         char* NewErrorInfo() { return m_ErrorAndStringBuffer.NewErrorInfo(); }
+        void PrintErrorInfo(int index) const;
     public:
         ErrorAndStringBuffer& GetErrorAndStringBuffer() { return m_ErrorAndStringBuffer; }
         const ErrorAndStringBuffer& GetErrorAndStringBuffer()const { return m_ErrorAndStringBuffer; }

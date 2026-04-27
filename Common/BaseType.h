@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <signal.h>
+#include <sys/syscall.h>
 #include <sys/ioctl.h>
 #include <sys/poll.h>
 #include <sys/types.h>

@@ -6,7 +6,7 @@
 #include <time.h>
 // mine
 #include "util.h"
-#include "../Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 namespace net_base {
     static LogHandler g_log_handler = 0;

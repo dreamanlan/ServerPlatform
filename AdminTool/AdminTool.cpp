@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ScriptThread.h"
 #include "SourceCodeScript.h"
-#include "../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 #if defined(__WINDOWS__)
 #include <conio.h>
@@ -722,7 +722,7 @@ int main(int argc, char* argv[])
         unsigned int t2 = MyTimeGetTime();
         if (interpreter.HasError()) {
             for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix) {
-                console_writer::ConsolePrintf("%s\n", interpreter.GetErrorInfo(ix));
+                interpreter.PrintErrorInfo(ix);
             }
             interpreter.Reset();
             console_writer::ConsolePrintf("Interpreter has already reset !\n");

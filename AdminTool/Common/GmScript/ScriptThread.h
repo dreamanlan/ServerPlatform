@@ -4,7 +4,7 @@
 #include "Type.h"
 #include "Queue.h"
 #include "ConfigScript/CommonScriptApi.h"
-#include "../../../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 #include <event2/event.h>
 #include <event2/thread.h>
 #include "connector.h"

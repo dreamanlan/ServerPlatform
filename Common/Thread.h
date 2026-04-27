@@ -42,6 +42,31 @@ private:
 
 };
 
+#if defined(_WIN32)
+inline unsigned long GetCurrentThreadIdPortable()
+{
+    return (unsigned long)::GetCurrentThreadId();
+}
+#elif defined(__APPLE__)
+inline unsigned long GetCurrentThreadIdPortable()
+{
+    uint64_t tid = 0;
+    pthread_threadid_np(NULL, &tid); // macOS-specific, returns kernel TID
+    return (unsigned long)tid;
+}
+#elif defined(__linux__)
+inline unsigned long GetCurrentThreadIdPortable()
+{
+    return (unsigned long)syscall(SYS_gettid);
+}
+// glibc >= 2.30 has gettid() directly; older needs syscall.
+#else
+inline unsigned long GetCurrentThreadIdPortable()
+{
+    return (unsigned long)pthread_self();
+}
+#endif
+
 extern unsigned int g_CreateThreadCount;
 extern unsigned int g_QuitThreadCount;
 

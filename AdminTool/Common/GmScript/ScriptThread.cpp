@@ -1,5 +1,5 @@
 #include "ScriptThread.h"
-#include "../../../Common/Encoding/ConsoleWriter.h"
+#include "ConsoleWriter.h"
 
 int CreateStreamPacketObj(FunctionScript::Value& retValue, Interpreter& interpreter, SimpleClient& client, BinaryStream& stream)
 {
@@ -315,7 +315,7 @@ void ScriptThread::run()
     {
       for (int ix = 0; ix < interpreter.GetErrorNum(); ++ix)
       {
-        console_writer::ConsolePrintf("[%X]:%s\n", (unsigned int)getTID(), interpreter.GetErrorInfo(ix));
+          interpreter.PrintErrorInfo(ix);
       }
       interpreter.Reset();
       console_writer::ConsolePrintf("[%X]:Interpreter has already reset !\n", (unsigned int)getTID());

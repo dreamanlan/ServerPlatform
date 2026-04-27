@@ -17,7 +17,7 @@ short SlkError::mismatch(short terminal, short token, SlkToken& tokens)
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
-            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] expecting '%s' but found '%s' \n",
+            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] expecting '%s' but found '%s'",
                 tokens.getLineNumber(),
                 tokens.getLastToken(),
                 tokens.getCurToken(),
@@ -33,7 +33,7 @@ short SlkError::no_entry(short productionNumber, short nonterminal, short token,
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
-            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax error: skipping input '%s' \n",
+            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax error: skipping input '%s'",
                 tokens.getLineNumber(),
                 tokens.getLastToken(),
                 tokens.getCurToken(),
@@ -52,7 +52,7 @@ void SlkError::input_left(SlkToken& tokens)
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
-            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax completion, skipping left . \n",
+            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] syntax completion, skipping left",
                 tokens.getLineNumber(),
                 tokens.getLastToken(),
                 tokens.getCurToken());
@@ -64,7 +64,7 @@ void SlkError::message(const char* msg, SlkToken& tokens)
     if (mErrorBuffer) {
         char* p = mErrorBuffer->NewErrorInfo();
         if (p)
-            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] %s . \n",
+            tsnprintf(p, MAX_ERROR_INFO_CAPACITY, "[line:%d last:%s cur:%s] %s",
                 tokens.getLineNumber(),
                 tokens.getLastToken(),
                 tokens.getCurToken(),
