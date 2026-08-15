@@ -20,7 +20,7 @@ ParserFineTuneHelper::ParserFineTuneHelper() :
         { "elif", PAIR_TAG_ELIF },
         { "while", PAIR_TAG_WHILE },
         { "for", PAIR_TAG_FOR },
-        { "foreach", PAIR_TAG_FOREACH },
+        { "foreachvalue", PAIR_TAG_FOREACH },
         { "loop", PAIR_TAG_LOOP },
         { "looplist", PAIR_TAG_LOOPLIST }
 },
@@ -28,7 +28,7 @@ m_FirstLastKeyOfCompoundStatements{
       { "if", "else" },
       { "while", "while" },
       { "for", "for" },
-      { "foreach", "foreach" },
+      { "foreachvalue", "foreachvalue" },
       { "loop", "loop" },
       { "loopi", "loopi" },
       { "loopd", "loopd" },
@@ -57,7 +57,7 @@ m_SuccessorsOfCompoundStatements{
         "for", {}
     },
     {
-        "foreach", {}
+        "foreachvalue", {}
     },
     {
         "loop", {}
@@ -79,7 +79,7 @@ m_SuccessorsOfCompoundStatements{
     }
 },
 m_CompoundStatements{
-        "if", "while", "for", "foreach", "loop", "looplist", "struct", "literalarray", "literalobject", "function"
+        "if", "while", "for", "foreachvalue", "loop", "looplist", "struct", "literalarray", "literalobject", "function"
 }
 {
 }

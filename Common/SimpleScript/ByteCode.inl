@@ -927,7 +927,7 @@ namespace FunctionScript
                         //while(cond)`exp; => while(cond){exp;}
                         //loop(ct)`exp; => loop(ct){exp;}
                         //looplist(list)`exp; => loop(list){exp;}
-                        //foreach(v1,v2,...)`exp; => foreach(v1,v2,...){exp;}
+                        //foreachvalue(v1,v2,...)`exp; => foreachvalue(v1,v2,...){exp;}
                         FunctionData* newCall = mInterpreter->AddNewFunctionComponent();
                         newCall->SetNameValue(Value(&fd));
                         newCall->SetStatementParamClass();

@@ -1952,9 +1952,9 @@ namespace FunctionScript
         };
         class ForStatementFactory;
 
-        class ForEachStatement : public StatementApi
+        class ForEachValueStatement : public StatementApi
         {
-            friend class ForEachStatementFactory;
+            friend class ForEachValueStatementFactory;
         public:
             virtual ExecuteResultEnum Execute(Value* pRetValue)const
             {
@@ -1989,10 +1989,10 @@ namespace FunctionScript
                 return EXECUTE_RESULT_NORMAL;
             }
         public:
-            explicit ForEachStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Exps(NULL), m_ExpNum(0), m_IterIndexType(Value::TYPE_INVALID), m_IterIndexKey(-1), m_IterIndexVal(-1), m_Statements(NULL)
+            explicit ForEachValueStatement(Interpreter& interpreter) :StatementApi(interpreter), m_Exps(NULL), m_ExpNum(0), m_IterIndexType(Value::TYPE_INVALID), m_IterIndexKey(-1), m_IterIndexVal(-1), m_Statements(NULL)
             {
             }
-            virtual ~ForEachStatement()
+            virtual ~ForEachValueStatement()
             {
                 if (m_Exps) {
                     delete[] m_Exps;
@@ -2015,7 +2015,7 @@ namespace FunctionScript
             int m_IterIndexVal;
             RuntimeStatementBlock* m_Statements;
         };
-        class ForEachStatementFactory : public StatementApiFactory
+        class ForEachValueStatementFactory : public StatementApiFactory
         {
         public:
             virtual int IsMatch(const ISyntaxComponent& statement)const
@@ -2032,7 +2032,7 @@ namespace FunctionScript
             {
                 statement.PrepareGeneralRuntimeObject(false);
                 FunctionData* pFunc = static_cast<FunctionData*>(&statement);
-                ForEachStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForEachStatement>();
+                ForEachValueStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ForEachValueStatement>();
                 if (NULL != pApi) {
                     const FunctionData* pLoFunc = pFunc->GetLowerOrderFunction();
                     pApi->m_ExpNum = pLoFunc->GetParamNum();
@@ -3407,7 +3407,7 @@ namespace FunctionScript
         //
         RegisterInnerStatementApi("for", new ForStatementFactory());
         RegisterInnerStatementApi("while", new WhileStatementFactory());
-        RegisterInnerStatementApi("foreach", new ForEachStatementFactory());
+        RegisterInnerStatementApi("foreachvalue", new ForEachValueStatementFactory());
         RegisterInnerStatementApi("loop", new LoopStatementFactory());
         RegisterInnerStatementApi("looplist", new LoopListStatementFactory());
         RegisterInnerStatementApi("if", new IfElseStatementFactory());
