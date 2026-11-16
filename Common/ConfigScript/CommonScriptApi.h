@@ -523,15 +523,15 @@ protected:
             return CUSTOM_MEMBER_INDEX_LOAD;
         else if (strcmp(name, "unload") == 0)
             return CUSTOM_MEMBER_INDEX_UNLOAD;
-        else if (strcmp(name, "getInfoCount") == 0)
+        else if (strcmp(name, "get_info_count") == 0)
             return CUSTOM_MEMBER_INDEX_GETINFOCOUNT;
-        else if (strcmp(name, "getSection") == 0)
+        else if (strcmp(name, "get_section") == 0)
             return CUSTOM_MEMBER_INDEX_GETSECTION;
-        else if (strcmp(name, "getKey") == 0)
+        else if (strcmp(name, "get_key") == 0)
             return CUSTOM_MEMBER_INDEX_GETKEY;
-        else if (strcmp(name, "getValue") == 0)
+        else if (strcmp(name, "get_value") == 0)
             return CUSTOM_MEMBER_INDEX_GETVALUE;
-        else if (strcmp(name, "findValue") == 0)
+        else if (strcmp(name, "find_value") == 0)
             return CUSTOM_MEMBER_INDEX_FINDVALUE;
         else
             return -1;
@@ -941,13 +941,13 @@ protected:
             return CUSTOM_MEMBER_INDEX_LOAD;
         else if (strcmp(name, "unload") == 0)
             return CUSTOM_MEMBER_INDEX_UNLOAD;
-        else if (strcmp(name, "getRowCount") == 0)
+        else if (strcmp(name, "get_row_count") == 0)
             return CUSTOM_MEMBER_INDEX_GETROWCOUNT;
-        else if (strcmp(name, "getColumnCount") == 0)
+        else if (strcmp(name, "get_column_count") == 0)
             return CUSTOM_MEMBER_INDEX_GETCOLUMNCOUNT;
-        else if (strcmp(name, "getCell") == 0)
+        else if (strcmp(name, "get_cell") == 0)
             return CUSTOM_MEMBER_INDEX_GETCELL;
-        else if (strcmp(name, "findRow") == 0)
+        else if (strcmp(name, "find_row") == 0)
             return CUSTOM_MEMBER_INDEX_FINDROW;
         else
             return -1;
@@ -1161,37 +1161,37 @@ protected:
             return CUSTOM_MEMBER_INDEX_LOAD;
         else if (strcmp(name, "unload") == 0)
             return CUSTOM_MEMBER_INDEX_UNLOAD;
-        else if (strcmp(name, "getRowCount") == 0)
+        else if (strcmp(name, "get_row_count") == 0)
             return CUSTOM_MEMBER_INDEX_GETROWCOUNT;
-        else if (strcmp(name, "getColumnCount") == 0)
+        else if (strcmp(name, "get_column_count") == 0)
             return CUSTOM_MEMBER_INDEX_GETCOLUMNCOUNT;
-        else if (strcmp(name, "getIP0") == 0)
+        else if (strcmp(name, "get_ip0") == 0)
             return CUSTOM_MEMBER_INDEX_GETIP0;
-        else if (strcmp(name, "getIP1") == 0)
+        else if (strcmp(name, "get_ip1") == 0)
             return CUSTOM_MEMBER_INDEX_GETIP1;
-        else if (strcmp(name, "getServerName") == 0)
+        else if (strcmp(name, "get_server_name") == 0)
             return CUSTOM_MEMBER_INDEX_GETSERVERNAME;
-        else if (strcmp(name, "getServerID") == 0)
+        else if (strcmp(name, "get_server_id") == 0)
             return CUSTOM_MEMBER_INDEX_GETSERVERID;
-        else if (strcmp(name, "getZoneID") == 0)
+        else if (strcmp(name, "get_zone_id") == 0)
             return CUSTOM_MEMBER_INDEX_GETZONEID;
-        else if (strcmp(name, "getBigworldID") == 0)
+        else if (strcmp(name, "get_bigworld_id") == 0)
             return CUSTOM_MEMBER_INDEX_GETBIGWORLDID;
-        else if (strcmp(name, "getWorldID") == 0)
+        else if (strcmp(name, "get_world_id") == 0)
             return CUSTOM_MEMBER_INDEX_GETWORLDID;
-        else if (strcmp(name, "getKeyValueNum") == 0)
+        else if (strcmp(name, "get_key_value_num") == 0)
             return CUSTOM_MEMBER_INDEX_GETKEYVALUENUM;
-        else if (strcmp(name, "getKey") == 0)
+        else if (strcmp(name, "get_key") == 0)
             return CUSTOM_MEMBER_INDEX_GETKEY;
-        else if (strcmp(name, "getValue") == 0)
+        else if (strcmp(name, "get_value") == 0)
             return CUSTOM_MEMBER_INDEX_GETVALUE;
-        else if (strcmp(name, "getValueByKey") == 0)
+        else if (strcmp(name, "get_value_by_key") == 0)
             return CUSTOM_MEMBER_INDEX_GETVALUEBYKEY;
-        else if (strcmp(name, "findByIP0") == 0)
+        else if (strcmp(name, "find_by_ip0") == 0)
             return CUSTOM_MEMBER_INDEX_FINDBYIP0;
-        else if (strcmp(name, "findByIP1") == 0)
+        else if (strcmp(name, "find_by_ip1") == 0)
             return CUSTOM_MEMBER_INDEX_FINDBYIP1;
-        else if (strcmp(name, "findByID") == 0)
+        else if (strcmp(name, "find_by_id") == 0)
             return CUSTOM_MEMBER_INDEX_FINDBYID;
         else
             return -1;
@@ -1611,9 +1611,9 @@ protected:
     {
         if (NULL == name)
             return -1;
-        else if (strcmp(name, "initMap") == 0)
+        else if (strcmp(name, "init_map") == 0)
             return CUSTOM_MEMBER_INDEX_INITMAP;
-        else if (strcmp(name, "getNum") == 0)
+        else if (strcmp(name, "get_num") == 0)
             return CUSTOM_MEMBER_INDEX_GETNUM;
         else if (strcmp(name, "find") == 0)
             return CUSTOM_MEMBER_INDEX_FIND;
@@ -1621,9 +1621,9 @@ protected:
             return CUSTOM_MEMBER_INDEX_INSERT;
         else if (strcmp(name, "erase") == 0)
             return CUSTOM_MEMBER_INDEX_ERASE;
-        else if (strcmp(name, "clearMap") == 0)
+        else if (strcmp(name, "clear_map") == 0)
             return CUSTOM_MEMBER_INDEX_CLEARMAP;
-        else if (strcmp(name, "listMap") == 0)
+        else if (strcmp(name, "list_map") == 0)
             return CUSTOM_MEMBER_INDEX_LISTMAP;
         else
             return -1;
@@ -1919,7 +1919,7 @@ public:
         if (0 != m_pInterpreter && 0 != m_pScpObj) {
             Value params[] = { Value(doc.Value()) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_begin_document"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -1931,7 +1931,7 @@ public:
         if (0 != m_pInterpreter && 0 != m_pScpObj) {
             Value params[] = { Value(doc.Value()) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndDocument"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_end_document"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 1, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -1957,7 +1957,7 @@ public:
             {
                 Value params[] = { Value(name), text, parent };
                 Value retVal;
-                m_pInterpreter->CallMember(*m_pScpObj, Value("onBeginElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
+                m_pInterpreter->CallMember(*m_pScpObj, Value("on_begin_element"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
                 if (retVal.IsInt())
                     ret = retVal.GetInt();
             }
@@ -1965,7 +1965,7 @@ public:
             while (NULL != pAttr) {
                 Value params[] = { Value(name), Value(pAttr->Name()), Value(pAttr->Value()), text, parent };
                 Value retVal;
-                m_pInterpreter->CallMember(*m_pScpObj, Value("onAttribute"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 5, &retVal);
+                m_pInterpreter->CallMember(*m_pScpObj, Value("on_attribute"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 5, &retVal);
                 pAttr = pAttr->Next();
             }
         }
@@ -1983,7 +1983,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(element.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onEndElement"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_end_element"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2001,7 +2001,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(declaration.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onDeclaration"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_declaration"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2019,7 +2019,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(text.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onText"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_text"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2037,7 +2037,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(comment.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onComment"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_comment"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }
@@ -2055,7 +2055,7 @@ public:
                 parent.SetWeakRefConstString("");
             Value params[] = { Value(unknown.Value()), parent };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pScpObj, Value("onUnknown"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
+            m_pInterpreter->CallMember(*m_pScpObj, Value("on_unknown"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 2, &retVal);
             if (retVal.IsInt())
                 ret = retVal.GetInt();
         }

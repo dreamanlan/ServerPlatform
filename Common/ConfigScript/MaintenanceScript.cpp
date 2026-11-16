@@ -121,19 +121,19 @@ public:
         interpreter.RegisterPredefinedValue("sleep", FunctionScript::Value(&m_SleepApi));
 
         interpreter.RegisterPredefinedValue("sprintf", FunctionScript::Value(&m_TestPrintfApi));
-        interpreter.RegisterPredefinedValue("writeConsole", FunctionScript::Value(&m_WriteConsoleApi));
-        interpreter.RegisterPredefinedValue("getMilliseconds", FunctionScript::Value(&m_GetMillisecondsApi));
+        interpreter.RegisterPredefinedValue("write_console", FunctionScript::Value(&m_WriteConsoleApi));
+        interpreter.RegisterPredefinedValue("get_milliseconds", FunctionScript::Value(&m_GetMillisecondsApi));
 
-        interpreter.RegisterPredefinedValue("stringMap", FunctionScript::Value(&m_StrMapObj));
-        interpreter.RegisterPredefinedValue("getLogFileId", FunctionScript::Value(&m_GetLogFileIdApi));
-        interpreter.RegisterPredefinedValue("getTimeString", FunctionScript::Value(&m_GetTimeStringApi));
-        interpreter.RegisterPredefinedValue("readString", FunctionScript::Value(&m_ReadStringApi));
-        interpreter.RegisterPredefinedValue("writeString", FunctionScript::Value(&m_WriteStringApi));
-        interpreter.RegisterPredefinedValue("createIniReader", FunctionScript::Value(&m_CreateIniReaderApi));
-        interpreter.RegisterPredefinedValue("createTxtTable", FunctionScript::Value(&m_CreateTxtTableApi));
-        interpreter.RegisterPredefinedValue("createConfigTable", FunctionScript::Value(&m_CreateConfigTableApi));
-        interpreter.RegisterPredefinedValue("createXmlVisitor", FunctionScript::Value(&m_CreateXmlVisitorApi));
-        interpreter.RegisterPredefinedValue("serverType", FunctionScript::Value(m_ServerType));
+        interpreter.RegisterPredefinedValue("string_map", FunctionScript::Value(&m_StrMapObj));
+        interpreter.RegisterPredefinedValue("get_log_file_id", FunctionScript::Value(&m_GetLogFileIdApi));
+        interpreter.RegisterPredefinedValue("get_time_string", FunctionScript::Value(&m_GetTimeStringApi));
+        interpreter.RegisterPredefinedValue("read_string", FunctionScript::Value(&m_ReadStringApi));
+        interpreter.RegisterPredefinedValue("write_string", FunctionScript::Value(&m_WriteStringApi));
+        interpreter.RegisterPredefinedValue("create_ini_reader", FunctionScript::Value(&m_CreateIniReaderApi));
+        interpreter.RegisterPredefinedValue("create_txt_table", FunctionScript::Value(&m_CreateTxtTableApi));
+        interpreter.RegisterPredefinedValue("create_config_table", FunctionScript::Value(&m_CreateConfigTableApi));
+        interpreter.RegisterPredefinedValue("create_xml_visitor", FunctionScript::Value(&m_CreateXmlVisitorApi));
+        interpreter.RegisterPredefinedValue("server_type", FunctionScript::Value(m_ServerType));
         interpreter.RegisterPredefinedValue("argc", FunctionScript::Value(m_Argc));
         for (int i = 0; i < m_Argc; ++i) {
             int len = static_cast<int>(strlen(argv[i]));

@@ -653,7 +653,7 @@ int main(int argc, char* argv[])
     g_ScriptThreadNum = 0;
 
     SharedStringMapObj mapObj(interpreter);
-    interpreter.RegisterPredefinedValue("stringMap", FunctionScript::Value(&mapObj));
+    interpreter.RegisterPredefinedValue("string_map", FunctionScript::Value(&mapObj));
 
     SleepApi sleepApi(interpreter);
     interpreter.RegisterPredefinedValue("sleep", FunctionScript::Value(&sleepApi));
@@ -665,25 +665,25 @@ int main(int argc, char* argv[])
     interpreter.RegisterPredefinedValue("argc", FunctionScript::Value(g_Argc));
 
     WriteConsoleApi writeConsoleApi(interpreter);
-    interpreter.RegisterPredefinedValue("writeConsole", FunctionScript::Value(&writeConsoleApi));
+    interpreter.RegisterPredefinedValue("write_console", FunctionScript::Value(&writeConsoleApi));
     GetLogFileIdApi getLogFileIdApi(interpreter);
-    interpreter.RegisterPredefinedValue("getLogFileId", FunctionScript::Value(&getLogFileIdApi));
+    interpreter.RegisterPredefinedValue("get_log_file_id", FunctionScript::Value(&getLogFileIdApi));
     GetTimeStringApi getTimeStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("getTimeString", FunctionScript::Value(&getTimeStringApi));
+    interpreter.RegisterPredefinedValue("get_time_string", FunctionScript::Value(&getTimeStringApi));
     GetMillisecondsApi getMillisecondsApi(interpreter);
-    interpreter.RegisterPredefinedValue("getMilliseconds", FunctionScript::Value(&getMillisecondsApi));
+    interpreter.RegisterPredefinedValue("get_milliseconds", FunctionScript::Value(&getMillisecondsApi));
     ReadStringApi readStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("readString", FunctionScript::Value(&readStringApi));
+    interpreter.RegisterPredefinedValue("read_string", FunctionScript::Value(&readStringApi));
     WriteStringApi writeStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("writeString", FunctionScript::Value(&writeStringApi));
+    interpreter.RegisterPredefinedValue("write_string", FunctionScript::Value(&writeStringApi));
     CreateIniReaderApi createIniReaderApi(interpreter);
-    interpreter.RegisterPredefinedValue("createIniReader", FunctionScript::Value(&createIniReaderApi));
+    interpreter.RegisterPredefinedValue("create_ini_reader", FunctionScript::Value(&createIniReaderApi));
     CreateTxtTableApi createTxtTableApi(interpreter);
-    interpreter.RegisterPredefinedValue("createTxtTable", FunctionScript::Value(&createTxtTableApi));
+    interpreter.RegisterPredefinedValue("create_txt_table", FunctionScript::Value(&createTxtTableApi));
     CreateConfigTableApi createConfigTableApi(interpreter);
-    interpreter.RegisterPredefinedValue("createConfigTable", FunctionScript::Value(&createConfigTableApi));
+    interpreter.RegisterPredefinedValue("create_config_table", FunctionScript::Value(&createConfigTableApi));
     CreateXmlVisitorApi createXmlVisitorApi(interpreter);
-    interpreter.RegisterPredefinedValue("createXmlVisitor", FunctionScript::Value(&createXmlVisitorApi));
+    interpreter.RegisterPredefinedValue("create_xml_visitor", FunctionScript::Value(&createXmlVisitorApi));
 
     SimpleClientObj clientObj(interpreter);
     RunFileApi runfileApi(interpreter, source);
@@ -699,17 +699,17 @@ int main(int argc, char* argv[])
     PopMessageMT2MApi popMessageApi(interpreter);
 
     interpreter.RegisterPredefinedValue("client", FunctionScript::Value(&clientObj));
-    interpreter.RegisterPredefinedValue("runfile", FunctionScript::Value(&runfileApi));
-    interpreter.RegisterPredefinedValue("runscript", FunctionScript::Value(&runscriptApi));
+    interpreter.RegisterPredefinedValue("run_file", FunctionScript::Value(&runfileApi));
+    interpreter.RegisterPredefinedValue("run_script", FunctionScript::Value(&runscriptApi));
     interpreter.RegisterPredefinedValue("quit", FunctionScript::Value(&quitApi));
-    interpreter.RegisterPredefinedValue("getScriptThreadNum", FunctionScript::Value(&getScriptThreadNumApi));
-    interpreter.RegisterPredefinedValue("startScriptThread", FunctionScript::Value(&startScriptThreadApi));
-    interpreter.RegisterPredefinedValue("markWaitingQuit", FunctionScript::Value(&markWaitingQuitApi));
-    interpreter.RegisterPredefinedValue("stopScriptThread", FunctionScript::Value(&stopScriptThreadApi));
-    interpreter.RegisterPredefinedValue("isScriptThreadRunning", FunctionScript::Value(&isScriptThreadRunningApi));
-    interpreter.RegisterPredefinedValue("sendMessage", FunctionScript::Value(&sendMessageApi));
-    interpreter.RegisterPredefinedValue("pushMessage", FunctionScript::Value(&pushMessageApi));
-    interpreter.RegisterPredefinedValue("popMessage", FunctionScript::Value(&popMessageApi));
+    interpreter.RegisterPredefinedValue("get_script_thread_num", FunctionScript::Value(&getScriptThreadNumApi));
+    interpreter.RegisterPredefinedValue("start_script_thread", FunctionScript::Value(&startScriptThreadApi));
+    interpreter.RegisterPredefinedValue("mark_waiting_quit", FunctionScript::Value(&markWaitingQuitApi));
+    interpreter.RegisterPredefinedValue("stop_script_thread", FunctionScript::Value(&stopScriptThreadApi));
+    interpreter.RegisterPredefinedValue("is_script_thread_running", FunctionScript::Value(&isScriptThreadRunningApi));
+    interpreter.RegisterPredefinedValue("send_message", FunctionScript::Value(&sendMessageApi));
+    interpreter.RegisterPredefinedValue("push_message", FunctionScript::Value(&pushMessageApi));
+    interpreter.RegisterPredefinedValue("pop_message", FunctionScript::Value(&popMessageApi));
 
     int lastValue = 0;
 

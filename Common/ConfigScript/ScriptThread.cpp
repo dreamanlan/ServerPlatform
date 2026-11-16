@@ -53,7 +53,7 @@ protected:
                     strcmp(p, "disabledebug") == 0) {
                     ret = FALSE;
                 }
-                else if (p == strstr(p, "runfile")) {
+                else if (p == strstr(p, "run_file")) {
                     const char* pFile = p + 8;
                     FILE* fp = fopen(pFile, "r");
                     if (NULL != fp) {
@@ -171,7 +171,7 @@ void ScriptThread::run(void)
     Interpreter& interpreter = script.GetInterpreter();
     interpreter.SetExternRunFlagRef(m_RunFlag);
 
-    interpreter.RegisterPredefinedValue("serverType", FunctionScript::Value(g_ServerType));
+    interpreter.RegisterPredefinedValue("server_type", FunctionScript::Value(g_ServerType));
     ArgvApi argvApi(interpreter, g_Argc, g_Argv);
     interpreter.RegisterPredefinedValue("argv", FunctionScript::Value(&argvApi));
     interpreter.RegisterPredefinedValue("argc", FunctionScript::Value(g_Argc));
@@ -181,33 +181,33 @@ void ScriptThread::run(void)
     TestPrintfApi testPrintfApi(interpreter);
     interpreter.RegisterPredefinedValue("sprintf", FunctionScript::Value(&testPrintfApi));
     ReturnCommandToLogicApi returnCommandToLogicApi(interpreter);
-    interpreter.RegisterPredefinedValue("returnCommandToLogic", FunctionScript::Value(&returnCommandToLogicApi));
+    interpreter.RegisterPredefinedValue("return_command_to_logic", FunctionScript::Value(&returnCommandToLogicApi));
     QuitApi quitApi(interpreter);
     interpreter.RegisterPredefinedValue("quit", FunctionScript::Value(&quitApi));
 
     WriteConsoleApi writeConsoleApi(interpreter);
-    interpreter.RegisterPredefinedValue("writeConsole", FunctionScript::Value(&writeConsoleApi));
+    interpreter.RegisterPredefinedValue("write_console", FunctionScript::Value(&writeConsoleApi));
     GetMillisecondsApi getMillisecondsApi(interpreter);
-    interpreter.RegisterPredefinedValue("getMilliseconds", FunctionScript::Value(&getMillisecondsApi));
+    interpreter.RegisterPredefinedValue("get_milliseconds", FunctionScript::Value(&getMillisecondsApi));
 
     StringMapObj strMapObj(interpreter);
-    interpreter.RegisterPredefinedValue("stringMap", FunctionScript::Value(&strMapObj));
+    interpreter.RegisterPredefinedValue("string_map", FunctionScript::Value(&strMapObj));
     GetLogFileIdApi getLogFileIdApi(interpreter);
-    interpreter.RegisterPredefinedValue("getLogFileId", FunctionScript::Value(&getLogFileIdApi));
+    interpreter.RegisterPredefinedValue("get_log_file_id", FunctionScript::Value(&getLogFileIdApi));
     GetTimeStringApi getTimeStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("getTimeString", FunctionScript::Value(&getTimeStringApi));
+    interpreter.RegisterPredefinedValue("get_time_string", FunctionScript::Value(&getTimeStringApi));
     ReadStringApi readStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("readString", FunctionScript::Value(&readStringApi));
+    interpreter.RegisterPredefinedValue("read_string", FunctionScript::Value(&readStringApi));
     WriteStringApi writeStringApi(interpreter);
-    interpreter.RegisterPredefinedValue("writeString", FunctionScript::Value(&writeStringApi));
+    interpreter.RegisterPredefinedValue("write_string", FunctionScript::Value(&writeStringApi));
     CreateIniReaderApi createIniReaderApi(interpreter);
-    interpreter.RegisterPredefinedValue("createIniReader", FunctionScript::Value(&createIniReaderApi));
+    interpreter.RegisterPredefinedValue("create_ini_reader", FunctionScript::Value(&createIniReaderApi));
     CreateTxtTableApi createTxtTableApi(interpreter);
-    interpreter.RegisterPredefinedValue("createTxtTable", FunctionScript::Value(&createTxtTableApi));
+    interpreter.RegisterPredefinedValue("create_txt_table", FunctionScript::Value(&createTxtTableApi));
     CreateConfigTableApi createConfigTableApi(interpreter);
-    interpreter.RegisterPredefinedValue("createConfigTable", FunctionScript::Value(&createConfigTableApi));
+    interpreter.RegisterPredefinedValue("create_config_table", FunctionScript::Value(&createConfigTableApi));
     CreateXmlVisitorApi createXmlVisitorApi(interpreter);
-    interpreter.RegisterPredefinedValue("createXmlVisitor", FunctionScript::Value(&createXmlVisitorApi));
+    interpreter.RegisterPredefinedValue("create_xml_visitor", FunctionScript::Value(&createXmlVisitorApi));
 
     InteractScriptSource source(m_RunFlag);
     for (; m_IsContinue;) {

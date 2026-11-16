@@ -409,7 +409,7 @@ private:
             nameVal.InitString(name);
             Value params[] = { Value(addOrUpdate ? 1 : 0), nameVal, Value(handle) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onNameHandleChanged"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("on_name_handle_changed"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
         }
     }
     void HandleMessage(unsigned int seq, uint64_t src, uint64_t dest, const char* data, int len)
@@ -421,7 +421,7 @@ private:
             CreateStreamPacketObj(packet, *m_pInterpreter, *this, *pStream);
             Value params[] = { Value((int)seq), Value(src), Value(dest), packet };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessage"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("on_message"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
         }
     }
     void HandleMessageResult(unsigned int seq, uint64_t src, uint64_t dest, bool result)
@@ -429,7 +429,7 @@ private:
         if (NULL != m_pInterpreter && NULL != m_pCallbackObj) {
             Value params[] = { Value((int)seq), Value(src), Value(dest), Value(result ? 1 : 0) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onMessageResult"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("on_message_result"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 4, &retVal);
         }
     }
     void HandleCommand(uint64_t src, uint64_t dest, const char* result)
@@ -437,7 +437,7 @@ private:
         if (NULL != m_pInterpreter && NULL != m_pCallbackObj) {
             Value params[] = { Value(src), Value(dest), Value(result) };
             Value retVal;
-            m_pInterpreter->CallMember(*m_pCallbackObj, Value("onCommand"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
+            m_pInterpreter->CallMember(*m_pCallbackObj, Value("on_command"), FALSE, FunctionData::PARAM_CLASS_PARENTHESES, params, 3, &retVal);
         }
     }
 private:
@@ -531,27 +531,27 @@ protected:
     {
         if (NULL == name)
             return -1;
-        else if (strcmp(name, "setCallback") == 0)
+        else if (strcmp(name, "set_callback") == 0)
             return CUSTOM_MEMBER_INDEX_SETCALLBACK;
-        else if (strcmp(name, "setConnectInfo") == 0)
+        else if (strcmp(name, "set_connect_info") == 0)
             return CUSTOM_MEMBER_INDEX_SETCONNECTINFO;
         else if (strcmp(name, "tick") == 0)
             return CUSTOM_MEMBER_INDEX_TICK;
-        else if (strcmp(name, "isConnected") == 0)
+        else if (strcmp(name, "is_connected") == 0)
             return CUSTOM_MEMBER_INDEX_IS_CONNECTED;
         else if (strcmp(name, "disconnect") == 0)
             return CUSTOM_MEMBER_INDEX_DISCONNECT;
-        else if (strcmp(name, "myHanle") == 0)
+        else if (strcmp(name, "my_handle") == 0)
             return CUSTOM_MEMBER_INDEX_MYHANDLE;
-        else if (strcmp(name, "targetHandle") == 0)
+        else if (strcmp(name, "target_handle") == 0)
             return CUSTOM_MEMBER_INDEX_TARGETHANLE;
-        else if (strcmp(name, "targetName") == 0)
+        else if (strcmp(name, "target_name") == 0)
             return CUSTOM_MEMBER_INDEX_TARGETNAME;
-        else if (strcmp(name, "createPacket") == 0)
+        else if (strcmp(name, "create_packet") == 0)
             return CUSTOM_MEMBER_INDEX_CREATEPACKET;
-        else if (strcmp(name, "sendCommandByHandle") == 0)
+        else if (strcmp(name, "send_command_by_handle") == 0)
             return CUSTOM_MEMBER_INDEX_SENDCOMMANDBYHANDLE;
-        else if (strcmp(name, "sendCommandByName") == 0)
+        else if (strcmp(name, "send_command_by_name") == 0)
             return CUSTOM_MEMBER_INDEX_SENDCOMMANDBYANME;
         else
             return -1;
@@ -698,39 +698,39 @@ protected:
     {
         if (NULL == name)
             return -1;
-        else if (strcmp(name, "addByte") == 0)
+        else if (strcmp(name, "add_byte") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_BYTE;
-        else if (strcmp(name, "addShort") == 0)
+        else if (strcmp(name, "add_short") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_SHORT;
-        else if (strcmp(name, "addInt") == 0)
+        else if (strcmp(name, "add_int") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_INT;
-        else if (strcmp(name, "addFloat") == 0)
+        else if (strcmp(name, "add_float") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_FLOAT;
-        else if (strcmp(name, "addString") == 0)
+        else if (strcmp(name, "add_string") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_STRING;
-        else if (strcmp(name, "addFixedString") == 0)
+        else if (strcmp(name, "add_fixed_string") == 0)
             return CUSTOM_MEMBER_INDEX_ADD_FIXED_STRING;
-        else if (strcmp(name, "getByte") == 0)
+        else if (strcmp(name, "get_byte") == 0)
             return CUSTOM_MEMBER_INDEX_GET_BYTE;
-        else if (strcmp(name, "getShort") == 0)
+        else if (strcmp(name, "get_short") == 0)
             return CUSTOM_MEMBER_INDEX_GET_SHORT;
-        else if (strcmp(name, "getInt") == 0)
+        else if (strcmp(name, "get_int") == 0)
             return CUSTOM_MEMBER_INDEX_GET_INT;
-        else if (strcmp(name, "getFloat") == 0)
+        else if (strcmp(name, "get_float") == 0)
             return CUSTOM_MEMBER_INDEX_GET_FLOAT;
-        else if (strcmp(name, "getString") == 0)
+        else if (strcmp(name, "get_string") == 0)
             return CUSTOM_MEMBER_INDEX_GET_STRING;
-        else if (strcmp(name, "getFixedString") == 0)
+        else if (strcmp(name, "get_fixed_string") == 0)
             return CUSTOM_MEMBER_INDEX_GET_FIXED_STRING;
-        else if (strcmp(name, "getSize") == 0)
+        else if (strcmp(name, "get_size") == 0)
             return CUSTOM_MEMBER_INDEX_GET_SIZE;
-        else if (strcmp(name, "sendByHandle") == 0)
+        else if (strcmp(name, "send_by_handle") == 0)
             return CUSTOM_MEMBER_INDEX_SENDBYHANDLE;
-        else if (strcmp(name, "sendByName") == 0)
+        else if (strcmp(name, "send_by_name") == 0)
             return CUSTOM_MEMBER_INDEX_SENDBYNAME;
         else if (strcmp(name, "destroy") == 0)
             return CUSTOM_MEMBER_INDEX_DESTROY;
-        else if (strcmp(name, "resetCursor") == 0)
+        else if (strcmp(name, "reset_cursor") == 0)
             return CUSTOM_MEMBER_INDEX_RESET_CURSOR;
         else if (strcmp(name, "skip") == 0)
             return CUSTOM_MEMBER_INDEX_SKIP;
@@ -1143,9 +1143,9 @@ protected:
     {
         if (NULL == name)
             return -1;
-        else if (strcmp(name, "initMap") == 0)
+        else if (strcmp(name, "init_map") == 0)
             return CUSTOM_MEMBER_INDEX_INITMAP;
-        else if (strcmp(name, "getNum") == 0)
+        else if (strcmp(name, "get_num") == 0)
             return CUSTOM_MEMBER_INDEX_GETNUM;
         else if (strcmp(name, "find") == 0)
             return CUSTOM_MEMBER_INDEX_FIND;
@@ -1153,9 +1153,9 @@ protected:
             return CUSTOM_MEMBER_INDEX_INSERT;
         else if (strcmp(name, "erase") == 0)
             return CUSTOM_MEMBER_INDEX_ERASE;
-        else if (strcmp(name, "clearMap") == 0)
+        else if (strcmp(name, "clear_map") == 0)
             return CUSTOM_MEMBER_INDEX_CLEARMAP;
-        else if (strcmp(name, "listMap") == 0)
+        else if (strcmp(name, "list_map") == 0)
             return CUSTOM_MEMBER_INDEX_LISTMAP;
         else
             return -1;

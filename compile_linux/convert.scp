@@ -24,10 +24,10 @@ function(VcprojObj)
 {
   this.flag=0;
   this.confMark=0;
-  this.onAttribute=function(){
+  this.on_attribute=function(){
     if(__or($1=="None",$1=="ClCompile",$1=="ClInclude") && ($2=="Include")){
-      @s=byterep($3,"\\","/");
-      writeString(fileName,@s," ");
+      @s=byte_rep($3,"\\","/");
+      write_string(fileName,@s," ");
     };
     if(($1=="PropertyGroup") && ($2=="Condition") && ($3=="'$(Configuration)|$(Platform)'=='Debug|Win32'")){
       this.confMark=1;
@@ -36,9 +36,9 @@ function(VcprojObj)
       this.flag=1;
     };
   };
-  this.onBeginElement=function(){
+  this.on_begin_element=function(){
   };
-  this.onEndElement=function(){
+  this.on_end_element=function(){
     if($1=="PropertyGroup"){
       this.confMark=0;      
     };
@@ -46,8 +46,8 @@ function(VcprojObj)
       this.flag=0;
     };
   };
-  this.onText=function(){
-    //print("onText "+$1+" "+$2+" "+this.confMark+" "+this.flag);
+  this.on_text=function(){
+    //print("on_text "+$1+" "+$2+" "+this.confMark+" "+this.flag);
     if((1==this.confMark) && ($2=="ConfigurationType")){
       if($1=="Application"){
         prjType="bin";
@@ -60,59 +60,59 @@ function(VcprojObj)
       } else {
         @s=$1;
       };
-      @s=byterep(@s,"\\","/");
+      @s=byte_rep(@s,"\\","/");
       @s=strreplace(@s,";"," -I ");
-      writeString(fileName,@s);
+      write_string(fileName,@s);
     };
   };
 };
 
 function(main)
 {
-  @prjName=stringMap.find("argv1");
+  @prjName=string_map.find("argv1");
   if(@prjName==""){
     print("Unknown project name !!!");
     return 0;
   };
   @visitor=new(VcprojObj);
-  @vcp=createXmlVisitor(@prjName+".vcxproj");
+  @vcp=create_xml_visitor(@prjName+".vcxproj");
   system("rm -f "+fileName);
-  writeString(fileName,"include $(top_srcdir)/Makefile.common.in");
+  write_string(fileName,"include $(top_srcdir)/Makefile.common.in");
   @vcp.accept(@visitor,"PropertyGroup");
   print("prjType:"+prjType);
   if(prjType=="bin"){
     //可执行程序
     //---------------------------------------------
-    writeString(fileName,"bin_PROGRAMS="+@prjName);
+    write_string(fileName,"bin_PROGRAMS="+@prjName);
     @prjPrefix = @prjName;
-    writeString(fileName,@prjPrefix+"_INCLUDES = ","-I ");
+    write_string(fileName,@prjPrefix+"_INCLUDES = ","-I ");
     @vcp.accept(@visitor,"ItemDefinitionGroup");
     //---------------------------------------------
-    writeString(fileName,@prjPrefix+"_SOURCES ="," ");
+    write_string(fileName,@prjPrefix+"_SOURCES ="," ");
     @vcp.accept(@visitor,"ItemGroup");
-    writeString(fileName,"");
+    write_string(fileName,"");
     //---------------------------------------------
-    writeString(fileName,@prjPrefix+"_LDADD = ");
-    writeString(fileName,@prjPrefix+"_DEFINES = ");
-    writeString(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
-    writeString(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    write_string(fileName,@prjPrefix+"_LDADD = ");
+    write_string(fileName,@prjPrefix+"_DEFINES = ");
+    write_string(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    write_string(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
     //---------------------------------------------
   } else {
     //动态库
     //---------------------------------------------
-    writeString(fileName,"lib_LTLIBRARIES=lib"+@prjName+".la");
+    write_string(fileName,"lib_LTLIBRARIES=lib"+@prjName+".la");
     @prjPrefix = "lib"+@prjName+"_la";
-    writeString(fileName,@prjPrefix+"_INCLUDES = ","-I ");
+    write_string(fileName,@prjPrefix+"_INCLUDES = ","-I ");
     @vcp.accept(@visitor,"ItemDefinitionGroup");
     //---------------------------------------------
-    writeString(fileName,@prjPrefix+"_SOURCES ="," ");
+    write_string(fileName,@prjPrefix+"_SOURCES ="," ");
     @vcp.accept(@visitor,"ItemGroup");
-    writeString(fileName,"");
+    write_string(fileName,"");
     //---------------------------------------------
-    writeString(fileName,@prjPrefix+"_LIBADD = ");
-    writeString(fileName,@prjPrefix+"_DEFINES = ");
-    writeString(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
-    writeString(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    write_string(fileName,@prjPrefix+"_LIBADD = ");
+    write_string(fileName,@prjPrefix+"_DEFINES = ");
+    write_string(fileName,@prjPrefix+"_CXXFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
+    write_string(fileName,@prjPrefix+"_CFLAGS = $("+@prjPrefix+"_DEFINES) $("+@prjPrefix+"_INCLUDES)");
     //---------------------------------------------
   };
   system("cat "+fileName);

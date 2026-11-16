@@ -20,22 +20,22 @@ ParserFineTuneHelper::ParserFineTuneHelper() :
         { "elif", PAIR_TAG_ELIF },
         { "while", PAIR_TAG_WHILE },
         { "for", PAIR_TAG_FOR },
-        { "foreachvalue", PAIR_TAG_FOREACH },
+        { "for_each_value", PAIR_TAG_FOREACH },
         { "loop", PAIR_TAG_LOOP },
-        { "looplist", PAIR_TAG_LOOPLIST }
+        { "loop_list", PAIR_TAG_LOOPLIST }
 },
 m_FirstLastKeyOfCompoundStatements{
       { "if", "else" },
       { "while", "while" },
       { "for", "for" },
-      { "foreachvalue", "foreachvalue" },
+      { "for_each_value", "for_each_value" },
       { "loop", "loop" },
       { "loopi", "loopi" },
       { "loopd", "loopd" },
-      { "looplist", "looplist" },
+      { "loop_list", "loop_list" },
       { "struct", "struct" },
-      { "literalarray", "literalarray" },
-      { "literalobject", "literalobject" }
+      { "literal_array", "literal_array" },
+      { "literal_object", "literal_object" }
 },
 m_SuccessorsOfCompoundStatements{
     {
@@ -57,29 +57,29 @@ m_SuccessorsOfCompoundStatements{
         "for", {}
     },
     {
-        "foreachvalue", {}
+        "for_each_value", {}
     },
     {
         "loop", {}
     },
     {
-        "looplist", {}
+        "loop_list", {}
     },
     {
         "struct", {}
     },
     {
-        "literalarray", {}
+        "literal_array", {}
     },
     {
-        "literalobject", {}
+        "literal_object", {}
     },
     {
         "function", { "args" }
     }
 },
 m_CompoundStatements{
-        "if", "while", "for", "foreachvalue", "loop", "looplist", "struct", "literalarray", "literalobject", "function"
+        "if", "while", "for", "for_each_value", "loop", "loop_list", "struct", "literal_array", "literal_object", "function"
 }
 {
 }

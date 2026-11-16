@@ -3304,8 +3304,8 @@ namespace FunctionScript
     {
         using namespace InnerApi;
         //
-        RegisterInnerFunctionApi("setdebug", new SetDebugApi(*this));
-        RegisterInnerFunctionApi("debugbreak", new DebugBreakApi(*this));
+        RegisterInnerFunctionApi("set_debug", new SetDebugApi(*this));
+        RegisterInnerFunctionApi("debug_break", new DebugBreakApi(*this));
         RegisterInnerFunctionApi("expr", new ExprApi(*this));
         RegisterInnerFunctionApi("print", new PrintApi(*this));
         ExpressionApi* pAddOp = new AddApi(*this);
@@ -3329,11 +3329,11 @@ namespace FunctionScript
         RegisterInnerFunctionApi("__not", new NotApi(*this));
         RegisterInnerFunctionApi("__inc", new IncApi(*this));
         RegisterInnerFunctionApi("__dec", new DecApi(*this));
-        RegisterInnerFunctionApi("toint", new IntApi(*this));
-        RegisterInnerFunctionApi("tofloat", new FloatApi(*this));
-        RegisterInnerFunctionApi("tostring", new StringApi(*this));
-        RegisterInnerFunctionApi("int2hex", new Int2HexApi(*this));
-        RegisterInnerFunctionApi("hex2int", new Hex2IntApi(*this));
+        RegisterInnerFunctionApi("to_int", new IntApi(*this));
+        RegisterInnerFunctionApi("to_float", new FloatApi(*this));
+        RegisterInnerFunctionApi("to_string", new StringApi(*this));
+        RegisterInnerFunctionApi("int_2_hex", new Int2HexApi(*this));
+        RegisterInnerFunctionApi("hex_2_int", new Hex2IntApi(*this));
         RegisterInnerFunctionApi("system", new SystemApi(*this));
         ExpressionApi* pBitAndOp = new BitAndApi(*this);
         ExpressionApi* pBitOrOp = new BitOrApi(*this);
@@ -3395,21 +3395,21 @@ namespace FunctionScript
         RegisterInnerFunctionApi("strspn", new StrspnApi(*this));
         RegisterInnerFunctionApi("tolower", new TolowerApi(*this));
         RegisterInnerFunctionApi("toupper", new ToupperApi(*this));
-        RegisterInnerFunctionApi("byteat", new ByteAtApi(*this));
-        RegisterInnerFunctionApi("bytes2str", new Bytes2StrApi(*this));
-        RegisterInnerFunctionApi("byterep", new ByteRepApi(*this));
+        RegisterInnerFunctionApi("byte_at", new ByteAtApi(*this));
+        RegisterInnerFunctionApi("bytes_2_str", new Bytes2StrApi(*this));
+        RegisterInnerFunctionApi("byte_rep", new ByteRepApi(*this));
         //
         RegisterInnerFunctionApi("object", new ObjectApi(*this));
         RegisterInnerFunctionApi("new", new NewApi(*this));
         RegisterInnerFunctionApi("args", new ArgsApi(*this));
         RegisterInnerFunctionApi("arg", new ArgApi(*this));
-        RegisterInnerFunctionApi("argnum", new ArgNumApi(*this));
+        RegisterInnerFunctionApi("arg_num", new ArgNumApi(*this));
         //
         RegisterInnerStatementApi("for", new ForStatementFactory());
         RegisterInnerStatementApi("while", new WhileStatementFactory());
-        RegisterInnerStatementApi("foreachvalue", new ForEachValueStatementFactory());
+        RegisterInnerStatementApi("for_each_value", new ForEachValueStatementFactory());
         RegisterInnerStatementApi("loop", new LoopStatementFactory());
-        RegisterInnerStatementApi("looplist", new LoopListStatementFactory());
+        RegisterInnerStatementApi("loop_list", new LoopListStatementFactory());
         RegisterInnerStatementApi("if", new IfElseStatementFactory());
         RegisterInnerStatementApi("?", new CondExpStatementFactory());
         RegisterInnerStatementApi("if", new IfGotoStatementFactory());
@@ -3418,8 +3418,8 @@ namespace FunctionScript
         RegisterInnerStatementApi("break", new BreakStatementFactory());
         RegisterInnerStatementApi("continue", new ContinueStatementFactory());
         RegisterInnerStatementApi("function", new FunctionStatementFactory());
-        RegisterInnerStatementApi("literalarray", new LiteralArrayStatementFactory());
-        RegisterInnerStatementApi("literalobject", new LiteralObjectStatementFactory());
+        RegisterInnerStatementApi("literal_array", new LiteralArrayStatementFactory());
+        RegisterInnerStatementApi("literal_object", new LiteralObjectStatementFactory());
 #ifdef _GAMECLIENT_
         RegisterInnerStatementApi("struct", new StructStatementFactory());
 #endif //_GAMECLIENT_
@@ -4415,13 +4415,13 @@ namespace FunctionScript
         if (m_RuntimeObjectPrepared)
             return;
         if (!m_Name.HaveId()) {
-            //literalarray & literalobject
+            //literal_array & literal_object
             if (HaveParam() && IsBracketParamClass()) {
-                m_Name.GetValue().SetIdentifier("literalarray");
+                m_Name.GetValue().SetIdentifier("literal_array");
                 SetParenthesesParamClass();
             }
             else if (HaveStatement() && isArgument) {
-                m_Name.GetValue().SetIdentifier("literalobject");
+                m_Name.GetValue().SetIdentifier("literal_object");
                 SetParenthesesParamClass();
             }
         }
@@ -5001,7 +5001,7 @@ namespace FunctionScript
 
     StatementApiFactory* Interpreter::GetLiteralArrayApi()const
     {
-        const StatementApiFactoryList& innerList = m_InnerStatementApis.Get("literalarray");
+        const StatementApiFactoryList& innerList = m_InnerStatementApis.Get("literal_array");
         if (innerList.Size() == 1) {
             return innerList.Front();
         }
@@ -5012,7 +5012,7 @@ namespace FunctionScript
 
     StatementApiFactory* Interpreter::GetLiteralObjectApi()const
     {
-        const StatementApiFactoryList& innerList = m_InnerStatementApis.Get("literalobject");
+        const StatementApiFactoryList& innerList = m_InnerStatementApis.Get("literal_object");
         if (innerList.Size() == 1) {
             return innerList.Front();
         }
