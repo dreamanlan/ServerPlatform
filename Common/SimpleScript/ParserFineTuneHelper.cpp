@@ -22,7 +22,10 @@ ParserFineTuneHelper::ParserFineTuneHelper() :
         { "for", PAIR_TAG_FOR },
         { "for_each_value", PAIR_TAG_FOREACH },
         { "loop", PAIR_TAG_LOOP },
-        { "loop_list", PAIR_TAG_LOOPLIST }
+        { "loop_list", PAIR_TAG_LOOPLIST },
+        { "try", PAIR_TAG_TRY },
+        { "catch", PAIR_TAG_CATCH },
+        { "finally", PAIR_TAG_FINALLY }
 },
 m_FirstLastKeyOfCompoundStatements{
       { "if", "else" },
@@ -33,6 +36,7 @@ m_FirstLastKeyOfCompoundStatements{
       { "loopi", "loopi" },
       { "loopd", "loopd" },
       { "loop_list", "loop_list" },
+      { "try", "finally" },
       { "struct", "struct" },
       { "literal_array", "literal_array" },
       { "literal_object", "literal_object" }
@@ -49,6 +53,15 @@ m_SuccessorsOfCompoundStatements{
     },
     {
         "else", {}
+    },
+    {
+        "try", { "catch", "finally" }
+    },
+    {
+        "catch", { "finally" }
+    },
+    {
+        "finally", {}
     },
     {
         "while", {}
@@ -79,7 +92,7 @@ m_SuccessorsOfCompoundStatements{
     }
 },
 m_CompoundStatements{
-        "if", "while", "for", "for_each_value", "loop", "loop_list", "struct", "literal_array", "literal_object", "function"
+        "if", "while", "for", "for_each_value", "loop", "loop_list", "try", "struct", "literal_array", "literal_object", "function"
 }
 {
 }

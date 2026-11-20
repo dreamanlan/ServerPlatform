@@ -6,6 +6,9 @@ calc.cpp
 #include "calc.h"
 #include "ConsoleWriter.h"
 #include "Thread.h"
+#include <exception>
+#include <stdexcept>
+#include <string>
 
 #if defined(__LINUX__)
 #include <ctype.h>
@@ -2540,6 +2543,190 @@ namespace FunctionScript
             }
         };
 
+        class TryCatchFinallyStatementFactory;
+        class TryCatchFinallyStatement : public StatementApi
+        {
+            friend class TryCatchFinallyStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                Value localRetValue;
+                Value* pOutput = NULL != pRetValue ? pRetValue : &localRetValue;
+                ExecuteResultEnum pendingFlow = EXECUTE_RESULT_NORMAL;
+                std::exception_ptr pendingException;
+                try {
+                    try {
+                        if (NULL != m_pTry) {
+                            pendingFlow = m_pTry->Execute(pOutput);
+                        }
+                    }
+                    catch (...) {
+                        pendingException = std::current_exception();
+                        if (NULL != m_pCatch) {
+                            SetCatchVariable(pendingException);
+                            pendingFlow = m_pCatch->Execute(pOutput);
+                            pendingException = nullptr;
+                        }
+                    }
+                }
+                catch (...) {
+                    pendingException = std::current_exception();
+                }
+                Value savedValue = *pOutput;
+                if (NULL != m_pFinally) {
+                    Value finallyValue;
+                    ExecuteResultEnum finallyFlow = EXECUTE_RESULT_NORMAL;
+                    try {
+                        finallyFlow = m_pFinally->Execute(&finallyValue);
+                    }
+                    catch (...) {
+                        pendingException = std::current_exception();
+                    }
+                    if (EXECUTE_RESULT_NORMAL != finallyFlow) {
+                        pendingException = nullptr;
+                        pendingFlow = finallyFlow;
+                        *pOutput = finallyValue;
+                    }
+                    else if (nullptr == pendingException) {
+                        *pOutput = savedValue;
+                    }
+                }
+                if (nullptr != pendingException) {
+                    std::rethrow_exception(pendingException);
+                }
+                return pendingFlow;
+            }
+        public:
+            explicit TryCatchFinallyStatement(Interpreter& interpreter) :StatementApi(interpreter), m_pTry(NULL), m_pCatch(NULL), m_pFinally(NULL), m_CatchVariable()
+            {
+            }
+        private:
+            void SetCatchVariable(const std::exception_ptr& exception)const
+            {
+                if (m_CatchVariable.IsInvalid()) {
+                    return;
+                }
+                std::string message = "unknown exception";
+                try {
+                    std::rethrow_exception(exception);
+                }
+                catch (const std::exception& ex) {
+                    message = ex.what();
+                }
+                catch (...) {
+                }
+                Value val;
+                val.AllocString(message.c_str());
+                SetVariableValue(m_CatchVariable, val);
+            }
+        private:
+            RuntimeStatementBlock* m_pTry;
+            RuntimeStatementBlock* m_pCatch;
+            RuntimeStatementBlock* m_pFinally;
+            Value m_CatchVariable;
+        };
+        class TryCatchFinallyStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_STATEMENT) {
+                    return FALSE;
+                }
+                const StatementData& data = static_cast<const StatementData&>(statement);
+                int num = data.GetFunctionNum();
+                if (num < 2 || num > 3) {
+                    return FALSE;
+                }
+                bool hasCatch = false;
+                bool hasFinally = false;
+                for (int ix = 0; ix < num; ++ix) {
+                    const FunctionData* pFunc = data.GetFunction(ix);
+                    if (NULL == pFunc) {
+                        return FALSE;
+                    }
+                    const char* pId = pFunc->GetId();
+                    if (0 == ix) {
+                        const FunctionData* pLower = pFunc->GetLowerOrderFunction();
+                        if (NULL == pId || 0 != strcmp(pId, "try") || NULL != pLower && pLower->GetParamNum() != 0) {
+                            return FALSE;
+                        }
+                    }
+                    else if (NULL != pId && 0 == strcmp(pId, "catch")) {
+                        if (hasCatch || hasFinally) {
+                            return FALSE;
+                        }
+                        hasCatch = true;
+                        const FunctionData* pLower = pFunc->GetLowerOrderFunction();
+                        if (NULL != pLower && pLower->GetParamNum() > 1) {
+                            return FALSE;
+                        }
+                        if (NULL != pLower && pLower->GetParamNum() == 1) {
+                            const ISyntaxComponent* pVar = pLower->GetParam(0);
+                            const char* pVarId = NULL != pVar ? pVar->GetId() : NULL;
+                            if (NULL == pVarId || pVarId[0] != '$') {
+                                return FALSE;
+                            }
+                        }
+                    }
+                    else if (NULL != pId && 0 == strcmp(pId, "finally")) {
+                        const FunctionData* pLower = pFunc->GetLowerOrderFunction();
+                        if (hasFinally || ix != num - 1 || NULL != pLower && pLower->GetParamNum() != 0) {
+                            return FALSE;
+                        }
+                        hasFinally = true;
+                    }
+                    else {
+                        return FALSE;
+                    }
+                }
+                return hasCatch || hasFinally ? TRUE : FALSE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                TryCatchFinallyStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<TryCatchFinallyStatement>();
+                if (NULL != pApi) {
+                    StatementData& data = static_cast<StatementData&>(statement);
+                    FunctionData* pTry = NULL;
+                    FunctionData* pCatch = NULL;
+                    FunctionData* pFinally = NULL;
+                    ISyntaxComponent* pCatchVariable = NULL;
+                    int num = data.GetFunctionNum();
+                    for (int ix = 0; ix < num; ++ix) {
+                        FunctionData* pFunc = data.GetFunction(ix);
+                        const char* pId = pFunc->GetId();
+                        if (0 == strcmp(pId, "try")) {
+                            pTry = pFunc;
+                        }
+                        else if (0 == strcmp(pId, "catch")) {
+                            pCatch = pFunc;
+                            const FunctionData* pLower = pFunc->GetLowerOrderFunction();
+                            if (NULL != pLower && pLower->GetParamNum() == 1) {
+                                pCatchVariable = pLower->GetParam(0);
+                            }
+                        }
+                        else if (0 == strcmp(pId, "finally")) {
+                            pFinally = pFunc;
+                        }
+                    }
+                    statement.PrepareGeneralRuntimeObject(false);
+                    if (NULL != pTry) {
+                        pApi->m_pTry = pTry->GetRuntimeFunctionBody();
+                    }
+                    if (NULL != pCatch) {
+                        pApi->m_pCatch = pCatch->GetRuntimeFunctionBody();
+                    }
+                    if (NULL != pFinally) {
+                        pApi->m_pFinally = pFinally->GetRuntimeFunctionBody();
+                    }
+                    if (NULL != pCatchVariable) {
+                        pApi->m_CatchVariable = pCatchVariable->GetRuntimeObject();
+                    }
+                }
+                return pApi;
+            }
+        };
+
         class CondExpStatementFactory;
         class CondExpStatement : public StatementApi
         {
@@ -2847,6 +3034,87 @@ namespace FunctionScript
                     }
                     else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
                         pApi->m_Return.SetInvalid();
+                    }
+                }
+                return pApi;
+            }
+        };
+
+        class ThrowStatementFactory;
+        class ThrowStatement : public StatementApi
+        {
+            friend class ThrowStatementFactory;
+        public:
+            virtual ExecuteResultEnum Execute(Value* pRetValue)const
+            {
+                if (m_Throw.IsInvalid()) {
+                    auto current = std::current_exception();
+                    if (current)
+                        std::rethrow_exception(current);
+                    throw std::runtime_error("no current exception");
+                }
+                std::string message;
+                if (NULL != m_Interpreter) {
+                    AutoInterpreterValuePoolValueOperation op(m_Interpreter->GetInnerValuePool());
+                    Value& val = op.Get();
+                    if (m_Throw.IsStatementApi() && NULL != m_Throw.GetStatementApi()) {
+                        m_Throw.GetStatementApi()->Execute(pRetValue);
+                        if (NULL != pRetValue)
+                            val = *pRetValue;
+                    }
+                    else {
+                        val = m_Throw;
+                        ReplaceVariableWithValue(val);
+                    }
+                    char buf[MAX_NUMBER_STRING_SIZE];
+                    const char* pStr = val.ToString(buf, MAX_NUMBER_STRING_SIZE);
+                    if (NULL != pStr)
+                        message = pStr;
+                }
+                throw std::runtime_error(message);
+            }
+        public:
+            explicit ThrowStatement(Interpreter& interpreter) :StatementApi(interpreter) {}
+        private:
+            Value m_Throw;
+        };
+        class ThrowStatementFactory : public StatementApiFactory
+        {
+        public:
+            virtual int IsMatch(const ISyntaxComponent& statement)const
+            {
+                if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
+                    const StatementData& stData = static_cast<const StatementData&>(statement);
+                    if (stData.GetFunctionNum() != 2)
+                        return FALSE;
+                    return NULL != stData.GetFunction(1) ? TRUE : FALSE;
+                }
+                else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
+                    const FunctionData& call = static_cast<const FunctionData&>(statement);
+                    if (call.GetParamNum() > 1)
+                        return FALSE;
+                }
+                else if (statement.GetSyntaxType() != ISyntaxComponent::TYPE_VALUE) {
+                    return FALSE;
+                }
+                return TRUE;
+            }
+            virtual StatementApi* PrepareRuntimeObject(ISyntaxComponent& statement)const
+            {
+                ThrowStatement* pApi = statement.GetInterpreter().AddNewStatementApiComponent<ThrowStatement>();
+                if (NULL != pApi) {
+                    statement.PrepareGeneralRuntimeObject(false);
+                    if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_STATEMENT) {
+                        const StatementData& stData = static_cast<const StatementData&>(statement);
+                        pApi->m_Throw = stData.GetFunction(1)->GetRuntimeObject();
+                    }
+                    else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_FUNCTION) {
+                        const FunctionData& call = static_cast<const FunctionData&>(statement);
+                        if (call.GetParamNum() == 1 && NULL != call.GetParam(0))
+                            pApi->m_Throw = call.GetParam(0)->GetRuntimeObject();
+                    }
+                    else if (statement.GetSyntaxType() == ISyntaxComponent::TYPE_VALUE) {
+                        pApi->m_Throw.SetInvalid();
                     }
                 }
                 return pApi;
@@ -3410,11 +3678,13 @@ namespace FunctionScript
         RegisterInnerStatementApi("for_each_value", new ForEachValueStatementFactory());
         RegisterInnerStatementApi("loop", new LoopStatementFactory());
         RegisterInnerStatementApi("loop_list", new LoopListStatementFactory());
+        RegisterInnerStatementApi("try", new TryCatchFinallyStatementFactory());
         RegisterInnerStatementApi("if", new IfElseStatementFactory());
         RegisterInnerStatementApi("?", new CondExpStatementFactory());
         RegisterInnerStatementApi("if", new IfGotoStatementFactory());
         RegisterInnerStatementApi("goto", new GotoStatementFactory());
         RegisterInnerStatementApi("return", new ReturnStatementFactory());
+        RegisterInnerStatementApi("throw", new ThrowStatementFactory());
         RegisterInnerStatementApi("break", new BreakStatementFactory());
         RegisterInnerStatementApi("continue", new ContinueStatementFactory());
         RegisterInnerStatementApi("function", new FunctionStatementFactory());

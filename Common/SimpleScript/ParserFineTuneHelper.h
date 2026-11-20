@@ -26,7 +26,10 @@ public:
         PAIR_TAG_FOREACH = 6,
         PAIR_TAG_LOOP = 7,
         PAIR_TAG_LOOPLIST = 8,
-        PAIR_TAG_LAST = 9
+        PAIR_TAG_TRY = 9,
+        PAIR_TAG_CATCH = 10,
+        PAIR_TAG_FINALLY = 11,
+        PAIR_TAG_LAST = PAIR_TAG_FINALLY + 1
     };
 public:
     std::unordered_map<std::string, uint32_t>& NameTags()
